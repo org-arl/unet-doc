@@ -1,2 +1,4 @@
-# unet-doc
-Unet project documentation
+# The Unet Handbook
+
+**Coming soon!**  
+(Work in progress)
