@@ -1,15 +1,35 @@
 = The Unet Handbook
 Mandar Chitre, mandar@nus.edu.sg
 v0.1
-:title-logo-image: image::./images/unet.png[Unet,150,150]
+:imagesdir: images
+:title-logo-image: image::unet.png[Unet,150,150]
 :doctype: book
 :lang: en
 :encoding: utf-8
 :toc:
+:toclevels: 1
 :sectnums:
+:xrefstyle: short
+:source-highlighter: rouge
 
 // This book is written using AsciiDoc format and is meant to be compiled using
 // asciidoctor (https://asciidoctor.org/docs/user-manual)
 
+[preface]
+= Preface
+
+Over the past few decades, communication technology has percolated into every aspect of our lives, and we have come to take it for granted. Most of the communication technology we use relies on electromagnetic waves (radio waves, visible light, etc) that get rapidly absorbed by water. Hence the technology is ineffective for underwater communication, except at very short distances or extremely low data rates. Most underwater communication systems today use acoustic waves, which can travel long distances in the right conditions.
+
+The **Unet project** strives to develop technologies that allow us to build communication networks that extend underwater. Some nodes in such networks may be above water, while others underwater. In this handbook, we explore how to build such networks using **UnetStack v2**, an agent-based network technology that was developed in the Unet project.
+
+// chapters
+
 include::intro.adoc[]
+
 include::quickstart.adoc[]
+
+include::unetstack.adoc[]
+
+// appedices
+
+include::svcref.adoc[]

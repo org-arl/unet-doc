@@ -1,1 +1,27 @@
 == Introduction
+
+=== What is a Unet?
+
+The Internet of Things (IoT) is rapidly becoming a reality, with more and more devices in our lives getting _connected_. It would be nice to connect underwater sensors and vehicles into the IoT. But what does it take to extend the IoT underwater? That is what we explore in this handbook, using http://www.unetstack.net[UnetStack v2], a technology developed as part of the _Unet project_.
+
+Most wireless technologies developed today for IoT work on electromagnetic waves that don't propagate well underwater. So, to extend IoT underwater, we typically need a mix of technologies -- cabled links where possible, radio frequency (RF) wireless links above water, and mid-to-long range wireless acoustic or short-range wireless optical links underwater. A "Unet" network (which we will simply call _Unet_ henceforth) consists of a collection of nodes that communicate over various types of links as shown in <<fig_network>>.
+
+[[fig_network]]
+.Typical "Unet" network
+image::network.png[]
+
+A Unet consists of many _Unet nodes_ (e.g. underwater sensor nodes, Autonomous Underwater Vehicles (AUVs), gateway bouys, ground stations, boats/ships, etc) that generate, consume or relay data over a variety of links:
+
+* **Acoustic links** are typically used for mid-to-long range communication underwater. These links usually offer low data rates and long propagation delay due to the slow speed of sound in water (as compared to EM waves).
+* **Optical links** are used for short range high data rate communications in water.
+* **RF links** are used for mid range communication in air.
+* **GSM links** are used for near-shore connectivity through air.
+* **Satellite links** are used for nodes that are far out at sea, and cannot be reached through GSM or RF links. These links usually are expensive and offer relatively low data rates.
+* **Wired links** (Ethernet, serial, fiber optic) are used for long-term static deployments underwater, or over short distances where cabling is feasible.
+* In some cases, nodes are retreived and data is transferred from them to other nodes in the network on a regular basis, using physical media (e.g. USB drives, SD cards, etc). These links usually offer very high data rates, but are only available intermittently. We dub such links as **Sneakernet links**.
+
+=== UnetStack
+
+All of the Unet nodes are equipped with one or more network interfaces that allow communication over some of these links. For example, to communicate over an underwater acoustic link, we need an _underwater acoustic modem_. For an underwater optical link, we use an _underwater optical modem_. Most RF, GSM, satellite or wired links would be accessed over a standard TCP/IP network interface. In all cases, each Unet node would run the UnetStack software that allows us to effectively communicate over all of these types of links using a common Application Programming Interface (API). UnetStack API bindings are available for several languages including Java, Groovy, Python, C, Javascript, etc.
+
+In the next few chapters, we will learn how to use UnetStack and how to customize it to meet our networking needs. In some cases, it may be necessary to prototype and simulate a Unet before it is actually implemented. We will also learn how to do this using UnetStack.
