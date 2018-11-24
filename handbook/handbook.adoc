@@ -1,0 +1,15 @@
+= The Unet Handbook
+Mandar Chitre, mandar@nus.edu.sg
+v0.1
+:title-logo-image: image::./images/unet.png[Unet,150,150]
+:doctype: book
+:lang: en
+:encoding: utf-8
+:toc:
+:sectnums:
+
+// This book is written using AsciiDoc format and is meant to be compiled using
+// asciidoctor (https://asciidoctor.org/docs/user-manual)
+
+include::intro.adoc[]
+include::quickstart.adoc[]
