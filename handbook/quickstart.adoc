@@ -1,6 +1,6 @@
 == Getting started
 
-In this chapter, we will learn how to set up a simple 2-node underwater network with an acoustic link. If you already own a couple of UnetStack compatible acoustic modems, we can use them! If not, don't worry -- we can set up one using the Unet simulator.
+In this chapter, we will learn how to set up a simple 2-node underwater network with an acoustic link. If you already own a couple of UnetStack-compatible acoustic modems, we can use them! If not, don't worry -- we can set up one using the Unet simulator.
 
 === Simple network with acoustic modems
 
@@ -15,21 +15,21 @@ TIP: If you only have one computer available, you can connect both modems to the
 
 === Simple network using Unet simulator
 
-If you don't have modems, we can simulate a simple 2-node network using the https://www.unetstack.net/unet-sim.html[Unet simulator]. https://www.unetstack.net/downloads.html[Download] the simulator package for your OS and untar/unzip it. Open a terminal window in the simulator's root folder and start the simulator:
+If you don't have modems, we can simulate a simple 2-node network using the {url-unetsim}[Unet simulator]. {url-downloads}[Download] the simulator package for your OS and untar/unzip it. Open a terminal window in the simulator's root folder and start the simulator:
 
 [source, console]
--------------------------------------------------------------------------------
+----
 $ bin/unet samples/rt/2-node-network.groovy
 
 2-node network
 --------------
 
-Node A: fjage://localhost:1101 http://localhost:5001
-Node B: fjage://localhost:1102 http://localhost:5002
+Node A: tcp://localhost:1101 http://localhost:8001
+Node B: tcp://localhost:1102 http://localhost:8002
 
 Press ^C to terminate simulation
 
--------------------------------------------------------------------------------
+----
 
 TIP: If you're using Windows, you may need to use: +
 `+bin\unet samples\rt\2-node-network.groovy+`
@@ -40,22 +40,20 @@ Open two web browser windows and key in the two http URLs shown above in each br
 
 On the command shell to node A, type:
 
-
 [source, console]
--------------------------------------------------------------------------------
+----
 > tell 0, 'hello!'
 AGREE
--------------------------------------------------------------------------------
+----
 
 TIP: Address 0 is a broadcast address, so we did not need to explicitly know the address of node B to transmit a message to it.
 
 If all goes well, after a short delay, you should see the message on the command shell for node B:
 
-
 [source, console]
--------------------------------------------------------------------------------
+----
 remote >> RemoteTextNtf:INFORM[from: 1 text: 'hello!']
--------------------------------------------------------------------------------
+----
 
 **Congratulations!!! You have successfully transmitted your first message over the Unet.**
 
@@ -63,62 +61,95 @@ TIP: If you are using modems in your network (rather than the simulator), the `f
 
 NOTE: When working with real modems, you may need to adjust the transmit power level to a suitable level for use in the water body that you have the modems in. Too high or too low a power level will not allow the modems to communicate well. The modem transmit power can be adjusted using the `plvl` command. Type `help plvl` on the command shell for node A to see examples of how the command is used.
 
-=== Sending data from a Python application
+=== Sending & receiving application data
 
-We now know how to transmit data between two Unet nodes from the browser-based command shell. But how do we do this from an application we may be developing? The answer lies in the _UnetGateway_ API that UnetStack provides. The UnetGateway API has bindings for many languages (Java, Groovy, Python, C, Javascript, etc). We will use the Python API here, but the usage is quite similar in other languages too.
+In the previous section, we transmitted a simple text message from the shell. In real applications, we may want to send complex _datagrams_ (messages) programmatically between nodes. The simplest way to do this is via the _UnetSocket_ API. Let's try it!
 
-We'll assume you have Python 3.x already installed. Let us start by installing the Python UnetGateway:
+We assume that we have the two-node network setup from the previous section with node A and B running. On the command shell for node B, type:
 
 [source, console]
--------------------------------------------------------------------------------
+----
+> s = new UnetSocket(this);       #<1>
+> rx = s.receive()                #<2>
+----
+<1> Open a socket on node B (`this` refers to node B, since we are typing this on node B's command shell). The semicolon (";") at the end of the statement simply prevents the shell from printing the return value automatically.
+<2> Receive a datagram. This call blocks until a datagram is available.
+
+On the command shell for node A, type:
+
+[source, console]
+----
+> s = new UnetSocket(this);
+> s.send('hello!' as byte[], 0)  #<1>
+true
+> s.close()
+----
+<1> Send 6 ASCII bytes ('hello!') to address 0 (broadcast address). The `as byte[]` is necessary in Groovy to convert the string we specified into a byte array that the `send()` method expects.
+
+If all goes well, node B will receive them. You can check the data in the received datagram on the command shell for node B, and close the socket:
+
+[source, console]
+----
+RxFrameNtf:INFORM[type:DATA from:1 rxTime:3515600131 (6 bytes)]
+> rx.data
+[104, 101, 108, 108, 111, 33]
+> new String(rx.data)
+hello!
+> s.close()
+----
+
+TIP: While we demonstrated the use of the `UnetSocket` API in Groovy on the command shell, the same commands work in a Groovy script or application, with one minor modification. When the socket is opened, we will have to specify the connection details (such as IP address and fjåge TCP port number) of the modem (or simulated modem) to connect to. For example: `s = new UnetSocket('localhost', 1101)`.
+
+=== Sending & receiving from a Python application
+
+UnetStack provides API bindings for many languages (Java, Groovy, Python, Julia, C, Javascript, etc). We demonstrate the use of the Python API here, but the usage is quite similar in other languages too.
+
+We'll assume you have Python 3.x already installed. Let us start by installing the UnetStack Python API bindings:
+
+[source, console]
+----
 $ pip install unetpy
 Collecting unetpy
-  Downloading https://files.pythonhosted.org/packages/.../unetpy-2.0-py3-none-any.whl
-Collecting fjagepy==1.5 (from unetpy)
-  Downloading https://files.pythonhosted.org/packages/../fjagepy-1.5-py3-none-any.whl
+  Downloading https://files.pythonhosted.org/packages/.../unetpy-3.0-py3-none-any.whl
+Collecting fjagepy==1.6 (from unetpy)
+  Downloading https://files.pythonhosted.org/packages/../fjagepy-1.6-py3-none-any.whl
 Installing collected packages: fjagepy, unetpy
-Successfully installed fjagepy-1.5 unetpy-2.0
--------------------------------------------------------------------------------
+Successfully installed fjagepy-1.6 unetpy-3.0
+----
 
-We will now write `tx.py` and `rx.py` scripts to transmit and receive a datagram respectively. We assume that we have the two-node network setup from the previous chapter with node A and B available on `localhost` fjåge port 1101 and 1102 respectively.
+We will now write `tx.py` and `rx.py` scripts to transmit and receive a datagram respectively. We assume that we have the two-node network setup from the previous section with node A and B available on `localhost` fjåge TCP port 1101 and 1102 respectively.
 
 TIP: If you are using modems, you'll need to substitute the `localhost` by the IP address of each modem, and the fjåge port will be 1100.
 
 .`tx.py`
 [source, python]
--------------------------------------------------------------------------------
-from unetpy import UnetGateway, Datagram
+----
+from unetpy import UnetSocket
 
-gw = UnetGateway('localhost', 1101)             #<1>
-d = Datagram(to=0, protocol=0, data=b'hello!')  #<2>
-gw.send(d)
-gw.close()
--------------------------------------------------------------------------------
-<1> Connect to node A (`localhost` fjåge port 1101)
-<2> Create a 6-byte datagram containing ASCII 'hello!' for broadcast using protocol 0 (user data)
+s = UnetSocket('localhost', 1101)               #<1>
+s.send(b'hello!', 0)                            #<2>
+s.close()
+----
+<1> Connect to node A (`localhost` fjåge port 1101). Change the `localhost` to the modem A's IP address and port 1101 to port 1100, if you are working with a modem.
+<2> Broadcast a 6-byte datagram containing ASCII 'hello!'.
 
 .`rx.py`
 [source, python]
--------------------------------------------------------------------------------
-from unetpy import UnetGateway
+----
+from unetpy import UnetSocket
 
-gw = UnetGateway('localhost', 1102)             #<1>
-gw.bind(0)                                      #<2>
-d = gw.receive()                                #<3>
-print('from', d.from, ':', d.data)
-gw.close()
--------------------------------------------------------------------------------
-<1> Connect to node B (`localhost` fjåge port 1102)
-<2> Listen for datagrams with protocol 0 (user data)
-<3> Blocking receive will only return when a datagram is received or gateway is closed
+s = UnetSocket('localhost', 1102)              #<1>
+rx = s.receive()                               #<2>
+print('from', rx.from, ':', str(rx.data))
+s.close()
+----
+<1> Connect to node B (`localhost` fjåge port 1102). Change the `localhost` to the modem B's IP address and port 1102 to port 1100, if you are working with a modem.
+<2> Blocking `receive()` will only return when a datagram is received or socket is closed.
 
-First run `python rx.py` to start reception. Then run `python tx.py` to initiate transmission. You should see the received datagram printed by the `rx.py` script:
-
+First run `python rx.py` to start reception. Then, on a separate terminal window, run `python tx.py` to initiate transmission. You should see the received datagram printed by the `rx.py` script:
 
 [source, console]
--------------------------------------------------------------------------------
+----
 $ python rx.py
-from 1 : b'Hello!'
--------------------------------------------------------------------------------
-
-TIP: If you're running both on the simulator, you'll need to run them in different terminal windows. If you're running both with modems, you'll need to run each on the appropriate computer connected to each modem.
+from 1 : Hello!
+----

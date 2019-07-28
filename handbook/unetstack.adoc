@@ -4,11 +4,11 @@ UnetStack is an _agent-based network stack_. Each _agent_ is similar to a _layer
 
 === Agent-based framework
 
-UnetStack is based on the open-source https://github.com/org-arl/fjage[fjåge] framework that provides agent development capability in Java and Groovy. The framework also publishes API bindings to other languages such as Python and C. There are a few essential concepts from fjåge that we need to understand to effectively use UnetStack:
+UnetStack is based on the open-source {url-fjage}[fjåge] framework that provides agent development capability in Java and Groovy. The framework also publishes API bindings to other languages such as Python, Julia and C. There are a few essential concepts from fjåge that we need to understand to effectively use UnetStack:
 
-Agent:: An agent is logical entity that implements a specific functionality of the network. Loosely, an agent maps to a layer in a traditional network stack, but is more flexible. Each agent has its own thread of execution, and can be thought of as running concurrently.
+Agent:: An agent is logical entity that implements a specific functionality of the network. Loosely, an agent maps to a layer in a traditional network stack, but is more flexible. Each agent has its own thread of execution, and all agents can be thought of as running concurrently.
 
-Message:: Agents interact with each other via messages. Agents can send and receive messages, and typically expose all their functionality as a set of messages that they will respond to.
+Message:: Agents interact with each other via messages. Agents can send and receive messages, and typically expose all their functionality as a set of messages that they will respond to. Messages are transmitted within the network stack on a node, and not between nodes in the network.
 
 Performative:: Each message is tagged with a performative that summarizes the purpose of the message. Common performatives are `REQUEST`, `AGREE`, `REFUSE`, `FAILURE`, `NOT_UNDERSTOOD` and `INFORM`. The next few defintions explain these further.
 
@@ -20,7 +20,7 @@ Notification:: Agents sometimes generate unsolicited information. This informati
 
 Topic:: A topic defines a publish-subscribe mechanism where an agent may publish some notifications, and other agents interested in those notifications may _subscribe_ to the topic. Most agents have an unnamed topic associated with themselves, that other agents can subscribe to. For example, a data link agent may subscribe to the topic of a physical layer agent to listen for incoming data frames from the physical layer.
 
-Parameters:: Most UnetStack agents publish a number of parameters associated with them. Parameters are key-value pairs that provide information about the agent (read-only parameters), or allow controlling the behavior of the agent (read-write parameters). Parameters are technically accessed via `ParameterReq` and `ParameterRsp` messages, but a simpler notation (`agent.parameter`) is available to get/set parameters.
+Parameters:: Most UnetStack agents publish a number of parameters associated with them. Parameters are key-value pairs that provide information about the agent (read-only parameters), or allow controlling the behavior of the agent (read-write parameters). Parameters are technically accessed via `ParameterReq` and `ParameterRsp` messages, but a simpler notation (`agent.parameter`) is also available to get/set parameters.
 
 Service:: A service is a collection of messages (requests, responses and notifications) and parameters that an agent honors. Agents publish the list of services they offer, and other agents may find agents through the services they advertise. A list of UnetStack services is available in <<_service_reference>>.
 
@@ -28,6 +28,493 @@ While these ideas may seem somewhat abstract at this point in time, we will see 
 
 === The command shell
 
-=== Gateway API
+The simplest way to interact with UnetStack is via the command shell (or simply _shell_). The shell may be accessed on the console, a TCP/IP port or via the web interface. In <<Getting started>>, we have already seen how to set up a 2-node network and access the command shell for each of the nodes using a web browser. For the rest of this section, we assume that you have shells open on nodes A and B.
 
-=== Extending UnetStack
+On node A, we can ask for a list of agents running:
+
+[source, console]
+----
+> ps
+remote: org.arl.unet.remote.RemoteControl - IDLE
+rdp: org.arl.unet.net.RouteDiscoveryProtocol - IDLE
+ranging: org.arl.unet.phy.Ranging - IDLE
+uwlink: org.arl.unet.link.ECLink - IDLE
+node: org.arl.unet.nodeinfo.NodeInfo - IDLE
+websh: org.arl.fjage.shell.ShellAgent - RUNNING
+phy: org.arl.unet.sim.HalfDuplexModem - IDLE
+arp: org.arl.unet.addr.AddressResolution - IDLE
+transport: org.arl.unet.transport.SWTransport - IDLE
+router: org.arl.unet.net.Router - IDLE
+mac: org.arl.unet.mac.CSMA - IDLE
+----
+
+We can further ask for more details of a specific agent:
+
+[source, console]
+----
+> phy
+<<< HalfDuplexModem >>>
+
+[org.arl.unet.DatagramParam]
+  MTU = 16
+
+[org.arl.unet.bb.BasebandParam]
+  basebandRate = 4096.0
+  carrierFrequency = 25000.0
+  maxPreambleID = 1
+  maxSignalLength = 8192
+  preambleDuration = 0.025
+
+[org.arl.unet.phy.PhysicalParam]
+  busy = false
+  maxPowerLevel = 0
+  minPowerLevel = -48
+  propagationSpeed = 1534.4574
+  refPowerLevel = 185
+  rxEnable = true
+  time = 5154509435
+  timestampedTxDelay = 1.5
+
+[org.arl.unet.sim.HalfDuplexModemParam]
+  clockOffset = 1676.1105
+----
+
+We asked for details of the agent `phy`, and we got a list of parameters supported by the agent. We can get or set individual parameters of the agent:
+
+[source, console]
+----
+> phy.MTU
+16
+> phy.rxEnable
+true
+> phy.rxEnable = false
+false
+> phy.rxEnable
+false
+> phy.rxEnable = true
+true
+----
+
+To find out more about a specific parameter, we can ask for help on the parameter:
+
+[source, console]
+----
+> help phy.MTU
+phy.MTU - maximum transmission unit (MTU) in bytes
+> help phy.rxEnable
+phy.rxEnable - true if reception enabled
+----
+
+We can also ask for help on an agent:
+
+[source, console]
+----
+> help phy
+phy - access to physical service
+
+Examples:
+  phy                           // access physical parameters
+  phy[CONTROL]                  // access control channel parameters
+  phy[DATA]                     // access data channel parameters
+  phy << msg                    // send request msg to physical agent
+  phy.rxEnable = false          // disable reception of frames
+
+Commands:
+
+- plvl - get/set TX power level for all PHY channel types
+
+Parameters:
+
+The following parameters are available on all modems. Additional modem
+dependent parameters are also available. For information on these
+parameters type "help modem".
+
+- phy.MTU - maximum transmission unit (MTU) in bytes
+- phy.rxEnable - true if reception enabled
+    :
+    :
+- phy.minPowerLevel - minimum supported power level (relative to reference)
+
+Channel Parameters:
+
+The following parameters are available on all modems. Additional modem
+dependent parameters are also available. For information on these
+parameters type "help modem".
+
+- phy[].MTU - maximum transmission unit (MTU) in bytes
+- phy[].dataRate - effective frame data rate (bps)
+- phy[].frameDuration - frame duration (seconds)
+    :
+    :
+- phy[].fec - forward error correction code
+- phy[].fecList - list of available forward error correction codes
+----
+
+From this help, we see that `phy` agent also support channel parameters (also known as _indexed_ parameters). It supports two logical channels, CONTROL (1) and DATA (2). The CONTROL channel is meant for low-rate robust data transmission, whereas the DATA channel is typically configured for higher rate data transmission. Channel parameters work in the same way as normal parameters, but with an index:
+
+[source, console]
+----
+> phy[CONTROL]
+<<< PHY >>>
+
+[org.arl.unet.DatagramParam]
+  MTU = 16
+
+[org.arl.unet.phy.PhysicalChannelParam]
+  dataRate = 512
+  errorDetection = 1
+  fec = 0
+  fecList = null
+  frameDuration = 0.353
+  frameLength = 16
+  maxFrameLength = 128
+  powerLevel = -10
+
+> phy[DATA]
+<<< PHY >>>
+
+[org.arl.unet.DatagramParam]
+  MTU = 128
+
+[org.arl.unet.phy.PhysicalChannelParam]
+  dataRate = 2048
+  errorDetection = 1
+  fec = 0
+  fecList = null
+  frameDuration = 0.544
+  frameLength = 128
+  maxFrameLength = 512
+  powerLevel = -10
+
+> phy[CONTROL].MTU
+16
+> phy[CONTROL].frameLength = 32
+32
+> phy[CONTROL].frameLength
+32
+> phy[CONTROL].MTU
+32
+----
+
+NOTE: The actual parameters you see may differ, depending on whether you are working with a simulator or a modem, and the specific capabilities of the modem. Use `help` to find out more about any listed parameter on your modem, or refer to the modem's documentation for further information.
+
+Most agents also support some commands. For example, the `phy` agent supports the `plvl` command:
+
+[source, console]
+----
+> help plvl
+plvl - get/set TX power level for all PHY channel types
+
+Examples:
+  plvl                       // get all power levels
+  plvl -10                   // set all power to -10 dB
+  plvl(-10)                  // alternative syntax
+  plvl = -10                 // alternative syntax
+
+> plvl
+phy[1].powerLevel = -10
+phy[2].powerLevel = -10
+> plvl -20
+OK
+> plvl
+phy[1].powerLevel = -20
+phy[2].powerLevel = -20
+----
+
+The `plvl` command simply displays or sets the `powerLevel` parameter of all channels. The same can be manually accomplished by setting or getting individual parameters, if desired:
+
+[source, console]
+----
+> phy[1].powerLevel
+-20
+> phy[1].powerLevel = -10
+-10
+> phy[1].powerLevel
+-10
+> plvl
+phy[1].powerLevel = -10
+phy[2].powerLevel = -20
+----
+
+Most agents also support a set of messages. Typically, we would want to send a request message to an agent and get a response message back. This can be accomplished with the `request` call (or the equivalent alias `<<`) on the agent:
+
+[source, console]
+----
+> phy.request new TxFrameReq()
+AGREE
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:2893654740]
+> phy << new TxFrameReq()
+AGREE
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:2913909740]
+----
+
+Here we made a request to the `phy` agent to transmit a frame. The agent responded with an `AGREE` response, shortly followed by a `TxFrameNtf` notification from `phy` telling us that the transmission was successful.
+
+The `request` call sends a message and waits for a timeout (typically 1 second) for a response. If we did not wish to wait for a response, we could make a `send` call to send the message. The call would return immediately, and any response would be simply printed on the shell later as a notification:
+
+[source, console]
+----
+> phy.send new TxFrameReq()
+phy >> AGREE
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:3043490740]
+----
+
+The difference between the two is not obvious from the above, since the `request` call's return value `AGREE` is printed on the shell anyway. However, we can assign the response message from `request` to a variable (but we can't do that with `send`):
+
+[source, console]
+----
+> x = phy << new TxFrameReq();
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:3381446740]
+> x
+AGREE
+----
+
+NOTE: Recall that the semicolon ";" at the end of the first statement prevents the return value from being printed on the shell.
+
+We can also use the return value in a condition, but we need to remember that the return value from the `request` is a message:
+
+[source, console]
+----
+> if ((phy << new TxFrameReq()).performative == Performative.AGREE) print 'OK'
+OK
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:3444370740]
+----
+
+Unsolicited notification messages can be received by subscribing to the topic of interest. On node B, we can subscribe to events at the physical layer:
+
+[source, console]
+----
+> subscribe(phy)
+----
+
+Now, if we broadcast a frame from node A using `phy << new TxFrameReq()`, we will see the relevant reception events on node B:
+
+[source, console]
+----
+phy >> RxFrameStartNtf:INFORM[type:CONTROL rxTime:2394276302]
+phy >> RxFrameNtf:INFORM[type:CONTROL from:1 rxTime:2394276302]
+----
+
+The first event `RxFrameStartNtf` is triggered as soon as the frame is detected at node B. The second event `RxFrameNtf` is triggered when the frame is full received, demodulated and successfully decoded at the receiver.
+
+The shell accepts any Groovy code, and so is very flexible:
+
+[source, console]
+----
+> 1+2
+3
+> 5.times { print it }
+0
+1
+2
+3
+4
+----
+
+You can also define closures:
+
+[source, console]
+----
+> tx2 = { 2.times { phy << new TxFrameReq() } };
+----
+
+and call them later:
+
+[source, console]
+----
+> tx2
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:3911898740]
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:3912307740]
+----
+
+This only scratches the surface of what the command shell is capable of. However, it should provide you a basic understanding of how the shell works, and illustrate its power. To understand more, we suggest that you explore the online `help`. As you further understand the UnetStack and fjåge Java API and the UnetStack service reference (<<_service_reference>>) better, you'll develop expertise on using the shell.
+
+=== Unet basics
+
+==== Node names and addresses
+
+Unet nodes are identified by unique addresses within the Unet. Small Unets might use 8-bit addresses, supporting up to 255 different nodes. Larger Unets might use 16-bit addresses, supporting up to 65535 different nodes in the network. The address space is controlled by the parameter `node.addressSize`, and must be set to the same value (either 8 or 16) on all nodes in a Unet.
+
+To check the current address size on your node:
+
+[source, console]
+----
+> node
+<<< NodeInfo >>>
+
+[org.arl.unet.nodeinfo.NodeInfoParam]
+  nodeName = 2
+  address = 2
+  addressSize = 8
+  canForward = false
+  mobility = false
+  location = [1000.0, 0.0, -15.0]
+  origin = []
+----
+
+NOTE: Some node parameters have been suppressed in the above listing for brevity.
+
+Address 0 is a broadcast address. All other addresses may be assigned to nodes in a Unet. Each Unet node is also associated with a node name (`node.nodeName`). If a node name is not explicity set, it defaults to the string representation of the node address. Descriptive node names may be used, if desired:
+
+[source, console]
+----
+> node.nodeName = 'buoy_A'
+buoy_A
+> node
+<<< NodeInfo >>>
+
+[org.arl.unet.nodeinfo.NodeInfoParam]
+  nodeName = buoy_A
+  address = 2
+  addressSize = 8
+  canForward = false
+  mobility = false
+  location = [1000.0, 0.0, -15.0]
+  origin = []
+----
+
+It is recommended that, if descriptive node names are used, the corresponding node addresses be set using the ADDRESS_RESOLUTION service. This ensures that name-to-address resolution leads to the correct address for the node. The ADDRESS_RESOLUTION service can be accessed via the `host()` shell command:
+
+[source, console]
+----
+> host('buoy_A')
+68
+> node.address = host(node.nodeName)
+68
+----
+
+NOTE: The default ADDRESS_RESOLUTION agent in the UnetStack maps node names to node addresses using a hash function. The method reduces network traffic for host name resolution, but can lead to address conflicts between nodes if two names happen to map to the same address. It is the responsibility of the network engineer to resolve address conflicts manually during the setup of the network, if the default ADDRESS_RESOLUTION agent is used.
+
+==== Protocol numbers
+
+Datagrams represent packets of data sent between nodes. Each datagram is associated with a protocol number that identifies the consumer on the destination node that the datagram is intended for. Protocols can be thought of as _port numbers_ in TCP/IP or UDP/IP.
+
+The consumer may be an agent or an end-user application. Protocol number 0 (`Protocol.DATA`) is used for generic application data. Protocol numbers from 1 to `Protocol.USER-1` (31) are reserved for use by default stack agents. Protocol numbers from `Protocol.USER` (16) to `Protocol.MAX` (63) are available for end-user applications to use.
+
+=== UnetSocket API
+
+The command shell is great for manual configuration and interaction, but often we require programmatic interaction from an external application. For this, we have the UnetSocket API (available in Java, Groovy, Python, Julia and C). While the exact syntax differs across languages, the basic concepts remain the same. We focus on the use of the API in Groovy in this section, but also show some examples in other languages.
+
+External applications interact with UnetStack via a UnetSocket API using fjåge's connector framework. This allows the API to access UnetStack over a TCP/IP connection, a serial port, or any other fjåge connector that may be available. To open a TCP/IP connection to UnetStack, we need to know the IP address and port of the API connector on UnetStack. Simply type `iface` on a shell to find this information.
+
+[source, console]
+----
+> iface
+tcp://192.168.1.9:1102 [API]
+ws://192.168.1.9:8102/ws [API]
+websh: ws://192.168.1.9:8102/fjage/shell/ws [GroovyScriptEngine]
+----
+
+The first entry starting with `tcp://` is the API connector available over TCP/IP. The IP address and port number in this case are `192.168.1.9` and `1102` respectively. The IP address on your setup might differ, so remember to replace it in the example code below when you try it.
+
+==== Connecting to UnetStack
+
+To connect to UnetStack from Groovy, typical code might look something like this:
+
+[source, groovy]
+----
+import org.arl.unet.api.UnetSocket
+
+def sock = new UnetSocket('192.168.1.9', 1102)
+// do things with sock here
+sock.close()
+----
+
+NOTE: The UnetSocket API can also be used directly from the shell. To do this, we create a socket connected to the local node with `sock = new UnetSocket(this)`. Here `this` refers to the local UnetStack instance. Do note that the `def` is typically not used in the shell, as we usually want the `sock` variable to be created in the shell's context. However, we use `def` in Groovy scripts or closures to keep the `sock` variable in the local context.
+
+and in Python:
+
+[source, python]
+----
+from unetpy import UnetSocket
+
+sock = UnetSocket('192.168.1.9', 1102)
+# do things with sock here
+sock.close()
+----
+
+==== Sending data
+
+To send datagrams using a socket, we first specify the destination address and protocol number using the `connect()` method, and then use the `send()` method to send data (byte array). In Groovy:
+
+[source, groovy]
+----
+def to = sock.host('auv_B')          #<1>
+sock.connect(to, 0)                  #<2>
+sock.send('hello!' as byte[])        #<3>
+sock.send('more data!' as byte[])
+----
+<1> Resolve node name to address. If the destination address is already known, this step can be skipped.
+<2> Connect using protcol 0 (generic data). Constant `org.arl.unet.Protocol.DATA` may be used instead of 0 for improved readability.
+<3> Data has to be converted into a `byte[]` for transmission using the `send()` method.
+
+If only a single `send()` is desired, the `connect()` call may be omitted and the destination and protocol number can be provided as parameters to `send()`:
+
+[source, groovy]
+----
+sock.send('hello!' as byte[], to, 0)
+----
+
+==== Receiving data
+
+On the receiving end, we specify the protocol number to listen to using `bind()`, and then receive a datagram using the `receive()` method:
+
+[source, groovy]
+----
+sock.bind(0)
+def rx = sock.receive()
+println(rx.from, rx.to, rx.data)
+----
+
+TIP: Unbound sockets listen to all unreserved protocols. So the `bind()` call above could be skipped, if we would like to listen to all application datagrams.
+
+The `receive()` method above is blocking by default. The blocking behavior can be controlled using the `setTimeout()` method, where the blocking timeout can be specified in milliseconds. A timeout of 0 makes the call non-blocking. If no message is available at timeout, a `null` value is returned. When the `receive()` call is blocked, a call to `cancel()` can unblock and cause the `receive()` call to return immediately.
+
+==== Getting & setting parameters
+
+As we have seen before, agent parameters provide Unet information that an application may require. Applications may also need to change parameters to control the behavior of the agents in UnetStack. To access agent parameters, we first have to look up the relevant agent based on its name or a service that it provides. For example:
+
+[source, groovy]
+----
+def phy = sock.agentForService(org.arl.unet.Services.PHYSICAL)
+println(phy.MTU)
+println(phy[1].dataRate)
+----
+
+will print the value of parameter `MTU` (maximum transfer unit) of the physical layer, and the physical layer `dataRate` of the CONTROL (1) channel. We could also change some of the parameters:
+
+[source, groovy]
+----
+println(phy[2].frameLength)
+phy[1].frameLength = 64
+println(phy[2].frameLength)
+println(phy.MTU)
+----
+
+If you run the above code, you'll see that the changed DATA (2) channel frame length would also affect the MTU. The `phy.MTU`, `phy[1].MTU`, `phy[2].MTU`, `phy[1].frameLength` and `phy[2].frameLength` parameters are closely related. The MTU of a channel is its frame length, reduced by the size of the physical layer header. The MTU of the physical layer is the MTU of the DATA channel, since a datagram is by default transmitted using the DATA channel.
+
+TIP: Developers may wish to consider using constants `org.arl.unet.phy.Physical.CONTROL` and `org.arl.unet.phy.Physical.DATA` instead of hard coding 1 and 2, for readability.
+
+==== Accessing agent services
+
+As we have already seen, the full functionality of UnetStack can be harnessed by sending/receiving messages to/from various agents in the stack. We earlier saw how to do that from the shell. We now look at how to use the UnetSocket API to send/receive messages to/from agents.
+
+To request broadcast of a CONTROL frame, like we did from the shell before, we need to lookup the agent providing the PHYSICAL service and send a `TxFrameReq` to it:
+
+[source, groovy]
+----
+def phy = sock.agentForService(org.arl.unet.Services.PHYSICAL)
+phy << new org.arl.unet.phy.TxFrameReq()
+----
+
+For lower level transactions, we obtain a fjåge Gateway instance from the UnetSocket API, and use it directly. For example, we can subscribe to event notifications from the physical layer and print them:
+
+[source, groovy]
+----
+def gw = sock.gateway
+gw.subscribe(phy)
+def msg = gw.receive(10000)     #<1>
+if (msg) println(msg)
+gw.unsubscribe(phy)
+----
+<1> Receive a message from the gateway without a timeout of 10000 ms. If no message is received during this period, `null` is returned.
