@@ -1,2 +1,5 @@
+Overall:
+  ☐ Find a way to chunk html (try BeautifulSoup4 and a custom Python script)
+
 Chapter 3:
- ☐ Change phy to use top level agent and Datagrams rather than TxFrameReq?
+  ☐ Change phy to use top level agent and Datagrams rather than TxFrameReq?

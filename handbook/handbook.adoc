@@ -1,4 +1,4 @@
-= The Unet Handbook
+= Underwater Networks Handbook
 Mandar Chitre, mandar@nus.edu.sg
 v0.1
 :imagesdir: images
@@ -6,8 +6,8 @@ v0.1
 :doctype: book
 :lang: en
 :encoding: utf-8
-:toc:
-:toclevels: 2
+:toc: left
+:toclevels: 1
 :sectnums:
 :xrefstyle: short
 :source-highlighter: rouge
@@ -15,6 +15,7 @@ v0.1
 :url-unetsim: https://www.unetstack.net/unet-sim.html
 :url-downloads: https://www.unetstack.net/downloads.html
 :url-fjage: https://github.com/org-arl/fjage
+:groovy: https://groovy-lang.org
 
 // This book is written using AsciiDoc format and is meant to be compiled using
 // asciidoctor (https://asciidoctor.org/docs/user-manual)
@@ -38,6 +39,8 @@ include::unetstack.adoc[]
 
 = *Part II: Building underwater networks*
 
+include::unet.adoc[]
+
 include::smallnet.adoc[]
 
 include::routing.adoc[]
@@ -53,10 +56,14 @@ We now have a basic understanding of how UnetStack works. It is time to take a d
 
 include::services.adoc[]
 
-= *Part III: Extending UnetStack*
+= *Part III: Building Unet applications*
+
+include::socket.adoc[]
+
+= *Part IV: Extending UnetStack*
 == Developing UnetStack agents
 
-= *Part IV: Simulating underwater networks*
+= *Part V: Simulating underwater networks*
 == Writing simulation scripts
 
 // appedices

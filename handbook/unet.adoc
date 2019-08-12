@@ -1,0 +1,61 @@
+== Unet basics
+
+=== Node names and addresses
+
+Unet nodes are identified by unique addresses within the Unet. Small Unets might use 8-bit addresses, supporting up to 255 different nodes. Larger Unets might use 16-bit addresses, supporting up to 65535 different nodes in the network. The address space is controlled by the parameter `node.addressSize`, and must be set to the same value (either 8 or 16) on all nodes in a Unet.
+
+To check the current address size on your node:
+
+[source, console]
+----
+> node
+<<< NodeInfo >>>
+
+[org.arl.unet.nodeinfo.NodeInfoParam]
+  nodeName = A
+  address = 232
+  addressSize = 8
+  canForward = false
+  mobility = false
+  location = [0.0, 0.0, -15.0]
+  origin = [NaN, NaN]
+----
+
+Some node parameters have been suppressed in the above listing for brevity.
+
+Address 0 is a broadcast address. All other addresses may be assigned to nodes in a Unet. Each Unet node is also associated with a node name (`node.nodeName`). If a node name is not explicity set, it defaults to the string representation of the node address. Descriptive node names may be used, if desired:
+
+[source, console]
+----
+> node.nodeName = 'buoy_A'
+buoy_A
+> node
+<<< NodeInfo >>>
+
+[org.arl.unet.nodeinfo.NodeInfoParam]
+  nodeName = buoy_A
+  address = 2
+  addressSize = 8
+  canForward = false
+  mobility = false
+  location = [1000.0, 0.0, -15.0]
+  origin = []
+----
+
+It is recommended that, if descriptive node names are used, the corresponding node addresses be set using the ADDRESS_RESOLUTION service. This ensures that name-to-address resolution leads to the correct address for the node. The ADDRESS_RESOLUTION service can be accessed via the `host()` shell command:
+
+[source, console]
+----
+> host('buoy_A')
+68
+> node.address = host(node.nodeName)
+68
+----
+
+NOTE: The default ADDRESS_RESOLUTION agent in the UnetStack maps node names to node addresses using a hash function. The method reduces network traffic for host name resolution, but can lead to address conflicts between nodes if two names happen to map to the same address. It is the responsibility of the network engineer to resolve address conflicts manually during the setup of the network, if the default ADDRESS_RESOLUTION agent is used.
+
+=== Protocol numbers
+
+Datagrams represent packets of data sent between nodes. Each datagram is associated with a protocol number that identifies the consumer on the destination node that the datagram is intended for. Protocols can be thought of as _port numbers_ in TCP/IP or UDP/IP.
+
+The consumer may be an agent or an end-user application. Protocol number 0 (`Protocol.DATA`) is used for generic application data. Protocol numbers from 1 to `Protocol.USER-1` (31) are reserved for use by default stack agents. Protocol numbers from `Protocol.USER` (16) to `Protocol.MAX` (63) are available for end-user applications to use.

@@ -1,17 +1,21 @@
 BUILD=build
 ADOCS=$(shell find . -name '*.adoc')
+HTML_OPTS=
 
-.PHONY: all clean
+.PHONY: all clean pdf html
 
-all: ${BUILD}/unet-handbook.pdf
+html: ${BUILD}/unet-handbook.html
+pdf: ${BUILD}/unet-handbook.pdf
+all: pdf html
 
 ${BUILD}/unet-handbook.pdf: handbook.adoc ${ADOCS}
-	mkdir -p build
+	mkdir -p ${BUILD}
 	asciidoctor-pdf -o $@ $<
 
 ${BUILD}/unet-handbook.html: handbook.adoc ${ADOCS}
-	mkdir -p build
-	asciidoctor -o $@ $<
+	mkdir -p ${BUILD}
+	rsync -a images ${BUILD}
+	asciidoctor ${HTML_OPTS} -o $@ $<
 
 clean:
-	rm -rf build
+	rm -rf ${BUILD}

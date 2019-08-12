@@ -1,44 +1,31 @@
 == Getting started
 
-In this chapter, we will learn how to set up a simple 2-node underwater network with an acoustic link. If you already own a couple of UnetStack-compatible acoustic modems, we can use them! If not, don't worry -- we can set up one using the Unet simulator.
+In this chapter, we will learn how to set up a simple 2-node underwater network with an acoustic link. If you already own a couple of UnetStack-compatible acoustic modems, we can certainly use them! And we'll show you how to do that in <<Using acoustic modems>>. But let us first start with a simulated 2-node underwater network, as all you need for this is a computer and the {url-unetsim}[Unet simulator].
 
-=== Simple network with acoustic modems
+=== Setting up a simple simulated network
 
-If you have two UnetStack compatible acoustic modems, we can use them to set up a simple 2-node network. Put them in water body (tank, bucket, lake, sea, ...), power them on, and connect each to a computer over Ethernet. The setup would look something like this:
-
-.Two-node acoustic underwater network
-image::bucket.png[width=500,height=400,align=center]
-
-On each computer, open a web browser and key in the IP address of the respective modem. This should give us a command shell for node A and node B on the two computers.
-
-TIP: If you only have one computer available, you can connect both modems to the same Ethernet switch and connect to each modem's IP address in separate browser windows.
-
-=== Simple network using Unet simulator
-
-If you don't have modems, we can simulate a simple 2-node network using the {url-unetsim}[Unet simulator]. {url-downloads}[Download] the simulator package for your OS and untar/unzip it. Open a terminal window in the simulator's root folder and start the simulator:
+{url-downloads}[Download] the simulator package for your OS and untar/unzip it. Open a terminal window in the simulator's root folder and start the simulator:
 
 [source, console]
 ----
-$ bin/unet samples/rt/2-node-network.groovy
+$ bin/unet samples/handbook/2-node-network.groovy
 
 2-node network
 --------------
 
-Node A: tcp://localhost:1101 http://localhost:8001
-Node B: tcp://localhost:1102 http://localhost:8002
-
-Press ^C to terminate simulation
+Node A: tcp://localhost:1101, http://localhost:8081/
+Node B: tcp://localhost:1102, http://localhost:8082/
 
 ----
 
-TIP: If you're using Windows, you may need to use: +
-`+bin\unet samples\rt\2-node-network.groovy+`
+NOTE: If you're using Windows, you may need to use: +
+`bin\unet samples\handbook\2-node-network.groovy`
 
-Open two web browser windows and key in the two http URLs shown above in each browser. This should give us a command shell for node A and node B in the two browser windows.
+Open two web browser windows and key in the two http URLs shown above in each browser. This should give you a command shell for node A and node B in the two browser windows.
 
 === Making your first transmission
 
-On the command shell to node A, type:
+On the command shell for node A, type:
 
 [source, console]
 ----
@@ -46,26 +33,56 @@ On the command shell to node A, type:
 AGREE
 ----
 
-TIP: Address 0 is a broadcast address, so we did not need to explicitly know the address of node B to transmit a message to it.
-
-If all goes well, after a short delay, you should see the message on the command shell for node B:
+Address 0 is a broadcast address, so we did not need to explicitly know the address of node B to transmit a message to it. After a short delay, you should see the message on the command shell for node B:
 
 [source, console]
 ----
-remote >> RemoteTextNtf:INFORM[from: 1 text: 'hello!']
+[232]: hello!
 ----
 
 **Congratulations!!! You have successfully transmitted your first message over the Unet.**
 
-TIP: If you are using modems in your network (rather than the simulator), the `from:` address you see may be different. It will be the address of modem A.
+The `[232]` that you see on node B is the _from_ address (of node A). The simulator automatically allocates addresses to each node. You can easily find out the addresses of both nodes (on either node):
 
-NOTE: When working with real modems, you may need to adjust the transmit power level to a suitable level for use in the water body that you have the modems in. Too high or too low a power level will not allow the modems to communicate well. The modem transmit power can be adjusted using the `plvl` command. Type `help plvl` on the command shell for node A to see examples of how the command is used.
+[source, console]
+----
+> host('A')
+232
+> host('B')
+31
+----
+
+You can try sending a message back from node B:
+
+[source, console]
+----
+> tell 232, 'hi!'
+----
+
+and you should see the message `[31]: hi!` on node A after just a short delay.
+
+TIP: You could have specified the hostname instead of the address when sending the message: +
+`tell host('A'), 'hi!'`.
+
+=== Propagation delay & ranging
+
+In the simulation, nodes A and B are placed 1 km apart. Since the speed of sound in water is about 1500 m/s (exact sound speed depends on temperature, salinity and depth), the signals take about 0.7 s to travel between the simulated nodes. This explains the short delays you see between sending the message from one node and receiving it on the other. We can also make use of this time delay to measure the distance between the nodes!
+
+On node A, type:
+
+[source, console]
+----
+> range host('B')
+999.7
+----
+
+We got an estimate of 999.7 m for the range between the two nodes.
 
 === Sending & receiving application data
 
-In the previous section, we transmitted a simple text message from the shell. In real applications, we may want to send complex _datagrams_ (messages) programmatically between nodes. The simplest way to do this is via the _UnetSocket_ API. Let's try it!
+In real applications, we may want to send complex _datagrams_ (messages) programmatically between nodes. The simplest way to do this is via the _UnetSocket_ API. Let's try it!
 
-We assume that we have the two-node network setup from the previous section with node A and B running. On the command shell for node B, type:
+On node B, type:
 
 [source, console]
 ----
@@ -75,7 +92,7 @@ We assume that we have the two-node network setup from the previous section with
 <1> Open a socket on node B (`this` refers to node B, since we are typing this on node B's command shell). The semicolon (";") at the end of the statement simply prevents the shell from printing the return value automatically.
 <2> Receive a datagram. This call blocks until a datagram is available.
 
-On the command shell for node A, type:
+On node A, type:
 
 [source, console]
 ----
@@ -86,11 +103,11 @@ true
 ----
 <1> Send 6 ASCII bytes ('hello!') to address 0 (broadcast address). The `as byte[]` is necessary in Groovy to convert the string we specified into a byte array that the `send()` method expects.
 
-If all goes well, node B will receive them. You can check the data in the received datagram on the command shell for node B, and close the socket:
+Node B will receive the bytes as a `RxFrameNtf` message. You can check the data in the received datagram on the command shell for node B, and close the socket:
 
 [source, console]
 ----
-RxFrameNtf:INFORM[type:DATA from:1 rxTime:3515600131 (6 bytes)]
+RxFrameNtf:INFORM[type:DATA from:232 rxTime:4134355059 (6 bytes)]
 > rx.data
 [104, 101, 108, 108, 111, 33]
 > new String(rx.data)
@@ -98,7 +115,7 @@ hello!
 > s.close()
 ----
 
-TIP: While we demonstrated the use of the `UnetSocket` API in Groovy on the command shell, the same commands work in a Groovy script or application, with one minor modification. When the socket is opened, we will have to specify the connection details (such as IP address and fjåge TCP port number) of the modem (or simulated modem) to connect to. For example: `s = new UnetSocket('localhost', 1101)`.
+TIP: While we demonstrated the use of the `UnetSocket` API in Groovy on the command shell, the same commands work in a Groovy script or application, with one minor modification. When the socket is opened, we will have to specify the connection details (such as IP address and API port number) of the modem (or simulated modem) to connect to. For example: `s = new UnetSocket('localhost', 1101)`.
 
 === Sending & receiving from a Python application
 
@@ -117,9 +134,7 @@ Installing collected packages: fjagepy, unetpy
 Successfully installed fjagepy-1.6 unetpy-3.0
 ----
 
-We will now write `tx.py` and `rx.py` scripts to transmit and receive a datagram respectively. We assume that we have the two-node network setup from the previous section with node A and B available on `localhost` fjåge TCP port 1101 and 1102 respectively.
-
-TIP: If you are using modems, you'll need to substitute the `localhost` by the IP address of each modem, and the fjåge port will be 1100.
+We will now write `tx.py` and `rx.py` scripts to transmit and receive a datagram respectively. We assume that we have the two-node network setup from the previous section with node A and B available on `localhost` API port 1101 and 1102 respectively.
 
 .`tx.py`
 [source, python]
@@ -130,7 +145,7 @@ s = UnetSocket('localhost', 1101)               #<1>
 s.send(b'hello!', 0)                            #<2>
 s.close()
 ----
-<1> Connect to node A (`localhost` fjåge port 1101). Change the `localhost` to the modem A's IP address and port 1101 to port 1100, if you are working with a modem.
+<1> Connect to node A (`localhost` API port 1101).
 <2> Broadcast a 6-byte datagram containing ASCII 'hello!'.
 
 .`rx.py`
@@ -143,7 +158,7 @@ rx = s.receive()                               #<2>
 print('from', rx.from, ':', str(rx.data))
 s.close()
 ----
-<1> Connect to node B (`localhost` fjåge port 1102). Change the `localhost` to the modem B's IP address and port 1102 to port 1100, if you are working with a modem.
+<1> Connect to node B (`localhost` API port 1102). Change the `localhost` to the modem B's IP address and port 1102 to port 1100, if you are working with a modem.
 <2> Blocking `receive()` will only return when a datagram is received or socket is closed.
 
 First run `python rx.py` to start reception. Then, on a separate terminal window, run `python tx.py` to initiate transmission. You should see the received datagram printed by the `rx.py` script:
@@ -153,3 +168,53 @@ First run `python rx.py` to start reception. Then, on a separate terminal window
 $ python rx.py
 from 1 : Hello!
 ----
+
+TIP: Once we are done with our testing, it is time to shutdown the simulation. You can do that by pressing `Ctrl-C` on the terminal where you started the simulator. Alternatively, you can go to the shell of one of the nodes, and type: `shutdown`.
+
+== Using acoustic modems
+
+If you have two UnetStack compatible acoustic modems, we can use them to set up a simple 2-node network. Put them in a water body (tank, bucket, lake, sea, ...), power them on, and connect each to a computer over Ethernet. The setup would look something like this:
+
+.Two-node acoustic underwater network
+image::bucket.png[width=500,height=400,align=center]
+
+On each computer, open a web browser and key in the IP address of the respective modem. This should give us a command shell for node A and node B on the two computers.
+
+TIP: If you only have one computer available, you can connect both modems to the same Ethernet switch and connect to each modem's IP address in separate browser windows.
+
+When working with modems, you may need to adjust the transmit power level to a suitable level for use in the water body that you have the modems in. Too high or too low a power level will not allow the modems to communicate well. The modem transmit power can be adjusted using the `plvl` command. Type `help plvl` on the command shell for node A to see examples of how the command is used:
+
+[source, console]
+----
+> help plvl
+plvl - get/set TX power level for all PHY channel types
+
+Examples:
+  plvl                       // get all power levels
+  plvl -10                   // set all power to -10 dB
+  plvl(-10)                  // alternative syntax
+  plvl = -10                 // alternative syntax
+----
+
+TIP: The `help` command is your friend! Just type `help` to see a list of help topics. Type `help` followed by a command name, topic or parameter (you'll learn more about these later) to get help information.
+
+Assuming you have the modems in a bucket, you'll need a fairly low transmit power. On node A, let us set the transmit power to -50 dB and try a transmission:
+
+[source, console]
+----
+> plvl -50
+OK
+> tell 0, 'hello!'
+AGREE
+----
+
+If all goes well, you should see the message on node B:
+
+[source, console]
+----
+[232]: hello!
+----
+
+Of course you'll see a different "from" address than the one shown in the example here. It will be the actual address of your modem A. In case you don't see the message on node B after a few seconds, you may want to adjust the power level up or down and try again.
+
+TIP: All the other examples shown in <<Getting started>> will also work with the modems. You'll just need to replace the `localhost` with the appropriate modem IP address, and the API port for the modem will usually be 1100.
