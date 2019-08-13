@@ -80,7 +80,7 @@ We got an estimate of 999.7 m for the range between the two nodes.
 
 === Sending & receiving application data
 
-In real applications, we may want to send complex _datagrams_ (messages) programmatically between nodes. The simplest way to do this is via the _UnetSocket_ API. Let's try it!
+In real applications, we may want to send complex _datagrams_ (messages) programmatically between nodes. The simplest way to do this is via the _UnetSocket_ API (<<UnetSocket API>>). Let's try it!
 
 On node B, type:
 

@@ -16,6 +16,8 @@ ${BUILD}/unet-handbook.html: handbook.adoc ${ADOCS}
 	mkdir -p ${BUILD}
 	rsync -a images ${BUILD}
 	asciidoctor ${HTML_OPTS} -o $@ $<
+	python bin/chunk-adoc-html.py ${BUILD} unet-handbook
 
 clean:
 	rm -rf ${BUILD}
+

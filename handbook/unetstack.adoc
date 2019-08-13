@@ -262,7 +262,9 @@ phy.signalPowerLevel = -20.0
 
 === Interacting with agents using messages
 
-Most agents also support a set of messages. Typically, we would want to send a request message to an agent and get a response message back. This can be accomplished with the `request` call (or the equivalent alias `<<`) on the agent:
+While you can access a lot of functionality via parameters and commands, you'll need an understanding of the underlying messaging system for advanced usage of the stack. All agents support a set of messages that expose their functionality. In fact, all parameters and commands are implemented by exchanging messages between the shell agent and other agents. In this section, we'll see how messaging between agents works.
+
+Typically, we would want to send a request message to an agent and get a response message back. This can be accomplished with the `request` call (or the equivalent alias `<<`) on the agent:
 
 [source, console]
 ----
@@ -346,7 +348,11 @@ You can also define closures (if you're not familiar with closures, you can thin
 
 [source, console]
 ----
-> tx2 = { 2.times { phy << new TxFrameReq() } };
+> tx2 = {
+-   2.times {
+-     phy << new TxFrameReq()
+-   }
+- };
 ----
 
 and call them later:
@@ -357,5 +363,7 @@ and call them later:
 phy >> TxFrameNtf:INFORM[type:CONTROL txTime:3911898740]
 phy >> TxFrameNtf:INFORM[type:CONTROL txTime:3912307740]
 ----
+
+TIP: You can write Groovy scripts and store them in the `scripts` folder with an extension `.groovy`. You can then invoke them from the shell by simply typing the name of the script (without the extension).
 
 This only scratches the surface of what the command shell is capable of. However, it should provide you a basic understanding of how the shell works, and illustrate its power. To understand more, we suggest that you explore the online `help`. As you further understand the UnetStack and fjåge Java API and the UnetStack service reference (<<_service_reference>>) better, you'll develop expertise on using the shell.

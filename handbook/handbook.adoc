@@ -62,6 +62,8 @@ include::socket.adoc[]
 
 = *Part IV: Extending UnetStack*
 == Developing UnetStack agents
+== Integrating with sensors
+== UnetStack shell extensions
 
 = *Part V: Simulating underwater networks*
 == Writing simulation scripts
