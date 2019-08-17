@@ -7,15 +7,14 @@ v0.1
 :lang: en
 :encoding: utf-8
 :toc: left
-:toclevels: 1
+:toclevels: 2
 :sectnums:
 :xrefstyle: short
 :source-highlighter: rouge
 :url-unetstack: https://www.unetstack.net
-:url-unetsim: https://www.unetstack.net/unet-sim.html
 :url-downloads: https://www.unetstack.net/downloads.html
 :url-fjage: https://github.com/org-arl/fjage
-:groovy: https://groovy-lang.org
+:url-groovy: https://groovy-lang.org
 
 // This book is written using AsciiDoc format and is meant to be compiled using
 // asciidoctor (https://asciidoctor.org/docs/user-manual)
@@ -48,11 +47,6 @@ include::routing.adoc[]
 include::udp.adoc[]
 
 = *Part III: Tour of UnetStack services*
-
-[partintro]
---
-We now have a basic understanding of how UnetStack works. It is time to take a deeper dive into various services provided by the UnetStack agents, and explore how to setup and configure Unets.
---
 
 include::services.adoc[]
 

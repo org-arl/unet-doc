@@ -1,6 +1,6 @@
 == Getting started
 
-In this chapter, we will learn how to set up a simple 2-node underwater network with an acoustic link. If you already own a couple of UnetStack-compatible acoustic modems, we can certainly use them! And we'll show you how to do that in <<Using acoustic modems>>. But let us first start with a simulated 2-node underwater network, as all you need for this is a computer and the {url-unetsim}[Unet simulator].
+In this chapter, we will learn how to set up a simple 2-node underwater network with an acoustic link. If you already own a couple of UnetStack-compatible acoustic modems, we can certainly use them! And we'll show you how to do that in <<Using acoustic modems>>. But let us first start with a simulated 2-node underwater network, as all you need for this is a computer and the Unet simulator.
 
 === Setting up a simple simulated network
 
@@ -171,7 +171,7 @@ from 1 : Hello!
 
 TIP: Once we are done with our testing, it is time to shutdown the simulation. You can do that by pressing `Ctrl-C` on the terminal where you started the simulator. Alternatively, you can go to the shell of one of the nodes, and type: `shutdown`.
 
-== Using acoustic modems
+=== Using acoustic modems
 
 If you have two UnetStack compatible acoustic modems, we can use them to set up a simple 2-node network. Put them in a water body (tank, bucket, lake, sea, ...), power them on, and connect each to a computer over Ethernet. The setup would look something like this:
 
@@ -217,4 +217,4 @@ If all goes well, you should see the message on node B:
 
 Of course you'll see a different "from" address than the one shown in the example here. It will be the actual address of your modem A. In case you don't see the message on node B after a few seconds, you may want to adjust the power level up or down and try again.
 
-TIP: All the other examples shown in <<Getting started>> will also work with the modems. You'll just need to replace the `localhost` with the appropriate modem IP address, and the API port for the modem will usually be 1100.
+TIP: All the other examples shown earlier in this chapter will also work with the modems. You'll just need to replace the `localhost` with the appropriate modem IP address, and the API port for the modem will usually be 1100.

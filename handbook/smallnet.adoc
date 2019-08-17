@@ -1,1 +1,110 @@
 == Setting up a small network
+
+=== Netiquette testbed
+
+The Netiquette testbed in Singapore is a 3-node network that is deployed at sea (see <<fig_netq_map>>), and accessible over the Internet. Nodes A and B are cabled seabed mounted nodes, while node C is a solar-powered buoy. We use a simulated version of the Netiquette testbed to learn how to set up and operate small networks.
+
+[[fig_netq_map]]
+.Netiqutte testbed
+image::netq-map.png[Netiquette,600,450]
+
+We start the simulated network:
+
+[source, console]
+----
+$ bin/unet samples/handbook/netq-network.groovy
+
+Netiquette 3-node network
+-------------------------
+
+Node A: tcp://localhost:1101, http://localhost:8081/
+Node B: tcp://localhost:1102, http://localhost:8082/
+Node C: tcp://localhost:1103, http://localhost:8083/
+----
+
+We next check the configuration of each node:
+
+.`Node A`
+[source, console]
+----
+> node
+<<< NodeInfo >>>
+
+[org.arl.unet.nodeinfo.NodeInfoParam]
+  address = 232
+  addressSize = 8
+  location = [121.0, 137.0, -10.0]
+  mobility = false
+  nodeName = A
+  origin = [1.216, 103.851]
+----
+
+.`Node B`
+[source, console]
+----
+> node
+<<< NodeInfo >>>
+
+[org.arl.unet.nodeinfo.NodeInfoParam]
+  address = 31
+  addressSize = 8
+  location = [160.0, -232.0, -15.0]
+  mobility = false
+  nodeName = B
+  origin = [1.216, 103.851]
+----
+
+.`Node C`
+[source, console]
+----
+> node
+<<< NodeInfo >>>
+
+[org.arl.unet.nodeinfo.NodeInfoParam]
+  address = 74
+  addressSize = 8
+  location = [651.0, 140.0, -5.0]
+  mobility = false
+  nodeName = C
+  origin = [1.216, 103.851]
+----
+
+All nodes are configured to use 8-bit addresses. Node A has is address 232, node B is 31, and node C is 74. The origin is set to GPS location 1.216 degrees N, 103.851 degrees E. Locations are measured in meters relative to this origin, with _x_ axis pointing east, and _y_ axis pointing north. The mobility of the nodes is set to `false` to indicate that the nodes are static. For mobile nodes, mobility should be set to `true`.
+
+TIP: In the simulated network, all of the node parameters are correctly setup by the simulator. In a real network, you may need to setup each node with the appropriate parameters. To ensure that the nodes retain the parameters between reboots, once a node is setup, simply run `savestate` on the node. This creates a `saved-state.groovy` file in the `scripts` folder with the saved settings. The settings are then automatically loaded when the node is rebooted.
+
+=== Local coordinate system and GPS coordinates
+
+Depending on the application needs, we may wish to use different coordinate systems when setting up a network:
+
+No coordinates:: We do not know or care about each node's location.
+Local coordinates:: We wish to work in a local coordinate system, with only relative locations of the nodes being important.
+Georeferenced local coordinates:: We wish to work in a local coordinate system, with relative node locations specified in local coordinates. The GPS coordinate of the origin of the local coordinate system is specified.
+GPS coordinates:: We wish to specify the GPS location of each node, without defining a local coordinate system.
+
+When node locations are not accruately known, we can opt not to define any coordinate system. Local coordinate systems are preferred in applications where such a coordinate system can be agreed upon for the entire network. Range computation and localization is easier to do in local coordinates. GPS coordinates are used when node location is important, but a local coordinate system cannot be easily defined (e.g. ad hoc network with no prior knowledge of area of operation).
+
+UnetStack supports all 4 options through a set of simple conventions:
+
+No coordinates:: `node.origin = []`, `node.location = []` for all nodes.
+Local coordinates:: `node.origin = [Float.NaN, Float.NaN]` for all nodes. `node.location = [x, y, z]` is specified as a 3-tuple in meters. The _z_ axis points downwards (with sealevel being considered 0 m), but the _x_ and _y_ axis are arbitrarily chosen.
+Georeferenced local coordinates:: `node.origin = [latitude, longitude]` for all nodes, with latitude and longitude being the commonly agreed origin location. `node.location = [x, y, z]` is specified as a 3-tuple in meters. The _x_ axis points east, _y_ axis points north, and the _z_ axis points downwards (with sealevel being considered 0 m).
+GPS coordinates:: `node.origin = []` for all nodes, and `node.location = [latitude, longitude, z]` where the _z_ axis points downwards (with sealevel being considered 0 m).
+
+NOTE: The Unet simulator requires a local coordinate system to be defined, and so only local coordinates or georeferenced local coordinates must be used in the simulator.
+
+It is often necessary to convert between the GPS coordinate system and the local coordinate system. To aid in this, UnetStack provides a set of utility functions:
+
+.`Node A`
+[source, console]
+----
+> gps = new org.arl.unet.utils.GpsLocalFrame(node.origin);   // set origin GPS coordinates
+> gps.toGps(node.location[0..1])                             // local to GPS
+[1.217238981, 103.8520872]                                   // GPS coordinates of node A
+> gps.toLocal(1.21723898, 103.8520872)                       // GPS to local
+[120.9994, 136.9999]
+> node.location
+[121.0, 137.0, -10.0]
+----
+
+The `GpsLocalFrame` class has additional constructors and utility methods to work with GPS coordinates in degrees, minutes and seconds, if desired.
