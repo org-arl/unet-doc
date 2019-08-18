@@ -1,7 +1,7 @@
 //! Simulation: Netiquette 3-node network
 ///////////////////////////////////////////////////////////////////////////////
 
-import org.arl.fjage.*
+import org.arl.fjage.RealTimePlatform
 
 ///////////////////////////////////////////////////////////////////////////////
 // display documentation
@@ -21,7 +21,6 @@ Node C: tcp://localhost:1103, http://localhost:8083/
 platform = RealTimePlatform   // use real-time mode
 origin = [1.216, 103.851]
 
-// run the simulation forever
 simulate {
   node 'A', location: [121.m,  137.m, -10.m], web: 8081, api: 1101, stack: "$home/etc/setup"
   node 'B', location: [160.m, -232.m, -15.m], web: 8082, api: 1102, stack: "$home/etc/setup"

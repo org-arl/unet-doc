@@ -1,9 +1,12 @@
 Chapter 3:
+
   ☐ Change phy to use top level agent and Datagrams rather than TxFrameReq?
 
 Don't forget:
+
   ☐ What's new in UnetStack3?
   ☐ Community edition vs commercial vs modems table
   ☐ AT commands
   ☐ fjage Gateways for each language
-
+  ☐ Why does channel.dataRate differ from phy[].dataRate?
+  ☐ JANUS

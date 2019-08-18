@@ -1,0 +1,24 @@
+== Developing your own agents
+
+UnetStack is based on the open-source {url-fjage}[fjåge] framework that provides agent development capability in Java and Groovy. The framework also publishes API bindings to other languages such as Python, Julia and C. There are a few essential concepts from fjåge that we need to understand to effectively use UnetStack:
+
+Agent:: An agent is logical entity that implements a specific functionality of the network. Loosely, an agent maps to a layer in a traditional network stack, but is more flexible. Each agent has its own thread of execution, and all agents can be thought of as running concurrently.
+
+Message:: Agents interact with each other via messages. Agents can send and receive messages, and typically expose all their functionality as a set of messages that they will respond to. Messages are transmitted within the network stack on a node, and not between nodes in the network.
+
+Performative:: Each message is tagged with a performative that summarizes the purpose of the message. Common performatives are `REQUEST`, `AGREE`, `REFUSE`, `FAILURE`, `NOT_UNDERSTOOD` and `INFORM`. The next few defintions explain these further.
+
+Request:: Request messages ask an agent to perform some task. Such messages are marked with the performative `REQUEST`, and it is a convention to name the message class with a suffix `Req` (e.g. `DatagramReq`, `ParameterReq`).
+
+Response:: When an agent receives a request, it must respond back to the requesting agent. Common responses are simply messages with the performative set to `AGREE`, `REFUSE`, `FAILURE` or `NOT_UNDERSTOOD`. An `AGREE` message confirms to the requester that the agent will perform the requested task. A `REFUSE` message tells the requester that the request cannot be performed at this time. A `FAILURE` message, on the other hand, means that the agent should have been able to do the request under normal circumstances, but something went wrong. A `NOT_UNDERSTOOD` response is generated if the agent does not know how to deal with the request. Other than these simple messages, responses may sometimes contain more information. Such messages are respresented by message classes with a suffix `Rsp` (e.g. `ParameterRsp`), and may have a performative of `INFORM` to indicate that they contain information in response to the request.
+
+Notification:: Agents sometimes generate unsolicited information. This information is encapsulated in a notification message, typically with a performative `INFORM`. Notification messages may be sent to a specific agent, or on a topic.
+
+Topic:: A topic defines a publish-subscribe mechanism where an agent may publish some notifications, and other agents interested in those notifications may _subscribe_ to the topic. Most agents have an unnamed topic associated with themselves, that other agents can subscribe to. For example, a data link agent may subscribe to the topic of a physical layer agent to listen for incoming data frames from the physical layer.
+
+Parameters:: Most UnetStack agents publish a number of parameters associated with them. Parameters are key-value pairs that provide information about the agent (read-only parameters), or allow controlling the behavior of the agent (read-write parameters). Parameters are technically accessed via `ParameterReq` and `ParameterRsp` messages, but a simpler notation (`agent.parameter`) is also available to get/set parameters.
+
+Service:: A service is a collection of messages (requests, responses and notifications) and parameters that an agent honors. Agents publish the list of services they offer, and other agents may find agents through the services they advertise. A list of UnetStack services is available in <<_service_reference>>.
+
+While these ideas may seem somewhat abstract at this point in time, we will see them at work shortly and they will become clearer.
+

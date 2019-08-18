@@ -1,5 +1,5 @@
 = Underwater Networks Handbook
-Mandar Chitre, mandar@nus.edu.sg
+The Unet Team
 v0.1
 :imagesdir: images
 :title-logo-image: image::unet.png[Unet,150,150]
@@ -55,7 +55,9 @@ include::services.adoc[]
 include::socket.adoc[]
 
 = *Part IV: Extending UnetStack*
-== Developing UnetStack agents
+
+include::agents.adoc[]
+
 == Integrating with sensors
 == UnetStack shell extensions
 

@@ -6,6 +6,99 @@
 
 == Physical
 
+=== CONTROL and DATA channels
+
+The physical layer in UnetStack typically supports 2 logical channels. The _CONTROL_ channel provides low-rate, robust communication that allows exchange of small amounts of control information in the network. The _DATA_ channel is a usually a higher rate communication link, but may require tuning to operate well in various environmental conditions.
+
+NOTE: The configurable parameters of the CONTROL and DATA channels depend strongly on the device (modem) in use. The Unet simulator provides a simplified physical layer (`HalfDuplexModem`) that captures the essential aspects of the communication using the two channels, exposing only a limited set of parameters. When configuring a real network, you should refer to your modem's manual on advise on how best to set up the physical layer parameters.
+
+If we simply type `phy`, we can explore the physical layer parameters for the node:
+
+[source, console]
+----
+> phy
+<<< HalfDuplexModem >>>
+
+[org.arl.unet.DatagramParam]
+  MTU = 56
+
+[org.arl.unet.phy.PhysicalParam]
+  busy = false
+  maxPowerLevel = 0.0
+  minPowerLevel = -96.0
+  propagationSpeed = 1534.4574
+  refPowerLevel = 185.0
+  rxEnable = true
+  rxSensitivity = -200.0
+  time = 42687105877
+  timestampedTxDelay = 1.0
+
+[org.arl.unet.bb.BasebandParam]
+  basebandRate = 12000.0
+  carrierFrequency = 12000.0
+  maxPreambleID = 4
+  maxSignalLength = 65536
+  preambleDuration = 0.2
+  signalPowerLevel = -10.0
+----
+
+The `phy.MTU` parameter tells us the maximum amount of user data that can be transmitted in a single frame (56 bytes in this case). This is based on the DATA channel, as we will see shortly. The `PhysicalParam` parameters provide us information on whether the channel is busy, transmission power levels supported, receiver sensitivity, and propagation speed of the signal (e.g. sound speed for underwater modems). The `phy.time` parameter is a microsecond resolution clock that is used to timestamp all physical layer events such as frame transmission, reception, etc.
+
+The `BasebandParam` parameters are related to the _BASEBAND_ service that some modems provide. We will explore this service in detail later in <<The baseband service>>.
+
+We can dig deeper into the parameters for the CONTROL and DATA channel separately:
+
+[source, console]
+----
+> phy[CONTROL]
+<<< PHY >>>
+
+[org.arl.unet.DatagramParam]
+  MTU = 16
+
+[org.arl.unet.phy.PhysicalChannelParam]
+  dataRate = 202.1
+  errorDetection = 1
+  fec = 0
+  fecList = null
+  frameDuration = 0.95
+  frameLength = 24
+  janus = false
+  llr = false
+  maxFrameLength = 128
+  powerLevel = -10.0
+
+> phy[DATA]
+<<< PHY >>>
+
+[org.arl.unet.DatagramParam]
+  MTU = 56
+
+[org.arl.unet.phy.PhysicalChannelParam]
+  dataRate = 731.4
+  errorDetection = 1
+  fec = 0
+  fecList = null
+  frameDuration = 0.7
+  frameLength = 64
+  janus = false
+  llr = false
+  maxFrameLength = 512
+  powerLevel = -10.0
+----
+
+NOTE: The values you see above are specific to this simulated network, and will generally be different for different networks, depending on the devices that are being used and the environment that they are deployed in.
+
+While many of the parameters here might not make sense to you yet (we will explore them in later chapters), here are a few important ones to take note of:
+
+- Note that `MTU` for the CONTROL channel is 16 bytes, whereas DATA channel's `MTU` is 56 bytes. CONTROL frames typically carry less data, but are more robust.
+- The `frameLength` for the CONTROL and DATA channels are 8 bytes longer than the corresponding `MTU`. The difference is due to header information that the frames carry. The number of bytes taken by the header is device dependent, and also a function of network configuration (e.g. changes in `node.addressSize` may change header size).
+- Typically physical layer agents allow setting of the `frameLength` parameter, and the `MTU` parameter is automatically determined based on the necessary headers. The `maxFrameLength` parameter indicates the maximum size of the frame supported.
+- The `frameDuration` for the CONTROL channel is about 0.95 seconds, whereas that for the DATA channel is 0.7 seconds. While the CONTROL frames carry less data, they also have lower data rate and so may have comparable duration as the DATA frames.
+- The `dataRate` reported by the channel is the effective data rate in bps including the header bits, i.e., it is the frame length in bits divided by the frame duration.
+- The `powerLevel` parameter controls the transmission power used by the channel. This value is in dB, reference to the `phy.refPowerLevel`, and may range between `phy.minPowerLevel` and `phy.maxPowerLevel`.
+- The `errorDetection` parameter reports the number of bytes used for error detection CRC (value of 1 indicates that we are using a 8-bit CRC). Some modems will allow you to set this to 2 to switch to 16-bit CRC, if you desire a lower probability of accepting a frame with some bit errors.
+
 == Baseband
 
 == Link

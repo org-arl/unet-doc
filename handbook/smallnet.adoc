@@ -1,4 +1,4 @@
-== Setting up a small network
+== Setting up small networks
 
 === Netiquette testbed
 
@@ -8,7 +8,7 @@ The Netiquette testbed in Singapore is a 3-node network that is deployed at sea 
 .Netiqutte testbed
 image::netq-map.png[Netiquette,600,450]
 
-We start the simulated network:
+To start the simulated network, we simply run the `netq-network.groovy` simulation script:
 
 [source, console]
 ----
@@ -22,7 +22,9 @@ Node B: tcp://localhost:1102, http://localhost:8082/
 Node C: tcp://localhost:1103, http://localhost:8083/
 ----
 
-We next check the configuration of each node:
+=== Node names & addresses
+
+We start off by checking the configuration of each node:
 
 .`Node A`
 [source, console]
@@ -69,13 +71,216 @@ We next check the configuration of each node:
   origin = [1.216, 103.851]
 ----
 
-All nodes are configured to use 8-bit addresses. Node A has is address 232, node B is 31, and node C is 74. The origin is set to GPS location 1.216 degrees N, 103.851 degrees E. Locations are measured in meters relative to this origin, with _x_ axis pointing east, and _y_ axis pointing north. The mobility of the nodes is set to `false` to indicate that the nodes are static. For mobile nodes, mobility should be set to `true`.
+All nodes are configured to use 8-bit addresses. Node A has is address 232, node B is 31, and node C is 74. The origin is set to GPS location 1.216° N, 103.851° E. Locations are measured in meters relative to this origin, with _x_ axis pointing east, and _y_ axis pointing north. The mobility of the nodes is set to `false` to indicate that the nodes are static (for mobile nodes, mobility should be set to `true`).
 
-TIP: In the simulated network, all of the node parameters are correctly setup by the simulator. In a real network, you may need to setup each node with the appropriate parameters. To ensure that the nodes retain the parameters between reboots, once a node is setup, simply run `savestate` on the node. This creates a `saved-state.groovy` file in the `scripts` folder with the saved settings. The settings are then automatically loaded when the node is rebooted.
+TIP: In the simulated network, all of the node parameters are correctly setup by the simulator. In a real network, you may need to setup each node by manually setting the appropriate parameters. To ensure that the nodes retain the parameters between reboots, once a node is setup, simply run `savestate` on the node. This creates a `saved-state.groovy` file in the `scripts` folder with the saved settings. The settings are then automatically loaded when the node is rebooted.
 
-=== Local coordinate system and GPS coordinates
+=== Connectivity & ranging
 
-Depending on the application needs, we may wish to use different coordinate systems when setting up a network:
+Let us first check the connectivity between the nodes:
+
+.`Node A`
+[source, console]
+----
+> ping host('B')
+PING 31
+Response from 31: seq=0 rthops=2 time=2507 ms
+Response from 31: seq=1 rthops=2 time=2852 ms
+Response from 31: seq=2 rthops=2 time=2852 ms
+3 packets transmitted, 3 packets received, 0% packet loss
+> ping host('C')
+PING 74
+Response from 74: seq=0 rthops=2 time=2600 ms
+Response from 74: seq=1 rthops=2 time=2634 ms
+Response from 74: seq=2 rthops=2 time=2737 ms
+3 packets transmitted, 3 packets received, 0% packet loss
+----
+
+The connectivity from node A to nodes B and C looks good. What about the connectivity from node B to node C?
+
+.`Node B`
+[source, console]
+----
+> ping host('C')
+PING 74
+Response from 74: seq=0 rthops=2 time=2810 ms
+Response from 74: seq=1 rthops=2 time=2666 ms
+Response from 74: seq=2 rthops=2 time=2742 ms
+3 packets transmitted, 3 packets received, 0% packet loss
+----
+
+Looks good too!
+
+We can also check cross-check that the routes from node A to nodes B and C are direct:
+
+.`Node A`
+[source, console]
+----
+> trace host('B')
+[232, 31, 232]
+> trace host('C')
+[232, 74, 232]
+----
+
+The first trace shows that the datagram originated at node A (address 232), reached node B (address 31), and was sent back to node A. The second trace similarly went from node A to node C (address 74) and back. No hops in between, since our network is fully connected.
+
+We can also make range measurements between the nodes:
+
+.`Node A`
+[source, console]
+----
+> range host('A')
+0.0
+> range host('B')
+370.98
+> range host('C')
+529.87
+----
+
+.`Node B`
+[source, console]
+----
+> range host('A')
+370.98
+> range host('B')
+0.0
+> range host('C')
+615.9
+----
+
+=== Sending messages
+
+Once we have connectivity, we can of course send messages form the shell:
+
+.`Node A`
+[source, console]
+----
+> tell host('B'), 'hello!'
+AGREE
+----
+
+and we see the message on node B:
+
+.`Node B`
+[source, console]
+----
+[232]: hello!
+----
+
+We have already seen in <<Getting started>> and <<Protocol numbers>> on how to send messages using the UnetSocket API from the shell, as well as from external applications. Hence we won't dwell much on it here.
+
+=== File transfer and remote access
+
+File transfers and remote access is disabled by default. Let us enable this on node B:
+
+.`Node B`
+[source, console]
+----
+> remote
+<<< RemoteControl >>>
+
+[org.arl.unet.remote.RemoteControlParam]
+  cwd = /Users/mandar/Projects/unet/scripts
+  dsp = transport
+  enable = false
+  reliability = true
+  shell = websh
+  groovy = true
+
+> remote.enable = true
+true
+----
+
+Now we can send & receive files, and run remote commands on node B. Let's try it from node A:
+
+.`Node A`
+[source, console]
+----
+> B = host('B')
+31
+> rsh B, 'tell me,"hi!"'             #<1>
+AGREE
+[31]: hi!                            #<2>
+> file('abc.txt').text = 'demo';     #<3>
+> ls                                 #<4>
+abc.txt [4 bytes]
+README.md [96 bytes]
+> fput B, 'abc.txt'                  #<5>
+AGREE
+----
+<1> Ask node B to send a "hi!" back to me. The variable `me` is automatically defined to be the source node address during the execution of the shell command when Groovy extensions are enabled (`remote.groovy = true`).
+<2> On node A, we receive a "hi!" after a short delay.
+<3> Create a file `abc.txt` with `demo` as content.
+<4> List local files to check that we have a 4-byte file called `abc.txt`.
+<5> Send file `abc.txt` to node B.
+
+On the shell for node B, we see the notification that the file `abc.txt` was successfully received:
+
+.`Node B`
+----
+remote >> RemoteFileNtf:INFORM[from:232 filename:abc.txt (4 bytes)]
+----
+
+NOTE: Although we demonstrated file transfers between nodes with the simulator, all simulated nodes are running on your machine and so sharing the filesystem. When the file `abc.txt` was transferred from node A to B, the same file was simply overwritten, since it was created in the same folder. You could easily verify this by checking the modification time of the file on the filesystem before and after the transfer.
+
+You can also use `fget` to receive a file from a remote node, but you have to remember to set `remote.enable = true` on the receiving node:
+
+.`Node A`
+[source, console]
+----
+> remote.enable = true
+true
+> fget B, 'abc.txt'
+AGREE
+remote >> RemoteFileNtf:INFORM[from:31 filename:abc.txt (4 bytes)]
+> fget B, 'def.txt'
+AGREE
+remote >> RemoteFailureNtf:INFORM[RemoteFileGetReq:REQUEST[to:31 filename:def.txt] reason:no-file]
+----
+
+The last command failed to get file `def.txt`, as it does not exist on node B.
+
+When we send commands to execute on a remote node, they are usually silently executed and the output is not sent back. If we want the output to be shown to us, we need to explicity ask for it using `tell`. Since this is often required, we have a simple Groovy extensions shortcut `?` to do this for us:
+
+.`Node A`
+[source, console]
+----
+> rsh B, 'tell me,node.nodeName'
+AGREE
+[31]: B
+> rsh B, '?node.nodeName'
+AGREE
+[31]: B
+> rsh B, '?ls'
+AGREE
+[31]: abc.txt [4 bytes]
+README.md [96 bytes]
+> rsh B, '?1+2'
+AGREE
+[31]: 3
+> rsh B, '?"You are ${me}, I am ${node.address}"'
+AGREE
+[31]: You are 232, I am 31
+> rsh B, '?range '+host('C')
+AGREE
+[31]: 615.9
+----
+
+Sometimes we are not interested in the output, but simply want an acknowledgement that the command was successfully executed. For example, if we set the transmission power on a remote node, we want to know that it was set. That can be requested using the `ack` function.
+
+.`Node A`
+[source, console]
+----
+> ack on
+> rsh B, 'plvl -6'
+AGREE
+remote >> RemoteSuccessNtf:INFORM[RemoteExecReq:REQUEST[to:31 command:plvl -6 ack:true]]
+> ack off
+----
+
+=== Node locations & coordinate systems
+
+As seen in <<Node names & addresses>>, some network nodes may know their own locations. This is useful for location-based routing and other applications. Depending on the application needs, we may wish to use different coordinate systems when setting up a network. There are 4 basic options to choose from:
 
 No coordinates:: We do not know or care about each node's location.
 Local coordinates:: We wish to work in a local coordinate system, with only relative locations of the nodes being important.
@@ -92,6 +297,26 @@ Georeferenced local coordinates:: `node.origin = [latitude, longitude]` for all 
 GPS coordinates:: `node.origin = []` for all nodes, and `node.location = [latitude, longitude, z]` where the _z_ axis points downwards (with sealevel being considered 0 m).
 
 NOTE: The Unet simulator requires a local coordinate system to be defined, and so only local coordinates or georeferenced local coordinates must be used in the simulator.
+
+In <<Connectivity & ranging>>, we measured the acoustic range between nodes A and B to about about 371 m. We can check this against distance computed from the location of nodes A and B. We first get the location of node A:
+
+.`Node A`
+[source, console]
+----
+> node.location
+[121.0, 137.0, -10.0]
+----
+
+and then compute the distance to it on node B:
+
+.`Node B`
+[source, console]
+----
+> distance(node.location, [121.0, 137.0, -10.0])
+371.09
+----
+
+We see that it agrees well with the acoustic range!
 
 It is often necessary to convert between the GPS coordinate system and the local coordinate system. To aid in this, UnetStack provides a set of utility functions:
 
