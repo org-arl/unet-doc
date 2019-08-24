@@ -4,7 +4,7 @@ In this chapter, we will learn how to set up a simple 2-node underwater network 
 
 === Setting up a simple simulated network
 
-{url-downloads}[Download] the simulator package for your OS and untar/unzip it. Open a terminal window in the simulator's root folder and start the simulator:
+{url-downloads}[Download] UnetStack community edition for your OS and untar/unzip it. Open a terminal window in the simulator's root folder and start the simulator:
 
 [source, console]
 ----

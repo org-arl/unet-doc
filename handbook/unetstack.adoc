@@ -243,9 +243,6 @@ Typically, we would want to send a _request_ to an agent and get a _response_ me
 
 [source, console]
 ----
-> phy.request new TxFrameReq()
-AGREE
-phy >> TxFrameNtf:INFORM[type:CONTROL txTime:2893654740]
 > phy << new TxFrameReq()
 AGREE
 phy >> TxFrameNtf:INFORM[type:CONTROL txTime:2913909740]
@@ -253,16 +250,7 @@ phy >> TxFrameNtf:INFORM[type:CONTROL txTime:2913909740]
 
 Here we made a request to the `phy` agent to transmit a frame. The agent responded with an `AGREE` response, shortly followed by a `TxFrameNtf` notification from `phy` telling us that the transmission was successful.
 
-The `request` call sends a message and waits for a timeout (typically 1 second) for a response. If we did not wish to wait for a response, we could make a `send` call to send the message. The call would return immediately, and any response would be simply printed on the shell later as a notification:
-
-[source, console]
-----
-> phy.send new TxFrameReq()
-phy >> AGREE
-phy >> TxFrameNtf:INFORM[type:CONTROL txTime:3043490740]
-----
-
-The difference between the two is not obvious from the above, since the `request` call's return value `AGREE` is printed on the shell anyway. However, we can assign the response message from `request` to a variable (but we can't do that with `send`):
+We can also use the return value in a condition, but we need to remember that the return value from the `request` is a message:
 
 [source, console]
 ----
@@ -270,14 +258,6 @@ The difference between the two is not obvious from the above, since the `request
 phy >> TxFrameNtf:INFORM[type:CONTROL txTime:3381446740]
 > x
 AGREE
-----
-
-TIP: The semicolon ";" at the end of the first statement prevents the return value from being printed on the shell.
-
-We can also use the return value in a condition, but we need to remember that the return value from the `request` is a message:
-
-[source, console]
-----
 > x.class
 class org.arl.fjage.Message
 > x.performative
@@ -285,6 +265,8 @@ AGREE
 > if (x.performative == Performative.AGREE) print 'OK'
 OK
 ----
+
+TIP: The semicolon ";" at the end of the first statement prevents the return value from being printed on the shell.
 
 Unsolicited notification messages can be received by subscribing to the topic of interest. On node B, we can subscribe to events at the physical layer:
 
