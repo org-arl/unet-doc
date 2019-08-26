@@ -1,6 +1,6 @@
 == UnetStack basics
 
-UnetStack is an _agent-based network stack_. Each _agent_ is similar to a _layer_ in a traditional network stack, but has more flexibility and a richer set of interaction semantics that empower it to use the scarce resources (bandwidth, energy, etc) in the Unet more efficiently. In order to develop Unet applications, we need to understand some basic concepts in UnetStack.
+UnetStack is an _agent-based network stack_. Each _agent_ is similar to a _layer_ in a traditional network stack, but has more flexibility to use the scarce resources (bandwidth, energy, etc) in the Unet more efficiently. In order to develop Unet applications, we need to understand some basic concepts in UnetStack.
 
 === The command shell
 
@@ -137,7 +137,7 @@ parameters type "help modem".
 - phy[].fecList - list of available forward error correction codes
 ----
 
-From this help, we see that `phy` agent also support channel parameters (also known as _indexed_ parameters). It supports two logical channels, CONTROL (1) and DATA (2). The CONTROL channel is meant for low-rate robust data transmission, whereas the DATA channel is typically configured for higher rate data transmission. Channel parameters work in the same way as normal parameters, but with an index:
+From this help, we see that `phy` agent also supports channel parameters (also known as _indexed_ parameters). It supports two logical channels, CONTROL (1) and DATA (2). The CONTROL channel is meant for low-rate robust data transmission, whereas the DATA channel is typically configured for higher rate data transmission. Channel parameters work in the same way as normal parameters, but with an index:
 
 [source, console]
 ----
@@ -235,20 +235,28 @@ phy[3].powerLevel = -20.0
 phy.signalPowerLevel = -20.0
 ----
 
+TIP: While `plvl` seems like a command to just set/get a `powerLevel` parameter, it does that for several channels in one go. This can save you a lot of time and typing -- to achieve the same thing manually, you'd be typing 4 commands!
+
 === Interacting with agents using messages
 
-While you can access a lot of functionality via parameters and commands, to fully harness the power of UnetStack, we require an understanding of the underlying messaging system between the agents. All agents support a set of messages that expose their functionality. In fact, all parameters and commands are implemented by exchanging messages between the shell agent and other agents. In this section, we'll take a brief look at how messaging between agents works.
+While you can access a lot of functionality via parameters and commands, to fully harness the power of UnetStack, we require an understanding of the underlying messaging system between the agents. All agents support messages that expose their functionality. In fact, all parameters and commands are implemented by exchanging messages between the shell agent and other agents. In this section, we'll take a brief look at how messaging between agents works.
+
+TIP: All parameters and commands are implemented by exchanging messages between the shell agent and other agents. When you get/set a parameter, all the shell is doing is sending a `ParameterReq` message to the appropriate agent, and showing you the `ParameterRsp` message that the agent responds with.
 
 Typically, we would want to send a _request_ to an agent and get a _response_ message back. This can be accomplished with the `request` call (or the equivalent alias `<<`) on the agent:
 
 [source, console]
 ----
-> phy << new TxFrameReq()
+> phy << new TxFrameReq(data: [1,2,3])
 AGREE
 phy >> TxFrameNtf:INFORM[type:CONTROL txTime:2913909740]
 ----
 
-Here we made a request to the `phy` agent to transmit a frame. The agent responded with an `AGREE` response, shortly followed by a `TxFrameNtf` notification from `phy` telling us that the transmission was successful.
+Here we made a request to the `phy` agent to transmit some data. The agent responded with an `AGREE` response, shortly followed by a `TxFrameNtf` notification from `phy` telling us that the transmission was successful.
+
+TIP: A _frame_ is simply a datagram at the physical layer, also sometimes called a "packet". We prefer the term "frame" when working at the physical layer, but the distinction between frames and datagrams is unimportant at this point in time. We will come back to this later, in <<PHY>>.
+
+// FIXME put in the correct reference PHY above
 
 We can also use the return value in a condition, but we need to remember that the return value from the `request` is a message:
 
@@ -268,7 +276,7 @@ OK
 
 TIP: The semicolon ";" at the end of the first statement prevents the return value from being printed on the shell.
 
-Unsolicited notification messages can be received by subscribing to the topic of interest. On node B, we can subscribe to events at the physical layer:
+Unsolicited notification messages can be received by subscribing to the topic of interest. For example, on node B, we can subscribe to physical layer events on node B:
 
 [source, console]
 ----

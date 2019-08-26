@@ -2,15 +2,15 @@
 
 === What is a Unet?
 
-The Internet of Things (IoT) is rapidly becoming a reality, with more and more devices in our lives getting _connected_. It would be nice to connect underwater sensors and vehicles into the IoT. But what does it take to extend the IoT underwater? That is what we explore in this handbook, using {url-unetstack}[UnetStack3], a technology developed as part of the _Unet project_.
+The Internet has changed our lives beyond anyone's wildest expectations, fundamentally changing the way we interact, the way we learn, and the way we work. More recently, devices have started connecting to the Internet, and communicating with other devices. This _Internet of Things_ (IoT) has the potential to have a huge impact on the way we understand our environment, and interact with it. Given that most of our planet's surface is covered with water, would it then not make sense that at least some of these devices might be in water? Some devices might measure ocean temperature and acidification to give us a handle on climate change, while other devices might monitor fresh water quality to ensure safe drinking water for us. Autonomous underwater vehicles (AUVs) may patrol our coastal waters looking for intruders, or tracking down sources of pollution or nutients that encourage harmful algal blooms. Be it static sensors or mobile AUVs, we need a way to connect them into a network that we can communicate and interact with. The _Unet project_ strives to develop technologies that allow us to do precisely this. In this handbook, we explore how to use {url-unetstack}[UnetStack3], a technology developed as part of the Unet project, to build communication networks that extend underwater.
 
-Most wireless technologies developed today for IoT work on electromagnetic waves that don't propagate well underwater. So, to extend IoT underwater, we typically need a mix of technologies -- cabled links where possible, radio frequency (RF) wireless links above water, and mid-to-long range wireless acoustic or short-range wireless optical links underwater. A "Unet" network (which we will simply call _Unet_ henceforth) consists of a collection of nodes that communicate over various types of links as shown in <<fig_network>>.
+Most wireless technologies today rely on electromagnetic waves that don't propagate well underwater. Therefore, to extend IoT underwater, we typically need a mix of technologies -- cabled links where possible, otherwise radio frequency (RF) wireless links above water, and mid-to-long range wireless acoustic or short-range wireless optical links underwater. A "Unet" network (which we will simply call _Unet_ henceforth) consists of several nodes (underwater, on the surface of water, or above water) that communicate over various types of links, as shown in <<fig_network>>.
 
 [[fig_network]]
-.Typical "Unet" network
+.A typical Unet consists of static and mobile nodes, both underwater and in air, with bidirectional acoustic, optical, electromagnetic and cabled links connecting pairs of nodes.
 image::network.png[]
 
-A Unet consists of many _Unet nodes_ (e.g. underwater sensor nodes, Autonomous Underwater Vehicles (AUVs), gateway bouys, ground stations, boats/ships, etc) that generate, consume or relay data over a variety of links:
+A Unet consists of many _Unet nodes_ (e.g. underwater sensor nodes, Autonomous Underwater Vehicles (AUVs), gateway buoys, ground stations, boats/ships) that generate, consume or relay data over a variety of links:
 
 * *Acoustic links* are typically used for mid-to-long range communication underwater. These links usually offer low data rates and long propagation delay due to the slow speed of sound in water (as compared to EM waves).
 * *Optical links* are used for short range high data rate communications in water.
@@ -20,41 +20,38 @@ A Unet consists of many _Unet nodes_ (e.g. underwater sensor nodes, Autonomous U
 * *Wired links* (Ethernet, serial, fiber optic) are used for long-term static deployments underwater, or over short distances where cabling is feasible.
 * In some cases, nodes are retreived and data is transferred from them to other nodes in the network on a regular basis, using physical media (e.g. USB drives, SD cards, etc). These links usually offer very high data rates, but are only available intermittently. We dub such links as *Sneakernet links*.
 
+A link is simply a logical connection between two nodes, often provided by equipping both the nodes with modems. We summarize various types of links in <<table_links>>.
+
+[[table_links]]
+.Various types of links in a typical Unet, and their characteristics.
+[options="header", cols="<d,^d,^d,^d"]
+|===
+| Link type                            | Communication range^#^ | Data rate^#^ | Latency
+| High-frequency acoustic (underwater) | Short                  | Medium       | milliseconds
+| Mid-frequency acoustic (underwater)  | Medium                 | Low          | seconds
+| Low-frequency acoustic (underwater)  | Long                   | Very low     | seconds
+| Optical (underwater)                 | Very short             | High         | negligible
+| RF (in air)                          | Medium                 | Medium       | negligible
+| GSM (in air, near shore)             | Medium                 | Medium       | low
+| Satellite (in air)                   | Long                   | Low          | milliseconds
+| Wired/cabled                         | Long (expensive)       | High         | negligible
+| Sneakernet                           | Long                   | Very high    | hours/days
+4+| ^#^Communication range and data rate vary substantially across devices and environments. Short range usually is in tens of meters, medium range is several km, and long range is typically tens of km. Low data rates are in hundreds of bps, medium data rates are in kbps, and high data rates are in Mbps.
+|===
+
 === UnetStack
 
-All of the Unet nodes are equipped with one or more network interfaces that allow communication over some of these links. For example, to communicate over an underwater acoustic link, we need an _underwater acoustic modem_. For an underwater optical link, we use an _underwater optical modem_. Most RF, GSM, satellite or wired links would be accessed over a standard TCP/IP network interface. In all cases, each Unet node would run the _UnetStack_ software that allows us to effectively communicate over all of these types of links using a common Application Programming Interface (API). UnetStack API bindings are available for several languages including Java, Groovy, Python, Julia, C, Javascript, etc.
-
-In the next few chapters, we will learn how to use UnetStack and how to customize it to meet our networking needs. In some cases, it may be necessary to prototype and simulate a Unet before it is actually implemented. We will also learn how to do this using the Unet simulator.
-
-=== Components and editions
+Unet nodes are equipped with one or more network interfaces that allow communication over some of these links. For example, to communicate over an underwater acoustic link, we need an _underwater acoustic modem_. For an underwater optical link, we use an _underwater optical modem_. Most RF, GSM, satellite or wired links would be accessed over a standard TCP/IP network interface. In all cases, each Unet node would run the _UnetStack_ software that allows us to effectively communicate over all of these types of links using a common Application Programming Interface (API). UnetStack API bindings are available for several languages including Java, Groovy, Python, Julia, C, Javascript, etc.
 
 UnetStack has a several components:
 
 * The *Unet framework* provides the core services, messages, agents and APIs needed by UnetStack.
 * The *Unet basic stack* is a collection of agents providing services and functionality required by typical Unets. These agents, together with the Unet framework, are sufficient to build fully functional Unets.
-* The *Unet premium stack* is a collection of agents that provide advanced functionality and/or higher performance. Many of the premium agents provide similar services as the basic ones, but used advanced techniques for better performance and bandwidth efficiency.
-* The *Unet simulator* is able to simulate Unets with many nodes on a single computer. It can run in _realtime simulation mode_ for interactive testing of agents and protocols, working to provide the user with the same user experience as in a real Unet. It can also be run in _discrete event simulation mode_ to perform large number of simulations in a short time, allowing Monte Carlo testing and performance evaluation of network protocols.
+* The *Unet premium stack* is a collection of agents providing advanced functionality and/or higher performance. Many of the premium agents provide similar services as the basic ones, but used advanced techniques for better performance and bandwidth efficiency.
+* The *Unet simulator* is able to simulate Unets with many nodes on a single computer. It can run in _realtime simulation mode_ for interactive testing of agents and protocols, working to provide the user with the same user experience as in a real Unet. It can also be run in _discrete event simulation mode_ to perform a large number of simulations in a short time, allowing Monte Carlo testing and performance evaluation of network protocols.
 * The *Unet IDE* is an integrated development environment (IDE) for developers to develop, simulate and test Unet agents and protocols. It also enables the developer to visualize and interact with simulated networks.
 * *Unet audio* is a sound card based realtime software defined open architecture acoustic modem (SDOAM) that runs on desktop, laptop or single-board computers, and can be used to build and test simple Unets. It is a great tool for not only developing and testing network protocols, but also developing acoustic communication techniques.
 
-The components are packaged into various editions:
+The components are packaged into various {url-editions}[editions]. The *community edition* is {url-downloads}[downloadable] free of charge for educational and research purposes. It has all the components required to develop, simulate, test and deploy Unets. The commercial and OEM editions package offer advanced functionality, better performance and tighter integration with vendor-specific hardware.
 
-[[table_editions]]
-[options="header", cols="<d,^d,^d,^d"]
-|===
-| Component           | Community Edition | Commercial Edition | OEM edition
-| Unet framework      | ✔︎                 | ✔︎                  | ✔︎
-| Unet basic stack    | ✔︎                 | ✔︎                  | ✔︎
-| Unet premium stack  | ✘                 | Optional           | Optional
-| Unet simulator      | ✔︎                 | ✔︎                  | ✘
-| Unet IDE            | ✔︎                 | ✔︎                  | ✔︎
-| Unet audio          | Basic             | ✔︎                  | Optional
-|===
-
-The *community edition* is {url-downloads}[downloadable] free of charge for educational and research purposes. It has all the components required to develop, simulate, test and deploy Unets. Commercial use of UnetStack requires purchase of the *commercial edition*. The *OEM edition* is used by modem manufacturers who bundle it as part of their modems.
-
-TIP: Although the community edition only ships with the Unet audio modem, modem drivers can be developed for 3rd party modems for research and educational purposes.
-
-The Unet premium stack is optionally available in the commercial and OEM editions, providing advanced functionality and/or performance based on the application. The Unet audio functionlity in the community edition is limited to FH-BFSK modulation, basic recevier algorithms, and convolution error control codes only. For the OEM edition, the Unet audio functionality includes advanced modulation schemes (e.g. OFDM), more powerful receiver algorithms, and stronger error control codes (e.g. LDPC). Unet audio can also be customized to use the modem hardware instead of a generic sound card.
-
-NOTE: In this handbook, we mostly assume and demonstrate the use of UnetStack community edition. When we illustrate features from the Unet premium stack in certain sections of the handbook, we specifically highlight their availability in only the commercial and OEM versions.
+In the next few chapters, we will learn how to use UnetStack and how to customize it to meet our networking needs. In some cases, it may be necessary to prototype and simulate a Unet before it is actually implemented. We will also learn how to do this using the Unet simulator.

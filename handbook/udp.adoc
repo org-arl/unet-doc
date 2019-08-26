@@ -1,1 +1,4 @@
 == Leveraging UDP to connect to the Internet
+
+The networks we explored in the last few chapters were completely underwater. All links were underwater acoustic links. If we wanted to replace some of the acoustic links with underwater optical or RF links, or even through-the-air cellular, WiFi or RF links, that could easily be done, as long as you had a modem driver (a specific type of agent) that supported the device that provided the link. Cellular, WiFi and other devices often already have TCP/IP network stacks running on them, to provide seamless connectivity to the Internet. UnetStack can leverage the existing network stack in these devices without having to develop new modem drivers, by translating Unet datagrams to UDP/IP datagrams, tunneling them through the IP network, and translating them back to Unet datagrams at the other end.
+

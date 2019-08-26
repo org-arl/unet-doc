@@ -10,3 +10,8 @@ Don't forget:
   ☐ fjage Gateways for each language
   ☐ Why does channel.dataRate differ from phy[].dataRate?
   ☐ JANUS
+
+Things to include:
+
+  ☐ Baseband
+  ☐ Unet audio

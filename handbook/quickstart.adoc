@@ -1,6 +1,6 @@
 == Getting started
 
-In this chapter, we will learn how to set up a simple 2-node underwater network with an acoustic link. If you already own a couple of UnetStack-compatible acoustic modems, we can certainly use them! And we'll show you how to do that in <<Using acoustic modems>>. But let us first start with a simulated 2-node underwater network, as all you need for this is a computer and the Unet simulator.
+In this chapter, we will learn how to set up a simple 2-node underwater network with an acoustic link. If you already own a couple of UnetStack-compatible acoustic modems, we can certainly use them! And we'll show you how to do that in <<Using acoustic modems>>. But let us first start with a simulated 2-node underwater network, since all you need for this is a computer and the Unet simulator.
 
 === Setting up a simple simulated network
 
@@ -109,13 +109,15 @@ Node B will receive the bytes as a `RxFrameNtf` message. You can check the data 
 ----
 RxFrameNtf:INFORM[type:DATA from:232 rxTime:4134355059 (6 bytes)]
 > rx.data
-[104, 101, 108, 108, 111, 33]
-> new String(rx.data)
+[104, 101, 108, 108, 111, 33]    #<1>
+> new String(rx.data)            #<2>
 hello!
 > s.close()
 ----
+<1> These are the bytes representing the ASCII characters ['h', 'e', 'l', 'l', 'o', '!'].
+<2> This puts together the ASCII characters in the byte array into a String.
 
-TIP: While we demonstrated the use of the `UnetSocket` API in Groovy on the command shell, the same commands work in a Groovy script or application, with one minor modification. When the socket is opened, we will have to specify the connection details (such as IP address and API port number) of the modem (or simulated modem) to connect to. For example: `s = new UnetSocket('localhost', 1101)`.
+TIP: While we demonstrated the use of the `UnetSocket` API in Groovy on the command shell, the same commands work in a Groovy script or application, with one minor modification. When the socket is opened, we will have to specify the connection details (such as host name or IP address, and the API port number) of the modem (or simulated modem) to connect to. For example, if UnetStack is running on `localhost` at port number 1101, you can connect to it using: `s = new UnetSocket('localhost', 1101);`
 
 === Sending & receiving from a Python application
 
@@ -146,7 +148,7 @@ s.send(b'hello!', 0)                            #<2>
 s.close()
 ----
 <1> Connect to node A (`localhost` API port 1101).
-<2> Broadcast a 6-byte datagram containing ASCII 'hello!'.
+<2> Broadcast a 6-byte datagram. In Python, `b'hello!'` represents the byte string containing the 6 ASCII characters for 'hello!'. Address 0 is the broadcast address.
 
 .`rx.py`
 [source, python]
@@ -155,25 +157,25 @@ from unetpy import UnetSocket
 
 s = UnetSocket('localhost', 1102)              #<1>
 rx = s.receive()                               #<2>
-print('from', rx.from, ':', str(rx.data))
+print('from node', rx.from, ':', str(rx.data))
 s.close()
 ----
 <1> Connect to node B (`localhost` API port 1102). Change the `localhost` to the modem B's IP address and port 1102 to port 1100, if you are working with a modem.
-<2> Blocking `receive()` will only return when a datagram is received or socket is closed.
+<2> Blocking `receive()` will only return when a datagram is received or the socket is closed. If a datagram is received, `rx` will contain the notification message with the details of the datagram.
 
 First run `python rx.py` to start reception. Then, on a separate terminal window, run `python tx.py` to initiate transmission. You should see the received datagram printed by the `rx.py` script:
 
 [source, console]
 ----
 $ python rx.py
-from 1 : Hello!
+from node 1 : Hello!
 ----
 
 TIP: Once we are done with our testing, it is time to shutdown the simulation. You can do that by pressing `Ctrl-C` on the terminal where you started the simulator. Alternatively, you can go to the shell of one of the nodes, and type: `shutdown`.
 
 === Using acoustic modems
 
-If you have two UnetStack compatible acoustic modems, we can use them to set up a simple 2-node network. Put them in a water body (tank, bucket, lake, sea, ...), power them on, and connect each to a computer over Ethernet. The setup would look something like this:
+If you have two UnetStack-compatible acoustic modems, we can use them to set up a simple 2-node network. Put them in a water body (tank, bucket, lake, sea, ...), power them on, and connect each to a computer over Ethernet. The setup would look something like this:
 
 .Two-node acoustic underwater network
 image::bucket.png[width=500,height=400,align=center]

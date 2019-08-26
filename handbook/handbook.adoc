@@ -13,6 +13,7 @@ v0.1
 :xrefstyle: short
 :source-highlighter: rouge
 :url-unetstack: https://www.unetstack.net
+:url-editions: https://www.unetstack.net/editions.html
 :url-downloads: https://www.unetstack.net/downloads.html
 :url-fjage: https://github.com/org-arl/fjage
 :url-groovy: https://groovy-lang.org
@@ -24,15 +25,25 @@ v0.1
 [preface]
 = Preface
 
-Over the past few decades, communication technology has percolated into every aspect of our lives, and we have come to take it for granted. Most of the communication technology we use relies on electromagnetic waves (radio waves, visible light, etc) that get rapidly absorbed by water. Hence the technology is ineffective for underwater communication, except at very short distances or extremely low data rates. Most underwater communication systems today use acoustic waves, which can travel long distances in the right conditions. At short distances in clear waters, optical communication systems are sometimes used for high speed communications.
-
-The **Unet project** strives to develop technologies that allow us to build communication networks that extend underwater, be it via acoustic, optical, or even wired links. Some nodes in such networks may be above water, while others underwater. In this handbook, we explore how to build such networks using **UnetStack3**, an agent-based network technology that was developed in the Unet project.
-
 ifdef::backend-html5[]
 ****
 TIP: You can download a {url-pdf}[PDF version] of this handbook for offline reading, if you prefer.
 ****
 endif::backend-html5[]
+
+=== What is this book about?
+
+About 71% of Earth's surface is covered with water, and about 97% of the water is in our oceans. Although the ocean plays a critical role in everything from the air we breathe to daily weather and climate patterns, we know very little about it. To really understand our oceans, we need a way to sense and observe the numerous complex processes that drive the ocean environment, and to report the data collected back to our data centers. While cabled ocean observatories have been established in a few locations, they are too expensive to setup and maintain for large scale data collection across the vast oceans.
+
+Over the past few decades, wireless communication technology has percolated into every aspect of our lives, and we have come to take it for granted. This technology forms the bedrock of wireless sensor networks, allowing us to gather data with ease. Most of the wireless communication technology we use relies on electromagnetic waves (e.g. radio waves, visible light) that get rapidly absorbed by water. Hence the technology is ineffective for underwater communication, except at very short distances or extremely low data rates. Most underwater communication systems today use acoustic waves, which can travel long distances in the right conditions. At short distances in clear waters, optical communication systems are sometimes used for high speed communications. Although these communication technologies can be leveraged to establish point-to-point communication links, these links do not integrate well with networking technology available today.
+
+The **Unet project** strives to develop technologies that allow us to build communication networks that extend underwater, be it via acoustic, optical, or even wired links. Some nodes in such networks may be above water, while others are underwater. In this handbook, we explore how to build such networks using **UnetStack3**, an agent-based network technology that was developed in the Unet project.
+
+=== Who is this book for?
+
+This book is intended for readers interested in deploying networks that extend underwater, or developing technology or protocols for use in underwater networks. Part I of the book provides an overview, and is recommended for all readers. Part II is aimed at readers who wish to deploy and maintain networks that extend underwater. Part III is aimed at application developers and software engineers who wish to integrate with UnetStack-based networks. Parts IV and V dive deeper into UnetStack, and are intended for researchers and engineers who wish to develop, simulate and test novel underwater networking protocols.
+
+The book assumes that readers have a basic understanding of traditional networking technology. While expert software development skills are not required to benefit from this book, familiarity with scripting or programming is essential. Readers with knowledge of Java, Groovy and/or Python will find it easy to follow the examples in the text, but even readers without prior knowledge of these languages should be able to pick up necessary skills along the way.
 
 // chapters
 
@@ -44,7 +55,7 @@ include::quickstart.adoc[]
 
 include::unetstack.adoc[]
 
-= *Part II: Building underwater networks*
+= *Part II: Setting up underwater networks*
 
 include::unet.adoc[]
 
@@ -53,10 +64,6 @@ include::smallnet.adoc[]
 include::routing.adoc[]
 
 include::udp.adoc[]
-
-= *Part III: Tour of UnetStack services*
-
-include::services.adoc[]
 
 = *Part III: Building Unet applications*
 
@@ -70,6 +77,7 @@ include::agents.adoc[]
 == UnetStack shell extensions
 
 = *Part V: Simulating underwater networks*
+
 == Writing simulation scripts
 
 // appedices

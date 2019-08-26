@@ -1,0 +1,21 @@
+The components are packaged into various editions:
+
+[[table_editions]]
+[options="header", cols="<d,^d,^d,^d"]
+|===
+| Component           | Community Edition | Commercial Edition | OEM edition
+| Unet framework      | ✔︎                 | ✔︎                  | ✔︎
+| Unet basic stack    | ✔︎                 | ✔︎                  | ✔︎
+| Unet premium stack  | ✘                 | Optional           | Optional
+| Unet simulator      | ✔︎                 | ✔︎                  | ✘
+| Unet IDE            | ✔︎                 | ✔︎                  | ✔︎
+| Unet audio          | Basic             | ✔︎                  | Optional
+|===
+
+The *community edition* is {url-downloads}[downloadable] free of charge for educational and research purposes. It has all the components required to develop, simulate, test and deploy Unets. Commercial use of UnetStack requires purchase of the *commercial edition*. The *OEM edition* is used by modem manufacturers who bundle it as part of their modems.
+
+TIP: Although the community edition only ships with the Unet audio modem, modem drivers can be developed for 3rd party modems for research and educational purposes.
+
+The Unet premium stack is optionally available in the commercial and OEM editions, providing advanced functionality and/or performance based on the application. The Unet audio functionlity in the community edition is limited to FH-BFSK modulation, basic recevier algorithms, and convolution error control codes only. For the OEM edition, the Unet audio functionality includes advanced modulation schemes (e.g. OFDM), more powerful receiver algorithms, and stronger error control codes (e.g. LDPC). Unet audio can also be customized to use the modem hardware instead of a generic sound card.
+
+NOTE: In this handbook, we mostly assume and demonstrate the use of UnetStack community edition. When we illustrate features from the Unet premium stack in certain sections of the handbook, we specifically highlight their availability in only the commercial and OEM versions.
