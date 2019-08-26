@@ -69,16 +69,29 @@ include::udp.adoc[]
 
 include::socket.adoc[]
 
+== Python, Julia, C and Javascript
+== Using the UDP portal
+== Using the TCP and serial portal
+== Understanding the PHYSICAL service
+== Working with the JANUS standard
+== Arbitrary waveforms and the BASEBAND service
+== Legacy systems and AT commands
+
 = *Part IV: Extending UnetStack*
 
 include::agents.adoc[]
 
+== Medium access control (MAC)
 == Integrating with sensors
 == UnetStack shell extensions
 
 = *Part V: Simulating underwater networks*
 
 == Writing simulation scripts
+== Modems and channel models
+// TODO: explain why channel.dataRate differs from phy[].dataRate
+== Developing your own channel models
+== Node mobility
 
 // appedices
 
