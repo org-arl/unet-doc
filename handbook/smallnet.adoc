@@ -111,6 +111,8 @@ Response from 74: seq=2 rthops=2 time=2742 ms
 
 Looks good too!
 
+NOTE: In this simulation, everything checks out nicely. But, in the real world, there may be packet loss to contend with. We will see how to handle those in later chapters.
+
 We can also check cross-check that the routes from node A to nodes B and C are direct:
 
 .`Node A`
@@ -124,7 +126,7 @@ We can also check cross-check that the routes from node A to nodes B and C are d
 
 The first trace shows that the datagram originated at node A (address 232), reached node B (address 31), and was sent back to node A. The second trace similarly went from node A to node C (address 74) and back. No hops in between, since our network is fully connected.
 
-We can also make range measurements between the nodes:
+We can also make range measurements (in meters) between the nodes:
 
 .`Node A`
 [source, console]
@@ -150,7 +152,7 @@ We can also make range measurements between the nodes:
 
 === Sending messages
 
-Once we have connectivity, we can of course send messages form the shell:
+Once we have connectivity, we can of course send messages from the shell:
 
 .`Node A`
 [source, console]
@@ -167,11 +169,11 @@ and we see the message on node B:
 [232]: hello!
 ----
 
-We have already seen in <<Getting started>> and <<Protocol numbers>> on how to send messages using the UnetSocket API from the shell, as well as from external applications. Hence we won't dwell much on it here.
+We have already seen in <<Getting started>> and <<Protocol numbers>> on how to send messages using the UnetSocket API from the shell, as well as from external applications. Hence we won't dwell on it here.
 
 === File transfer and remote access
 
-File transfers and remote access is disabled by default. Let us enable this on node B:
+Data is often stored in files. Transferring files between nodes is a common requirement. File transfers and remote access is disabled by default. Let us enable this on node B:
 
 .`Node B`
 [source, console]
@@ -287,12 +289,12 @@ Local coordinates:: We wish to work in a local coordinate system, with only rela
 Georeferenced local coordinates:: We wish to work in a local coordinate system, with relative node locations specified in local coordinates. The GPS coordinate of the origin of the local coordinate system is specified.
 GPS coordinates:: We wish to specify the GPS location of each node, without defining a local coordinate system.
 
-When node locations are not accruately known, we can opt not to define any coordinate system. Local coordinate systems are preferred in applications where such a coordinate system can be agreed upon for the entire network. Range computation and localization is easier to do in local coordinates. GPS coordinates are used when node location is important, but a local coordinate system cannot be easily defined (e.g. ad hoc network with no prior knowledge of area of operation).
+When node locations are not accurately known, we can opt not to define any coordinate system. Local coordinate systems are preferred in applications where such a coordinate system can be agreed upon for the entire network. Range computation and localization is easier to do in local coordinates. GPS coordinates are used when node location is important, but a local coordinate system cannot be easily defined (e.g. ad hoc network with no prior knowledge of area of operation).
 
 UnetStack supports all 4 options through a set of simple conventions:
 
 No coordinates:: `node.origin = []`, `node.location = []` for all nodes.
-Local coordinates:: `node.origin = [Float.NaN, Float.NaN]` for all nodes. `node.location = [x, y, z]` is specified as a 3-tuple in meters. The _z_ axis points downwards (with sealevel being considered 0 m), but the _x_ and _y_ axis are arbitrarily chosen.
+Local coordinates:: `node.origin = [Float.NaN, Float.NaN]` for all nodes. `node.location = [x, y, z]` is specified as a 3-tuple in meters. The _z_ axis points downwards (with sealevel being considered 0 m), but the _x_ and _y_ axes are arbitrarily chosen.
 Georeferenced local coordinates:: `node.origin = [latitude, longitude]` for all nodes, with latitude and longitude being the commonly agreed origin location. `node.location = [x, y, z]` is specified as a 3-tuple in meters. The _x_ axis points east, _y_ axis points north, and the _z_ axis points downwards (with sealevel being considered 0 m).
 GPS coordinates:: `node.origin = []` for all nodes, and `node.location = [latitude, longitude, z]` where the _z_ axis points downwards (with sealevel being considered 0 m).
 

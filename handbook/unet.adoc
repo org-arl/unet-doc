@@ -1,12 +1,12 @@
 == Unet basics
 
-Now that we have a basic understanding of how UnetStack works, it is time to take a deeper dive into setting up and configuring underwater networks, or simply _Unets_.
+Now that we have a basic understanding of how UnetStack works, it is time to take the next step into setting up and configuring underwater networks, or simply _Unets_.
 
 === Node names and addresses
 
 Unet nodes are identified by unique addresses within the Unet. Small Unets might use 8-bit addresses, supporting up to 255 different nodes. Larger Unets might use 16-bit addresses, supporting up to 65535 different nodes in the network. The address space is controlled by the parameter `node.addressSize`, and must be set to the same value (either 8 or 16) on all nodes in a Unet.
 
-NOTE: The code examples in this chapter assume that you have a simulated Unet (the 2-node-network simulation from <<Getting started>>) running, and you're connected to the shell of one of the nodes. However, if you have access to modems, you may choose to work along with a real Unet and connect to the shell of one of the modem nodes.
+NOTE: The code examples in this chapter assume that you have a simulated Unet (the 2-node-network simulation from <<Getting started>>) running, and you're connected to the shell of one of the nodes. However, if you have access to modems, you may choose to use the real Unet and connect to the shell of one of the modem nodes.
 
 To check the current address size on your node:
 
@@ -25,7 +25,7 @@ To check the current address size on your node:
   origin = [NaN, NaN]
 ----
 
-Some node parameters have been suppressed in the above listing for brevity.
+Some node parameters have not been shown in the above listing for brevity.
 
 Address 0 is a broadcast address. All other addresses may be assigned to nodes in a Unet. Each Unet node is also associated with a node name (`node.nodeName`). If a node name is not explicity set, it defaults to the string representation of the node address. Descriptive node names may be used, if desired:
 
@@ -72,7 +72,7 @@ sensor_ctd1: 14
 
 === Protocol numbers
 
-Datagrams represent packets of data sent between nodes. Each datagram is associated with a protocol number that identifies the consumer on the destination node that the datagram is intended for. Protocols can be thought of as _port numbers_ in TCP/IP or UDP/IP.
+Datagrams represent packets of data sent between nodes. Each node may have multiple agents and applications running on it, and so we need a way to specify which application the datagram is meant for. To aid with this, each datagram is associated with a protocol number that identifies the consumer on the destination node that the datagram is intended for. Protocols can be thought of as _port numbers_ in TCP/IP or UDP/IP.
 
 The consumer may be an agent or an end-user application. Protocol number 0 (`Protocol.DATA`) is used for generic application data. Protocol numbers from 1 to `Protocol.USER-1` (31) are reserved for use by default stack agents. Protocol numbers from `Protocol.USER` (32) to `Protocol.MAX` (63) are available for end-user applications to use.
 

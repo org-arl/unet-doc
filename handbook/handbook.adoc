@@ -39,7 +39,7 @@ Over the past few decades, wireless communication technology has percolated into
 
 The **Unet project** strives to develop technologies that allow us to build communication networks that extend underwater, be it via acoustic, optical, or even wired links. Some nodes in such networks may be above water, while others are underwater. In this handbook, we explore how to build such networks using **UnetStack3**, an agent-based network technology that was developed in the Unet project.
 
-=== Who is this book for?
+=== Who should read this book?
 
 This book is intended for readers interested in deploying networks that extend underwater, or developing technology or protocols for use in underwater networks. Part I of the book provides an overview, and is recommended for all readers. Part II is aimed at readers who wish to deploy and maintain networks that extend underwater. Part III is aimed at application developers and software engineers who wish to integrate with UnetStack-based networks. Parts IV and V dive deeper into UnetStack, and are intended for researchers and engineers who wish to develop, simulate and test novel underwater networking protocols.
 

@@ -160,7 +160,7 @@ rx = s.receive()                         #<2>
 print('from node', rx.from, ':', str(rx.data))
 s.close()
 ----
-<1> Connect to node B (`localhost` API port 1102). Change the `localhost` to the modem B's IP address and port 1102 to port 1100, if you are working with a modem.
+<1> Connect to node B (`localhost` API port 1102). Change the `localhost` to modem B's IP address and port 1102 to port 1100, if you are working with a modem.
 <2> Blocking `receive()` will only return when a datagram is received or the socket is closed. If a datagram is received, `rx` will contain the notification message with the details of the datagram.
 
 First run `python rx.py` to start reception. Then, on a separate terminal window, run `python tx.py` to initiate transmission. You should see the received datagram printed by the `rx.py` script:
@@ -175,7 +175,7 @@ TIP: Once you are done with your testing, it is time to shutdown the simulation.
 
 === Using acoustic modems
 
-If you have two UnetStack-compatible acoustic modems, you can use them to set up a simple 2-node network. Put them in a water body (tank, bucket, lake, sea, ...), power them on, and connect each to a computer over Ethernet. The setup would look something like this:
+So far, we have worked with a simulator. While the experience is similar, it is not exactly the same. There is no real substitute for working with real modems. If you happen to have two UnetStack-compatible acoustic modems, you can use them to set up a simple 2-node network. Put them in a water body (tank, bucket, lake, sea, ...), power them on, and connect each to a computer over Ethernet. The setup would look something like this:
 
 .Two-node acoustic underwater network
 image::bucket.png[width=500,height=400,align=center]
@@ -254,7 +254,7 @@ phy >> TxFrameNtf:INFORM[txTime:4104441] #<2>
 <1> Request transmission of a continuous wave (cw) signal of 10 kHz and 0.5 seconds duration.
 <2> Notification that the signal was successfully transmitted.
 
-You should hear a 0.5 second 12 kHz tone from your computer speaker. The `bbtx` command requests transmission of a baseband signal. The signal is represented as a floating point array with alternate real and imaginary components. The function `cw()` generates such a signal based on the specified frequency and duration.
+You should hear a 0.5 second 10 kHz tone from your computer speaker. The `bbtx` command requests transmission of a baseband signal. The signal is represented as a floating point array with alternate real and imaginary components. The function `cw()` generates such a signal based on the specified frequency and duration.
 
 To generate the baseband representation of the signal you wish to transmit, you will need to know the carrier frequency and the baseband sampling rate of the modem:
 

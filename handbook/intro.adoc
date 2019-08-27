@@ -30,12 +30,12 @@ A link is simply a logical connection between two nodes, often provided by equip
 | High-frequency acoustic (underwater) | Short                  | Medium       | milliseconds
 | Mid-frequency acoustic (underwater)  | Medium                 | Low          | seconds
 | Low-frequency acoustic (underwater)  | Long                   | Very low     | seconds
-| Optical (underwater)                 | Very short             | High         | negligible
-| RF (in air)                          | Medium                 | Medium       | negligible
-| GSM (in air, near shore)             | Medium                 | Medium       | low
+| Optical (underwater)                 | Very short             | High         | Negligible
+| RF (in air)                          | Medium                 | Medium       | Negligible
+| GSM (in air, near shore)             | Medium                 | Medium       | milliseconds
 | Satellite (in air)                   | Long                   | Low          | milliseconds
-| Wired/cabled                         | Long (expensive)       | High         | negligible
-| Sneakernet                           | Long                   | Very high    | hours/days
+| Wired/cabled                         | Long (expensive)       | High         | Negligible
+| Sneakernet                           | Long (intermittent)    | Very high    | hours or days
 4+| ^#^Communication range and data rate vary substantially across devices and environments. Short range usually is in tens of meters, medium range is several km, and long range is typically tens of km. Low data rates are in hundreds of bps, medium data rates are in kbps, and high data rates are in Mbps.
 |===
 
@@ -54,4 +54,4 @@ UnetStack has a several components:
 
 The components are packaged into various {url-editions}[editions]. The *community edition* is {url-downloads}[downloadable] free of charge for educational and research purposes. It has all the components required to develop, simulate, test and deploy Unets. The commercial and OEM editions package offer advanced functionality, better performance and tighter integration with vendor-specific hardware.
 
-In the next few chapters, we will learn how to use UnetStack and how to customize it to meet our networking needs. In some cases, it may be necessary to prototype and simulate a Unet before it is actually implemented. We will also learn how to do this using the Unet simulator.
+In the next few chapters, we will learn how to use UnetStack and how to customize it to meet our networking needs. In some cases, it may be necessary to prototype and simulate a Unet before it is actually implemented. We will also learn how to do that using the Unet simulator.
