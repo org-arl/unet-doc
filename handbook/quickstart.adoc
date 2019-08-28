@@ -254,7 +254,7 @@ phy >> TxFrameNtf:INFORM[txTime:4104441] #<2>
 <1> Request transmission of a continuous wave (cw) signal of 10 kHz and 0.5 seconds duration.
 <2> Notification that the signal was successfully transmitted.
 
-You should hear a 0.5 second 10 kHz tone from your computer speaker. The `bbtx` command requests transmission of a baseband signal. The signal is represented as a floating point array with alternate real and imaginary components. The function `cw()` generates such a signal based on the specified frequency and duration.
+You should hear a 0.5 second 10 kHz tone from your computer speaker. The `bbtx` command requests transmission of a baseband signal. The function `cw()` generates such a signal based on the specified frequency and duration.
 
 To generate the baseband representation of the signal you wish to transmit, you will need to know the carrier frequency and the baseband sampling rate of the modem:
 
@@ -267,6 +267,8 @@ To generate the baseband representation of the signal you wish to transmit, you 
 ----
 
 For the unet audio SDOAM, the carrier frequency is 12 kHz and the baseband sampling rate is 12 kSa/s.
+
+TIP: The baseband signal is represented as a floating point array with alternate real and imaginary components in Java/Groovy. For languages that support complex numbers (e.g. Python, Julia), the signal is simply an array of complex numbers.
 
 You can equally easily ask the SDOAM to make an acoustic recording for you:
 

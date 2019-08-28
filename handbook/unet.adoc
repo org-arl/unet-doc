@@ -72,7 +72,7 @@ sensor_ctd1: 14
 
 === Protocol numbers
 
-Datagrams represent packets of data sent between nodes. Each node may have multiple agents and applications running on it, and so we need a way to specify which application the datagram is meant for. To aid with this, each datagram is associated with a protocol number that identifies the consumer on the destination node that the datagram is intended for. Protocols can be thought of as _port numbers_ in TCP/IP or UDP/IP.
+Datagrams represent packets of data sent between nodes. Each node may have multiple agents and applications running on it, and so we need a way to specify which application the datagram is meant for. To aid with this, each datagram is associated with a protocol number that identifies the consumer on the destination node that the datagram is intended for. The consumer may be an agent or an end-user application. Protocol numbers can be thought of as port numbers in TCP/IP or UDP/IP.
 
 The consumer may be an agent or an end-user application. Protocol number 0 (`Protocol.DATA`) is used for generic application data. Protocol numbers from 1 to `Protocol.USER-1` (31) are reserved for use by default stack agents. Protocol numbers from `Protocol.USER` (32) to `Protocol.MAX` (63) are available for end-user applications to use.
 

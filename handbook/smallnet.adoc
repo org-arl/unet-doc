@@ -22,6 +22,8 @@ Node B: tcp://localhost:1102, http://localhost:8082/
 Node C: tcp://localhost:1103, http://localhost:8083/
 ----
 
+TIP: The port numbers you see in the examples above aren't particularly special. They are simply whatever were chosen by the developer of the simulation, and can be found in the `netq-network.groovy` script. The only restriction on the choice is that placed by the OS -- usually port numbers below 1024 are _reserved_ and unavailable to users. Of course, they must also be unique and unused by other applications running on your computer.
+
 === Node names & addresses
 
 We start off by checking the configuration of each node:

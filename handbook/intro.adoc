@@ -45,7 +45,7 @@ Unet nodes are equipped with one or more network interfaces that allow communica
 
 UnetStack has a several components:
 
-* The *Unet framework* provides the core services, messages, agents and APIs needed by UnetStack.
+* The *Unet framework* provides core services, messages, agents and APIs needed by UnetStack.
 * The *Unet basic stack* is a collection of agents providing services and functionality required by typical Unets. These agents, together with the Unet framework, are sufficient to build fully functional Unets.
 * The *Unet premium stack* is a collection of agents providing advanced functionality and/or higher performance. Many of the premium agents provide similar services as the basic ones, but used advanced techniques for better performance and bandwidth efficiency.
 * The *Unet simulator* is able to simulate Unets with many nodes on a single computer. It can run in _realtime simulation mode_ for interactive testing of agents and protocols, working to provide the user with the same user experience as in a real Unet. It can also be run in _discrete event simulation mode_ to perform a large number of simulations in a short time, allowing Monte Carlo testing and performance evaluation of network protocols.

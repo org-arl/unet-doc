@@ -2,7 +2,7 @@
 
 === MISSION 2013 network
 
-The MISSION 2013 experiment in Singapore featured a 7-node network that was deployed at sea (see <<fig_m13_map>>) for several weeks. The network operated in a challenging area with complex 3D bathymetry, several reefs and plenty of shipping. During the experiment, we transmitted more than 40000 frames of data and collected statistics on communication performance across various links in the network. These performance statistics are embedded in the `Mission2013a` channel model in UnetStack. We use a simulated version of the MISSION 2013 network to learn how to set up and operate larger networks that require routing.
+The MISSION 2013 experiment in Singapore featured a 7-node network that was deployed at sea (see <<fig_m13_map>>) for several weeks. The network operated in a challenging area with complex 3D bathymetry, several reefs and heavy shipping. During the experiment, we transmitted more than 40000 frames of data and collected statistics on communication performance across various links in the network. These performance statistics are embedded in the `Mission2013a` channel model in UnetStack. We use a simulated version of the MISSION 2013 network to learn how to set up and operate larger networks that require routing.
 
 [[fig_m13_map]]
 .MISSION 2013 network
@@ -25,7 +25,7 @@ Node 31: tcp://localhost:1131, http://localhost:8031/
 Node 34: tcp://localhost:1134, http://localhost:8034/
 ----
 
-While the MISSION 2013 network is not physically very large (only about 1.5 km across), the challenging environment ensured that the network was not fully connected, i.e., not all nodes could directly communicate with all others. The average frame delivery ratio on each link is shown in <<tab_m13_fdr>>. The link quality is also shown on the map in <<fig_m13_map>>, with dark blue links being the good ones, light blue ones being the weak ones, and brownish one being the very poor link.
+While the MISSION 2013 network is not physically very large (only about 1.5 km across), the challenging environment kept the network from being fully connected, i.e., not all nodes could directly communicate with all others. The average frame delivery ratio (number of successfully delivered frames / number of transmitted frames) on each link is shown in <<tab_m13_fdr>>. The link quality is also shown on the map in <<fig_m13_map>>, with dark blue links being the good ones, dark green ones being the weak ones, and brownish one being the very poor link.
 
 [[tab_m13_fdr]]
 .Average frame delivery ratio for MISSION 2013 network
@@ -180,7 +180,7 @@ AGREE
 
 As you can see from <<tab_m13_fdr>>, the connectivity between nodes 31 and 34 is poor in this simulated network. You may need to try this command several times before you get a range estimate. When the ranging fails, you should see the message "ERROR: No response from remote node" back from node 31, which by itself demonstrates successful routing.
 
-TIP: If you don't have the patience to try a few times for range from node 31 to node 34, try getting a range from node 31 to 28, which will be much more quicker: `rsh 31, '?range 28'`.
+TIP: If you don't have the patience to try a few times for range from node 31 to node 34, try getting a range from node 31 to 28, which will be much quicker: `rsh 31, '?range 28'`.
 
 === Route discovery
 
