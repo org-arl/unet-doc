@@ -198,6 +198,6 @@ Since the Portal agent uses the fjåge connectors framework, it can easily work 
 > container.add 'portal', new org.arl.unet.portal.Portal('/dev/ttyS0', 9600, 'N81');
 ----
 
-CAUTION: Since many modern computers do not have serial ports, you may not be able to test the above code on your computer. If you have underwater modems with serial ports, you'll need to replace the device name (`/dev/ttyS0`) with the appropriate serial port device name to run this code. You can also customize the serial port baud rate (`9600`) and settings (`N81`).
+NOTE: Since many modern computers do not have serial ports, you may not be able to test the above code on your computer. If you have underwater modems with serial ports, you'll need to replace the device name (`/dev/ttyS0`) with the appropriate serial port device name to run this code. You can also customize the serial port baud rate (`9600`) and settings (`N81`).
 
 Once you have the serial portal set up on all nodes, you can connect to the node's serial port using a serial terminal application (e.g. `minicom`) and type text messages just like you did with `nc` during the TCP portal test.

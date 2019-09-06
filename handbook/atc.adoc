@@ -1,6 +1,6 @@
 == AT script engine
 
-WARNING: The UnetSocket API (<<UnetSocket API>>) is the recommended way to integrate applications with UnetStack. The AT script engine is only provided for legacy system support, and its use should be avoided in modern systems, as they suffer from several drawbacks (serialized interaction, error prone parsing, limited flexibility, lack of scripting support, etc.)
+CAUTION: The UnetSocket API (<<UnetSocket API>>) is the recommended way to integrate applications with UnetStack. The AT script engine is only provided for legacy system support, and its use should be avoided in modern systems, as they suffer from several drawbacks (serialized interaction, error prone parsing, limited flexibility, lack of scripting support, etc.)
 
 The AT command interpreter provides support for legacy applications that prefer to interact with UnetStack using AT text commands. All AT commands begin on a fresh line with an `AT` prefix, and end with a new line (CR or LF). Spaces and other whitespace characters are considered significant. Lines without the `AT` command prefix are silently ignored and may be used as a comment in AT command files. All AT commands are case-insensitive, with the exception of Java class names and parameter names in the `AT~EXT` and `AT~MSG` commands.
 
