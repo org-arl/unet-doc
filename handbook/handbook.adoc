@@ -71,14 +71,9 @@ include::app.adoc[]
 
 include::socket.adoc[]
 
-== Using UDP portals
-(coming soon)
+include::portals.adoc[]
 
-== Using portals for TCP and serial connections
-(coming soon)
-
-== Legacy systems and AT commands
-(coming soon)
+include::atc.adoc[]
 
 // == Understanding the PHYSICAL service
 // == Working with the JANUS standard

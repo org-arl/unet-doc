@@ -6,7 +6,7 @@ In this chapter, you will learn how to set up a simple 2-node underwater network
 
 {url-downloads}[Download] UnetStack community edition for your OS and untar/unzip it. Open a terminal window in the simulator's root folder and start the simulator:
 
-[source, console]
+[source, shell]
 ----
 $ bin/unet samples/handbook/2-node-network.groovy
 
@@ -225,7 +225,7 @@ TIP: All the other examples shown earlier in this chapter will also work with th
 
 If you have UnetStack-compatible acoustic modems that support the BASEBAND service, you can use them to transmit and record arbitrary acoustic signals. Even without access to modems, you can try this out using the Unet audio SDOAM -- a fully functional modem that uses your computer's soundcard for transmission and reception. To start Unet audio, open a terminal window in the simulator's root folder and type:
 
-[source, console]
+[source, shell]
 ----
 $ bin/unet audio
 Modem web: http://localhost:8080/

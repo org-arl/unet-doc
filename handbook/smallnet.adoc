@@ -10,7 +10,7 @@ image::netq-map.png[Netiquette,600,450]
 
 To start the simulated network, we simply run the `netq-network.groovy` simulation script:
 
-[source, console]
+[source, shell]
 ----
 $ bin/unet samples/handbook/netq-network.groovy
 

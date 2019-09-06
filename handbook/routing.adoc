@@ -10,7 +10,7 @@ image::m13-map.png[MISSION 2013,600,450]
 
 To start the simulated network, we simply run the `mission2013-network.groovy` simulation script:
 
-[source, console]
+[source, shell]
 ----
 $ bin/unet samples/handbook/mission2013-network.groovy
 

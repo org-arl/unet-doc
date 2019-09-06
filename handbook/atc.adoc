@@ -1,0 +1,312 @@
+== AT script engine
+
+WARNING: The UnetSocket API (<<UnetSocket API>>) is the recommended way to integrate applications with UnetStack. The AT script engine is only provided for legacy system support, and its use should be avoided in modern systems, as they suffer from several drawbacks (serialized interaction, error prone parsing, limited flexibility, lack of scripting support, etc.)
+
+The AT command interpreter provides support for legacy applications that prefer to interact with UnetStack using AT text commands. All AT commands begin on a fresh line with an `AT` prefix, and end with a new line (CR or LF). Spaces and other whitespace characters are considered significant. Lines without the `AT` command prefix are silently ignored and may be used as a comment in AT command files. All AT commands are case-insensitive, with the exception of Java class names and parameter names in the `AT~EXT` and `AT~MSG` commands.
+
+A successful response to an AT command may span several lines of text followed by an `OK` to mark the end of the response. If the AT command is unsuccessful, an `ERROR` response is returned. The `OK` or `ERROR` response is also terminated by a new line (CR or LF).
+
+Unsolicited notifications may be sent by the AT command interpreter to the user. Responses and notifications are atomic, and lines from each may not be interleaved in the other.
+
+We describe the AT command set through examples below. The convention used in describing commands is that the command is in uppercase. Lowercase words denote parameters in the command, to be replaced by the user with appropriate values. Optional parts of the command are denoted by [...].
+
+=== Starting the AT command interpreter
+
+The AT command interpreter is available as a script engine that can be loaded using a shell agent:
+
+[source, console]
+----
+> conn = new org.arl.fjage.connectors.TcpHubConnector(5001, false)        #<1>
+> cshell = new org.arl.fjage.shell.ConsoleShell(conn, true)
+> shell = new ShellAgent(cshell, new org.arl.unet.shell.ATScriptEngine())
+> shell.addInitrc 'etc/atshrc.atc'                                        #<2>
+> container.add 'at', shell
+----
+<1> The AT command interpreter is exposed over a TCP/IP connection on port 5001. The `conn` could easily be replaced by another type of connection (e.g. RS232 port), if desired.
+<2> We added an initalization file `etc/atshrc.atc` in this example, so that some AT commands can automatically be run on startup.
+
+=== Basic AT commands
+
+A small set of basic AT commands are honored by the interpreter:
+
+* `AT` -- check if a command link is active:
+
+[source, console]
+----
+AT
+OK
+----
+
+* `ATE0`/`ATE1` -- turn off/on echo:
+
+[source, console]
+----
+ATE1
+OK
+AT
+AT
+OK
+ATE0
+ATE0
+OK
+AT
+OK
+----
+
+* `ATZ` -- shutdown/reboot
+* `AT/` -- repeat last AT command
+
+=== Shell extensions
+
+The interpreter can be customized using shell extensions:
+
+* `AT~EXT=classname` -- load shell extension
+
+Fields and methods exposed by a shell extension are made available in a shell using this command. Example:
+
+[source, console]
+----
+AT~PLVL
+ERROR
+AT~EXT=org.arl.unet.phy.PhysicalShellExt
+OK
+AT~PLVL
+PHY/1.POWERLEVEL=-10.0
+PHY/2.POWERLEVEL=-10.0
+PHY/3.POWERLEVEL=-10.0
+PHY/4.POWERLEVEL=-10.0
+PHY.SIGNALPOWERLEVEL=-10.0
+OK
+AT~PLVL=-3
+OK
+AT~PLVL
+PHY/1.POWERLEVEL=-3.0
+PHY/2.POWERLEVEL=-3.0
+PHY/3.POWERLEVEL=-3.0
+PHY/4.POWERLEVEL=-3.0
+PHY.SIGNALPOWERLEVEL=-3.0
+OK
+----
+
+The parameters to methods are specified as a comma-separated list after the `=` symbol in the command (e.g. `-3` in `AT~PLVL=-3`). The parameters may be numeric (`int`, `long`, `float` or `double`), `boolean` represented by `0` or `1` as `false` and `true` respectively, or double-quoted strings (e.g. `"this is a string"`).
+
+=== Agent parameter access commands
+
+Agent parameters may be listed, read and written to:
+
+* `AT~agent[/index]?` -- list parameters:
+
+[source, console]
+----
+AT~PHY?
+PHY.SIGNALPOWERLEVEL=-10.0
+PHY.RXENABLE=1
+PHY.MAXPOWERLEVEL=0.0
+PHY.MINPOWERLEVEL=-138.0
+PHY.NOISE=-71.9
+PHY.MTU=13
+PHY.FULLDUPLEX=1
+PHY.BUSY=0
+PHY.RTC="Tue Jul 23 02:19:39 SGT 2019"
+OK
+AT~PHY/1?
+PHY/1.FRAMELENGTH=18
+PHY/1.FEC=3
+PHY/1.MTU=13
+PHY/1.DATARATE=52.554745
+PHY/1.FRAMEDURATION=2.74
+PHY/1.MODULATION="fhbfsk"
+PHY/1.POWERLEVEL=-10.0
+PHY/1.VALID=1
+PHY/1.THRESHOLD=0.25
+OK
+----
+
+* `AT~agent[/index].parameter?` -- get parameter:
+
+[source, console]
+----
+AT~PHY/1.FRAMELENGTH?
+PHY/1.FRAMELENGTH=18
+OK
+----
+
+* `AT~agent[/index].parameter=value` -- set parameter:
+
+[source, console]
+----
+AT~PHY/1.FRAMELENGTH=21
+OK
+AT~PHY/1.FRAMELENGTH?
+PHY/1.FRAMELENGTH=21
+OK
+----
+
+=== Sending and receiving messages
+
+The command interpreter may make requests and receive message notification by defining the messages of interest and subscribing to appropriate topics:
+
+* `AT~MSG:<msg>=<classname>:parameter[,parameter]...` -- define message format
+
+Message formats defined using this command are available for requests and also used for notifications. If a message is not defined, notifications of that message type are silently ignored. The following command defines a message `DRQ` of class `org.arl.unet.DatagramReq` with 3 parameters: `to`, `protocol` and `data` in that order:
+
+[source, console]
+----
+AT~MSG:DRQ=org.arl.unet.DatagramReq:to,protocol,data
+OK
+----
+
+We also define other messages similarly:
+
+[source, console]
+----
+AT~MSG:TXNTF=org.arl.unet.phy.TxFrameNtf:type,txTime
+OK
+AT~MSG:RXNTF=org.arl.unet.phy.RxFrameNtf:from,to,protocol,rxTime,data
+OK
+----
+
+* `AT~agent<msg=parameter[,parameter]...` -- make a request
+
+Once we have defined the messages above, we can make a request to `PHY` to send a datagram to node 2 with protocol 0 and 3 bytes of data: `[1,2,3]`:
+
+[source, console]
+----
+AT~PHY<DRQ=2,0,"010203"
+OK
+----
+
+The notification for the datagram transmission completion will be displayed as an unsolicited notification:
+
+[source, console]
+----
+~PHY>TXNTF=2,1994962099
+----
+
+The general notifications format as: `~agent>msg=parameter[,parameter]...`. If any of the parameters are `byte[]` or `float[]`, they are not included in the parameter list. Instead a colon (`:`) is added at the end of the line, and the data in hex follows on subsequent lines. Once the data ends, a period (`.`) is sent on a single line. If multiple parameters are arrays, the number of array parameters is given by the number of colons at the end of the line, and each array is terminated by a period, followed by the next array. An example is shown below:
+
+[source, console]
+----
+~PHY>RXNTF=1,0,0,2095058353:
+0102030405060708090A0B0C0D0E0F
+1112131415161718191A1B1C1D1E1F
+.
+----
+
+* `AT~SUB=topic[,subtopic]` -- subscribe to a topic
+
+Without subscribing to a topic, we see that the user is not notified about the reception of a frame, although the message type is already defined:
+
+[source, console]
+----
+AT~PHY.FULLDUPLEX=1
+OK
+AT~PHY<DRQ=0,0,"010203"
+OK
+~PHY>TXNTF=2,2095026099
+----
+
+After subscribing to `PHY`, the received message is reported:
+
+[source, console]
+----
+AT~SUB=PHY
+OK
+AT~PHY<DRQ=0,0,"010203"
+OK
+~PHY>TXNTF=2,2095026099
+~PHY>RXNTF=1,0,0,2095058353:
+010203
+.
+----
+
+Here we see that the data from the `RXNTF` is included after the notification message as a *data block*. This is the case for all `byte[]` or `float[]` parameters. Each data block may span several lines, and is terminated by a period (`.`) on a line by itself. The number of data blocks to follow a notification is denoted by the number of colons (`:`) at the end of a notification.
+
+* `AT~UNSUB=topic[,subtopic]` -- unsubscribe from a topic:
+
+[source, console]
+----
+AT~UNSUB=PHY
+OK
+AT~PHY<DRQ=0,0,"010203"
+OK
+~PHY>TXNTF=2,2095026099
+----
+
+=== Managing the data buffer
+
+While data may be directly included in a request message, sometimes it is useful to load data into a data buffer first, and then use it multiple times for requests. This is managed using the following commands:
+
+* `AT~DATA:` -- load data buffer
+
+Data is represented as a series of hexadecimal bytes, and may span many lines. Data entry is terminated by a period (`.`) on a line by itself:
+
+[source, console]
+----
+AT~DATA:
+010203
+040506
+.
+OK
+----
+
+The above representation is convenient for `byte[]` parameters. However, the same representation is used for other data arrays, including `float[]`, where the IEEE floating point representation is used for the floating point number to be converted to a series of bytes.
+
+An alternative data representation is useful for `float[]`, where the floating point numbers are directly specified:
+
+[source, console]
+----
+AT~DATA:
+1.54
+0.78
+5.92
+2.00
+.
+OK
+----
+
+For this representation, it is necessary to have a decimal place (`.`) in each number, and each line to contain only one floating point number.
+
+* `AT~DATA?` -- check size of data buffer:
+
+[source, console]
+----
+AT~DATA:
+010203
+040506
+.
+OK
+AT~DATA?
+6 bytes
+OK
+----
+
+* `AT~CLRDATA` -- clear data buffer:
+
+[source, console]
+----
+AT~CLRDATA
+OK
+AT~DATA?
+EMPTY
+OK
+----
+
+To use the data buffer, we simply use `"DATA"` instead of the hexadecimal data in a message. For example:
+
+[source, console]
+----
+AT~SUB=PHY
+OK
+AT~DATA:
+010203
+040506
+.
+OK
+AT~PHY<DRQ=0,0,"DATA"
+OK
+~PHY>TXNTF=2,3738882099
+~PHY>RXNTF=1,0,0,3738925936:
+010203040506
+.
+----
