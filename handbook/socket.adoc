@@ -4,6 +4,8 @@ The command shell is great for manual configuration and interaction, but often w
 
 External applications interact with UnetStack via a UnetSocket API using fjåge's connector framework. This allows the API to access UnetStack over a TCP/IP connection, a serial port, or any other fjåge connector that may be available. To open a TCP/IP connection to UnetStack, we need to know the IP address and port of the API connector on UnetStack. Simply type `iface` on a shell to find this information.
 
+NOTE: The examples in this chapter assume that you are running `bin/unet samples/2-node-network.groovy` and connected to a web shell for node A.
+
 [source, console]
 ----
 > iface
@@ -46,7 +48,7 @@ To send datagrams using a socket, we first specify the destination address and p
 
 [source, groovy]
 ----
-def to = sock.host('auv_B')          #<1>
+def to = sock.host('B')              #<1>
 sock.connect(to, 0)                  #<2>
 sock.send('hello!' as byte[])        #<3>
 sock.send('more data!' as byte[])
@@ -104,7 +106,7 @@ TIP: Developers may wish to consider using constants `org.arl.unet.phy.Physical.
 
 === Accessing agent services
 
-As we have already seen, the full functionality of UnetStack can be harnessed by sending/receiving messages to/from various agents in the stack. We earlier saw how to do that from the shell. We now look at how to use the UnetSocket API to send/receive messages to/from agents.
+As we have already seen in <<Interacting with agents using messages>>, the full functionality of UnetStack can be harnessed by sending/receiving messages to/from various agents in the stack. We earlier saw how to do that from the shell. We now look at how to use the UnetSocket API to send/receive messages to/from agents.
 
 To request broadcast of a CONTROL frame, like we did from the shell before, we need to lookup the agent providing the PHYSICAL service and send a `TxFrameReq` to it:
 

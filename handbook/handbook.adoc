@@ -63,19 +63,26 @@ include::smallnet.adoc[]
 
 include::routing.adoc[]
 
-include::udp.adoc[]
+// include::udp.adoc[]
 
 = *Part III: Building Unet applications*
 
+include::app.adoc[]
+
 include::socket.adoc[]
 
-== Python, Julia, C and Javascript
-== Using the UDP portal
-== Using the TCP and serial portal
-== Understanding the PHYSICAL service
-== Working with the JANUS standard
-== Arbitrary waveforms and the BASEBAND service
+== Using UDP portals
+(coming soon)
+
+== Using portals for TCP and serial connections
+(coming soon)
+
 == Legacy systems and AT commands
+(coming soon)
+
+// == Understanding the PHYSICAL service
+// == Working with the JANUS standard
+// == Arbitrary waveforms and the BASEBAND service
 
 = *Part IV: Extending UnetStack*
 

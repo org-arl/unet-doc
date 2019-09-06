@@ -152,9 +152,9 @@ We can also make range measurements (in meters) between the nodes:
 615.9
 ----
 
-=== Sending messages
+=== Sending text messages
 
-Once we have connectivity, we can of course send messages from the shell:
+Once we have connectivity, we can of course send text messages from the shell:
 
 .`Node A`
 [source, console]
@@ -163,7 +163,7 @@ Once we have connectivity, we can of course send messages from the shell:
 AGREE
 ----
 
-and we see the message on node B:
+and we see the text message on node B:
 
 .`Node B`
 [source, console]
@@ -171,7 +171,7 @@ and we see the message on node B:
 [232]: hello!
 ----
 
-We have already seen in <<Getting started>> and <<Protocol numbers>> on how to send messages using the UnetSocket API from the shell, as well as from external applications. Hence we won't dwell on it here.
+We have already seen in <<Getting started>> and <<Protocol numbers>> on how to send text messages using the UnetSocket API from the shell, as well as from external applications. Hence we won't dwell on it here.
 
 === File transfer and remote access
 
