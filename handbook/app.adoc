@@ -3,7 +3,7 @@
 You now know how to set up a Unet. Let us next explore how you can go about integrating your application with UnetStack to take advantage of the Unet. There are several options available:
 
 - The *UnetSocket API* (<<UnetSocket API>>) is the most convenient way of integrating most modern applications with UnetStack. API bindings are available for many languages, including Java, Groovy, Python, Julia, Javascript and C. The API allows you to send and receive user data over the Unet, get and set agent parameters, and access advanced functionality by interacting with agents using messages.
-- *UDP portals* (<<UDP portal>>) provide a way to establish tunnels through the Unet for UDP datagrams. This facility can be used to transparently run applications that use UDP to communicate across the Internet, over the Unet.
+- *UDP portals* (<<UDP portal>>) provide a way to establish tunnels through the Unet for UDP datagrams. This facility can be used to transparently run applications that use UDP, over the Unet.
 - *TCP portals* (<<TCP portal>>) and *serial portals* (<<Serial portal>>) provide a way to establish connection-oriented tunnels through the Unet. This is a simple way to run applications that communicate over a TCP/IP or serial port links, over the Unet.
 - Many traditional modems provide an AT command set for applications to interact with them. While we do not encourage the use of AT commands (as they are error-prone and limited in functionality), it would be amiss not to mention that UnetStack also supports an *AT script engine* (<<Legacy systems and AT commands>>) that may be used by legacy applications to interact with it using AT commands.
 

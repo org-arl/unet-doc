@@ -31,6 +31,7 @@ We can further ask for more details of a specific agent:
 
 [source, console]
 ----
+> phy
 <<< HalfDuplexModem >>>
 
 [org.arl.unet.DatagramParam]

@@ -2,9 +2,21 @@
 
 The command shell is great for manual configuration and interaction, but often we require programmatic interaction from an external application. For this, we have the UnetSocket API (available in Java, Groovy, Python, Julia and C). While the exact syntax differs across languages, the basic concepts remain the same. We focus on the use of the API in Groovy in this section, but also show some examples in other languages.
 
-External applications interact with UnetStack via a UnetSocket API using fjåge's connector framework. This allows the API to access UnetStack over a TCP/IP connection, a serial port, or any other fjåge connector that may be available. To open a TCP/IP connection to UnetStack, we need to know the IP address and port of the API connector on UnetStack. Simply type `iface` on a shell to find this information.
+=== Connecting to UnetStack
 
-NOTE: The examples in this chapter assume that you are running `bin/unet samples/2-node-network.groovy` and connected to a web shell for node A.
+If you recall from <<Sending & receiving application data>>, you opened a socket connection to UnetStack on the command shell with:
+
+[source, console]
+----
+> s = new UnetSocket(this);
+----
+
+Since the command shell was running on the node you wanted to connect to, the meaning of `this` was clear. However, in general, you'll probably be running your application in a different process, or even on a different computer. You'll therefore need to provide details on how to connect to the node when opening a socket.
+
+NOTE: The examples in this chapter assume that you are running: +
+`bin/unet samples/2-node-network.groovy`
+
+For example, to connect to UnetStack from an application over TCP/IP, we need to know the IP address and port of the API connector on UnetStack. Simply type `iface` on the command shell of node A to find this information:
 
 [source, console]
 ----
@@ -16,22 +28,21 @@ websh: ws://192.168.1.9:8081/fjage/shell/ws [GroovyScriptEngine]
 
 The first entry starting with `tcp://` is the API connector available over TCP/IP. The IP address and port number in this case are `192.168.1.9` and `1102` respectively. The IP address on your setup might differ, so remember to replace it in the example code below when you try it.
 
-=== Connecting to UnetStack
-
-To connect to UnetStack from Groovy, typical code might look something like this:
+To connect to UnetStack from a Groovy application, typical code might look something like this:
 
 [source, groovy]
 ----
 import org.arl.unet.api.UnetSocket
 
-def sock = new UnetSocket('192.168.1.9', 1102)
+def sock = new UnetSocket('192.168.1.9', 1102)    #<1>
 // do things with sock here
 sock.close()
 ----
+<1> Note that the `def` is typically not used in the shell, as we usually want the `sock` variable to be created in the shell's context. However, we use `def` in Groovy scripts or closures to keep the `sock` variable in the local context.
 
-TIP: The UnetSocket API can also be used directly from the shell. To do this, we create a socket connected to the local node with `sock = new UnetSocket(this)`. Here `this` refers to the local UnetStack instance. Do note that the `def` is typically not used in the shell, as we usually want the `sock` variable to be created in the shell's context. However, we use `def` in Groovy scripts or closures to keep the `sock` variable in the local context.
+TIP: External applications interact with UnetStack via a UnetSocket API using fjåge's connector framework. This allows the API to access UnetStack over a TCP/IP connection, a serial port, or any other fjåge connector that may be available.
 
-and in Python:
+The code in other languages looks similar. For example, in Python:
 
 [source, python]
 ----
@@ -41,6 +52,8 @@ sock = UnetSocket('192.168.1.9', 1102)
 # do things with sock here
 sock.close()
 ----
+
+A simple example application in Python using the UnetSocket API was illustrated previously in <<Sending & receiving from a Python application>>.
 
 === Sending data
 
@@ -81,34 +94,36 @@ The `receive()` method above is blocking by default. The blocking behavior can b
 
 === Getting & setting parameters
 
-As we have seen before, agent parameters provide Unet information that an application may require. Applications may also need to change parameters to control the behavior of the agents in UnetStack. To access agent parameters, we first have to look up the relevant agent based on its name or a service that it provides. For example:
+You have already been introduced to agent parameters in <<UnetStack basics>>. Applications can obtain information about an agent by reading its parameters, and can control the behavior of the agent by modifying its parameters.
+
+To access agent parameters, you first have to look up the relevant agent based on its name or a service that it provides. For example:
 
 [source, groovy]
 ----
-def phy = sock.agentForService(org.arl.unet.Services.PHYSICAL)
+def phy = sock.agentForService(org.arl.unet.Services.PHYSICAL)   #<1>
 println(phy.MTU)
 println(phy[1].dataRate)
 ----
+<1> Looking up an agent based on a services it provides is recommended, rather than specify the agent by name. We will explore services in more detail in <<Understanding UnetStack services>>. However, if you wished to reference an agent by name, you could have done that as: `def phy = sock.agent('phy')`
 
-will print the value of parameter `MTU` (maximum transfer unit) of the physical layer, and the physical layer `dataRate` of the CONTROL (1) channel. We could also change some of the parameters:
+This will print the value of parameter `MTU` (maximum transfer unit) of the physical layer, and the physical layer `dataRate` of the CONTROL (1) channel. You could also change some of the parameters:
 
 [source, groovy]
 ----
 println(phy[2].frameLength)
 phy[1].frameLength = 64
 println(phy[2].frameLength)
-println(phy.MTU)
 ----
 
-If you run the above code, you'll see that the changed DATA (2) channel frame length would also affect the MTU. The `phy.MTU`, `phy[1].MTU`, `phy[2].MTU`, `phy[1].frameLength` and `phy[2].frameLength` parameters are closely related. The MTU of a channel is its frame length, reduced by the size of the physical layer header. The MTU of the physical layer is the MTU of the DATA channel, since a datagram is by default transmitted using the DATA channel.
-
 TIP: Developers may wish to consider using constants `org.arl.unet.phy.Physical.CONTROL` and `org.arl.unet.phy.Physical.DATA` instead of hard coding 1 and 2, for readability.
+
+TIP: The `phy` object that you received back from `sock.agentForService()` or `sock.agent()` is an `AgentID`. You can think of this as a reference to the agent. Setting and getting parameters on the agent ID sends `ParameterReq` messsages to the agent to read/modify the relevant parameters. You can also use agent IDs to send messages to the agent explicitly, as you will see next.
 
 === Accessing agent services
 
 As we have already seen in <<Interacting with agents using messages>>, the full functionality of UnetStack can be harnessed by sending/receiving messages to/from various agents in the stack. We earlier saw how to do that from the shell. We now look at how to use the UnetSocket API to send/receive messages to/from agents.
 
-To request broadcast of a CONTROL frame, like we did from the shell before, we need to lookup the agent providing the PHYSICAL service and send a `TxFrameReq` to it:
+To request broadcast of a CONTROL frame, like we did before from the shell, we need to lookup the agent providing the PHYSICAL service and send a `TxFrameReq` to it:
 
 [source, groovy]
 ----
@@ -126,4 +141,4 @@ def msg = gw.receive(10000)     #<1>
 if (msg) println(msg)
 gw.unsubscribe(phy)
 ----
-<1> Receive a message from the gateway without a timeout of 10000 ms. If no message is received during this period, `null` is returned.
+<1> Receive a message from the gateway with a timeout of 10000 ms. If no message is received during this period, `null` is returned.
