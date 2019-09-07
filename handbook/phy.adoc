@@ -290,8 +290,6 @@ The `preamble` parameter determines a detection preamble that is transmitted bef
 
 If the `test` flag is set on the transmission and reception modems, each transmit frame is filled with known test data. This allows the receiving modem to compute the bit error rate (BER), even when the frame has too many errors for FEC to be able to correct.
 
-WARNING: If you set the `test` flag for modem diagnostics, do remember to turn it off later. While the flag is on, no user data can be carried by the transmitted frames.
-
 === Transmitting & receiving using Unet audio
 
 If you have two computers with speakers and microphones, you could run unet audio on both, and communicate between the two. If you happen to have only one computer handy, do not worry -- we can get one unet audio instance to transmit and receive at the same time. This is full-duplex communication!
@@ -307,12 +305,12 @@ true
 > subscribe phy
 > phy << new TxFrameReq()
 AGREE
-phy >> TxFrameStartNtf:INFORM[type:CONTROL txTime:79322682 txDuration:2040416]               #<1>
-phy >> RxFrameStartNtf:INFORM[type:CONTROL rxTime:79309353 rxDuration:2040000 detector:0.87] #<2>
-phy >> RxFrameStartNtf:INFORM[type:DATA rxTime:80659519 rxDuration:2040000 detector:0.26]    #<3>
-phy >> TxFrameNtf:INFORM[type:CONTROL txTime:79310432]                                       #<4>
-phy >> RxFrameNtf:INFORM[type:CONTROL from:1 rxTime:79309353 rssi:-29.3 cfo:0.0]             #<5>
-phy >> BadFrameNtf:INFORM[type:DATA rxTime:80659519 rssi:-38.5 (18 bytes)]                   #<6>
+phy >> TxFrameStartNtf:INFORM[type:CONTROL txTime:79322682]                #<1>
+phy >> RxFrameStartNtf:INFORM[type:CONTROL rxTime:79309353 detector:0.87]  #<2>
+phy >> RxFrameStartNtf:INFORM[type:DATA rxTime:80659519 detector:0.26]     #<3>
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:79310432]                     #<4>
+phy >> RxFrameNtf:INFORM[type:CONTROL from:1 rxTime:79309353 rssi:-29.3]   #<5>
+phy >> BadFrameNtf:INFORM[type:DATA rxTime:80659519 rssi:-38.5 (18 bytes)] #<6>
 ----
 <1> Transmission of our requested CONTROL frame has started.
 <2> Our frame being transmitted was detected as a CONTROL frame, and reception has started.
@@ -321,4 +319,47 @@ phy >> BadFrameNtf:INFORM[type:DATA rxTime:80659519 rssi:-38.5 (18 bytes)]      
 <5> Reception of the frame was completed, and successful.
 <6> The wrongly detected frame resulted in data that did not satisfy CRC, and hence reported as a bad frame.
 
+To get rid of the false alarm on the DATA channel, we could either increase the detection threshold or turn off the detector completely (`phy[DATA].threshold = 0`). For now, we'll do the latter. Let's also turn on the `phy[CONTROL].test` flag so that we can measure communication performance in terms of BER. To measure BER before error correction, we also need to turn off `phy[CONTROL].fec`:
+
+[source, console]
+----
+> phy[DATA].threshold = 0
+0
+> phy[CONTROL].test = true
+true
+> phy[CONTROL].fec = 0
+0
+----
+
+Now we can make 10 transmissions, 2 seconds apart, and watch the BER of the received frames:
+
+[source, console]
+----
+> 10.times { phy << new TxFrameReq(); delay(2000); }
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:204359766]
+phy >> RxFrameNtf:INFORM[type:CONTROL rxTime:204385187 rssi:-28.9 cfo:0.0 ber:0/144 (18 bytes)]
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:205578432]
+phy >> RxFrameNtf:INFORM[type:CONTROL rxTime:205603853 rssi:-28.4 cfo:0.0 ber:0/144 (18 bytes)]
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:207567766]
+phy >> RxFrameNtf:INFORM[type:CONTROL rxTime:207589186 rssi:-28.5 cfo:0.0 ber:0/144 (18 bytes)]
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:209583766]
+phy >> RxFrameNtf:INFORM[type:CONTROL rxTime:209609187 rssi:-28.2 cfo:0.0 ber:0/144 (18 bytes)]
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:211573099]
+phy >> RxFrameNtf:INFORM[type:CONTROL rxTime:211594519 rssi:-28.3 cfo:0.0 ber:0/144 (18 bytes)]
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:213589099]
+phy >> RxFrameNtf:INFORM[type:CONTROL rxTime:213614520 rssi:-28.1 cfo:0.0 ber:0/144 (18 bytes)]
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:215578432]
+phy >> RxFrameNtf:INFORM[type:CONTROL rxTime:215599853 rssi:-28.5 cfo:0.0 ber:0/144 (18 bytes)]
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:217594432]
+phy >> RxFrameNtf:INFORM[type:CONTROL rxTime:217619853 rssi:-28.2 cfo:0.0 ber:0/144 (18 bytes)]
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:219583766]
+phy >> RxFrameNtf:INFORM[type:CONTROL rxTime:219605186 rssi:-28.0 cfo:0.0 ber:0/144 (18 bytes)]
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:221599766]
+phy >> RxFrameNtf:INFORM[type:CONTROL rxTime:221625187 rssi:-27.7 cfo:0.0 ber:0/144 (18 bytes)]
+----
+
+For brevity, we have omitted the `TxFrameStartNtf` and `RxFrameStartNtf` messages. We see that no bits were in error, out of 144 transmitted bits. We had perfect communication, even without FEC! This is not surprising since the speaker and microphone are very close (and hence good signal-to-noise ratio), but real channels are rarely so forgiving. You can try this between 2 computers, and things may not be as rosy.
+
 Feel free to play around with the parameters of the modulation scheme and try transmissions to get a feel for how the parameters affect communication performance. Since your transmission and reception modems are the same, you only need to set the parameters once! In real life, you'll need to set the same parameters on all modems in your network.
+
+WARNING: Remember to turn off the `phy[CONTROL].test` flag before trying any data transfer. While the flag is on, no user data can be carried by the transmitted frames.
