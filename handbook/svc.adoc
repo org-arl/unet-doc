@@ -24,7 +24,7 @@ Service:: A service is a collection of messages (requests, responses and notific
 
 Capability:: Services often define optional capabilities. These capabilities may be offered by some agents advertising a service, but may be omitted by others. An agent can be queried to check if it supports a specific capability using the `CapabilityReq` message.
 
-TIP: If all of these terms pique your curiosity, you may wish to take a look at the https://fjage.readthedocs.io/en/latest/index.html[fjåge documentation]. fjåge is the underlying agent framework that UnetStack is built on. While we don't assume familiarity with fjåge in this handbook, your understanding of UnetStack would certainly be quicker if you were to invest in building that familiarity.
+TIP: If all of these terms pique your curiosity, you may wish to take a look at the https://fjage.readthedocs.io/en/latest/index.html[fjåge documentation^]. fjåge is the underlying agent framework that UnetStack is built on. While we don't assume familiarity with fjåge in this handbook, your understanding of UnetStack would certainly be quicker if you were to invest in building that familiarity.
 
 === Finding service providers
 
@@ -49,7 +49,7 @@ But what if there were more than one agents capable of providing the same servic
 [phy]
 ----
 
-Well, there was only one agent providing the PHYSICAL service. Are there other services that multiple agents provide? Indeed, there are:
+Well, there was only one agent providing the physical service. Are there other services that multiple agents provide? Indeed, there are:
 
 [source, console]
 ----
@@ -57,9 +57,9 @@ Well, there was only one agent providing the PHYSICAL service. Are there other s
 [transport, router, uwlink, phy]
 ----
 
-The DATAGRAM service is provided by several agents. If you were interested in all incoming datagrams, you'd need to subscribe to the topics of all these agents!
+The datagram service is provided by several agents. If you were interested in all incoming datagrams, you'd need to subscribe to the topics of all these agents!
 
-What would have happened if you only asked for `agentForService()` instead of `agentsForService()` for the DATAGRAM service? Try it:
+What would have happened if you only asked for `agentForService()` instead of `agentsForService()` for the datagram service? Try it:
 
 [source, console]
 ----
@@ -76,7 +76,7 @@ When you try to print an AgentID object on the shell, the shell tries to be help
 
 === Checking capabilities
 
-So let's say you looked up the list of agents that provide the DATAGRAM service:
+So let's say you looked up the list of agents that provide the datagram service:
 
 [source, console]
 ----
@@ -84,7 +84,7 @@ So let's say you looked up the list of agents that provide the DATAGRAM service:
 [transport, router, uwlink, phy]
 ----
 
-If you wanted to send a datagram, how do you pick which one you'd rather use? Different agents may provide different optional capabilities. If you were specifically interested in a particular capability (e.g. RELIABILITY), you could ask the agent if it supported that:
+If you wanted to send a datagram, how do you pick which one you'd rather use? Different agents may provide different optional capabilities. If you were specifically interested in a particular capability (e.g. reliability), you could ask the agent if it supported that:
 
 [source, console]
 ----
@@ -106,7 +106,7 @@ CapabilityListRsp:INFORM[PROGRESS,RELIABILITY,FRAGMENTATION,CANCELLATION]
 
 The `transport` agent says it can do reliable datagram delivery, fragment & reassemble large datagrams (if necessary), report on the progress of large datagram transfers, and cancel datagram delivery half way through the process (if the user wishes to).
 
-Another way you may choose a service provider is by checking its parameters. For example, the `MTU` parameter (defined in the DATAGRAM service) tells you what is the largest datagram the agent can deliver:
+Another way you may choose a service provider is by checking its parameters. For example, the `MTU` parameter (defined in the datagram service) tells you what is the largest datagram the agent can deliver:
 
 [source, console]
 ----

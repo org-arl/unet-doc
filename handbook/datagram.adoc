@@ -1,0 +1,199 @@
+== Datagram service
+
+Unets are all about sending datagrams between nodes!
+
+The datagram service is, therefore, one of the fundamental services that many agents provide. However, different agents have very different capabilities in terms of what they can do with the datagrams. Let's take a look at what the service offers, and how to use it effectively.
+
+=== Overview
+
+==== Messages
+
+Agents offering the datagram service support messages to transmit and receive datagrams:
+
+* https://unetstack.net/javadoc/org/arl/unet/DatagramReq.html[`DatagramReq`^] => `AGREE` / `REFUSE` / `FAILURE`
+* https://unetstack.net/javadoc/org/arl/unet/DatagramNtf.html[`DatagramNtf`^] -- sent to the agent's topic, when a datagram is received
+
+==== Parameters
+
+Agents offering the datagram service support the following parameter:
+
+* https://unetstack.net/javadoc/org/arl/unet/DatagramParam.html#MTU[`MTU`^] -- maximum datagram size in bytes
+
+==== Capabilities
+
+Agents may support several optional capabilities:
+
+*https://unetstack.net/javadoc/org/arl/unet/DatagramCapability.html#FRAGMENTATION[FRAGMENTATION^]*
+
+Agents capable of fragmentation may break a datagram into smaller datagrams, transmit each of them across the network, and reassemble them on the peer node.
+
+*https://unetstack.net/javadoc/org/arl/unet/DatagramCapability.html#RELIABILITY[RELIABILITY^]*
+
+If an agent advertises relaibility, it is able to acknowledge the successful delivery of the datagram. Reliability is enabled on a per-datagram basis by setting the `reliability` flag in the `DatagramReq`. Depending on whether the datagram could be successfully delivered or not, one of the following notifications is generated:
+
+* https://unetstack.net/javadoc/org/arl/unet/DatagramDeliveryNtf.html[`DatagramDeliveryNtf`^] -- sent to requestor
+* https://unetstack.net/javadoc/org/arl/unet/DatagramFailureNtf.html[`DatagramFailureNtf`^] -- sent to requestor
+
+*https://unetstack.net/javadoc/org/arl/unet/DatagramCapability.html#PROGRESS[PROGRESS^]*
+
+Agents capable of reporting progress do so by periodically sending the following notification for long data transfers:
+
+* https://unetstack.net/javadoc/org/arl/unet/DatagramProgressNtf.html[`DatagramProgressNtf`^] -- sent to requestor on the transmitting node, and agent's topic on the receiving node
+
+*https://unetstack.net/javadoc/org/arl/unet/DatagramCapability.html#CANCELLATION[CANCELLATION^]*
+
+If an agent supports cancellation, it honors the following request for stopping an ongoing data transfer:
+
+* https://unetstack.net/javadoc/org/arl/unet/DatagramCancelReq.html[`DatagramCancelReq`^] => `AGREE` / `REFUSE` / `FAILURE` / `NOT_UNDERSTOOD` (if unsupported)
+
+*https://unetstack.net/javadoc/org/arl/unet/DatagramCapability.html#PRIORITY[PRIORITY^]*
+
+Agents advertising this capability prioritize datagrams with higher `priority` indicated in the `DatagramReq`.
+
+*https://unetstack.net/javadoc/org/arl/unet/DatagramCapability.html#TTL[TTL^]*
+
+Agents that spool `DatagramReq` over extended periods of time usually advertise this capability. They discard `DatagramReq` that are undelivered after the time-to-live (`ttl` attribute of the `DatagramReq`) has expired.
+
+=== Examples
+
+Fire up your 2-node network again, and open two browser windows -- one connecting to node A's shell, and the other to node B's shell.
+
+On node B:
+
+[source, console]
+----
+> agentsForService(org.arl.unet.Services.DATAGRAM)
+[transport, router, uwlink, phy]
+> phy.MTU
+56
+> uwlink.MTU
+848
+> uwlink << new CapabilityReq()
+CapabilityListRsp:INFORM[RELIABILITY,FRAGMENTATION]
+> subscribe uwlink
+----
+
+We obtained a list of agents which provide the datagram service. We checked the `MTU` of the `phy` and `uwlink` agents, and found them to be 56 bytes and 848 bytes respectively. We decided to use the `uwlink` agent to communicate over a single-hop link between node A and B, and checked its capabilities. We found that it supports reliability and fragmentation. We then decided to listen to all datagrams received by node B's `uwlink` agent by subscribing to its topic.
+
+On node A:
+
+[source, console]
+----
+> uwlink << new DatagramReq(to: 31, data: new byte[64])                               #<1>
+AGREE
+> uwlink << new DatagramReq(to: 31, data: new byte[64], reliability: true)            #<2>
+AGREE
+uwlink >> DatagramDeliveryNtf:INFORM[id:4dda055e-a533-401f-89c8-a01065ca5d70 to:31]   #<3>
+> uwlink << new DatagramReq(to: 37, data: new byte[64], reliability: true)            #<4>
+AGREE
+uwlink >> DatagramFailureNtf:INFORM[id:bc65e643-6161-4b06-913c-3ff4f6985d36 to:37]    #<5>
+> uwlink << new DatagramReq(to: 0, data: new byte[64])                                #<6>
+AGREE
+> uwlink << new DatagramReq(to: 0, data: new byte[64], reliability: true)             #<7>
+REFUSE
+> uwlink << new DatagramReq(to: 31, data: new byte[1024])                             #<8>
+REFUSE
+----
+<1> Send an unreliable datagram to node 31.
+<2> Send a reliable datagram to node 31.
+<3> Successful delivery of reliable datagram reported.
+<4> Send a reliable datagram to node 37. Since node 37 does not exist in this network, this should eventually fail.
+<5> Delivery failure reported (after trying for a few minutes).
+<6> Broadcast an unreliable datagram.
+<7> Broadcast request for reliable datagram is refused, as reliability requires a response from peer node and therefore cannot be supported on broadcast.
+<8> Datagram transmission request for data larger than MTU is also refused.
+
+If we look at the shell for node B, we should see the 3 successfully delivered datagrams:
+
+[source, console]
+----
+uwlink >> DatagramNtf:INFORM[from:232 to:31 (64 bytes)]
+uwlink >> DatagramNtf:INFORM[from:232 to:31 (64 bytes)]
+uwlink >> DatagramNtf:INFORM[from:232 (64 bytes)]
+----
+
+TIP: Agent `uwlink` uses the physical service (agent `phy`) to deliver the data. Since the `phy.MTU` is only 56 bytes, but our datagrams were 64 bytes, unbeknown to us, the `uwlink` agent must have been fragmenting these datagrams and reassembling them on the other side!
+
+=== Short-circuit delivery
+
+We were able to successfully deliver datagrams from node A to node B in the examples in the previous section. We not only saw the `DatagramNtf` messages on node B, but also got `DatagramDeliveryNtf` on node A if `reliability` was enabled.
+
+Let's try it again, but with a small difference. On node A:
+
+[source, console]
+----
+> uwlink << new DatagramReq(to: 31, data: new byte[32])
+AGREE
+----
+
+We transmitted a smaller datagram, and node A happily accepted it for delivery. However, if we look at the shell for node B, we don't see a `DatagramNtf` message corresponding to the datagram! What's going on? Let's try it again, but this time enable reliability:
+
+[source, console]
+----
+> uwlink << new DatagramReq(to: 31, data: new byte[32], reliability: true)
+AGREE
+uwlink >> DatagramDeliveryNtf:INFORM[id:4aaa86e5-9a56-46f8-bc1a-f6be33af03a4 to:31]
+----
+
+We see that the datagram was indeed delivered! And now, if we look at node B's shell, we'll see the delivery notification:
+
+[source, console]
+----
+uwlink >> DatagramNtf:INFORM[from:232 to:31 (32 bytes)]
+----
+
+It seems that enabling reliability successfully delivered the datagram, but otherwise the `DatagramNtf` message did not appear on node B's shell! You can try this many times, and the result will be the same. So it can't be random packet loss in the network either. What's going on?
+
+To try and troubleshoot this, let's subscribe to notifications from the `phy` agent to see if the data is arriving at the physical layer. On node B:
+
+[source, console]
+----
+> subscribe phy
+----
+
+On node A, transmit the unreliable small datagram again:
+
+[source, console]
+----
+> uwlink << new DatagramReq(to: 31, data: new byte[32])
+AGREE
+----
+
+On node B, we now see a couple of notifications:
+
+[source, console]
+----
+phy >> RxFrameStartNtf:INFORM[type:DATA rxTime:3956973678]
+phy >> RxFrameNtf:INFORM[type:DATA from:232 to:31 rxTime:3956973678 (32 bytes)]
+----
+
+The first notification says that the physical layer detected the start of a data frame. The second notification is for a received frame with 32 bytes from node 232 to node 31. That's our datagram!!! But why is it delivered by `phy` and not `uwlink`, when it was sent by `uwlink` on node A? And why is it a `RxFrameNtf` instead of a `DatagramNtf`?
+
+Let's solve the second mystery first. An `RxFrameNtf` is a subclass of `DatagramNtf`, so it is indeed a `DatagramNtf` message. We can easily verify this on node B:
+
+[source, console]
+----
+> ntf
+RxFrameNtf:INFORM[type:DATA from:232 to:31 rxTime:3956973678 (32 bytes)]
+> ntf instanceof DatagramNtf
+true
+----
+
+Variable `ntf` contains the last notification received. It is the `RxFrameNtf`, and it is indeed an instance of `DatagramNtf`. So, we indeed got the datagram on node B, and it was delivered as a `DatagramNtf` with the correct metadata.
+
+But why was it send on `phy` agent's topic and not `uwlink` agent's topic, like all other datagrams we transmitted?
+
+This is due to an optimization introduced in UnetStack3, known as *short-circuit delivery*. The `uwlink` agent on node A looked at the unreliable `DatagramReq` for 32 bytes and realized that it is within the `phy` agent's capability (no reliability needed, and the datagram size is less than `phy.MTU`) to deliver this without the help of the `uwlink` agent. It delegated the task to the `phy` agent, which in turn send the datagram to its peer on node B, and therefore it was delivered to us by the `phy` agent on node B. This delegation not only reduces computation, but more importantly reduces the overhead of link headers in the frame, and therefore save valuable bandwidth in a resource-constrained underwater network.
+
+Short-circuit delivery is not only done by `uwlink`, but by all agents supporting the datagram service. If a downstream agent is capable of delivering the datagram, the delivery is delegated automatically in UnetStack3.
+
+WARNING: In UnetStack3, as a result of short-circuit delivery optimization, you need to subscribe to *all* datagram service providers to receive `DatagramNtf` messages, and not just the one you send the datagram via.
+
+On node B, we should have done this in the first place:
+
+[source, console]
+----
+> agentsForService(org.arl.unet.Services.DATAGRAM).each { subscribe it }
+----
+
+This single-liner in Groovy iterates over the list of agents providing the datagram service, and subscribes to the topic of each agent in that list.

@@ -79,7 +79,8 @@ include::atc.adoc[]
 
 include::svc.adoc[]
 
-== Datagram service
+include::datagram.adoc[]
+
 == Understanding the physical service
 == Working with the JANUS standard
 == Arbitrary waveforms and the baseband service
