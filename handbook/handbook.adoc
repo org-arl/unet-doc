@@ -81,8 +81,8 @@ include::svc.adoc[]
 
 include::datagram.adoc[]
 
-== Understanding the physical service
-== Working with the JANUS standard
+include::phy.adoc[]
+
 == Arbitrary waveforms and the baseband service
 == Ranging and synchronization
 == Node information

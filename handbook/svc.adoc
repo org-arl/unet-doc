@@ -126,7 +126,7 @@ The following services are currently defined in UnetStack:
 |===
 Short name, Fully qualified name, Description, Read...
 Datagram, `org.arl.unet.Services.DATAGRAM`, Send and receive datagrams, <<Datagram service>>
-Physical, `org.arl.unet.Services.PHYSICAL`, Physical layer, <<Understanding the physical service>>
+Physical, `org.arl.unet.Services.PHYSICAL`, Physical layer, <<Physical service>>
 Baseband, `org.arl.unet.Services.BASEBAND`, Arbitrary waveform transmission & recording, <<Arbitrary waveforms and the baseband service>>
 Ranging, `org.arl.unet.Services.RANGING`, Ranging & synchronization, <<Ranging and synchronization>>
 Node Information, `org.arl.unet.Services.NODE_INFO`, Node & network information, <<Node information>>

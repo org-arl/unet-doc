@@ -1,0 +1,324 @@
+== Physical service
+
+=== Overview
+
+Agents offering the physical service are most commonly modem drivers and modem simulators. They support a set of messages and parameters that are explained below. Physical service providers may also provide optional capabilities to send frames triggered at a specified time, or send timestamped frames where the timestamp is embedded in the transmitted frame.
+
+CAUTION: Agents implementing the physical service typically directly access the channel, bypassing any MAC protocol that may be in use in the network. It is highly recommended that clients wishing to use the physical service consult with the MAC service for advise on when it is safe to access the channel, so as not to adversely affect the network performance.
+
+All agents supporting the physical service must also support the <<Datagram service>>.
+
+=== Messages
+
+Agents supporting the physical service provide to manage frame transmission and reception:
+
+* https://unetstack.net/javadoc/org/arl/unet/phy/TxFrameReq.html[`TxFrameReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- transmit a frame
+* https://unetstack.net/javadoc/org/arl/unet/phy/TxRawFrameReq.html[`TxRawFrameReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- transmit a frame without headers
+* https://unetstack.net/javadoc/org/arl/unet/phy/ClearReq.html[`ClearReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- cancel all ongoing and pending transmissions
+* https://unetstack.net/javadoc/org/arl/unet/phy/RxFrameNtf.html[`RxFrameNtf`^] -- sent to agent's topic when a frame addressed to the node is received, and the agent's https://unetstack.net/javadoc/org/arl/unet/phy/Physical.html#SNOOP[`SNOOP`^] sub-topic when a frame addressed to other nodes is overheard
+* https://unetstack.net/javadoc/org/arl/unet/phy/TxFrameNtf.html[`TxFrameNtf`^] -- sent to requestor when a frame is successfully transmitted
+* https://unetstack.net/javadoc/org/arl/unet/phy/RxFrameStartNtf.html[`RxFrameStartNtf`^] -- send to agent's topic when a frame is detected
+* https://unetstack.net/javadoc/org/arl/unet/phy/TxFrameStartNtf.html[`TxFrameStartNtf`^] -- send to agent's topic when a frame transmission is started
+* https://unetstack.net/javadoc/org/arl/unet/phy/BadFrameNtf.html[`BadFrameNtf`^] -- send to agent's topic when a bad frame is received
+* https://unetstack.net/javadoc/org/arl/unet/phy/CollisionNtf.html[`CollisionNtf`^] -- send to agent's topic when a frame is detected (and dropped) while another frame is being received
+
+The `TxFrameReq` class extends a `DatagramReq` to add physical layer options, and the `RxFrameNtf` class extends a `DatagramNtf` to add physical layer metadata.
+
+=== Parameters
+
+Agents offering the physical service support the following parameter:
+
+* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#rxEnable[`rxEnable`^] -- true if reception is enabled, false otherwise
+* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#propagationSpeed[`propagationSpeed`^] -- signal propagation speed in m/s
+* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#time[`time`^] -- current physical layer clock time in microseconds
+* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#busy[`busy`^] -- true if modem is busy transmitting/receiving (carrier sense), false if modem is idle
+* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#refPowerLevel[`refPowerLevel`^] -- reference source level in dB (re micro-Pascals @ 1m for underwater modems)
+* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#maxPowerLevel[`maxPowerLevel`^] -- maximum allowable transmission power in dB re refPowerLevel
+* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#minPowerLevel[`minPowerLevel`^] -- minimum allowable transmission power in dB re refPowerLevel
+* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#rxSensitivity[`rxSensitivity`^] -- reference receive sensitivity (dB re micro Pascals for underwater modems)
+
+NOTE: All physical layer timestamps are in microseconds as per the clock provided by the `time` parameter. This clock is generally not synchronized with the platform clock (system time).
+
+In addition to the above parameters, agents also support indexed (frame type) parameters:
+
+* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#frameDuration[`frameDuration`^] -- frame duration in seconds (maximum duration in case of variable frame length)
+* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#powerLevel[`powerLevel`^] -- transmission power in dB re refPowerLevel
+* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#errorDetection[`errorDetection`^] -- number of bytes used for error detection
+* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#frameLength[`frameLength`^] -- frame length in bytes (maximum length in case of variable frame length)
+* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#maxFrameLength[`maxFrameLength`^] -- maximum possible frame length in bytes
+* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#fec[`fec`^] -- forward error correction (FEC) code (0 = none/default, otherwise base 1 index from fecList)
+* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#fecList[`fecList`^] -- list of available FEC code names (in order of increasing robustness), may be null if FEC change not supported
+* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#dataRate[`dataRate`^] -- effective frame data rate (bps)
+* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#llr[`llr`^] -- true to enable log-likelihood ratio reporting in `BadFrameNtf`, false otherwise
+
+Two frame types are defined:
+
+* https://unetstack.net/javadoc/org/arl/unet/phy/Physical.html#CONTROL[`CONTROL`^] frame = 1
+* https://unetstack.net/javadoc/org/arl/unet/phy/Physical.html#DATA[`DATA`^] frame = 2
+
+=== Capabilities
+
+Agents may support several optional capabilities:
+
+*https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalCapability.html#TIMESTAMPED_TX[TIMESTAMPED_TX^]*
+
+Agents advertising this capability are able to transmit frames with a transmission timestamp encapsulated in the frame. This is requested through the `timestamped` flag in the `TxFrameReq` message. In order to do the timestamping, the frame has to be scheduled for transmission after a short delay. This delay is configured via an additional parameter:
+
+* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#timestampedTxDelay[`timestampedTxDelay`^] -- delay in seconds to transmit timestamped frames
+
+*https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalCapability.html#TIMED_TX[TIMED_TX^]*
+
+Agents advertising this capability are able to transmit frames at specified time. The time is given in the `txTime` attribute of the `TxFrameReq` message.
+
+*https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalCapability.html#JANUS[JANUS^]*
+
+If an agent supports the ANEP-87 JANUS standard, it advertises this capability. An additional frame type (indexed parameter set) is defined:
+
+* https://unetstack.net/javadoc/org/arl/unet/phy/Physical.html#JANUS[`JANUS`^] frame = 3
+
+The JANUS capability also adds one parameter:
+
+* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#janus[`janus`^] -- true for JANUS frame type, false for all other frame types
+
+It also adds two JANUS-specific messages that are supported:
+
+* https://unetstack.net/javadoc/org/arl/unet/phy/TxJanusFrameReq.html[`TxJanusFrameReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- transmit a JANUS frame
+* https://unetstack.net/javadoc/org/arl/unet/phy/RxJanusFrameNtf.html[`RxJanusFrameNtf`^] -- sent to agent's topic when a JANUS frame is received
+
+*https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalCapability.html#FEC_DECODING[FEC_DECODING^]*
+
+If an agent advertises this capability, it supports an additional request to perform FEC decoding:
+
+* https://unetstack.net/javadoc/org/arl/unet/phy/FecDecodeReq.html[`FecDecodeReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- attempt FEC decoding a frame, and if successful, send out a `RxFrameNtf`
+
+=== CONTROL and DATA channels
+
+The physical layer in UnetStack typically supports 2 logical channels (3 if JANUS is supported). The CONTROL channel provides low-rate, robust communication that allows exchange of small amounts of control information in the network. The DATA channel is a usually a higher rate communication link, but may require tuning to operate well in various environmental conditions.
+
+NOTE: The configurable parameters of the CONTROL and DATA channels depend strongly on the device (modem) in use. The Unet simulator provides a simplified physical layer (`HalfDuplexModem`) that captures the essential aspects of the communication using the two channels, exposing only a limited set of parameters. When configuring a real network, you should refer to your modem's manual on advise on how best to set up the physical layer parameters.
+
+Fire up the 2-node network simulation and connect to node A's shell. If you simply type `phy`, you can explore the physical layer parameters for the node:
+
+[source, console]
+----
+> phy
+<<< HalfDuplexModem >>>
+
+[org.arl.unet.DatagramParam]
+  MTU = 56
+
+[org.arl.unet.phy.PhysicalParam]
+  busy = false
+  maxPowerLevel = 0.0
+  minPowerLevel = -96.0
+  propagationSpeed = 1534.4574
+  refPowerLevel = 185.0
+  rxEnable = true
+  rxSensitivity = -200.0
+  time = 9615673299
+  timestampedTxDelay = 1.0
+----
+
+The `phy.MTU` parameter tells us the maximum amount of user data that can be transmitted in a single frame (56 bytes in this case). This is based on the DATA channel, as we will see shortly, since `DatagramReq` are fulfilled using the DATA channel. The `PhysicalParam` parameters provide us information on whether the channel is busy, transmission power levels supported, receiver sensitivity, and propagation speed of the signal (e.g. sound speed for underwater modems). The `phy.time` parameter is a microsecond resolution clock that is used to timestamp all physical layer events such as frame transmission, reception, etc.
+
+We can dig deeper into the parameters for the CONTROL and DATA channel separately:
+
+[source, console]
+----
+> phy[CONTROL]
+<<< PHY >>>
+
+[org.arl.unet.DatagramParam]
+  MTU = 16
+
+[org.arl.unet.phy.PhysicalChannelParam]
+  dataRate = 202.10527
+  errorDetection = 1
+  fec = 0
+  fecList = null
+  frameDuration = 0.95
+  frameLength = 24
+  janus = false
+  llr = false
+  maxFrameLength = 128
+  powerLevel = -10.0
+
+> phy[DATA]
+<<< PHY >>>
+
+[org.arl.unet.DatagramParam]
+  MTU = 56
+
+[org.arl.unet.phy.PhysicalChannelParam]
+  dataRate = 731.4286
+  errorDetection = 1
+  fec = 0
+  fecList = null
+  frameDuration = 0.7
+  frameLength = 64
+  janus = false
+  llr = false
+  maxFrameLength = 512
+  powerLevel = -10.0
+----
+
+NOTE: The values you see above are specific to this simulated network, and will generally be different for different networks, depending on the devices that are being used and the environment that they are deployed in.
+
+Here are a few important parameters to take note of:
+
+- Note that `MTU` for the CONTROL channel is 16 bytes, whereas DATA channel's `MTU` is 56 bytes. CONTROL frames typically carry less data, but are more robust.
+- The `frameLength` for the CONTROL and DATA channels are 8 bytes longer than the corresponding `MTU`. The difference is due to header information that the frames carry. The number of bytes taken by the header is device dependent, and also a function of network configuration (e.g. changes in `node.addressSize` may change header size).
+- Typically physical layer agents allow setting of the `frameLength` parameter, and the `MTU` parameter is automatically determined based on the necessary headers. The `maxFrameLength` parameter indicates the maximum size of the frame supported.
+- The `frameDuration` for the CONTROL channel is about 0.95 seconds, whereas that for the DATA channel is 0.7 seconds. While the CONTROL frames carry less data, they also have lower data rate and so may have comparable duration as the DATA frames.
+- The `dataRate` reported by the channel is the effective data rate in bps including the header bits, i.e., it is the frame length in bits divided by the frame duration.
+- The `powerLevel` parameter controls the transmission power used by the channel. This value is in dB, reference to the `phy.refPowerLevel`, and may range between `phy.minPowerLevel` and `phy.maxPowerLevel`.
+- The `errorDetection` parameter reports the number of bytes used for error detection CRC (value of 1 indicates that we are using a 8-bit CRC). Some modems will allow you to set this to 2 to switch to 16-bit CRC, if you desire a lower probability of accepting a frame with some bit errors.
+
+=== Modem physical layer
+
+In the previous section, we explored several parameters from a simplified simulated physical layer. Next let's look at a real modem. If you are lucky enough to own one with UnetStack on it, you can connect to it's shell now. Otherwise, we can use unet audio SDOAM as our test modem:
+
+[source, shell]
+----
+$ bin/unet audio
+Modem web: http://localhost:8080/
+----
+
+On the web shell for the modem:
+
+[source, console]
+----
+> phy
+<<< Physical >>>
+
+[org.arl.unet.DatagramParam]
+  MTU = 13
+
+[org.arl.unet.phy.PhysicalParam]
+  busy = false
+  maxPowerLevel = 0.0
+  minPowerLevel = -138.0
+  propagationSpeed = 1500.0
+  refPowerLevel = 0.0
+  rxEnable = true
+  rxSensitivity = 0.0
+  time = 51530438
+  timestampedTxDelay = 1000
+
+[org.arl.yoda.ModemParam]
+  adcrate = 48000.0
+  bbsblk = 6000
+  bbscnt = 0
+  bpfilter = true
+  clockCalib = 1.0
+  dacrate = 96000.0
+  downconvRatio = 4.0
+  fan = false
+  fanctl = 45.0
+  fullduplex = false
+  gain = 0.0
+  inhibit = 120
+  isc = true
+  loopback = false
+  model = portaudio
+  mute = true
+  noise = -62.0
+  npulses = 1
+  pbsblk = 65536
+  pbscnt = 0
+  post = null
+  poweramp = false
+  preamp = true
+  pulsedelay = 0
+  serial = portaudio
+  standby = 15
+  upconvRatio = 8.0
+  vendor = Subnero
+  voltage = 0.0
+  wakeupdelay = 400
+  wakeuplen = 8000
+----
+
+For brevity, we have omitted the baseband service and scheduler service parameters in the listing above. Even then, there are many parameters that allow you to configure the SDOAM. We cannot cover each parameter in detail here, but we encourage you to explore the help pages for the parameters by simply typing `help phy.` followed by the parameter name.
+
+Further, let's look at the indexed parameters for the CONTROL channel:
+
+[source, shell]
+----
+> phy[CONTROL]
+<<< PHY >>>
+
+[org.arl.unet.DatagramParam]
+  MTU = 13
+
+[org.arl.unet.phy.PhysicalChannelParam]
+  dataRate = 70.588234
+  errorDetection = true
+  fec = 1
+  fecList = [ICONV2]
+  frameDuration = 2.04
+  frameLength = 18
+  janus = false
+  llr = false
+  maxFrameLength = 396
+  powerLevel = -10.0
+
+[org.arl.yoda.FhbfskParam]
+  chiplen = 1
+  fmin = 9520.0
+  fstep = 160.0
+  hops = 13
+  scrambler = 0
+  sync = true
+  tukey = true
+
+[org.arl.yoda.ModemChannelParam]
+  basebandExtra = 0
+  basebandRx = false
+  modulation = fhbfsk
+  preamble = (480 samples)
+  test = false
+  threshold = 0.25
+  valid = true
+----
+
+Again, we cannot cover all the parameters in detail here, but will draw your attention to a few important ones. You see that the `modulation` for the CONTROL channel is set to `'fhbfsk'` (frequency-hopping binary frequency shift keying). Depending on your modem, different modulations may be supported. Once a modulation scheme is chosen, you see additional modulation-dependent parameters. In this case, these are the `org.arl.yoda.FhbfskParam` parameters such as `fmin`, `fstep`, `hops`, `chiplen`, `tukey`, etc. These parameters allow you to control the modulation's frequency band, number of hops, chip duration, windowing, etc.
+
+WARNING: If you change modulation parameters, you have to remember to do it on all your modems in the network. Otherwise they will be speaking different _languages_, and they won't be able to understand each other. Not all combination of modulation parameters are valid. The `valid` parameter tells us if the current setting is valid or not. If the setting is invalid, all transmission requests will be refused.
+
+The `preamble` parameter determines a detection preamble that is transmitted before each frame. This is used by the receiving modem to determine the start of a frame. The `threshold` parameter controls the detection probability and false alarm rate for frame detection. A lower threshold will improve detection probability, but increase false alarm rate.
+
+If the `test` flag is set on the transmission and reception modems, each transmit frame is filled with known test data. This allows the receiving modem to compute the bit error rate (BER), even when the frame has too many errors for FEC to be able to correct.
+
+WARNING: If you set the `test` flag for modem diagnostics, do remember to turn it off later. While the flag is on, no user data can be carried by the transmitted frames.
+
+=== Transmitting & receiving using Unet audio
+
+If you have two computers with speakers and microphones, you could run unet audio on both, and communicate between the two. If you happen to have only one computer handy, do not worry -- we can get one unet audio instance to transmit and receive at the same time. This is full-duplex communication!
+
+CAUTION: Real modems typically cannot do full-duplex communication because the weak incoming signals are masked by clutter from the strong outgoing signal. However, by adjusting the volume of your computer carefully, you can easily do full-duplex communication on your unet audio SDOAM.
+
+On unet audio shell, enable full-duplex operation and try a transmission (you should be able to hear it from your computer speaker!). Your output might not look exactly the same, but let's go over all the notifications we got and see if we can understand all of them:
+
+[source, console]
+----
+> phy.fullduplex = true
+true
+> subscribe phy
+> phy << new TxFrameReq()
+AGREE
+phy >> TxFrameStartNtf:INFORM[type:CONTROL txTime:79322682 txDuration:2040416]               #<1>
+phy >> RxFrameStartNtf:INFORM[type:CONTROL rxTime:79309353 rxDuration:2040000 detector:0.87] #<2>
+phy >> RxFrameStartNtf:INFORM[type:DATA rxTime:80659519 rxDuration:2040000 detector:0.26]    #<3>
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:79310432]                                       #<4>
+phy >> RxFrameNtf:INFORM[type:CONTROL from:1 rxTime:79309353 rssi:-29.3 cfo:0.0]             #<5>
+phy >> BadFrameNtf:INFORM[type:DATA rxTime:80659519 rssi:-38.5 (18 bytes)]                   #<6>
+----
+<1> Transmission of our requested CONTROL frame has started.
+<2> Our frame being transmitted was detected as a CONTROL frame, and reception has started.
+<3> Our frame being transmitted was wrongly detected (false alarm) as a DATA frame.
+<4> Transmission of our frame was completed.
+<5> Reception of the frame was completed, and successful.
+<6> The wrongly detected frame resulted in data that did not satisfy CRC, and hence reported as a bad frame.
+
+Feel free to play around with the parameters of the modulation scheme and try transmissions to get a feel for how the parameters affect communication performance. Since your transmission and reception modems are the same, you only need to set the parameters once! In real life, you'll need to set the same parameters on all modems in your network.

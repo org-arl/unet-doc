@@ -197,3 +197,23 @@ On node B, we should have done this in the first place:
 ----
 
 This single-liner in Groovy iterates over the list of agents providing the datagram service, and subscribes to the topic of each agent in that list.
+
+=== Datagrams and the UnetSocket API
+
+The UnetSocket API also supports delivery of datagrams. Let's try it. On node A:
+
+[source, console]
+----
+> s = new UnetSocket(this);
+> s.send new DatagramReq(to: 31, data: new byte[32])
+true
+----
+
+On node B, we will see the datagram delivery:
+
+[source, console]
+----
+uwlink >> DatagramNtf:INFORM[from:232 to:31 (32 bytes)]
+----
+
+Note that we did not have to specify an agent or service when making the datagram request via the UnetSocket API. An appropriate agent was automatically selected by the API for us. In this case, the `uwlink` agent was used by the API to deliver the datagram.
