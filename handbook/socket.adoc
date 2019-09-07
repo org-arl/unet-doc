@@ -104,7 +104,7 @@ def phy = sock.agentForService(org.arl.unet.Services.PHYSICAL)   #<1>
 println(phy.MTU)
 println(phy[1].dataRate)
 ----
-<1> Looking up an agent based on a services it provides is recommended, rather than specify the agent by name. We will explore services in more detail in <<What are services?>>. However, if you wished to reference an agent by name, you could have done that as: `def phy = sock.agent('phy')`
+<1> Looking up an agent based on a services it provides is recommended, rather than specify the agent by name. We will explore services in more detail in <<Services and capabilities>>. However, if you wished to reference an agent by name, you could have done that as: `def phy = sock.agent('phy')`
 
 This will print the value of parameter `MTU` (maximum transfer unit) of the physical layer, and the physical layer `dataRate` of the CONTROL (1) channel. You could also change some of the parameters:
 

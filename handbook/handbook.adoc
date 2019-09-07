@@ -1,5 +1,5 @@
 = Underwater Networks Handbook
-The Unet Team
+Mandar Chitre
 v0.1
 :imagesdir: images
 :title-logo-image: image::unet.png[Unet,150,150]
@@ -77,21 +77,23 @@ include::atc.adoc[]
 
 = *Part IV: Understanding UnetStack services*
 
-== What are services?
+include::svc.adoc[]
+
+== Datagram service
 == Understanding the physical service
 == Working with the JANUS standard
 == Arbitrary waveforms and the baseband service
 == Ranging and synchronization
 == Node information
 == Address resolution
-== Datagrams
 == Links and reliability
 == Medium access control (MAC)
 == Routing and route maintenance
 == Transport and reliability
 == Remote access
-== Scheduler
 == State persistence
+== Scheduler
+== Shell
 
 = *Part V: Extending UnetStack*
 
@@ -110,6 +112,6 @@ include::agents.adoc[]
 
 // appedices
 
-= *Appendices*
+//= *Appendices*
 
-include::svcref.adoc[]
+//include::svcref.adoc[]

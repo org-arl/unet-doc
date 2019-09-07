@@ -13,7 +13,7 @@ Since UDP is a datagram-oriented protocol, it is easy to map UDP datagrams to Un
 In this example, application X sends a UDP datagram to node A, where a UdpPortal agent listens on UDP port 7000. The UdpPortal agent converts the UDP datagram into a Unet datagram and sends it to node B. The UdpPortal agent on node B receives this datagram, converts is back to a UDP datagram and sends it to application Y listening on UDP port 7778.
 
 [[fig_udp_portal]]
-.UDP portal establishes a tunnel through the Unet for UDP datagrams to pass through.
+.A UDP portal establishes a tunnel through the Unet for UDP datagrams to pass through.
 image::udp-portal.png[]
 
 Let us emulate this example with our favorite 2-node network. Fire up the 2-node network simulation, as before:
@@ -51,6 +51,8 @@ Open browser windows for shell access to each of the nodes. On node A, create a 
   protocol = 0
   reliability = false
 ----
+
+The default `port` and `clientPort` for the UdpPortal are arbitrarily chosen to be 7777 and 7778 respectively. You can easily change them during creation of the UdpPortal, as we did above, or later, by setting the relevant parameter.
 
 On node B, create the other end-point of the UDP portal to send the UDP datagrams to `localhost` UDP port 7778, where you will run application Y:
 
@@ -90,16 +92,19 @@ Open another terminal window and set up a simple UDP client to send text datagra
 [source, shell]
 ----
 $ nc -u 192.168.1.9 7000
-hello
+hello                             #<1>
 ----
+<1> Type your text message "hello" followed by ENTER.
 
 In a few seconds, you should see that text message appearing on application Y terminal:
 
 [source, shell]
 ----
-$ nc -u -l 7778
-hello
+$ nc -u -l 7778                   #<1>
+hello                             #<2>
 ----
+<1> You had already typed this in earlier.
+<2> Your text message "hello" appears here.
 
 The text message went through the Unet to get there!
 
@@ -174,16 +179,19 @@ Open another terminal window and connect over TCP/IP to node B. Type a text mess
 [source, shell]
 ----
 $ nc localhost 7001
-hello
+hello                             #<1>
 ----
+<1> Type in your text message "hello", and press ENTER.
 
 In a few seconds, you should see that text message appearing on the TCP/IP connection to node A:
 
 [source, shell]
 ----
-$ nc localhost 7000
-hello
+$ nc localhost 7000               #<1>
+hello                             #<2>
 ----
+<1> You had already typed this in above.
+<2> Your text message "hello" appears here.
 
 The text message went through the Unet to get there!
 

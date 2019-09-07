@@ -1,0 +1,145 @@
+== Services and capabilities
+
+So far you've interacted with agents, checking and changing agent parameters, and sending and receiving messages. But how do you know which agents to send what messages to, and what agents support which parameters? The answer to this question lies in the concept of _services_.
+
+=== Terminology
+
+To fully understand services, we need to formally define a few terms, many of which you are already somewhat familiar with:
+
+Agent:: An agent is logical entity that implements a specific functionality of the network. Loosely, an agent maps to a layer in a traditional network stack, but is more flexible. Each agent has its own thread of execution, and all agents can be thought of as running concurrently. An agent is normally referenced using its _AgentID_. You may think of an AgentID as the name of an agent, or a reference to the agent.
+
+Message:: Agents interact with each other via messages. Agents can send and receive messages, and typically expose all their functionality as a set of messages that they will respond to. Messages are transmitted within the network stack on a node, and not between nodes in the network. Each message is tagged with a _performative_ that summarizes the purpose of the message. Common performatives are `REQUEST`, `AGREE`, `REFUSE`, `FAILURE`, `NOT_UNDERSTOOD` and `INFORM`.
+
+Request:: Request messages ask an agent to perform some task. Such messages are marked with the performative `REQUEST`, and it is a convention to name the message class with a suffix `Req` (e.g. `DatagramReq`, `ParameterReq`).
+
+Response:: When an agent receives a request, it must respond back to the requesting agent. Common responses are simply messages with the performative set to `AGREE`, `REFUSE`, `FAILURE` or `NOT_UNDERSTOOD`. An `AGREE` message confirms to the requester that the agent will perform the requested task. A `REFUSE` message tells the requester that the request cannot be performed at this time. A `FAILURE` message, on the other hand, means that the agent should have been able to do the request under normal circumstances, but something went wrong. A `NOT_UNDERSTOOD` response is generated if the agent does not know how to deal with the request. Other than these simple messages, responses may sometimes contain more information. Such messages are respresented by message classes with a suffix `Rsp` (e.g. `ParameterRsp`), and may have a performative of `INFORM` to indicate that they contain information in response to the request.
+
+Notification:: Agents sometimes generate unsolicited information. This information is encapsulated in a notification message, typically with a performative `INFORM`. Notification messages may be sent to a specific agent, or on a topic.
+
+Topic:: A topic defines a publish-subscribe mechanism where an agent may publish some notifications, and other agents interested in those notifications may _subscribe_ to the topic. Most agents have an unnamed topic associated with themselves, that other agents can subscribe to. For example, a link agent may subscribe to the topic of a physical layer agent to listen for incoming data frames from the physical layer.
+
+Parameters:: Most UnetStack agents publish a number of parameters associated with them. Parameters are key-value pairs that provide information about the agent (read-only parameters), or allow controlling the behavior of the agent (read-write parameters). Parameters are technically accessed via `ParameterReq` and `ParameterRsp` messages, but a simpler notation (`agent.parameter`) is also available to get/set parameters.
+
+Service:: A service is a collection of messages (requests, responses and notifications) and parameters that an agent honors. Agents publish the list of services they offer, and you can find agents through the services they advertise.
+
+Capability:: Services often define optional capabilities. These capabilities may be offered by some agents advertising a service, but may be omitted by others. An agent can be queried to check if it supports a specific capability using the `CapabilityReq` message.
+
+TIP: If all of these terms pique your curiosity, you may wish to take a look at the https://fjage.readthedocs.io/en/latest/index.html[fjåge documentation]. fjåge is the underlying agent framework that UnetStack is built on. While we don't assume familiarity with fjåge in this handbook, your understanding of UnetStack would certainly be quicker if you were to invest in building that familiarity.
+
+=== Finding service providers
+
+In <<Accessing agent services>>, we have already come across the `agentForService()` function that helps us find an agent that provides a specific service. In this section, we'll explore this a bit more.
+
+Fire up your trusty 2-node network and connect to node A's shell:
+
+[source, console]
+----
+> a = agentForService(org.arl.unet.Services.PHYSICAL);
+> a.name
+phy
+----
+
+We asked for an agent that provides the `org.arl.unet.Services.PHYSICAL` service, and UnetStack responded back with an agent ID of an agent that can provide you that service. The name of that agent on node A is `phy`.
+
+But what if there were more than one agents capable of providing the same service? We can ask for the list of all agents that provide a service:
+
+[source, console]
+----
+> agentsForService(org.arl.unet.Services.PHYSICAL)
+[phy]
+----
+
+Well, there was only one agent providing the PHYSICAL service. Are there other services that multiple agents provide? Indeed, there are:
+
+[source, console]
+----
+> agentsForService(org.arl.unet.Services.DATAGRAM)
+[transport, router, uwlink, phy]
+----
+
+The DATAGRAM service is provided by several agents. If you were interested in all incoming datagrams, you'd need to subscribe to the topics of all these agents!
+
+What would have happened if you only asked for `agentForService()` instead of `agentsForService()` for the DATAGRAM service? Try it:
+
+[source, console]
+----
+> a = agentForService(org.arl.unet.Services.DATAGRAM);
+> a.name
+transport
+----
+
+Any one of the agents in the list is returned!
+
+TIP: Ever wondered what we assigned the `a = agentForService(...)`, and then asked for `a.name` to see the name of the agent? +
+ +
+When you try to print an AgentID object on the shell, the shell tries to be helpful and queries the agent for all its parameters and displays them. In this case, we were only interested in the name and not all the parameters, so we asked the shell not to get the parameters by explicitly asking for just `a.name`.
+
+=== Checking capabilities
+
+So let's say you looked up the list of agents that provide the DATAGRAM service:
+
+[source, console]
+----
+> agentsForService(org.arl.unet.Services.DATAGRAM)
+[transport, router, uwlink, phy]
+----
+
+If you wanted to send a datagram, how do you pick which one you'd rather use? Different agents may provide different optional capabilities. If you were specifically interested in a particular capability (e.g. RELIABILITY), you could ask the agent if it supported that:
+
+[source, console]
+----
+> phy << new CapabilityReq(org.arl.unet.DatagramCapability.RELIABILITY)
+DISCONFIRM
+> uwlink << new CapabilityReq(org.arl.unet.DatagramCapability.RELIABILITY)
+CONFIRM
+----
+
+Here, we asked `phy` if it can do reliable datagram delivery, and it said "no". Then we asked `uwlink`, and it confirmed that it can. If you needed reliable delivery of our datagram, you should choose the latter.
+
+You can also ask an agent to list all its optional capabilities:
+
+[source, console]
+----
+> transport << new CapabilityReq()
+CapabilityListRsp:INFORM[PROGRESS,RELIABILITY,FRAGMENTATION,CANCELLATION]
+----
+
+The `transport` agent says it can do reliable datagram delivery, fragment & reassemble large datagrams (if necessary), report on the progress of large datagram transfers, and cancel datagram delivery half way through the process (if the user wishes to).
+
+Another way you may choose a service provider is by checking its parameters. For example, the `MTU` parameter (defined in the DATAGRAM service) tells you what is the largest datagram the agent can deliver:
+
+[source, console]
+----
+> phy.MTU
+56
+> uwlink.MTU
+3145632
+----
+
+If you had a small datagram (56 bytes or less) to deliver, and you did not care about reliability, you could ask `phy` to deliver it for you. But, if your datagram was larger, even if you did not need reliability, you'd have to ask `uwlink` to deliver it for you.
+
+=== Service list
+
+The following services are currently defined in UnetStack:
+
+[%header,cols="1,2,3,1",format=csv]
+|===
+Short name, Fully qualified name, Description, Read...
+Datagram, `org.arl.unet.Services.DATAGRAM`, Send and receive datagrams, <<Datagram service>>
+Physical, `org.arl.unet.Services.PHYSICAL`, Physical layer, <<Understanding the physical service>>
+Baseband, `org.arl.unet.Services.BASEBAND`, Arbitrary waveform transmission & recording, <<Arbitrary waveforms and the baseband service>>
+Ranging, `org.arl.unet.Services.RANGING`, Ranging & synchronization, <<Ranging and synchronization>>
+Node Information, `org.arl.unet.Services.NODE_INFO`, Node & network information, <<Node information>>
+Address Resolution, `org.arl.unet.Services.ADDRESS_RESOLUTION`, Address allocation & resolution, <<Address resolution>>
+Link, `org.arl.unet.Services.LINK`, Datagram transmission over a single hop, <<Links and reliability>>
+MAC, `org.arl.unet.Services.MAC`, Medium access control, <<Medium access control (MAC)>>
+Routing, `org.arl.unet.Services.ROUTING`, Routing of datagrams over a multihop network, <<Routing and route maintenance>>
+Route Maintenance, `org.arl.unet.Services.ROUTE_MAINTENANCE`, Discovery & maintenance of routes in a multihop network, <<Routing and route maintenance>>
+Transport, `org.arl.unet.Services.TRANSPORT`, Datagram transmission over a multihop network, <<Transport and reliability>>
+Remote, `org.arl.unet.Services.REMOTE`, "Remote command execution, text messaging & file transfer", <<Remote access>>
+StateManager, `org.arl.unet.Services.STATE_MANAGER`, State persistence across node reboots, <<State persistence>>
+Scheduler, `org.arl.unet.Services.SCHEDULER`, Sleep-wake scheduling for energy management, <<Scheduler>>
+Shell, `org.arl.fjage.shell.Services.SHELL`, Commmand execution & file management services, <<Shell>>
+|===
+
+You can enjoy reading more about these services in the next few chapters.
