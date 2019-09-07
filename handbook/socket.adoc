@@ -104,7 +104,7 @@ def phy = sock.agentForService(org.arl.unet.Services.PHYSICAL)   #<1>
 println(phy.MTU)
 println(phy[1].dataRate)
 ----
-<1> Looking up an agent based on a services it provides is recommended, rather than specify the agent by name. We will explore services in more detail in <<Understanding UnetStack services>>. However, if you wished to reference an agent by name, you could have done that as: `def phy = sock.agent('phy')`
+<1> Looking up an agent based on a services it provides is recommended, rather than specify the agent by name. We will explore services in more detail in <<part_svc>>. However, if you wished to reference an agent by name, you could have done that as: `def phy = sock.agent('phy')`
 
 This will print the value of parameter `MTU` (maximum transfer unit) of the physical layer, and the physical layer `dataRate` of the CONTROL (1) channel. You could also change some of the parameters:
 
@@ -127,8 +127,10 @@ To request broadcast of a CONTROL frame, like we did before from the shell, we n
 
 [source, groovy]
 ----
+import org.arl.unet.phy.TxFrameReq
+
 def phy = sock.agentForService(org.arl.unet.Services.PHYSICAL)
-phy << new org.arl.unet.phy.TxFrameReq()
+phy << new TxFrameReq()
 ----
 
 For lower level transactions, we obtain a fjåge Gateway instance from the UnetSocket API, and use it directly. For example, we can subscribe to event notifications from the physical layer and print them:
@@ -142,3 +144,22 @@ if (msg) println(msg)
 gw.unsubscribe(phy)
 ----
 <1> Receive a message from the gateway with a timeout of 10000 ms. If no message is received during this period, `null` is returned.
+
+=== Python and other languages
+
+In Groovy and Java, services, parameters and messages are defined using enums and classes. These are made available to the client application by putting the relevant jars in the classpath. In other languages (e.g. Python, Julia, Javascript), services and parameters are simply referred to as strings with fully qualified names (e.g. `'org.arl.unet.Services.PHYSICAL'`). Messages are represented by dictionaries, but have to be declared before use.
+
+For example, in Python:
+
+[source, python]
+----
+from unetpy import UnetSocket
+from fjagepy import MessageClass
+
+TxFrameReq = MessageClass('org.arl.unet.phy.TxFrameReq')
+
+sock = UnetSocket('192.168.1.9', 1102)
+phy = sock.agentForService('org.arl.unet.Services.PHYSICAL')
+phy << TxFrameReq()
+sock.close()
+----

@@ -8,7 +8,7 @@ v0.1
 :lang: en
 :encoding: utf-8
 :toc: left
-:toclevels: 2
+:toclevels: 1
 :sectnums:
 :xrefstyle: short
 :source-highlighter: rouge
@@ -63,7 +63,7 @@ include::smallnet.adoc[]
 
 include::routing.adoc[]
 
-// include::udp.adoc[]
+include::udp.adoc[]
 
 = *Part III: Building Unet applications*
 
@@ -75,19 +75,33 @@ include::portals.adoc[]
 
 include::atc.adoc[]
 
-// == Understanding the PHYSICAL service
-// == Working with the JANUS standard
-// == Arbitrary waveforms and the BASEBAND service
+[[part_svc]]
+= *Part IV: Understanding UnetStack services*
 
-= *Part IV: Extending UnetStack*
+== What are services?
+== Understanding the physical layer
+== Working with the JANUS standard
+== Arbitrary waveforms
+== Ranging and synchronization
+== Node information
+== Address resolution
+== Datagrams
+== Links and reliability
+== Medium access control (MAC)
+== Routing and route maintenance
+== Transport and reliability
+== Remote access
+== Scheduler
+== State persistence
+
+= *Part V: Extending UnetStack*
 
 include::agents.adoc[]
 
-== Medium access control (MAC)
 == Integrating with sensors
 == UnetStack shell extensions
 
-= *Part V: Simulating underwater networks*
+= *Part VI: Simulating underwater networks*
 
 == Writing simulation scripts
 == Modems and channel models
