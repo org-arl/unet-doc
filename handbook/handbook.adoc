@@ -75,13 +75,12 @@ include::portals.adoc[]
 
 include::atc.adoc[]
 
-[[part_svc]]
 = *Part IV: Understanding UnetStack services*
 
 == What are services?
-== Understanding the physical layer
+== Understanding the physical service
 == Working with the JANUS standard
-== Arbitrary waveforms
+== Arbitrary waveforms and the baseband service
 == Ranging and synchronization
 == Node information
 == Address resolution

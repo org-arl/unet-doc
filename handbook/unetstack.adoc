@@ -255,7 +255,7 @@ phy >> TxFrameNtf:INFORM[type:CONTROL txTime:2913909740]
 
 Here we made a request to the `phy` agent to transmit some data. The agent responded with an `AGREE` response, shortly followed by a `TxFrameNtf` notification from `phy` telling us that the transmission was successful.
 
-TIP: A _frame_ is simply a datagram at the physical layer, also sometimes called a "packet". We prefer the term "frame" when working at the physical layer, but the distinction between frames and datagrams is unimportant at this point in time. We will come back to this later, in <<Understanding the PHYSICAL service>>.
+TIP: A _frame_ is simply a datagram at the physical layer, also sometimes called a "packet". We prefer the term "frame" when working at the physical layer, but the distinction between frames and datagrams is unimportant at this point in time. We will come back to this later, in <<Understanding the physical service>>.
 
 We can also use the return value in a condition, but we need to remember that the return value from the `request` is a message:
 
