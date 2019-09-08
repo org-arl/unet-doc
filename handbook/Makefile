@@ -11,7 +11,7 @@ all: pdf html
 
 ${BUILD}/unet-handbook.pdf: handbook.adoc ${ADOCS}
 	mkdir -p ${BUILD}
-	asciidoctor-pdf -o $@ $<
+	asciidoctor-pdf -a pdf-style=custom-theme.yml -o $@ $<
 
 ${BUILD}/unet-handbook.html: handbook.adoc ${ADOCS}
 	mkdir -p ${BUILD}

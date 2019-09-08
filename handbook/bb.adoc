@@ -379,6 +379,6 @@ In[11]:  # plot the first 10000 baseband samples (real/in-phase components only)
          plt.plot(ntf.signal[:10000].real, fs=ntf.fs)
 Out[11]:
 ----
-image::sig1.png[width=600]
+image::sig1.png[width=500]
 
 Of course you could do the same thing with Julia or other languages, if you wish, with obvious minor changes to the syntax!
