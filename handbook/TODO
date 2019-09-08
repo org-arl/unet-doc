@@ -1,21 +1,10 @@
 Don't forget:
 
   ☐ What's new in UnetStack3?
+  ☐ Promiscous mode
+  ✔ Short circuit diagram @done (19-09-08 19:53)
+  ✔ timestamped and timed transmissions @done (19-09-08 20:25)
 
 Nice-to-haves:
 
   ☐ Make some of the TIPs become UNDER-THE-HOODs with a nice little car-bonnet-open icon (e.g. section 3.2)
-
->>>
-
-[source, groovy]
-----
-println(phy[2].frameLength)
-phy[1].frameLength = 64
-println(phy[2].frameLength)
-println(phy.MTU)
-----
-
-If you run the above code, you'll see that the changed DATA (2) channel frame length would also affect the MTU. The `phy.MTU`, `phy[1].MTU`, `phy[2].MTU`, `phy[1].frameLength` and `phy[2].frameLength` parameters are closely related. The MTU of a channel is its frame length, reduced by the size of the physical layer header. The MTU of the physical layer is the MTU of the DATA channel, since a datagram is by default transmitted using the DATA channel.
-
-TIP: Developers may wish to consider using constants `org.arl.unet.phy.Physical.CONTROL` and `org.arl.unet.phy.Physical.DATA` instead of hard coding 1 and 2, for readability.

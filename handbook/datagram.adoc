@@ -2,7 +2,7 @@
 
 Unets are all about sending datagrams between nodes!
 
-The datagram service is, therefore, one of the fundamental services that many agents provide. However, different agents have very different capabilities in terms of what they can do with the datagrams. Let's take a look at what the service offers, and how to use it effectively.
+The datagram service is, therefore, one of the fundamental services that many agents provide. However, different agents have very different capabilities in terms of what they can do with datagrams. Let's take a look at what the service offers, and how to use it effectively.
 
 === Overview
 
@@ -112,7 +112,7 @@ uwlink >> DatagramNtf:INFORM[from:232 to:31 (64 bytes)]
 uwlink >> DatagramNtf:INFORM[from:232 (64 bytes)]
 ----
 
-TIP: Agent `uwlink` uses the physical service (agent `phy`) to deliver the data. Since the `phy.MTU` is only 56 bytes, but our datagrams were 64 bytes, unbeknown to us, the `uwlink` agent must have been fragmenting these datagrams and reassembling them on the other side!
+TIP: Agent `uwlink` uses the physical service (agent `phy`) to deliver the data. Since the `phy.MTU` is only 56 bytes, but our datagrams were 64 bytes, unbeknownst to us, the `uwlink` agent must have been fragmenting these datagrams and reassembling them on the other side!
 
 === Short-circuit delivery
 
@@ -126,7 +126,7 @@ Let's try it again, but with a small difference. On node A:
 AGREE
 ----
 
-We transmitted a smaller datagram, and node A happily accepted it for delivery. However, if we look at the shell for node B, we don't see a `DatagramNtf` message corresponding to the datagram! What's going on? Let's try it again, but this time enable reliability:
+We transmitted a smaller datagram, and node A happily accepted it for delivery. However, if we look at the shell for node B, we don't see a `DatagramNtf` message corresponding to the datagram, even though you had already subscribed to `uwlink`! What's going on? Let's try it again, but this time enable reliability:
 
 [source, console]
 ----
@@ -181,13 +181,18 @@ true
 
 Variable `ntf` contains the last notification received. It is the `RxFrameNtf`, and it is indeed an instance of `DatagramNtf`. So, we indeed got the datagram on node B, and it was delivered as a `DatagramNtf` with the correct metadata.
 
-But why was it send on `phy` agent's topic and not `uwlink` agent's topic, like all other datagrams we transmitted?
+But why was it sent on `phy` agent's topic and not `uwlink` agent's topic, like all other datagrams we transmitted?
 
-This is due to an optimization introduced in UnetStack3, known as *short-circuit delivery*. The `uwlink` agent on node A looked at the unreliable `DatagramReq` for 32 bytes and realized that it is within the `phy` agent's capability (no reliability needed, and the datagram size is less than `phy.MTU`) to deliver this without the help of the `uwlink` agent. It delegated the task to the `phy` agent, which in turn send the datagram to its peer on node B, and therefore it was delivered to us by the `phy` agent on node B. This delegation not only reduces computation, but more importantly reduces the overhead of link headers in the frame, and therefore save valuable bandwidth in a resource-constrained underwater network.
+This is due to an optimization known as *short-circuit delivery* (introduced in UnetStack 3), depicted in <<fig_shortcircuit>>. The `uwlink` agent on node A looked at the unreliable `DatagramReq` for 32 bytes and realized that it is within the `phy` agent's capability (no reliability needed, and the datagram size is less than `phy.MTU`) to deliver this without the help of the `uwlink` agent. It delegated the task to the `phy` agent, which in turn send the datagram to its peer on node B, and therefore it was delivered to us by the `phy` agent on node B. This delegation not only reduces computation, but more importantly reduces the overhead of link headers in the frame, and therefore save valuable bandwidth in a resource-constrained underwater network.
 
-Short-circuit delivery is not only done by `uwlink`, but by all agents supporting the datagram service. If a downstream agent is capable of delivering the datagram, the delivery is delegated automatically in UnetStack3.
+Short-circuit delivery is not only done by `uwlink`, but by all agents supporting the datagram service. If a downstream agent is capable of delivering the datagram, the delivery is delegated automatically.
 
-WARNING: In UnetStack3, as a result of short-circuit delivery optimization, you need to subscribe to *all* datagram service providers to receive `DatagramNtf` messages, and not just the one you send the datagram via.
+WARNING: As a result of short-circuit delivery optimization, you need to subscribe to *all* datagram service providers to receive `DatagramNtf` messages, and not just the one you send the datagram via.
+
+[[fig_shortcircuit]]
+.With short-circuit delivery, `uwlink` on node A recognizes the `DatagramReq` to be within the `phy` agent's capability, and no delegates it without adding any headers. On node B, the received frame is directly delivered as a `DatagramNtf` by the `phy` agent, since `uwlink` functionality is not required.
+image::shortcircuit.png[]
+
 
 On node B, we should have done this in the first place:
 

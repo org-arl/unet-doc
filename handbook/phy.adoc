@@ -4,19 +4,19 @@
 
 Agents offering the physical service are most commonly modem drivers and modem simulators. They support a set of messages and parameters that are explained below. Physical service providers may also provide optional capabilities to send frames triggered at a specified time, or send timestamped frames where the timestamp is embedded in the transmitted frame.
 
-CAUTION: Agents implementing the physical service typically directly access the channel, bypassing any MAC protocol that may be in use in the network. It is highly recommended that clients wishing to use the physical service consult with the MAC service for advise on when it is safe to access the channel, so as not to adversely affect the network performance.
+CAUTION: Agents implementing the physical service typically directly access the channel, bypassing any MAC protocol that may be in use in the network. It is highly recommended that clients wishing to use the physical service consult with the MAC service for advice on when it is safe to access the channel, so as not to adversely affect the network performance.
 
-All agents supporting the physical service must also support the <<Datagram service>>.
+All agents supporting the physical service must also support the datagram service (<<Datagram service>>).
 
 === Messages
 
-Agents supporting the physical service provide to manage frame transmission and reception:
+Agents supporting the physical service provide a set of messages to manage frame transmission and reception:
 
 * https://unetstack.net/javadoc/org/arl/unet/phy/TxFrameReq.html[`TxFrameReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- transmit a frame
 * https://unetstack.net/javadoc/org/arl/unet/phy/TxRawFrameReq.html[`TxRawFrameReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- transmit a frame without headers
 * https://unetstack.net/javadoc/org/arl/unet/phy/ClearReq.html[`ClearReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- cancel all ongoing and pending transmissions
 * https://unetstack.net/javadoc/org/arl/unet/phy/RxFrameNtf.html[`RxFrameNtf`^] -- sent to agent's topic when a frame addressed to the node is received, and the agent's https://unetstack.net/javadoc/org/arl/unet/phy/Physical.html#SNOOP[`SNOOP`^] sub-topic when a frame addressed to other nodes is overheard
-* https://unetstack.net/javadoc/org/arl/unet/phy/TxFrameNtf.html[`TxFrameNtf`^] -- sent to requestor when a frame is successfully transmitted
+* https://unetstack.net/javadoc/org/arl/unet/phy/TxFrameNtf.html[`TxFrameNtf`^] -- sent to requestor when a frame is transmitted
 * https://unetstack.net/javadoc/org/arl/unet/phy/RxFrameStartNtf.html[`RxFrameStartNtf`^] -- send to agent's topic when a frame is detected
 * https://unetstack.net/javadoc/org/arl/unet/phy/TxFrameStartNtf.html[`TxFrameStartNtf`^] -- send to agent's topic when a frame transmission is started
 * https://unetstack.net/javadoc/org/arl/unet/phy/BadFrameNtf.html[`BadFrameNtf`^] -- send to agent's topic when a bad frame is received
@@ -68,7 +68,7 @@ Agents advertising this capability are able to transmit frames with a transmissi
 
 *https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalCapability.html#TIMED_TX[TIMED_TX^]*
 
-Agents advertising this capability are able to transmit frames at specified time. The time is given in the `txTime` attribute of the `TxFrameReq` message.
+Agents advertising this capability are able to transmit frames at specified time (on a best effort basis). The time is given in the `txTime` attribute of the `TxFrameReq` message.
 
 *https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalCapability.html#JANUS[JANUS^]*
 
@@ -363,3 +363,120 @@ For brevity, we have omitted the `TxFrameStartNtf` and `RxFrameStartNtf` message
 Feel free to play around with the parameters of the modulation scheme and try transmissions to get a feel for how the parameters affect communication performance. Since your transmission and reception modems are the same, you only need to set the parameters once! In real life, you'll need to set the same parameters on all modems in your network.
 
 WARNING: Remember to turn off the `phy[CONTROL].test` flag before trying any data transfer. While the flag is on, no user data can be carried by the transmitted frames.
+
+=== Timed and timestamped transmissions
+
+To explore timed and timestamped transmissions, let's go back to our 2-node network simulation. On the shell for node A:
+
+[source, console]
+----
+> phy << new CapabilityReq()
+CapabilityListRsp:INFORM[TIMESTAMPED_TX,TIMED_BBREC,TIMED_BBTX,TIMED_TX]
+----
+
+We see that the `phy` agent supports the `TIMESTAMPED_TX` and `TIMED_TX` optional capabilities. Let us try them out. On node B:
+
+[source, console]
+----
+> subscribe phy
+----
+
+Going back to node A, send a timestamped frame:
+
+[source, console]
+----
+> phy << new TxFrameReq(timestamped: true)
+AGREE
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:2489196375]
+----
+
+We see that the frame was transmitted at time 2489196375 (when you try this, the time will of course be different). You should see the `RxFarmeNtf` for this frame on node B:
+
+[source, console]
+----
+phy >> RxFrameStartNtf:INFORM[type:CONTROL rxTime:687419054]
+phy >> RxFrameNtf:INFORM[type:CONTROL from:232 rxTime:687419054 txTime:2489196375]
+----
+
+Note that the `RxFrameNtf` now has an additional `txTime` field that's populated, and the timestamp in there is the same as the `txTime` on node A's `TxFrameNtf`. The frame was timestamped before transmission, and transmitted at exactly the intended time.
+
+NOTE: Timestamps take up bits in the transmitted frame. Your effective `MTU` for frames with timestamps is 6 bytes less than the advertised `MTU`.
+
+CAUTION: Do bear in mind that the `phy.time` clocks on node A and B may not be synchronized. So timestamps from one node cannot be directly compared with timestamps on another node. In the above example, the `rxTime` was 687,419,054 microseconds, whereas the `txTime` was 2,489,196,375 microseconds. This does not mean that the frame was received before it was transmitted! It's just that node A and B have an offset between their clocks.
+
+Sometimes you may not need to transmit a timestamped frame, but you do want the frame to be transmitted at a specified time. On node A:
+
+[source, console]
+----
+> t = phy.time + 5000000; println(t); phy << new TxFrameReq(txTime: t) #<1>
+3174864375                                                             #<2>
+AGREE
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:3174864375]               #<3>
+----
+<1> `t` is the current time + 5 seconds. We ask for a frame to be transmitted at time `t`.
+<2> The value of time `t` is printed immediately (due to the `println(t)`).
+<3> The `TxFrameNtf` message will appear after a few seconds, once the transmission is made. Note that the actual `txTime` when the transmission occurred matches with our requested value `t`.
+
+If you check node B's shell, you'll find the corresponding `RxFrameNtf`, but it will not have a `txTime` field, as the frame transmitted was not timestamped.
+
+CAUTION: The transmission time is honored on a _best effort_ basis, which means that there could be a small difference between the requested time and the actual transmit time.
+
+=== Snooping frames meant for other nodes
+
+If you're familiar with Ethernet network interface cards, you may have come across _promiscuous mode_. In this mode, the network card receives all packets that it hears, not just the ones that are addressed to the node. Agents providing the physical service essentially do this continuously, but they send the notifications for frames intended for other nodes on a special sub-topic called SNOOP.
+
+With the 2-node network simulation, let's first only subscribe to the `phy` agent's topic on node B:
+
+[source, console]
+----
+> subscribe phy
+----
+
+From node A, transmit a frame to node B and to node C (node C does not exist in this network):
+
+[source, console]
+----
+> phy << new TxFrameReq(to: host('B'))
+AGREE
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:4622534375]
+> phy << new TxFrameReq(to: host('C'))
+AGREE
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:4623823375]
+----
+
+On node B, you'll find that it receives the `RxFrameStartNtf` for both transmissions, but only the `RxFrameNtf` for the transmission addressed to node B:
+
+[source, console]
+----
+phy >> RxFrameStartNtf:INFORM[type:CONTROL rxTime:2820757054]
+phy >> RxFrameNtf:INFORM[type:CONTROL from:232 to:31 rxTime:2820757054]
+phy >> RxFrameStartNtf:INFORM[type:CONTROL rxTime:2822046054]
+----
+
+The `RxFrameStartNtf` is sent when a frame is detected. At that point in time, the agent has no idea who the frame is intended for, because the frame contents have not yet arrived. Only when the frame is received and decoded does the agent know the destination address. Seeing that the second frame was intended for node C, node B does not report a `RxFrameNtf` for it.
+
+If you were interested in snooping conversations between other nodes, you could subscribe to the SNOOP topic on node B:
+
+[source, console]
+----
+> subscribe topic(phy, org.arl.unet.phy.Physical.SNOOP)
+----
+
+Now try transmitting another frame from node A to node C. On node A:
+
+[source, console]
+----
+> phy << new TxFrameReq(to: host('C'))
+AGREE
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:4899843375]
+----
+
+Now you'll see on node B that the corresponding `RxFrameNtf` is received:
+
+[source, console]
+----
+phy >> RxFrameStartNtf:INFORM[type:CONTROL rxTime:3098066054]
+phy >> RxFrameNtf:INFORM[type:CONTROL from:232 to:74 rxTime:3098066054]
+----
+
+The `to` address of 74 corresponds to `host('C')`, but the frame is available for agents on node B through the SNOOP topic.

@@ -10,6 +10,8 @@ Agent:: An agent is logical entity that implements a specific functionality of t
 
 Message:: Agents interact with each other via messages. Agents can send and receive messages, and typically expose all their functionality as a set of messages that they will respond to. Messages are transmitted within the network stack on a node, and not between nodes in the network. Each message is tagged with a _performative_ that summarizes the purpose of the message. Common performatives are `REQUEST`, `AGREE`, `REFUSE`, `FAILURE`, `NOT_UNDERSTOOD` and `INFORM`.
 
+TIP: It is easy to confuse messages, datagrams and frames. Messages are used by agents on a node to interact with other agents on the same node. They are never transmitted! Datagrams are logical packets of data that are exchanged between nodes. Datagrams may be fragmented and reassembled, and thus one datagram does not necessarily map to one transmission. Physical layer datagrams are called frames; they form the basic unit of data exchanged between nodes.
+
 Request:: Request messages ask an agent to perform some task. Such messages are marked with the performative `REQUEST`, and it is a convention to name the message class with a suffix `Req` (e.g. `DatagramReq`, `ParameterReq`).
 
 Response:: When an agent receives a request, it must respond back to the requesting agent. Common responses are simply messages with the performative set to `AGREE`, `REFUSE`, `FAILURE` or `NOT_UNDERSTOOD`. An `AGREE` message confirms to the requester that the agent will perform the requested task. A `REFUSE` message tells the requester that the request cannot be performed at this time. A `FAILURE` message, on the other hand, means that the agent should have been able to do the request under normal circumstances, but something went wrong. A `NOT_UNDERSTOOD` response is generated if the agent does not know how to deal with the request. Other than these simple messages, responses may sometimes contain more information. Such messages are respresented by message classes with a suffix `Rsp` (e.g. `ParameterRsp`), and may have a performative of `INFORM` to indicate that they contain information in response to the request.
@@ -117,6 +119,8 @@ Another way you may choose a service provider is by checking its parameters. For
 ----
 
 If you had a small datagram (56 bytes or less) to deliver, and you did not care about reliability, you could ask `phy` to deliver it for you. But, if your datagram was larger, even if you did not need reliability, you'd have to ask `uwlink` to deliver it for you.
+
+TIP: The `MTU` parameter is the datagram service is actually `org.arl.unet.DatagramParam.MTU`. Since we only have one `MTU` parameter that `phy` advertises, there is no ambiguity in using `phy.MTU`. But if you wanted to explicitly ask for the parameter by its fully qualified name, you could send a `ParameterReq` for it: `phy << new ParameterReq().get(org.arl.unet.DatagramParam.MTU)`
 
 === Service list
 
