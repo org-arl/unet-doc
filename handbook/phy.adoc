@@ -8,7 +8,7 @@ CAUTION: Agents implementing the physical service typically directly access the 
 
 All agents supporting the physical service must also support the datagram service (<<Datagram service>>).
 
-=== Messages
+==== Messages
 
 Agents supporting the physical service provide a set of messages to manage frame transmission and reception:
 
@@ -24,9 +24,9 @@ Agents supporting the physical service provide a set of messages to manage frame
 
 The `TxFrameReq` class extends a `DatagramReq` to add physical layer options, and the `RxFrameNtf` class extends a `DatagramNtf` to add physical layer metadata.
 
-=== Parameters
+==== Parameters
 
-Agents offering the physical service support the following parameter:
+Agents offering the physical service support the following parameters:
 
 * https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#rxEnable[`rxEnable`^] -- true if reception is enabled, false otherwise
 * https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#propagationSpeed[`propagationSpeed`^] -- signal propagation speed in m/s
@@ -56,7 +56,7 @@ Two frame types are defined:
 * https://unetstack.net/javadoc/org/arl/unet/phy/Physical.html#CONTROL[`CONTROL`^] frame = 1
 * https://unetstack.net/javadoc/org/arl/unet/phy/Physical.html#DATA[`DATA`^] frame = 2
 
-=== Capabilities
+==== Capabilities
 
 Agents may support several optional capabilities:
 

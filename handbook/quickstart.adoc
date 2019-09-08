@@ -290,4 +290,4 @@ The recording is sent to you as a `RxBasebandSignalNtf` message with 12000 baseb
 
 The values you'd see would natually be different, since the SDOAM would have recorded whatever sounds it heard using your computer's microphone.
 
-TIP: While we illustrated the use of the BASEBAND service using the `bbtx` and `bbrec` commands, the same functionality can be accessed using the `TxBasebandSignalReq` and the `RecordBasebandSignalReq` messages. This is useful if you want to access the functionality from an agent or through the external gateway API (e.g. from a Jupyter Python notebook). You will learn how to do this in <<Arbitrary waveforms and the baseband service>>.
+TIP: While we illustrated the use of the BASEBAND service using the `bbtx` and `bbrec` commands, the same functionality can be accessed using the `TxBasebandSignalReq` and the `RecordBasebandSignalReq` messages. This is useful if you want to access the functionality from an agent or through the external gateway API (e.g. from a Jupyter Python notebook). You will learn how to do this in <<Baseband service>>.

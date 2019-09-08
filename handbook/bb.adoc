@@ -1,0 +1,384 @@
+== Baseband service
+
+Software-defined modems often allow developers to transmit and record arbitrary waveforms. This functionality is encapsulated in the baseband service of UnetStack.
+
+=== Overview
+
+Agents offering the baseband service are most commonly modem drivers (and simulators). They support a set of messages and parameters that are explained below. Baseband service providers may also provide optional capabilities to send or record signals at a specified time, or based on premable detection.
+
+CAUTION: Agents implementing the baseband service typically directly access the channel, bypassing any MAC protocol that may be in use in the network. It is highly recommended that clients wishing to use the baseband service for transmitting arbitrary waveforms consult with the MAC service for advice on when it is safe to access the channel, so as not to adversely affect the network performance.
+
+==== Messages
+
+Agents supporting the baseband service provide a set of messages to for arbitrary signal transmission and recording:
+
+* https://unetstack.net/javadoc/org/arl/unet/bb/TxBasebandSignalReq.html[`TxBasebandSignalReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- transmit a signal
+* https://unetstack.net/javadoc/org/arl/unet/bb/RecordBasebandSignalReq.html[`RecordBasebandSignalReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- record a signal
+* https://unetstack.net/javadoc/org/arl/unet/bb/RxBasebandSignalNtf.html[`RxBasebandSignalNtf`^] -- signal recording sent to requestor, or to agent's topic if the recording was not specifically requested
+
+During signal transmission, an agent implementing the baseband service sends out `TxFrameStartNtf` and `TxFrameNtf`, as described in the physical service (<<Physical service>>). Similarly, if recording is triggered on a preamble detection, the agent sends out a `RxFrameStartNtf` as described in the physical service.
+
+Detection preambles are often added to transmitted signals for the receiving modem to identify the incoming signals. The receiving modem can capture the signal when it detects the preamble, and then send a `RxBasebandSignalNtf`. If a modem supports multiple preambles, the `TxBasebandSignalReq` can specify the `preamble` to be used. Setting the `preamble` to 0 results in a signal transmission without a preamble. Such a transmission will ordinarily not be received by any modem, unless it is recorded by an explicit `RecordBasebandSignalReq` at the appropriate time.
+
+==== Parameters
+
+Agents offering the baseband service support the following parameter:
+
+* https://unetstack.net/javadoc/org/arl/unet/bb/BasebandParam.html#carrierFrequency[`carrierFrequency`^] -- default carrier frequency for baseband signals (Hz)
+* https://unetstack.net/javadoc/org/arl/unet/bb/BasebandParam.html#basebandRate[`basebandRate`^] -- default baseband sampling rate for baseband signals (samples/s)
+* https://unetstack.net/javadoc/org/arl/unet/bb/BasebandParam.html#maxPreambleID[`maxPreambleID`^] -- maximum preamble identifier supported
+* https://unetstack.net/javadoc/org/arl/unet/bb/BasebandParam.html#maxSignalLength[`maxSignalLength`^] -- maximum baseband signal length (in samples) for transmission/reception
+* https://unetstack.net/javadoc/org/arl/unet/bb/BasebandParam.html#signalPowerLevel[`signalPowerLevel`^] -- signal transmission power level in dB re refPowerLevel (refPowerLevel is specified in the physical service)
+
+==== Capabilities
+
+Agents may support several optional capabilities:
+
+*https://unetstack.net/javadoc/org/arl/unet/bb/BasebandCapability.html#TIMED_BBTX[TIMED_BBTX^]*
+
+Agents advertising this capability are able to transmit signals at specified time (on a best effort basis). The time is given in the `txTime` attribute of the `TxBasebandSignalReq` message.
+
+*https://unetstack.net/javadoc/org/arl/unet/bb/BasebandCapability.html#TIMED_BBREC[TIMED_BBREC^]*
+
+Agents advertising this capability are able to record signals at specified time (on a best effort basis). The time is given in the `recTime` attribute of the `RecordBasebandSignalReq` message.
+
+=== Baseband and passband signals
+
+Communication systems usually represent signals in a complex baseband representation, as this allows them to be sampled at a lower sampling rate than real passband signals. Passband signals have to be sampled at more than twice the highest frequency (Nyquist criterion). Baseband signals need to be sampled at more than twice the bandwidth. Since the bandwidth is typically much lesser than the carrier frequency, the baseband representation is usually more economical than the passband representation.
+
+While the baseband service is aimed at signals represented in the complex baseband representation, it also supports signals represented as real passband samples. Such signals are identified by setting the `fc` (carrier frequency) field of the `TxBasebandSignalReq` or `RxBasebandSignalNtf` to 0. Modems offering the baseband service may optionally support passband signal transmission and recording.
+
+Since Java and Groovy do not support complex numbers natively, the complex baseband signals are represented by an array of floats with alternate samples from the in-phase (real part) and quadrature (imaginary part) channels. In languages that support complex numbers (e.g. Python and Julia), the signals are represented as arrays (or lists) of complex numbers.
+
+If all this seems to be confusing, don't worry, it'll become clear as we go through examples shortly.
+
+=== Transmitting and recording arbitrary signals
+
+In <<Transmitting and recording arbitrary acoustic waveforms>>, you already saw how to transmit and record arbitrary signals. We then used the convenience functions `bbtx` and `bbrec` for simplicity. In this chapter, we will do the same thing by sending the `TxBasebandSignalReq` and `RecordBasebandSignalReq` messages instead. As you'll see, these messages provide you greater control, and can also be sent via the UnetSocket API or a fjåge gateway from external applications.
+
+Fire up unet audio to try out the examples here:
+
+[source, shell]
+----
+$ bin/unet audio
+Modem web: http://localhost:8080/
+----
+
+On the shell for the unet audio SDOAM, check which agents provide the baseband service:
+
+[source, console]
+----
+> agentsForService(org.arl.unet.Services.BASEBAND)
+[phy]
+----
+
+We can now direct all our requests to the `phy` agent. Let's check the baseband parameters of the `phy` agent (we omit other parameters here for brevity):
+
+[source, console]
+----
+> phy
+<<< Physical >>>
+
+[org.arl.unet.bb.BasebandParam]
+  basebandRate = 12000.0
+  carrierFrequency = 12000.0
+  maxPreambleID = 4
+  maxSignalLength = 2147483647
+  signalPowerLevel = -10.0
+----
+
+We see that the unet audio SDOAM operates at a carrier frequency of 12 kHz and a bandband sampling rate of 12 kSa/s. Let's create a DC signal of length 12000 complex baseband samples (24000 floats) and transmit it. A DC signal of length 12000 complex samples with a carrier frequency of 12 kHz is a sinusoidal 12 kHz signal for 1 second.
+
+[source, console]
+----
+> s = [1,0]*12000                 #<1>
+[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 <<snip>> 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0]
+> s.size()
+24000
+> phy << new TxBasebandSignalReq(signal: s)
+AGREE
+phy >> TxFrameNtf:INFORM[txTime:11401231]
+----
+<1> In Groovy, we can repeat a list using the "*" operator. The list [1,0] represents a complex number 1+0j. Repeating it 12000 times gets us a 1 second long DC signal.
+
+You should hear the sound from your computer speaker.
+
+TIP: You can generate other frequency signals using the `cw()` function available in the shell. You can also save and load signals from text files using the `save` and `load` commands. For information on all these commands/functions, simply type `help cw`, `help save` or `help load`.
+
+Unet audio supports transmission of passband signals as well. Let us create a half second 2000 kHz passband signal and transmit it:
+
+[source, console]
+----
+> s = cw(2000, 0.5, 0)                             #<1>
+> s.size()
+48000                                              #<2>
+> phy << new TxBasebandSignalReq(signal: s, fc: 0) #<3>
+AGREE
+phy >> TxFrameNtf:INFORM[txTime:414013271]
+----
+<1> The `cw()` function enables us to create baseband or passband continuous wave signals. The third parameter is the carrier frequency. Setting that to 0 creates a baseband signal.
+<2> Notice that our signal is 48000 floats for 0.5 seconds. Compare that with the previous DC signal, which was 24000 floats for 1 second.
+<3> The `fc` field is set to 0 to tell `phy` that the `signal` is given in passband.
+
+Next, let's request a recording of 12000 samples (1 second duration):
+
+[source, console]
+----
+> phy << new RecordBasebandSignalReq(recLength: 12000)
+AGREE
+phy >> RxBasebandSignalNtf:INFORM[adc:1 rxTime:11780353 rssi:-79.1 fc:12000.0 fs:12000.0 (12000 baseband samples)]
+> ntf.signal                      #<1>
+[8.611694E-5, 5.8899976E-5, 1.01 <<snip>> E-6, -9.148392E-6, 3.5340495E-6]
+----
+<1> The `ntf` variable holds the last received notification, which in this case is the `RxBasebandSignalNtf`. The `signal` field contains the complex baseband recording.
+
+You can also ask for recordings to begin at a specified time:
+
+[source, console]
+----
+> t = phy.time + 5000000; println(t); phy << new RecordBasebandSignalReq(recLength: 12000, recTime: t)
+855949105
+AGREE
+phy >> RxBasebandSignalNtf:INFORM[adc:1 rxTime:855949105 rssi:-90.3 fc:12000.0 fs:12000.0 (12000 baseband samples)]
+----
+
+You'd have noticed the 6 second delay (5 seconds to begin recording, 1 more second to finish the recording) before the recording notification.
+
+Interestingly, you can also request recordings in the past! Many modems have a short buffer, allowing recording in the recent past. Go too far in the past and the modem will refuse your request!
+
+[source, console]
+----
+> t = phy.time - 5000000; println(t); phy << new RecordBasebandSignalReq(recLength: 12000, recTime: t)
+1186471772
+AGREE
+phy >> RxBasebandSignalNtf:INFORM[adc:1 rxTime:1186471772 rssi:-74.6 fc:12000.0 fs:12000.0 (12000 baseband samples)]
+> t = phy.time - 60000000; println(t); phy << new RecordBasebandSignalReq(recLength: 12000, recTime: t)
+1204946438
+REFUSE
+----
+
+Specifying a negative `recTime` is understood by the baseband service provider as a relative time. So we can simpify our request to record 5 seconds in the past:
+
+[source, console]
+----
+> phy << new RecordBasebandSignalReq(recLength: 12000, recTime: -5000000)
+AGREE
+phy >> RxBasebandSignalNtf:INFORM[adc:1 rxTime:1361359020 rssi:-72.9 fc:12000.0 fs:12000.0 (12000 baseband samples)]
+----
+
+=== Transmitting and detecting preambles
+
+Each logical channel (CONTROL, DATA, etc.) is associated with a detection preamble. Detectors in a modem monitor incoming signals, and trigger when the preamble is detected.
+
+We can transmit a preamble easily:
+
+[source, console]
+----
+> phy << new TxBasebandSignalReq(preamble: 1)
+AGREE
+phy >> TxFrameNtf:INFORM[txTime:5470777099]
+----
+
+Here, we did not specify a signal to transmit, so only the preamble was transmitted. You should have heard the preamble as a short chirp from your computer speaker. If we had specified a signal, the preamble would have been followed by the signal.
+
+If you had another unet audio SDOAM running nearby, it would have heard the preamble and detected a CONTROL frame. It would have tried to decode the frame, but failed, as we didn't actually transmit anything after the preamble. So you'd have seen a `RxFrameStartNtf` followed by a `BadFrameNtf` if you had subscribed to `phy` topic on that modem.
+
+If you don't have access to another computer run unet audio on, we can easily demonstrate the above behavior with a single unet audio SDOAM by simply enabling the full-duplex mode (and hence using the same computer for transmission and reception simultaneously), as we did in <<Physical service>>:
+
+[source, console]
+----
+> subscribe phy
+> phy.fullduplex = true
+true
+> phy << new TxBasebandSignalReq(preamble:1)
+AGREE
+phy >> TxFrameStartNtf:INFORM[txTime:5809832016 txDuration:40416]
+phy >> TxFrameNtf:INFORM[txTime:5809859766]
+phy >> RxFrameStartNtf:INFORM[type:CONTROL rxTime:5809825603 rxDuration:2740000 detector:0.9]
+phy >> BadFrameNtf:INFORM[type:CONTROL rxTime:5809825603 rssi:-55.6 (18 bytes)]
+----
+
+Preambles 1 and 2 are used by the CONTROL and DATA channel respectively. It's better not to mess with these, but instead use preamble 3, which is left for the user to configure in unet audio. By default, detection of preamble 3 is disabled. You can enable it by setting the detection threshold `phy[3].threshold` parameter. Let's try it:
+
+[source, console]
+----
+> phy[3].threshold = 0.25
+0.25
+> phy << new TxBasebandSignalReq(preamble: 3)
+AGREE
+phy >> TxFrameStartNtf:INFORM[txTime:6011688016 txDuration:170916]
+phy >> TxFrameNtf:INFORM[txTime:6011686599]
+phy >> RxFrameStartNtf:INFORM[type:#3 rxTime:6011700270 rxDuration:170500 detector:0.73]
+----
+
+We see the `RxFrameStartNtf` of type #3 indicating that preamble 3 was detected. Since `phy[3]` is not associated with any modulation scheme, the modem did not generate a `BadFrameNtf` as it did with preamble 1.
+
+TIP: Preambles 1, 2 and 3 are preconfigured on the unet audio SDOAM to be short signals with good autocorrelation properties. You can change these, if you wish, by setting the `preamble` indexed parameter (type `help phy[].preamble` for details).
+
+In applications such as sonar or ranging, we may only be interested in the detecting the timing of a known signal. In that case, the `RxFrameStartNtf` is sufficient for us. But in some applications, we may wish to capture the signal once detected. That can be easily achieved in unet audio by setting the `basebandRx` parameter.
+
+NOTE: The `basebandRx` and `basebandExtra` parameters are provided by the unet audio SDOAM, and work closely with the baseband service. These are not currently part of the baseband service specifications, but are under consideration for adoption as part of the service. Most modems that currently support the baseband service also support these parameters.
+
+If you enable `basebandRx`, a recording will be triggered everytime the preamble is detected:
+
+[source, console]
+----
+> phy[3].basebandRx = true
+true
+> phy << new TxBasebandSignalReq(preamble: 3)
+AGREE
+phy >> TxFrameStartNtf:INFORM[txTime:6992613349 txDuration:170916]
+phy >> TxFrameNtf:INFORM[txTime:6992598599]
+phy >> RxFrameStartNtf:INFORM[type:#3 rxTime:6992616269 rxDuration:170500 detector:0.78]
+phy >> RxBasebandSignalNtf:INFORM[adc:1 rxTime:6992616269 rssi:-22.0 preamble:3 fc:12000.0 fs:12000.0 (2046 baseband samples)]
+----
+
+The `RxBasebandSignalNtf` notified us of the recorded signal (containing just the detected preamble). If we wanted a longer recording after the preamble, we can ask for that using the `basebandExtra` parameter, specifying the length of the recording (in samples) beyond the preamble:
+
+[source, console]
+----
+> phy[3].basebandExtra = 1200     #<1>
+1200
+> phy << new TxBasebandSignalReq(preamble: 3)
+AGREE
+phy >> TxFrameStartNtf:INFORM[txTime:7143093349 txDuration:170916]
+phy >> TxFrameNtf:INFORM[txTime:7143062599]
+phy >> RxFrameStartNtf:INFORM[type:#3 rxTime:7143081603 rxDuration:1170500 detector:0.78]
+phy >> RxBasebandSignalNtf:INFORM[adc:1 rxTime:7143081603 rssi:-36.7 preamble:3 fc:12000.0 fs:12000.0 (3246 baseband samples)]
+----
+<1> We are requesting 10 ms recording beyond the end of the preamble.
+
+You can see that the recording is much longer now.
+
+TIP: If you cross-correlate this recording with the preamble you transmitted, you'd get an estimate of the impulse response of the channel between your computer speaker and microphone! You can easily obtain the complex baseband representation of preamble #3 that you have been transmitting (`phy[3].preamble.signal`), if you wanted to try doing this.
+
+=== Baseband signal monitor
+
+During the development of signal processing algorithms, one often wants to simply record received signals in the modem for postprocessing. For this, you could write a script to listen for `RxBasebandSignalNtf` messages from `phy` agent's topic, and store them in a file. Since this requirement is common, UnetStack already provides an agent which does exactly this. The agent is called `BasebandSignalMonitor` or `bbmon` for short.
+
+The `bbmon` agent is already loaded when you run unet audio. However, by default, it is disabled. It's easy to enable it:
+
+[source, console]
+----
+> bbmon.enable = true
+true
+----
+
+Now, every `RxBasebandSignalNtf` that is sent to `phy` agent's topic will be recorded in a `signal-0.txt` file in the `logs` folder.
+
+[source, console]
+----
+> logs                                           #<1>
+signals-0.txt [0 bytes]                          #<2>
+results.txt [39 bytes]
+phy-log-0.txt [687 bytes]
+log-0.txt [4 kB]
+> phy << new TxBasebandSignalReq(preamble: 3)    #<3>
+AGREE
+phy >> TxFrameStartNtf:INFORM[txTime:102528016 txDuration:170916]
+phy >> TxFrameNtf:INFORM[txTime:102513266]
+phy >> RxFrameStartNtf:INFORM[type:#3 rxTime:102531520 rxDuration:270500 detector:0.74]
+phy >> RxBasebandSignalNtf:INFORM[adc:1 rxTime:102531520 rssi:-23.6 preamble:3 fc:12000.0 fs:12000.0 (3246 baseband samples)]
+> logs
+signals-0.txt [34 kB]                            #<4>
+results.txt [39 bytes]
+phy-log-0.txt [687 bytes]
+log-0.txt [5 kB]
+----
+<1> Check the logs folder.
+<2> We have a `signals-0.txt` file with no data.
+<3> Transmit preamble #3. This will trigger a recording, based on the `phy[3]` configuration from the previous section.
+<4> Now the `signals-0.txt` file has grown to 34 kB. It contains the signal that was just recorded.
+
+As you record more signals, they are appended to the same file. If you restart unet audio, this file will be renumbered to `signals-1.txt`, as the logs are rotated.
+
+TIP: The name of the signals file and number of files kept through log rotation is configured when the `bbmon` agent is loaded. This happens in the `etc/setup.groovy` file in your unet audio installation, and you can change it, if you like.
+
+The signals file stores the signals in a base64 encoded format. The Python package `arlpy.unet` allows you to read this file and work with the signals in it:
+
+[source, python]
+----
+$ pip install arlpy          #<1>
+$ ipython
+Python 3.6.8 |Anaconda custom (64-bit)| (default, Dec 29 2018, 19:04:46)
+Type 'copyright', 'credits' or 'license' for more information
+IPython 6.2.1 -- An enhanced Interactive Python. Type '?' for help.
+
+In [1]: from arlpy import unet
+In [2]: s = unet.get_signals('logs/signals-0.txt')
+In [3]: s                    #<2>
+Out[3]:
+            time    rxtime  adc  channels  fc ...    len  preamble  rssi            filename  lno
+0  1567961114848  75224853    1         1   0 ...   3246         3 -23.6  logs/signals-0.txt    1
+
+[1 rows x 12 columns]
+
+In [4]: x = unet.get_signal(s, 0)
+In [5]: x.shape              #<3>
+Out[5]: (3246,)
+In [6]: x
+Out[6]:
+array([ 9.50995535e-02-3.77136953e-02j,  1.30487725e-01-1.90211199e-02j,
+        1.27376720e-01+1.91459619e-02j, ...,
+        8.61445224e-05+2.21590763e-05j, -2.69901575e-05-3.34111392e-05j,
+        3.39479702e-05-1.82653162e-06j])
+----
+<1> Install the `arlpy` pacakge. You need to do this only if you don't already have it installed. The output of this command is omitted here.
+<2> `s` is now a pandas table with an index of all signals available in `signals-0.txt`.
+<3> `x` is now signal #0 (first signal) from the `signals-0.txt` file.
+
+=== Transmitting and receiving waveforms directly from Python
+
+In the previous section, we showed you how to record signals for postprocessing. This is great if you postprocessing is what you desire, but sometimes it is important to access the functionality in real time from Python. This is very useful while debugging new signal processing algorithms, since tools such as Jupyter notebooks and libraries such as `numpy`, `scipy`, `pandas`, `arlpy`, and many others have made Python the preferred platform for a lot of scientific computation.
+
+Let's try it!
+
+You had already installed the Python package `unetpy` in <<Sending & receiving from a Python application>>. We'll be using it now, so in case you don't have it installed, now is a good time to install it. Start a Jupyter new notebook with Python 3 and connect to your unet audio instance:
+
+[source, python]
+----
+In[1]:   import unetpy
+         import arlpy.plot as plt
+
+In[2]:   # connect to the unet audio SDOAM
+         sock = unetpy.UnetSocket('localhost', 1100)
+         gw = sock.getGateway()
+
+In[3]:   # lookup the agent providing baseband service
+         bb = gw.agentForService('org.arl.unet.Services.BASEBAND')
+         bb.name
+Out[3]:  'phy'
+
+In[4]:   # define the messages we plan to use
+         TxBasebandSignalReq = unetpy.MessageClass('org.arl.unet.bb.TxBasebandSignalReq')
+         RecordBasebandSignalReq = unetpy.MessageClass('org.arl.unet.bb.RecordBasebandSignalReq')
+
+In[5]:   # transmit preamble 3 -- you should be able to hear it
+         bb << TxBasebandSignalReq(preamble=3)
+Out[5]:  AGREE
+
+In[6]:   # discard old notifications to get ready for a recording
+         gw.flush()
+
+In[7]:   # request a recording
+         bb << RecordBasebandSignalReq()
+Out[7]:  AGREE
+
+In[8]:   # obtain the recording notification and check that it's of the correct type
+         ntf = gw.receive(timeout=5000)
+         ntf, ntf.__clazz__
+Out[8]:  (INFORM, 'org.arl.unet.bb.RxBasebandSignalNtf')
+
+In[9]:   # close the connection
+         sock.close()
+
+In[10]:  len(ntf.signal)
+Out[10]: 131072
+
+In[11]:  # plot the first 10000 baseband samples (real/in-phase components only)
+         plt.plot(ntf.signal[:10000].real, fs=ntf.fs)
+Out[11]:
+----
+image::sig1.png[width=600]
+
+Of course you could do the same thing with Julia or other languages, if you wish, with obvious minor changes to the syntax!

@@ -83,7 +83,8 @@ include::datagram.adoc[]
 
 include::phy.adoc[]
 
-== Arbitrary waveforms and the baseband service
+include::bb.adoc[]
+
 == Ranging and synchronization
 == Node information
 == Address resolution

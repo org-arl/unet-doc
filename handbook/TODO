@@ -8,3 +8,17 @@ Don't forget:
 Nice-to-haves:
 
   ☐ Make some of the TIPs become UNDER-THE-HOODs with a nice little car-bonnet-open icon (e.g. section 3.2)
+
+Bugs:
+
+(Unet audio)
+  ☐ Recording times seem to be incorrect
+  ☐ Timed TxFrameReq seem to transmit with 1 ms offset
+
+(logs)
+  ☐ log folder assumes current directory
+
+> clrlogs
+java.io.FileNotFoundException: /Users/mandar/Projects/unet-doc/handbook/logs
+> logs
+java.io.FileNotFoundException: /Users/mandar/Projects/unet-doc/handbook/logs
