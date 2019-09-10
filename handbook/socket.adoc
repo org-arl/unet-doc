@@ -153,13 +153,10 @@ For example, in Python:
 
 [source, python]
 ----
-from unetpy import UnetSocket
-from fjagepy import MessageClass
-
-TxFrameReq = MessageClass('org.arl.unet.phy.TxFrameReq')
+from unetpy import *
 
 sock = UnetSocket('192.168.1.9', 1102)
-phy = sock.agentForService('org.arl.unet.Services.PHYSICAL')
+phy = sock.agentForService(Services.PHYSICAL)
 phy << TxFrameReq()
 sock.close()
 ----
