@@ -12,7 +12,7 @@ To start the simulated network, we simply run the `mission2013-network.groovy` s
 
 [source, shell]
 ----
-$ bin/unet samples/handbook/mission2013-network.groovy
+$ bin/unet samples/mission2013-network.groovy
 
 MISSION 2013 network
 --------------------

@@ -86,34 +86,84 @@ include::phy.adoc[]
 include::bb.adoc[]
 
 == Ranging and synchronization
+
+WARNING: Coming soon...
+
 == Node information
+
+WARNING: Coming soon...
+
 == Address resolution
+
+WARNING: Coming soon...
+
 == Links and reliability
+
+WARNING: Coming soon...
+
 == Medium access control (MAC)
+
+WARNING: Coming soon...
+
 == Routing and route maintenance
+
+WARNING: Coming soon...
+
 == Transport and reliability
+
+WARNING: Coming soon...
+
 == Remote access
+
+WARNING: Coming soon...
+
 == State persistence
+
+WARNING: Coming soon...
+
 == Scheduler
+
+WARNING: Coming soon...
+
 == Shell
+
+WARNING: Coming soon...
 
 = *Part V: Extending UnetStack*
 
 include::agents.adoc[]
 
+== Developing MAC protocols
+
+WARNING: Coming soon...
+
 == Integrating with sensors
+
+WARNING: Coming soon...
+
 == UnetStack shell extensions
+
+WARNING: Coming soon...
 
 = *Part VI: Simulating underwater networks*
 
 == Writing simulation scripts
+
+WARNING: Coming soon...
+
 == Modems and channel models
+
 // TODO: explain why channel.dataRate differs from phy[].dataRate
+WARNING: Coming soon...
+
 == Developing your own channel models
+
+WARNING: Coming soon...
+
 == Node mobility
 
+WARNING: Coming soon...
+
 // appedices
-
 //= *Appendices*
-
 //include::svcref.adoc[]

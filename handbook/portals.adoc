@@ -20,7 +20,7 @@ Let us emulate this example with our favorite 2-node network. Fire up the 2-node
 
 [source, shell]
 ----
-$ bin/unet samples/handbook/2-node-network.groovy
+$ bin/unet samples/2-node-network.groovy
 
 2-node network
 --------------

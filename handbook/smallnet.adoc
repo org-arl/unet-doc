@@ -12,7 +12,7 @@ To start the simulated network, we simply run the `netq-network.groovy` simulati
 
 [source, shell]
 ----
-$ bin/unet samples/handbook/netq-network.groovy
+$ bin/unet samples/netq-network.groovy
 
 Netiquette 3-node network
 -------------------------

@@ -8,7 +8,7 @@ In this chapter, you will learn how to set up a simple 2-node underwater network
 
 [source, shell]
 ----
-$ bin/unet samples/handbook/2-node-network.groovy
+$ bin/unet samples/2-node-network.groovy
 
 2-node network
 --------------
