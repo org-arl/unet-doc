@@ -141,7 +141,6 @@ def gw = sock.gateway
 gw.subscribe(phy)
 def msg = gw.receive(10000)     #<1>
 if (msg) println(msg)
-gw.unsubscribe(phy)
 ----
 <1> Receive a message from the gateway with a timeout of 10000 ms. If no message is received during this period, `null` is returned.
 
