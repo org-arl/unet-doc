@@ -11,14 +11,5 @@ Nice-to-haves:
 
 Bugs:
 
-(Unet audio)
-  ☐ Recording times seem to be incorrect
-  ☐ Timed TxFrameReq seem to transmit with 1 ms offset
-
-(logs)
-  ☐ log folder assumes current directory
-
-> clrlogs
-java.io.FileNotFoundException: /Users/mandar/Projects/unet-doc/handbook/logs
-> logs
-java.io.FileNotFoundException: /Users/mandar/Projects/unet-doc/handbook/logs
+  ☐ [unet audio] Recording times seem to be incorrect
+  ☐ [unet audio] Timed TxFrameReq seem to transmit with 1 ms offset

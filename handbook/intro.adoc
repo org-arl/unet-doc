@@ -43,7 +43,7 @@ A link is simply a logical connection between two nodes, often provided by equip
 
 Unet nodes are equipped with one or more network interfaces that allow communication over some of these links. For example, to communicate over an underwater acoustic link, we need an _underwater acoustic modem_. For an underwater optical link, we use an _underwater optical modem_. Most RF, GSM, satellite or wired links would be accessed over a standard TCP/IP network interface. In all cases, each Unet node would run the _UnetStack_ software that allows us to effectively communicate over all of these types of links using a common Application Programming Interface (API). UnetStack API bindings are available for several languages including Java, Groovy, Python, Julia, C, Javascript, etc.
 
-UnetStack has a several components:
+UnetStack has a several components, as depicted in <<fig_unetstack>>:
 
 * The *Unet framework* provides core services, messages, agents and APIs needed by UnetStack.
 * The *Unet basic stack* is a collection of agents providing services and functionality required by typical Unets. These agents, together with the Unet framework, are sufficient to build fully functional Unets.
@@ -53,5 +53,9 @@ UnetStack has a several components:
 * *Unet audio* is a sound card based realtime software defined open architecture acoustic modem (SDOAM) that runs on desktop, laptop or single-board computers, and can be used to build and test simple Unets. It is a great tool for not only developing and testing network protocols, but also developing acoustic communication techniques.
 
 The components are packaged into various {url-editions}[editions]. The *community edition* is {url-downloads}[downloadable] free of charge for educational and research purposes. It has all the components required to develop, simulate, test and deploy Unets. The commercial and OEM editions package offer advanced functionality, better performance and tighter integration with vendor-specific hardware.
+
+[[fig_unetstack]]
+.An overview of UnetStack components.
+image::UnetStack3.png[]
 
 In the next few chapters, we will learn how to use UnetStack and how to customize it to meet our networking needs. In some cases, it may be necessary to prototype and simulate a Unet before it is actually implemented. We will also learn how to do that using the Unet simulator.

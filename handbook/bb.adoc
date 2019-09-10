@@ -10,7 +10,7 @@ CAUTION: Agents implementing the baseband service typically directly access the 
 
 ==== Messages
 
-Agents supporting the baseband service provide a set of messages to for arbitrary signal transmission and recording:
+Agents supporting the baseband service provide messages for arbitrary signal transmission and recording:
 
 * https://unetstack.net/javadoc/org/arl/unet/bb/TxBasebandSignalReq.html[`TxBasebandSignalReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- transmit a signal
 * https://unetstack.net/javadoc/org/arl/unet/bb/RecordBasebandSignalReq.html[`RecordBasebandSignalReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- record a signal
@@ -103,7 +103,7 @@ phy >> TxFrameNtf:INFORM[txTime:11401231]
 
 You should hear the sound from your computer speaker.
 
-TIP: You can generate other frequency signals using the `cw()` function available in the shell. You can also save and load signals from text files using the `save` and `load` commands. For information on all these commands/functions, simply type `help cw`, `help save` or `help load`.
+TIP: You can generate other frequency signals using the `cw()` (continuous wave) function available in the shell. You can also save and load signals from text files using the `save` and `load` commands. For information on all these commands/functions, simply type `help cw`, `help save` or `help load`.
 
 Unet audio supports transmission of passband signals as well. Let us create a half second 2000 kHz passband signal and transmit it:
 
@@ -183,7 +183,7 @@ Here, we did not specify a signal to transmit, so only the preamble was transmit
 
 If you had another unet audio SDOAM running nearby, it would have heard the preamble and detected a CONTROL frame. It would have tried to decode the frame, but failed, as we didn't actually transmit anything after the preamble. So you'd have seen a `RxFrameStartNtf` followed by a `BadFrameNtf` if you had subscribed to `phy` topic on that modem.
 
-If you don't have access to another computer run unet audio on, we can easily demonstrate the above behavior with a single unet audio SDOAM by simply enabling the full-duplex mode (and hence using the same computer for transmission and reception simultaneously), as we did in <<Physical service>>:
+If you don't have access to another computer to run unet audio on, we can easily demonstrate the above behavior with a single unet audio SDOAM by simply enabling the full-duplex mode (and hence using the same computer for transmission and reception simultaneously), as we did in <<Physical service>>:
 
 [source, console]
 ----
@@ -337,47 +337,43 @@ You had already installed the Python package `unetpy` in <<Sending & receiving f
 
 [source, python]
 ----
-In[1]:   import unetpy
+In[1]:   from unetpy import *
          import arlpy.plot as plt
 
 In[2]:   # connect to the unet audio SDOAM
-         sock = unetpy.UnetSocket('localhost', 1100)
+         sock = UnetSocket('localhost', 1100)
          gw = sock.getGateway()
 
 In[3]:   # lookup the agent providing baseband service
-         bb = gw.agentForService('org.arl.unet.Services.BASEBAND')
+         bb = gw.agentForService(Services.BASEBAND)
          bb.name
 Out[3]:  'phy'
 
-In[4]:   # define the messages we plan to use
-         TxBasebandSignalReq = unetpy.MessageClass('org.arl.unet.bb.TxBasebandSignalReq')
-         RecordBasebandSignalReq = unetpy.MessageClass('org.arl.unet.bb.RecordBasebandSignalReq')
-
-In[5]:   # transmit preamble 3 -- you should be able to hear it
+In[4]:   # transmit preamble 3 -- you should be able to hear it
          bb << TxBasebandSignalReq(preamble=3)
-Out[5]:  AGREE
+Out[4]:  AGREE
 
-In[6]:   # discard old notifications to get ready for a recording
+In[5]:   # discard old notifications to get ready for a recording
          gw.flush()
 
-In[7]:   # request a recording
+In[6]:   # request a recording
          bb << RecordBasebandSignalReq()
-Out[7]:  AGREE
+Out[6]:  AGREE
 
-In[8]:   # obtain the recording notification and check that it's of the correct type
+In[7]:   # obtain the recording notification and check that it's of the correct type
          ntf = gw.receive(timeout=5000)
-         ntf, ntf.__clazz__
-Out[8]:  (INFORM, 'org.arl.unet.bb.RxBasebandSignalNtf')
+         ntf
+Out[7]:  RxBasebandSignalNtf:INFORM[rxTime:203329687 rssi:-68.847565 adc:1 fc:12000.0 fs:12000.0 channels:1 preamble:0 (65536 samples)]
 
-In[9]:   # close the connection
+In[8]:   # close the connection
          sock.close()
 
-In[10]:  len(ntf.signal)
-Out[10]: 131072
+In[9]:  len(ntf.signal)
+Out[9]: 65536
 
-In[11]:  # plot the first 10000 baseband samples (real/in-phase components only)
+In[10]:  # plot the first 10000 baseband samples (real/in-phase components only)
          plt.plot(ntf.signal[:10000].real, fs=ntf.fs)
-Out[11]:
+Out[10]:
 ----
 image::sig1.png[width=500]
 

@@ -2,7 +2,7 @@
 
 === Overview
 
-Agents offering the physical service are most commonly modem drivers and modem simulators. They support a set of messages and parameters that are explained below. Physical service providers may also provide optional capabilities to send frames triggered at a specified time, or send timestamped frames where the timestamp is embedded in the transmitted frame.
+Agents offering the physical service are most commonly modem drivers and modem simulators. They support messages and parameters that are explained below. Physical service providers may also provide optional capabilities to send frames triggered at a specified time, or send timestamped frames where the timestamp is embedded in the transmitted frame.
 
 CAUTION: Agents implementing the physical service typically directly access the channel, bypassing any MAC protocol that may be in use in the network. It is highly recommended that clients wishing to use the physical service consult with the MAC service for advice on when it is safe to access the channel, so as not to adversely affect the network performance.
 
@@ -47,7 +47,7 @@ In addition to the above parameters, agents also support indexed (frame type) pa
 * https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#frameLength[`frameLength`^] -- frame length in bytes (maximum length in case of variable frame length)
 * https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#maxFrameLength[`maxFrameLength`^] -- maximum possible frame length in bytes
 * https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#fec[`fec`^] -- forward error correction (FEC) code (0 = none/default, otherwise base 1 index from fecList)
-* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#fecList[`fecList`^] -- list of available FEC code names (in order of increasing robustness), may be null if FEC change not supported
+* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#fecList[`fecList`^] -- list of available FEC code names (in the order of increasing robustness), may be null if FEC change not supported
 * https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#dataRate[`dataRate`^] -- effective frame data rate (bps)
 * https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#llr[`llr`^] -- true to enable log-likelihood ratio reporting in `BadFrameNtf`, false otherwise
 
@@ -62,13 +62,13 @@ Agents may support several optional capabilities:
 
 *https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalCapability.html#TIMESTAMPED_TX[TIMESTAMPED_TX^]*
 
-Agents advertising this capability are able to transmit frames with a transmission timestamp encapsulated in the frame. This is requested through the `timestamped` flag in the `TxFrameReq` message. In order to do the timestamping, the frame has to be scheduled for transmission after a short delay. This delay is configured via an additional parameter:
+Agents advertising this capability are able to transmit frames with a transmission timestamp (start of transmission) encapsulated in the frame. This is requested through the `timestamped` flag in the `TxFrameReq` message. In order to do the timestamping, the frame has to be scheduled for transmission after a short delay. This delay is configured via an additional parameter:
 
 * https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#timestampedTxDelay[`timestampedTxDelay`^] -- delay in seconds to transmit timestamped frames
 
 *https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalCapability.html#TIMED_TX[TIMED_TX^]*
 
-Agents advertising this capability are able to transmit frames at specified time (on a best effort basis). The time is given in the `txTime` attribute of the `TxFrameReq` message.
+Agents advertising this capability are able to start transmitting a frame at a specified time (on a best effort basis). The time is given in the `txTime` attribute of the `TxFrameReq` message.
 
 *https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalCapability.html#JANUS[JANUS^]*
 
@@ -119,7 +119,7 @@ Fire up the 2-node network simulation and connect to node A's shell. If you simp
   timestampedTxDelay = 1.0
 ----
 
-The `phy.MTU` parameter tells us the maximum amount of user data that can be transmitted in a single frame (56 bytes in this case). This is based on the DATA channel, as we will see shortly, since `DatagramReq` are fulfilled using the DATA channel. The `PhysicalParam` parameters provide us information on whether the channel is busy, transmission power levels supported, receiver sensitivity, and propagation speed of the signal (e.g. sound speed for underwater modems). The `phy.time` parameter is a microsecond resolution clock that is used to timestamp all physical layer events such as frame transmission, reception, etc.
+The `phy.MTU` parameter tells us the maximum amount of user data that can be transmitted in a single frame (56 bytes in this case). This is based on the DATA channel, as we will see shortly, since `DatagramReq` are fulfilled using the DATA channel. The `PhysicalParam` parameters provide us information on whether the channel is busy, transmission power levels supported, receiver sensitivity, and propagation speed of the signal (e.g. speed of sound for underwater modems). The `phy.time` parameter is a microsecond resolution clock that is used to timestamp all physical layer events such as frame transmission, reception, etc.
 
 We can dig deeper into the parameters for the CONTROL and DATA channel separately:
 
@@ -171,7 +171,7 @@ Here are a few important parameters to take note of:
 - Typically physical layer agents allow setting of the `frameLength` parameter, and the `MTU` parameter is automatically determined based on the necessary headers. The `maxFrameLength` parameter indicates the maximum size of the frame supported.
 - The `frameDuration` for the CONTROL channel is about 0.95 seconds, whereas that for the DATA channel is 0.7 seconds. While the CONTROL frames carry less data, they also have lower data rate and so may have comparable duration as the DATA frames.
 - The `dataRate` reported by the channel is the effective data rate in bps including the header bits, i.e., it is the frame length in bits divided by the frame duration.
-- The `powerLevel` parameter controls the transmission power used by the channel. This value is in dB, reference to the `phy.refPowerLevel`, and may range between `phy.minPowerLevel` and `phy.maxPowerLevel`.
+- The `powerLevel` parameter controls the transmission power used by the channel. This value is in dB, with reference to the `phy.refPowerLevel`, and may range between `phy.minPowerLevel` and `phy.maxPowerLevel`.
 - The `errorDetection` parameter reports the number of bytes used for error detection CRC (value of 1 indicates that we are using a 8-bit CRC). Some modems will allow you to set this to 2 to switch to 16-bit CRC, if you desire a lower probability of accepting a frame with some bit errors.
 
 === Modem physical layer
@@ -390,7 +390,7 @@ AGREE
 phy >> TxFrameNtf:INFORM[type:CONTROL txTime:2489196375]
 ----
 
-We see that the frame was transmitted at time 2489196375 (when you try this, the time will of course be different). You should see the `RxFarmeNtf` for this frame on node B:
+We see that the frame was transmitted at time 2489196375 (when you try this, the time will of course be different). You should see the `RxFrameNtf` for this frame on node B:
 
 [source, console]
 ----
@@ -453,7 +453,7 @@ phy >> RxFrameNtf:INFORM[type:CONTROL from:232 to:31 rxTime:2820757054]
 phy >> RxFrameStartNtf:INFORM[type:CONTROL rxTime:2822046054]
 ----
 
-The `RxFrameStartNtf` is sent when a frame is detected. At that point in time, the agent has no idea who the frame is intended for, because the frame contents have not yet arrived. Only when the frame is received and decoded does the agent know the destination address. Seeing that the second frame was intended for node C, node B does not report a `RxFrameNtf` for it.
+The `RxFrameStartNtf` is sent when a frame is detected. At that point in time, the agent has no idea whom the frame is intended for, because the frame contents have not yet arrived. Only when the frame is received and decoded does the agent know the destination address. Seeing that the second frame was intended for node C, node B does not report a `RxFrameNtf` for it.
 
 If you were interested in snooping conversations between other nodes, you could subscribe to the SNOOP topic on node B:
 

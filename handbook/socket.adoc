@@ -164,4 +164,6 @@ phy << TxFrameReq()
 sock.close()
 ----
 
+TIP: If you recall from <<Sending & receiving from a Python application>>, `from` is a keyword in Python and so the `from` field in messages is replaced by `from_`. Other than this minor change, the fields in all the Python message classes are the same as the Java/Groovy versions.
+
 // TODO: add additional language examples here

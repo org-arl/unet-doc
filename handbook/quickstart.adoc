@@ -129,11 +129,12 @@ We'll assume you have Python 3.x already installed. Let us start by installing t
 ----
 $ pip install unetpy
 Collecting unetpy
-  Downloading https://files.pythonhosted.org/packages/.../unetpy-3.0-py3-none-any.whl
-Collecting fjagepy==1.6 (from unetpy)
-  Downloading https://files.pythonhosted.org/packages/../fjagepy-1.6-py3-none-any.whl
+  Using cached https://files.pythonhosted.org/packages/eb/f1/0efa3cff9c25322169041d3d804691ad24ccd732d6e284e209d20a89336f/unetpy-3.0.2-py3-none-any.whl
+Collecting fjagepy>=1.6 (from unetpy)
+  Using cached https://files.pythonhosted.org/packages/3d/38/159338ad451218652aec30ebd9513d6e26ea4679903c47df10def1457652/fjagepy-1.6-py3-none-any.whl
+Requirement already satisfied: numpy>=1.11 in /Users/anjangi/Documents/python-env/publish-env/lib/python3.7/site-packages (from unetpy) (1.17.2)
 Installing collected packages: fjagepy, unetpy
-Successfully installed fjagepy-1.6 unetpy-3.0
+Successfully installed fjagepy-1.6 unetpy-3.0.2
 ----
 
 We will now write `tx.py` and `rx.py` scripts to transmit and receive a datagram respectively. We assume that you have the two-node network setup from the previous section with node A and B available on `localhost` API port 1101 and 1102 respectively.
@@ -143,25 +144,26 @@ We will now write `tx.py` and `rx.py` scripts to transmit and receive a datagram
 ----
 from unetpy import UnetSocket
 
-s = UnetSocket('localhost', 1101)        #<1>
-s.send(b'hello!', 0)                     #<2>
+s = UnetSocket('localhost', 1101)                #<1>
+s.send('hello!', 0)                              #<2>
 s.close()
 ----
 <1> Connect to node A (`localhost` API port 1101).
-<2> Broadcast a 6-byte datagram. In Python, `b'hello!'` represents the byte string containing the 6 ASCII characters for 'hello!'. Address 0 is the broadcast address.
+<2> Broadcast a 6-byte datagram. Address 0 is the broadcast address.
 
 .`rx.py`
 [source, python]
 ----
 from unetpy import UnetSocket
 
-s = UnetSocket('localhost', 1102)        #<1>
-rx = s.receive()                         #<2>
-print('from node', rx.from, ':', str(rx.data))
+s = UnetSocket('localhost', 1102)                #<1>
+rx = s.receive()                                 #<2>
+print('from node', rx.from_, ':', str(rx.data))  #<3>
 s.close()
 ----
 <1> Connect to node B (`localhost` API port 1102). Change the `localhost` to modem B's IP address and port 1102 to port 1100, if you are working with a modem.
 <2> Blocking `receive()` will only return when a datagram is received or the socket is closed. If a datagram is received, `rx` will contain the notification message with the details of the datagram.
+<3> In Python `from` is a keyword and cannot be used as an field name. We therefore use `from_` for the source node address.
 
 First run `python rx.py` to start reception. Then, on a separate terminal window, run `python tx.py` to initiate transmission. You should see the received datagram printed by the `rx.py` script:
 
