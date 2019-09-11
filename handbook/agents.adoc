@@ -53,7 +53,7 @@ If you do not need any of these methods, you can skip the definition as the base
 
 TIP: If you happen to be already familiar with the https://fjage.readthedocs.io/en/latest/behaviors.html#agent-lifecycle[fjåge agent lifecycle^], you may wish to note that the `setup()` method is called from the `init()` method of the agent. The `startup()` method is called from a one-shot behavior scheduled during initialization. The `processRequest()` and `processMessage()` methods are called from a message behavior added during initialization.
 
-=== Groovy Echo daemon
+=== Groovy echo daemon
 
 It's best to illustrate with a simple example.
 
@@ -100,7 +100,7 @@ That's it!
 
 It's time for us to test this agent. Create a file called `EchoDaemon.groovy` in the `classes` folder and copy the above daemon code into it.
 
-TIP: Unet modems also have a `classes` folder that accepts Groovy source files, or compiled Java/Groovy class files. You can upload to that folder from the web interface of the modem. If your code has many class files that, you may wish to package them together into a jar archive and place it in the `jars` folder.
+TIP: Unet modems also have a `classes` folder that accepts Groovy source files or compiled Java/Groovy class files. You can you the web interface of the modem to upload files to that folder. If your code has many class files that, you may wish to package them together into a jar archive and place it in the `jars` folder.
 
 Now start the 2-node network simulation that we have been using as a testbed, and on node B, load the agent:
 
@@ -153,7 +153,7 @@ phy >> RxFrameNtf:INFORM[type:DATA from:31 to:232 rxTime:2811767943 (3 bytes)]
 
 We have written our first agent! Was easy, wasn't it?
 
-=== Java Echo daemon
+=== Java echo daemon
 
 If you're a Java programmer and find the Groovy syntax daunting, you might prefer to write your agents in pure Java. This is the equivalent Java code below for the Groovy agent we developed in the last section:
 
@@ -230,6 +230,8 @@ We could of course add a `delay(7000)` in the `processMessage()` method, but tha
 
 The `WakerBehavior` that we add is triggered 7000 ms later, and the echo response is sent in that behavior. Simple!
 
+TIP: Behaviors in Groovy use closures to make the syntax easy to work with. If you were writing your agent in Java, you'd need to create an anonymous class and override the `onWake()` method.
+
 Go ahead and replace the `processMessage()` method in your `EchoDaemon.groovy` file and try it! In order to reload the agent, all you need to do on node B is:
 
 [source, console]
@@ -239,7 +241,7 @@ true
 > container.add 'echo', new EchoDaemon();
 ----
 
-And now you can send a echo request from node A as before and see that the response is delayed by 7 seconds.
+And now you can send an echo request from node A as before and see that the response is delayed by 7 seconds.
 
 You could also send a second request during those 7 seconds, and the echo daemon on node B would process that concurrently. You can send 2 echo requests right after each other, and you'll see the corresponding echo responses 7 seconds later, but right after each other.
 
@@ -320,7 +322,9 @@ class EchoDaemon extends UnetAgent {
 
 TIP: Note that we had to take 3 steps to add a parameter: declare a list of parameters, declare the parameter, and advertise the parameter. While this might seem like a lot, bear in mind that parameters are much more than just agent's class attributes. Parameters can be get/set remotely, even from a different Java VM, different computer, or through a UnetSocket gateway API.
 
-Let's see how the agent looks with parameters. Reload the agent on node B and check it's parameters:
+TIP: If you were writing the agent in Java instead of Groovy, you'd need to getters and setters for parameter `delay`, rather than simply declare the attribute. This is because Groovy automatically creates the getters and setters for you.
+
+Let's see how the agent looks with parameters. Reload the agent on node B and check its parameters:
 
 [source, console]
 ----
@@ -349,4 +353,4 @@ TIP: If you want to compute parameter values on demand or validate parameters, y
 
 === Services, capabilities and notifications
 
-Most of the agents we have been interacting with advertised services, and sometimes optional capabilities. They also honor requests and publish unsolicited notifications. All of these are quite straightforward to implement, and you can explore some of these features in this https://blog.unetstack.net/developing-modem-drivers-for-unetstack[blog article^] on how to implement a simple physical service agent (modem driver). We will explore some of these functionality in the next chapter, along with other cool features like finite state machine behaviors and protocol data unit (PDU) codecs.
+Most of the agents we have been interacting with advertised services, and sometimes optional capabilities. They also honor requests and publish unsolicited notifications. All of these are quite straightforward to implement, and you can explore some of these features in this https://blog.unetstack.net/developing-modem-drivers-for-unetstack[blog article^] on how to implement a simple physical service agent (modem driver). We will explore some of these in the next chapter, along with other cool features like finite state machine behaviors and protocol data unit (PDU) codecs.

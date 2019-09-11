@@ -219,7 +219,7 @@ In applications such as sonar or ranging, we may only be interested in the detec
 
 NOTE: The `basebandRx` and `basebandExtra` parameters are provided by the unet audio SDOAM, and work closely with the baseband service. These are not currently part of the baseband service specifications, but are under consideration for adoption as part of the service. Most modems that currently support the baseband service also support these parameters.
 
-If you enable `basebandRx`, a recording will be triggered everytime the preamble is detected:
+If you enable `basebandRx`, a recording will be triggered every time the preamble is detected:
 
 [source, console]
 ----
@@ -246,7 +246,7 @@ phy >> TxFrameNtf:INFORM[txTime:7143062599]
 phy >> RxFrameStartNtf:INFORM[type:#3 rxTime:7143081603 rxDuration:1170500 detector:0.78]
 phy >> RxBasebandSignalNtf:INFORM[adc:1 rxTime:7143081603 rssi:-36.7 preamble:3 fc:12000.0 fs:12000.0 (3246 baseband samples)]
 ----
-<1> We are requesting 10 ms recording beyond the end of the preamble.
+<1> We are requesting 100 ms recording beyond the end of the preamble.
 
 You can see that the recording is much longer now.
 
@@ -290,7 +290,7 @@ log-0.txt [5 kB]
 <3> Transmit preamble #3. This will trigger a recording, based on the `phy[3]` configuration from the previous section.
 <4> Now the `signals-0.txt` file has grown to 34 kB. It contains the signal that was just recorded.
 
-As you record more signals, they are appended to the same file. If you restart unet audio, this file will be renumbered to `signals-1.txt`, as the logs are rotated.
+As you record more signals, they are appended to the same file (with delineating metadata for each signal). If you restart unet audio, this file will be renumbered to `signals-1.txt`, as the logs are rotated.
 
 TIP: The name of the signals file and number of files kept through log rotation is configured when the `bbmon` agent is loaded. This happens in the `etc/setup.groovy` file in your unet audio installation, and you can change it, if you like.
 
