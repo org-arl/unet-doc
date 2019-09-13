@@ -1,6 +1,10 @@
 == Developing MAC protocols
 
-In <<Medium access control (MAC)>>, we looked at the MAC service in detail. In this chapter, we develop two simple MAC agents to illustrate what implementations of the service might look like. The MAC agents are intentionally kept simple and not optimized for performance, as we wish to illustrate the key aspects of MAC agent development without getting lost in the details of optimal protocols.
+This chapter serves two purposes:
+
+In <<Medium access control (MAC)>>, we looked at the MAC service in detail. Here, we develop three simple MAC agents to illustrate what implementations of the service might look like. The MAC agents are intentionally kept simple and not optimized for performance, as we wish to illustrate the key aspects of MAC agent development without getting lost in the details of optimal protocols.
+
+While developing the MAC agents, we learn many new techniques -- advertising services, looking up other agents, providing read-only dynamic parameters, generating random variates, encoding/decoding PDUs, implemeting finite state machines (FSMs), etc. These techniques are not only useful for MAC agents, but also commonly needed in many other types of agents.
 
 === Simple MAC without Handshake
 
@@ -242,3 +246,6 @@ class MySimpleThrottledMac extends UnetAgent {
 <7> Parameter `busy` is no longer always false, since we now keep track of reservations. We return `busy` to be true only during the time between a reservation START and END.
 <8> Parameter `recommendedReservationDuration` is now determined based on the frame duration of the physical service, assuming that most reservations are for transmitting one frame. A client is free to choose a longer reservation time, if he wishes to transmit many frames in one go.
 
+=== Simple MAC with Handshake
+
+WARNING: Coming soon...
