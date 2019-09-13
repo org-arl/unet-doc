@@ -152,7 +152,7 @@ admonition:
     font_style: bold
 blockquote:
   font_color: $base_font_color
-  font_size: $base_font_size_large
+  font_size: $base_font_size
   border_color: $base_border_color
   border_width: 5
   # FIXME disable negative padding bottom once margin collapsing is implemented

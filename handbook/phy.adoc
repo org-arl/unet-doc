@@ -17,10 +17,10 @@ Agents supporting the physical service provide a set of messages to manage frame
 * https://unetstack.net/javadoc/org/arl/unet/phy/ClearReq.html[`ClearReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- cancel all ongoing and pending transmissions
 * https://unetstack.net/javadoc/org/arl/unet/phy/RxFrameNtf.html[`RxFrameNtf`^] -- sent to agent's topic when a frame addressed to the node is received, and the agent's https://unetstack.net/javadoc/org/arl/unet/phy/Physical.html#SNOOP[`SNOOP`^] sub-topic when a frame addressed to other nodes is overheard
 * https://unetstack.net/javadoc/org/arl/unet/phy/TxFrameNtf.html[`TxFrameNtf`^] -- sent to requestor when a frame is transmitted
-* https://unetstack.net/javadoc/org/arl/unet/phy/RxFrameStartNtf.html[`RxFrameStartNtf`^] -- send to agent's topic when a frame is detected
-* https://unetstack.net/javadoc/org/arl/unet/phy/TxFrameStartNtf.html[`TxFrameStartNtf`^] -- send to agent's topic when a frame transmission is started
-* https://unetstack.net/javadoc/org/arl/unet/phy/BadFrameNtf.html[`BadFrameNtf`^] -- send to agent's topic when a bad frame is received
-* https://unetstack.net/javadoc/org/arl/unet/phy/CollisionNtf.html[`CollisionNtf`^] -- send to agent's topic when a frame is detected (and dropped) while another frame is being received
+* https://unetstack.net/javadoc/org/arl/unet/phy/RxFrameStartNtf.html[`RxFrameStartNtf`^] -- sent to agent's topic when a frame is detected
+* https://unetstack.net/javadoc/org/arl/unet/phy/TxFrameStartNtf.html[`TxFrameStartNtf`^] -- sent to agent's topic when a frame transmission is started
+* https://unetstack.net/javadoc/org/arl/unet/phy/BadFrameNtf.html[`BadFrameNtf`^] -- sent to agent's topic when a bad frame is received
+* https://unetstack.net/javadoc/org/arl/unet/phy/CollisionNtf.html[`CollisionNtf`^] -- sent to agent's topic when a frame is detected (and dropped) while another frame is being received
 
 The `TxFrameReq` class extends a `DatagramReq` to add physical layer options, and the `RxFrameNtf` class extends a `DatagramNtf` to add physical layer metadata.
 

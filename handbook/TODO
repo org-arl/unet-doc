@@ -7,12 +7,9 @@ Don't forget:
   ☐ indexed parameters
   ☐ FSM
   ☐ PDU
+  ☐ samples v/s samples/handbook
+  ☐ Agent implementations for each service
 
 Nice-to-haves:
 
   ☐ Make some of the TIPs become UNDER-THE-HOODs with a nice little car-bonnet-open icon (e.g. section 3.2)
-
-Bugs:
-
-  ☐ [unet audio] Recording times seem to be incorrect
-  ☐ [unet audio] Timed TxFrameReq seem to transmit with 1 ms offset

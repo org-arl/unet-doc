@@ -57,7 +57,7 @@ TIP: If you happen to be already familiar with the https://fjage.readthedocs.io/
 
 It's best to illustrate with a simple example.
 
-Let's develop an _echo daemon_ that will respond to each incoming _echo request_ datagram with an _echo response_ datagram containing the same data as the echo-request. We define echo request datagrams as any datagram with protocol `USER`, and the corresponding echo response datagram as will be of protocol `DATA`.
+Let's develop an _echo daemon_ that will respond to each incoming _echo request_ datagram with an _echo response_ datagram containing the same data as the echo-request. We need a way to identify which datagram is an echo request, as we don't want to be echoing datagrams intended for other agents or for the user. We do this by defining an echo request datagram as any datagram with protocol `USER` (recall that protocol numbers from `USER` onwards are available for your own applications to use). We do not want to use the response to use the same protocol, otherwise our daemon (running on the source node) could get confused and echo the response, which would in turn be echoed again by the destination node's daemon, ad infinitum. So we use protocol `DATA` for the echo response datagram, as this protocol is intended by generic application data.
 
 Here's our daemon:
 
@@ -98,9 +98,9 @@ Let's walk through the above code:
 
 That's it!
 
-It's time for us to test this agent. Create a file called `EchoDaemon.groovy` in the `classes` folder and copy the above daemon code into it.
+TIP: Do not get confused between `sender` and `from`, and `recipient` and `to` fields in datagram messages. The `sender` and `recepient` *always* refer to the agents that generate and consume the message. These are entities within a single Unet node. The `from` and `to` are node addresses that tell us which node is transmitting the datagram, and which node is the intended destination.
 
-TIP: Unet modems also have a `classes` folder that accepts Groovy source files or compiled Java/Groovy class files. You can you the web interface of the modem to upload files to that folder. If your code has many class files that, you may wish to package them together into a jar archive and place it in the `jars` folder.
+It's time for us to test this agent. Create a file called `EchoDaemon.groovy` in the `classes` folder and copy the above daemon code into it.
 
 Now start the 2-node network simulation that we have been using as a testbed, and on node B, load the agent:
 
@@ -130,9 +130,12 @@ WebGW-5c9c1c68385a388f: REMOTE
 
 Our daemon is up and running!
 
-WARNING: If you have any errors in the `EchoDaemon.groovy` that cause compilation to fail, the agent won't load, and you'll get an error message on the shell. Sometimes it helps to look at the log file (`logs/log-0.txt`) for more details on the error.
+.Debugging agents
+****
+If you have any errors in the `EchoDaemon.groovy` that cause compilation to fail, the agent won't load, and you'll get an error message on the shell. Sometimes it helps to look at the log file (`logs/log-0.txt`) for more details on the error.
 
-TIP: In some rare cases, instead of printing an error, the shell may simply refuse to run the command by showing a "-" and waiting for more input because it thinks that the command you gave is incomplete. If this happens, look at your code to find the error, or try compiling manually using `groovyc` to get more details on the error.
+In some rare cases, instead of printing an error, the shell may simply refuse to run the command by showing a "-" and waiting for more input because it thinks that the command you gave is incomplete. If this happens, look at your code to find the error, or try compiling manually using `groovyc` (similar to `javac` command in the next section) to get more details on the error.
+****
 
 Once the daemon is successfully loaded on node B, we can test it from node A:
 
@@ -153,9 +156,11 @@ phy >> RxFrameNtf:INFORM[type:DATA from:31 to:232 rxTime:2811767943 (3 bytes)]
 
 We have written our first agent! Was easy, wasn't it?
 
+TIP: Unet modems also have a `classes` folder that accepts Groovy source files or compiled Java/Groovy class files. You can use the web interface of the modem to upload files to that folder. If your code has many class files, you may wish to package them together into a jar archive and place it in the `jars` folder.
+
 === Java echo daemon
 
-If you're a Java programmer and find the Groovy syntax daunting, you might prefer to write your agents in pure Java. This is the equivalent Java code below for the Groovy agent we developed in the last section:
+If you're a Java programmer and find the Groovy syntax daunting, you might prefer to write your agents in pure Java (at the expense of verbosity and more steps for testing). This is the equivalent Java code below for the Groovy agent we developed in the last section:
 
 [source, java]
 ----
@@ -236,7 +241,7 @@ Go ahead and replace the `processMessage()` method in your `EchoDaemon.groovy` f
 
 [source, console]
 ----
-> container.kill agent('echo')
+> container.kill echo
 true
 > container.add 'echo', new EchoDaemon();
 ----
@@ -285,8 +290,10 @@ class EchoDaemon extends UnetAgent {
     delay
   }
 
-  final def description = 'Echoes any USER datagrams back as DATA' #<2>
-  int delay = 7000                          #<3>
+  final String title = 'Echo Daemon'        #<2>
+  final String description = 'Echoes any USER datagrams back as DATA' #<3>
+
+  int delay = 7000                          #<4>
 
   void startup() {
     // subscribe to all agents that provide the datagram service
@@ -309,16 +316,17 @@ class EchoDaemon extends UnetAgent {
     }
   }
 
-  List<Parameter> getParameterList() {      #<4>
+  List<Parameter> getParameterList() {      #<5>
     allOf(Params)
   }
 
 }
 ----
 <1> Declare a list of parameters that the agent advertises. We have declared this enum as an inner class, but you could choose to declare it as a separate class if you wish.
-<2> Provide a descriptive text for the agent.
-<3> Declare the parameter.
-<4> Advertise the list of parameters.
+<2> Provide a descriptive title for the agent.
+<3> Provide a descriptive text for the agent.
+<4> Declare the parameter.
+<5> Advertise the list of parameters.
 
 TIP: Note that we had to take 3 steps to add a parameter: declare a list of parameters, declare the parameter, and advertise the parameter. While this might seem like a lot, bear in mind that parameters are much more than just agent's class attributes. Parameters can be get/set remotely, even from a different Java VM, different computer, or through a UnetSocket gateway API.
 
@@ -332,11 +340,11 @@ Let's see how the agent looks with parameters. Reload the agent on node B and ch
 true
 > container.add 'echo', new EchoDaemon();
 > echo
-<<< EchoDaemon >>>
+<<< Echo Daemon >>>                      #<1>
 
-Echoes any USER datagrams back as DATA
+Echoes any USER datagrams back as DATA   #<2>
 
-[EchoDaemon$Params]
+[EchoDaemon.Params]
   delay = 7000
 
 > echo.delay
@@ -346,10 +354,14 @@ Echoes any USER datagrams back as DATA
 > echo.delay
 5000
 ----
+<1> Notice the change in title.
+<2> The description is shown here.
 
 We have changed the delay from 7 seconds to 5 seconds. Go ahead and send a echo request from node A and see that you get a response back in 5 seconds!
 
-TIP: If you want to compute parameter values on demand or validate parameters, you can implement getters/setters for the parameter, and they will be called. If you want a read-only parameter, you can declare the attribute as `private` and implement only a getter for the parameter.
+TIP: If you want to compute parameter values on demand or validate parameters, you can implement getters/setters for the parameter, and they will be called. If you want a read-only parameter, you can declare the attribute as `private` and implement only a getter for that parameter.
+
+TIP: While our example above uses a static description, the description can also be dynamic. This can be useful if you want to display agent's status information in the description. To implement dynamic descriptions, simply replace the `description` attribute by a getter `getDescription()` that returns a `String` description when called.
 
 === Services, capabilities and notifications
 
