@@ -131,9 +131,7 @@ WARNING: Coming soon...
 
 include::agents.adoc[]
 
-== Developing MAC protocols
-
-WARNING: Coming soon...
+include::mac-agents.adoc[]
 
 == Integrating with sensors
 

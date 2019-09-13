@@ -1,0 +1,244 @@
+== Developing MAC protocols
+
+In <<Medium access control (MAC)>>, we looked at the MAC service in detail. In this chapter, we develop two simple MAC agents to illustrate what implementations of the service might look like. The MAC agents are intentionally kept simple and not optimized for performance, as we wish to illustrate the key aspects of MAC agent development without getting lost in the details of optimal protocols.
+
+=== Simple MAC without Handshake
+
+To illustrate how a MAC agent might work, let us start with a simple MAC agent that accedes to every reservation request as soon as it is made:
+
+[source, groovy]
+----
+import org.arl.fjage.*
+import org.arl.unet.*
+import org.arl.unet.mac.*
+
+class MySimplestMac extends UnetAgent {
+
+  @Override
+  void setup() {
+    register Services.MAC                // advertise that the agent provides a MAC service
+  }
+
+  @Override
+  Message processRequest(Message msg) {
+    if (msg instanceof ReservationReq) {
+
+      // check requested duration
+      if (msg.duration <= 0) return new Message(msg, Performative.REFUSE)
+
+      // prepare START reservation notification
+      ReservationStatusNtf ntf1 = new ReservationStatusNtf(
+        recipient: msg.sender,
+        requestID: msg.msgID,
+        to: msg.to,
+        status: ReservationStatus.START)
+
+      // prepare END reservation notification
+      ReservationStatusNtf ntf2 = new ReservationStatusNtf(
+        recipient: msg.sender,
+        requestID: msg.msgID,
+        to: msg.to,
+        status: ReservationStatus.END)
+
+      // send START reservation notification immediately
+      send ntf1
+
+      // wait for reservation duration, and then send END reservation notification
+      add new WakerBehavior(Math.round(1000*msg.duration), {
+        send ntf2
+      })
+
+      // return a rservation response, which defaults to an AGREE performative
+      return new ReservationRsp(msg)
+    }
+    return null
+  }
+
+}
+----
+
+Note a number of interesting features of the code above:
+
+1. The `setup()` method is used to advertise the service provided by this agent.
+2. We provide basic error checking, and refuse a request that is invalid.
+3. We prepare the AGREE response as well as the START and END status notification messages, all at once. We send out the START notification immediately, use a `WakerBehavior` to schedule the END notification to be sent out at an appropriate time, and then simply return the AGREE response.
+4. We return a `null` if we don't understand the request, allowing the superclass to respond with a NOT_UNDERSTOOD message.
+
+While the above code implements a fully functional MAC agent, it needs to respond to `ReservationCancelReq`, `ReservationAcceptReq` and `TxAckReq` messages, and provide `channelBusy`, `reservationPayloadSize`, `ackPayloadSize`, `maxReservationDuration` and `recommendedReservationDuration` parameters in order to comply to the MAC service specification (<<Medium access control (MAC)>>). We add this functionality trivially, by responding to the messages with a REFUSE performative, and returning default values for all the parameters. The resulting complete source code is shown below:
+
+[source, groovy]
+----
+import org.arl.fjage.*
+import org.arl.unet.*
+import org.arl.unet.mac.*
+
+class MySimplestMac extends UnetAgent {
+
+  @Override
+  void setup() {
+    register Services.MAC
+  }
+
+  @Override
+  Message processRequest(Message msg) {
+    switch (msg) {
+      case ReservationReq:
+        if (msg.duration <= 0) return new Message(msg, Performative.REFUSE)
+        ReservationStatusNtf ntf1 = new ReservationStatusNtf(
+          recipient: msg.sender,
+          requestID: msg.msgID,
+          to: msg.to,
+          status: ReservationStatus.START)
+        ReservationStatusNtf ntf2 = new ReservationStatusNtf(
+          recipient: msg.sender,
+          requestID: msg.msgID,
+          to: msg.to,
+          status: ReservationStatus.END)
+        send ntf1
+        add new WakerBehavior(Math.round(1000*msg.duration), {
+          send ntf2
+        })
+        return new ReservationRsp(msg)
+      case ReservationCancelReq:
+      case ReservationAcceptReq:                      // respond to other requests defined
+      case TxAckReq:                                  //  by the MAC service trivially with
+        return new Message(msg, Performative.REFUSE)  //  a REFUSE performative
+    }
+    return null
+  }
+
+  // expose parameters defined by the MAC service, with just default values
+
+  @Override
+  List<Parameter> getParameterList() {
+    return allOf(MacParam)                            // advertise the list of parameters
+  }
+
+  final boolean channelBusy = false                   // parameters are marked as 'final'
+  final int reservationPayloadSize = 0                //  to ensure that they are read-only
+  final int ackPayloadSize = 0
+  final float maxReservationDuration = Float.POSITIVE_INFINITY
+  final Float recommendedReservationDuration = null
+
+}
+----
+
+Now we have a fully-compliant, but very simple, MAC agent!
+
+=== Simple MAC with Throttling
+
+While the above simple MAC would work well when the traffic offered to it is random, it will perform poorly if the network is fully loaded. All nodes would constantly try to access the channel, collide and the throughput would plummet. To address this concern, one may add an exponentially distributed random backoff (Poisson arrival to match the assumption of Aloha) for every request to introduce randomness. The backoff could be chosen to offer a normalized network load of approximately 0.5, since this generates the highest throughput for Aloha.
+
+Here's the updated code with some bells and whistles:
+
+[source, groovy]
+----
+import org.arl.fjage.*
+import org.arl.unet.*
+import org.arl.unet.phy.*
+import org.arl.unet.mac.*
+
+class MySimpleThrottledMac extends UnetAgent {
+
+  private final static double TARGET_LOAD     = 0.5
+  private final static int    MAX_QUEUE_LEN   = 16
+
+  #<1>
+  private AgentID phy
+  boolean busy = false   // is a reservation currently ongoing?
+  Long t0 = null         // time of last reservation start, or null
+  Long t1 = null         // time of last reservation end, or null
+  int waiting = 0
+
+  @Override
+  void setup() {
+    register Services.MAC
+  }
+
+  @Override
+  void startup() {
+    phy = agentForService Services.PHYSICAL      #<2>
+  }
+
+  @Override
+  Message processRequest(Message msg) {
+    switch (msg) {
+      case ReservationReq:
+        if (msg.duration <= 0) return new Message(msg, Performative.REFUSE)
+        if (waiting >= MAX_QUEUE_LEN) return new Message(msg, Performative.REFUSE)
+        ReservationStatusNtf ntf1 = new ReservationStatusNtf(
+          recipient: msg.sender,
+          requestID: msg.msgID,
+          to: msg.to,
+          status: ReservationStatus.START)
+        ReservationStatusNtf ntf2 = new ReservationStatusNtf(
+          recipient: msg.sender,
+          requestID: msg.msgID,
+          to: msg.to,
+          status: ReservationStatus.END)
+
+        // grant the request after a random backoff        #<3>
+        AgentLocalRandom rnd = AgentLocalRandom.current()  #<4>
+        double backoff = rnd.nextExp(TARGET_LOAD/msg.duration/nodes)
+        long t = currentTimeMillis()
+        if (t0 == null || t0 < t) t0 = t
+        t0 += Math.round(1000*backoff)                // schedule packet with a random backoff
+        if (t0 < t1) t0 = t1                          //   after the last scheduled packet
+        long duration = Math.round(1000*msg.duration)
+        t1 = t0 + duration
+        waiting++
+        add new WakerBehavior(t0-t, {                      #<5>
+          send ntf1
+          busy = true
+          waiting--
+          add new WakerBehavior(duration, {
+            send ntf2
+            busy = false
+          })
+        })
+
+        return new ReservationRsp(msg)
+      case ReservationCancelReq:
+      case ReservationAcceptReq:
+      case TxAckReq:
+        return new Message(msg, Performative.REFUSE)
+    }
+    return null
+  }
+
+  // expose parameters defined by the MAC service, and one additional parameter
+
+  @Override
+  List<Parameter> getParameterList() {
+    return allOf(MacParam, Param)
+  }
+
+  enum Param implements Parameter {
+    nodes                                        #<6>
+  }
+
+  int nodes = 6                          // number of nodes in network, to be set by user
+
+  final int reservationPayloadSize = 0
+  final int ackPayloadSize = 0
+  final float maxReservationDuration = Float.POSITIVE_INFINITY
+
+  boolean getChannelBusy() {                     #<7>
+    return busy
+  }
+
+  float getRecommendedReservationDuration() {    #<8>
+    return get(phy, Physical.DATA, PhysicalChannelParam.frameDuration)
+  }
+
+}
+----
+<1> We define a few attributes to keep track of channel state and reservation queue.
+<2> We lookup other agents in `startup()` after they have had a chance to advertise their services during the setup phase.
+<3> Requests are no longer granted immediately, but after a random backoff instead.
+<4> Random numbers are generated using a `AgentLocalRandom` utility. This utility ensures repeatable results during discrete event simulation, aiding with debugging, and so is the preferred way of generating random variates.
+<5> Note that we no longer send the START notification immediately. Instead we schedule it after a backoff, and then schedule the END notification after the reservation duration from the START.
+<6> We implement one user configurable parameter `nodes`, and advertise it.
+<7> Parameter `busy` is no longer always false, since we now keep track of reservations. We return `busy` to be true only during the time between a reservation START and END.
+<8> Parameter `recommendedReservationDuration` is now determined based on the frame duration of the physical service, assuming that most reservations are for transmitting one frame. A client is free to choose a longer reservation time, if he wishes to transmit many frames in one go.
+

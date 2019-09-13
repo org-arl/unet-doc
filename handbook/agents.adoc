@@ -24,23 +24,27 @@ import org.arl.unet.*
 
 class MyAgent extends UnetAgent {
 
+  @Override
   void setup() {
     // this method is called when the stack is initialized
     // register services and capabilities that you provide here
   }
 
+  @Override
   void startup() {
     // this method is called just after the stack is running
     // look up other agents and services here, as needed
     // subscribe to topics of interest to get notifications
   }
 
+  @Override
   Message processRequest(Message msg) {
     // process requests supported by the agent, and return responses
     // if request is not processed, return null
     return null
   }
 
+  @Override
   void processMessage(Message msg) {
     // process other messages, such as notifications here
     // if a message is not interesting, it can be safely just ignored
@@ -48,6 +52,8 @@ class MyAgent extends UnetAgent {
 
 }
 ----
+
+While you don't strictly need the `@Override` annotations, it is a good practice to use them whenever you are overriding a method from a superclass. The annotation tells the compiler that this is what you intend, and so if you make a typographical mistake and type in a wrong method name (one that doesn't exist in the superclass), the compiler will warn you.
 
 If you do not need any of these methods, you can skip the definition as the base class provides default implementations. There are a several other methods that you can override to customize your agent, but these are less commonly needed and so we'll skip them for now. You'll come across them later.
 
@@ -68,6 +74,7 @@ import org.arl.unet.*
 
 class EchoDaemon extends UnetAgent {
 
+  @Override
   void startup() {
     // subscribe to all agents that provide the datagram service
     agentsForService(Services.DATAGRAM).each {
@@ -75,6 +82,7 @@ class EchoDaemon extends UnetAgent {
     }
   }
 
+  @Override
   void processMessage(Message msg) {
     if (msg instanceof DatagramNtf && msg.protocol == Protocol.USER) {
       // respond to protocol USER datagram with protocol DATA datagram
@@ -169,6 +177,7 @@ import org.arl.unet.*;
 
 public class EchoDaemon extends UnetAgent {
 
+  @Override
   public void startup() {
     // subscribe to all agents that provide the datagram service
     AgentID[] agents = agentsForService(Services.DATAGRAM);
@@ -177,6 +186,7 @@ public class EchoDaemon extends UnetAgent {
     }
   }
 
+  @Override
   public void processMessage(Message msg) {
     if (msg instanceof DatagramNtf && ((DatagramNtf)msg).getProtocol() == Protocol.USER) {
       // we got an echo request!
@@ -218,6 +228,7 @@ We could of course add a `delay(7000)` in the `processMessage()` method, but tha
 
 [source, groovy]
 ----
+  @Override
   void processMessage(Message msg) {
     if (msg instanceof DatagramNtf && msg.protocol == Protocol.USER) {
       // respond to protocol USER datagram with protocol DATA datagram after 7 seconds
@@ -295,6 +306,7 @@ class EchoDaemon extends UnetAgent {
 
   int delay = 7000                          #<4>
 
+  @Override
   void startup() {
     // subscribe to all agents that provide the datagram service
     agentsForService(Services.DATAGRAM).each {
@@ -302,6 +314,7 @@ class EchoDaemon extends UnetAgent {
     }
   }
 
+  @Override
   void processMessage(Message msg) {
     if (msg instanceof DatagramNtf && msg.protocol == Protocol.USER) {
       // respond to protocol USER datagram with protocol DATA datagram after 7 seconds

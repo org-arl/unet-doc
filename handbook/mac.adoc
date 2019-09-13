@@ -6,6 +6,8 @@ Agents offering the MAC service control when other agents may access the medium,
 
 MAC protocols that use PDUs for channel reservation may support piggybacking of client data in the PDU. If such support is available, it is advertised using a non-zero `reservationPayloadSize` parameter. A `ReservationReq` should provide the payload data to be sent to a peer node (as part of RTS or equivalent PDU) to whom the reservation is made. If that node wishes to send payload data back (as part of CTS or equivalent PDU), it may send a `ReservationAcceptReq` in response to a `ReservationStatusNtf` to provide its payload data.
 
+NOTE: Protocol data units (PDUs) are protocol-specific datagrams exchanged by nodes in a network. MAC protocls that use a handshake often use three basic type of PDUs -- request to send (RTS), clear to send (CTS) and acknowledgement (ACK).
+
 ==== Messages
 
 Agents supporting the MAC service provide messages to request, grant and cancel reservations:
@@ -70,6 +72,8 @@ if (mac) {
 ----
 <1> Send a channel reservation request.
 <2> Wait for a channel reservation notification.
+
+In the above sample code, error handling has been omitted for simplicity. In reality, you would want to have else clauses to handle reservation failures. The MAC agent not only sends a `ReservationStatusNtf[status: START]` notification, but also a `ReservationStatusNtf[status: END]` notification at the end of the reservation duration. The sample code above ignores this notification, but has to ensure that the transmission does not exceed the requested duration.
 
 === Working with MAC payloads
 

@@ -1,8 +1,15 @@
 == Portals
 
-Although the UnetSocket API provides great flexibility, it requires an application to explicity use the API to integrate with UnetStack. Is there an easier way for simple Internet or serial port applications to communicate over a Unet?
+Although the UnetSocket API provides great flexibility, it requires an application to explicity use the API to integrate with UnetStack. Sometimes you might have devices or applications that talk to each other over a serial cable or a UDP/IP or TCP/IP connection, and you simply want to replace the cable or connection with an underwater wireless connection. Is there an easier way for such simple Internet or serial port applications to communicate over a Unet?
 
 The answer lies in portals. A _portal_ is a transparent connection across the Unet. Data going in through one end of the portal travels through the Unet and emerges from the other end. The interaction with the end points of the portal is via traditional technologies such as UDP/IP sockets, TCP/IP sockets, or serial ports. This enables applications developed to use these technologies to transparently work over a Unet.
+
+.Application examples
+****
+Imagine that you have a sensor that connects to a laptop over a RS232 serial cable. You want to deploy this sensor on the seabed and have its data be available wirelessly over the Internet in real time. All you want to do is replace that RS232 cable with a wireless Unet connection. A _serial portal_ could be used for this. Instead of a RS232 serial cable, maybe the sensor published its data over an Ethernet cable on a TCP/IP port. You'd use a _TCP portal_ instead.
+
+In <<Video streaming using UDP portal>>, we demonstrate a practical example of a video streaming application that runs over UDP, and can be made to transparently work over a Unet using the _UDP portal_.
+****
 
 CAUTION: While portals are easy to use, you should bear in mind that applications developed for the Internet or for use over serial ports do not understand the constraints and characteristics of a Unet. Some applications may use bandwidth inefficiently, or expect responses with latencies that are unreasonable for a Unet, and therefore perform poorly.
 
@@ -10,7 +17,7 @@ CAUTION: While portals are easy to use, you should bear in mind that application
 
 Since UDP is a datagram-oriented protocol, it is easy to map UDP datagrams to Unet datagrams. This is exactly what a UDP portal does, as shown in <<fig_udp_portal>>.
 
-In this example, application X sends a UDP datagram to node A, where a UdpPortal agent listens on UDP port 7000. The UdpPortal agent converts the UDP datagram into a Unet datagram and sends it to node B. The UdpPortal agent on node B receives this datagram, converts is back to a UDP datagram and sends it to application Y listening on UDP port 7778.
+In this example, application X sends a UDP datagram to node A, where a UdpPortal agent listens on UDP port 7000 (arbitrarily chosen port number). The UdpPortal agent converts the UDP datagram into a Unet datagram and sends it to node B. The UdpPortal agent on node B receives this datagram, converts is back to a UDP datagram and sends it to application Y listening on UDP port 7778 (also an arbitrarily chosen port number).
 
 [[fig_udp_portal]]
 .A UDP portal establishes a tunnel through the Unet for UDP datagrams to pass through.
