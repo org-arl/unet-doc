@@ -101,9 +101,7 @@ WARNING: Coming soon...
 
 WARNING: Coming soon...
 
-== Medium access control (MAC)
-
-WARNING: Coming soon...
+include::mac.adoc[]
 
 == Routing and route maintenance
 
