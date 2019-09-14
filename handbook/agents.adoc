@@ -150,13 +150,13 @@ Once the daemon is successfully loaded on node B, we can test it from node A:
 [source, console]
 ----
 > subscribe phy                                       #<1>
-> phy << new DatagramReq(to: host('B'), protocol: Protocol.USER, data: [1,2,3]) #<2>
+> phy << new DatagramReq(to: host('B'), protocol: Protocol.USER, data: [42]) #<2>
 AGREE
 phy >> TxFrameNtf:INFORM[type:DATA txTime:2809812247]
 phy >> RxFrameStartNtf:INFORM[type:DATA rxTime:2811767943]
-phy >> RxFrameNtf:INFORM[type:DATA from:31 to:232 rxTime:2811767943 (3 bytes)]
+phy >> RxFrameNtf:INFORM[type:DATA from:31 to:232 rxTime:2811767943 (1 byte)]
 > ntf.data
-[1, 2, 3]                                             #<3>
+[42]                                                  #<3>
 ----
 <1> We subscribe to `phy` so that we can see the incoming echo response from the peer node.
 <2> Transmit a physical layer frame containing the echo request and some data.

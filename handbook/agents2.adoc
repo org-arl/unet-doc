@@ -205,6 +205,41 @@ mac >> ReservationStatusNtf:INFORM[to:31 status:END]
 
 Indeed it does! The START notification arrives immediately after the AGREE response, and the END notification arrives about 3 seconds later.
 
+.Logging and debugging
+****
+When testing agents, you'll often feel the need to log debug information. Every agent already has a Java logger (`log`) defined, and can be used to log information to the log file (`logs/log-0.txt`). The Java logger supports various levels of logging: `severe`, `warning`, `info`, `fine`, `finer`, `finest`. For example, to log a message at a fine level, simply do something like:
+
+[source, groovy]
+----
+log.fine 'Some debugging information'
+----
+
+The log level can be controlled on a per-class or per-package basis using the `logLevel` command on the unet shell (type `help logLevel` for details). To set the current log level to include fine level logs:
+
+[source, console]
+----
+> logLevel FINE
+----
+
+You can access the logs from the web interface "Logs" tab, or on your disk in the `logs` folder. The active agent log file is always called `log-0.txt`. To see the last few lines of this file from your shell:
+
+[source, console]
+----
+> tail
+1568482567444|INFO|org.arl.unet.remote.RemoteControl/B@57:startup|Using transport for communication
+1568482567447|INFO|org.arl.unet.link.ECLink/B@59:startup|No PHY specified, auto detecting...
+1568482567448|INFO|org.arl.unet.link.ECLink/B@59:startup|Using agent 'phy' for PHY
+1568482567448|INFO|org.arl.unet.link.ECLink/B@59:startup|No MAC specified, auto detecting...
+1568482567449|INFO|org.arl.unet.link.ECLink/B@59:startup|Using agent 'mac' for MAC
+1568482567451|INFO|org.arl.unet.transport.SWTransport/B@69:startup|Using router for communication
+1568482567453|INFO|org.arl.unet.remote.RemoteControl/B@57:startup|Using websh for command exec
+1568482567511|INFO|org.arl.unet.remote.RemoteControl/A@42:startup|Using websh for command exec
+1568482572443|INFO|org.arl.unet.nodeinfo.NodeInfo/A@52:obtainAddress|Node name is A, address is 232, address size is 8 bits
+1568482572449|INFO|org.arl.unet.nodeinfo.NodeInfo/B@68:obtainAddress|Node name is B, address is 31, address size is 8 bits
+1568482584194|INFO|MySimplestMac/A@72:init|Loading agent mac [MySimplestMac] on A
+----
+****
+
 === Simple MAC with throttling
 
 While the above simple MAC would work well when the traffic offered to it is random, it will perform poorly if the network is fully loaded. All nodes would constantly try to access the channel, collide and the throughput would plummet. To address this concern, one may add an exponentially distributed random backoff (Poisson arrival to match the assumption of Aloha) for every request to introduce randomness. The backoff could be chosen to offer a normalized network load of approximately 0.5, since this generates the highest throughput for Aloha.
