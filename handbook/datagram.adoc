@@ -90,9 +90,9 @@ uwlink >> DatagramFailureNtf:INFORM[id:bc65e643-6161-4b06-913c-3ff4f6985d36 to:3
 > uwlink << new DatagramReq(to: 0, data: new byte[64])                                #<6>
 AGREE
 > uwlink << new DatagramReq(to: 0, data: new byte[64], reliability: true)             #<7>
-REFUSE
+REFUSE: Reliability not supported for broadcast
 > uwlink << new DatagramReq(to: 31, data: new byte[1024])                             #<8>
-REFUSE
+REFUSE: Data length exceeds MTU
 ----
 <1> Send an unreliable datagram to node 31.
 <2> Send a reliable datagram to node 31.

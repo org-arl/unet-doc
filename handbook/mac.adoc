@@ -2,7 +2,7 @@
 
 === Overview
 
-Agents offering the MAC service control when other agents may access the medium, typically though the physical service.
+Agents offering the MAC service advise other agents on when they may be permitted to make transmissions, in an effort to reduce collisions and improve network throughput.
 
 MAC protocols that use PDUs for channel reservation may support piggybacking of client data in the PDU. If such support is available, it is advertised using a non-zero `reservationPayloadSize` parameter. A `ReservationReq` should provide the payload data to be sent to a peer node (as part of RTS or equivalent PDU) to whom the reservation is made. If that node wishes to send payload data back (as part of CTS or equivalent PDU), it may send a `ReservationAcceptReq` in response to a `ReservationStatusNtf` to provide its payload data.
 
@@ -80,7 +80,7 @@ In the above sample code, error handling has been omitted for simplicity. In rea
 Messages such as `ReservationReq` and `ReservationStatusNtf` may carry payloads, when the MAC protocol supports them. When payloads are supported, additional messages such as `ReservationAcceptReq`, `TxAckReq` and `TxAckNtf` are available for clients to provide payloads to the MAC service provider to piggyback on the MAC PDUs. A typical exchange is illustrated in <<fig_mac>>.
 
 [[fig_mac]]
-.Typical message exchange for MAC with payloads. RRQ is a `ReservationReq`, `RSNTF` is a `ReservationStatusNtf`, `RARQ` is a ReservationAcceptReq`, `TXACKRQ` is a `TxAckReq`, and a `RXACKNTF` is a `RxAckNtf`. ①, ② and ③ are optional payloads carried by the RTS, CTS and ACK PDUs respectively.
+.Typical message exchange for MAC with payloads. RRQ is a `ReservationReq`, `RSNTF` is a `ReservationStatusNtf`, `RARQ` is a ReservationAcceptReq`, `TXACKRQ` is a `TxAckReq`, and a `RXACKNTF` is a `RxAckNtf`. (1), (2) and (3) are optional payloads carried by the RTS, CTS and ACK PDUs respectively.
 image::mac.png[]
 
 For a MAC reservation initiated by node A with node B, we elaborate on the steps for a full reservation lifecycle with payloads:
@@ -89,7 +89,7 @@ For a MAC reservation initiated by node A with node B, we elaborate on the steps
 2. MAC on node A sends a RTS PDU with the payload to the MAC on node B.
 3. MAC on node B generates a `ReservationStatusNtf[status: REQUEST]` message and publishes it on its topic. A client subscribing to this topic receives the notification.
 4. If the client on node B wants to send back some payload with the CTS PDU, it immediately sends a `ReservationAcceptReq` to the MAC, with the payload.
-5. The MAC accepts the request and responds back to node A's MAC with a CTD PDU containing the payload.
+5. The MAC accepts the request and responds back to node A's MAC with a clients PDU containing the payload.
 6. The payload is delivered to the client on node A as part of a `ReservationStatusNtf[status: START]` message marking the start of the reservation time. At roughly the same time, the MAC on node B also sends a `ReservationStatusNtf[status: START]` message to its client.
 7. During the reservation, the two nodes exchange data as they wish.
 8. At the end of the reservation, the MAC agents on both nodes sends `ReservationStatusNtf[status: END]` messages to their respective clients.
@@ -98,4 +98,4 @@ For a MAC reservation initiated by node A with node B, we elaborate on the steps
 
 === Examples
 
-Sample MAC implementations are illustrated in <<Developing MAC protocols>>.
+Sample MAC implementations are illustrated in <<Implementing network protocols>>.

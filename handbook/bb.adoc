@@ -154,7 +154,7 @@ AGREE
 phy >> RxBasebandSignalNtf:INFORM[adc:1 rxTime:1186471772 rssi:-74.6 fc:12000.0 fs:12000.0 (12000 baseband samples)]
 > t = phy.time - 60000000; println(t); phy << new RecordBasebandSignalReq(recLength: 12000, recTime: t)
 1204946438
-REFUSE
+REFUSE: Bad start time
 ----
 
 Specifying a negative `recTime` is understood by the baseband service provider as a relative time. So we can simpify our request to record 5 seconds in the past:

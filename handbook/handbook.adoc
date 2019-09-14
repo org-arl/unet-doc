@@ -131,7 +131,7 @@ WARNING: Coming soon...
 
 include::agents.adoc[]
 
-include::mac-agents.adoc[]
+include::agents2.adoc[]
 
 == Integrating with sensors
 
@@ -142,6 +142,10 @@ WARNING: Coming soon...
 WARNING: Coming soon...
 
 = *Part VI: Simulating underwater networks*
+
+== Integrated development environment (IDE)
+
+WARNING: Coming soon...
 
 == Writing simulation scripts
 
@@ -161,5 +165,7 @@ WARNING: Coming soon...
 WARNING: Coming soon...
 
 // appedices
-//= *Appendices*
-//include::svcref.adoc[]
+
+= *Appendices*
+
+include::MySimpleHandshakeMac.adoc[]
