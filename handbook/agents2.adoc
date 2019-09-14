@@ -8,7 +8,7 @@ While developing the MAC agents, we learn many new techniques -- advertising ser
 
 === Simple MAC without handshake
 
-To illustrate how a MAC agent might work, let us start with a simple MAC agent that accedes to every reservation request as soon as it is made:
+To illustrate how a MAC agent might work, let us start with a simple MAC agent that grants every reservation request as soon as it is made:
 
 [source, groovy]
 ----
