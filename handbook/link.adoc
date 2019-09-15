@@ -1,0 +1,17 @@
+== Links and reliability
+
+`*org.arl.unet.Services.LINK*`
+
+=== Overview
+
+Agents offering the LINK service provide single-hop communication.
+
+Single-hop here refers to a single hop in the Unet sense. For example, a link may be provided over wireless RF network that has multiple physical hops (e.g. using UDP/IP). However, as long as the link does not pass through multiple Unet nodes, it is considered a logically single-hop link.
+
+All agents supporting the PHYSICAL service must also support the DATAGRAM service (<<Datagram service>>).
+
+It is recommended that agents offering the LINK service provide reliability, when requested. Agents that are able to provide reliability, do so by advertising the DATAGRAM service capability RELIABILITY.
+
+LINK service providers using the PHYSICAL service should also consult the MAC service to determine when they should transmit.
+
+In a typical Unet, gateway nodes may have several LINK service providers, with the ROUTING service provider forwarding datagrams across links.

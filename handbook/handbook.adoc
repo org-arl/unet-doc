@@ -91,11 +91,9 @@ include::node.adoc[]
 
 include::addr.adoc[]
 
-== Links and reliability
-
-WARNING: Coming soon...
-
 include::mac.adoc[]
+
+include::link.adoc[]
 
 == Routing and route maintenance
 
@@ -117,9 +115,7 @@ WARNING: Coming soon...
 
 WARNING: Coming soon...
 
-== Shell
-
-WARNING: Coming soon...
+include::shell.adoc[]
 
 = *Part V: Extending UnetStack*
 

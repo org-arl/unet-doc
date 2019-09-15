@@ -1,0 +1,74 @@
+== Shell
+
+`*org.arl.fjage.shell.Services.SHELL*`
+
+The SHELL service provides a way to run commands and access files on a node. It is used by agents providing the REMOTE service to support remote execution of commands from other nodes.
+
+=== Overview
+
+Agents providing the SHELL service support execution of commands, and access to files on the node. While shell agents typically provide interactivity using a terminal/console, they also support messages for other agents to request execution of commands or access to files.
+
+==== Messages
+
+* http://org-arl.github.io/fjage/javadoc/org/arl/fjage/shell/ShellExecReq.html[`ShellExecReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- execute a command
+* http://org-arl.github.io/fjage/javadoc/org/arl/fjage/shell/GetFileReq.html[`GetFileReq`^] => http://org-arl.github.io/fjage/javadoc/org/arl/fjage/shell/GetFileRsp.html[`FileGetRsp`^] / `REFUSE` / `FAILURE` -- read a file or directory contents
+* http://org-arl.github.io/fjage/javadoc/org/arl/fjage/shell/PutFileReq.html[`PutFileReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- write contents to a file, or delete a file
+
+=== Script engines
+
+The language in which the commands are written is not defined by the service, but depends on the shell agent. fjåge supports a pluggable mechanism for an http://org-arl.github.io/fjage/javadoc/org/arl/fjage/shell/ShellAgent.html[`ShellAgent`^] to use any http://org-arl.github.io/fjage/javadoc/org/arl/fjage/shell/ScriptEngine.html[`ScriptEngine`^]. Various script engines are available in fjåge and UnetStack, including the `GroovyScriptEngine`, `EchoScriptEngine`, and `ATScriptEngine`.
+
+=== Examples
+
+Start the 2-node network and connect to node A:
+
+[source, console]
+----
+> agentsForService org.arl.fjage.shell.Services.SHELL                  #<1>
+[websh]
+> websh.send new ShellExecReq(cmd: 'file("foobar").text = "FOOBAR";')  #<2>
+websh >> AGREE
+> ls                                                                   #<3>
+foobar [6 bytes]
+README.md [759 bytes]
+> file("foobar").text                                                  #<4>
+FOOBAR
+----
+<1> We find that `websh` is the agent that provides us the SHELL service.
+<2> We send a command to `websh` to execute, and it agrees to do so. Since the commands we type are also executed by the `websh` agent, we need to be careful to not block the execution. Hence we use a `send` rather than a `request` (or equivalently `<<`).
+<3> The command was to create a `foobar` file, so we check that the file is created.
+<4> We read the contents of the `foobar` file to confirm that `FOOBAR` was correctly written to it.
+
+Next, let's try the `GetFileReq` and `PutFileReq` messages to read, write and delete this file:
+
+[source, console]
+----
+> websh.send new GetFileReq(filename: 'scripts/foobar')                #<1>
+websh >> INFORM: GetFileRsp
+> ntf.contents                                                         #<2>
+[70, 79, 79, 66, 65, 82]
+> new String(ntf.contents)                                             #<3>
+FOOBAR
+> websh.send new PutFileReq(filename: 'scripts/foobar', contents: 'foooobaaaar')
+websh >> AGREE                                                         #<4>
+> file('foobar').text                                                  #<5>
+foooobaaaar
+> websh.send new PutFileReq(filename: 'scripts/foobar', contents: null)
+websh >> AGREE                                                         #<6>
+> ls
+README.md [759 bytes]
+> websh.send new GetFileReq(filename: 'scripts')                       #<7>
+websh >> INFORM: GetFileRsp
+> new String(ntf.contents)
+README.md       759     1568297372000                                  #<8>
+----
+<1> The file `foobar` was created in the `scripts` folder, which is the default location for the `file()` function. We ask to read the file, and get a `GetFileRsp` response back.
+<2> The file contents are read back as a list of bytes.
+<3> We convert the list of bytes to a String to get our `FOOBAR` contents.
+<4> We send a `PutFileReq` to change the contents of the file.
+<5> We verify that the file contents were indeed changed, as requested.
+<6> Sending a `PutFileReq` with `contents` set to `null` deletes the file.
+<7> Asking for the contents of a directory using `GetFileReq` gets us the directory listing back.
+<8> The listing consists of all files in the directory, one file per line. Each line has a filename, file size and file modificiation timestamp (epoch time). If a file is a directory, the filename is suffixed by a `/`.
+
+We interacted with the SHELL service provider using a shell! That's not very useful in practice, but served to show you how these messages work. Typically, these messages are sent by other agents that wish to get the shell to run commands and access files for them. The agents may be running remotely in a fjåge slave container or on a gateway (via the UnetSocket API), where they may not have direct access to the filesystem of the node.
