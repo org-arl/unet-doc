@@ -135,7 +135,7 @@ BASEBAND, `org.arl.unet.Services.BASEBAND`, Arbitrary waveform transmission & re
 RANGING, `org.arl.unet.Services.RANGING`, Ranging & synchronization, <<Ranging and synchronization>>
 NODE_INFO, `org.arl.unet.Services.NODE_INFO`, Node & network information, <<Node information>>
 ADDRESS_RESOLUTION, `org.arl.unet.Services.ADDRESS_RESOLUTION`, Address allocation & resolution, <<Address resolution>>
-LINK, `org.arl.unet.Services.LINK`, Datagram transmission over a single hop, <<Links and reliability>>
+LINK, `org.arl.unet.Services.LINK`, Datagram transmission over a single hop, <<Single-hop links>>
 MAC, `org.arl.unet.Services.MAC`, Medium access control, <<Medium access control>>
 ROUTING, `org.arl.unet.Services.ROUTING`, Routing of datagrams over a multihop network, <<Routing and route maintenance>>
 ROUTE_MAINTENANCE, `org.arl.unet.Services.ROUTE_MAINTENANCE`, Discovery & maintenance of routes in a multihop network, <<Routing and route maintenance>>

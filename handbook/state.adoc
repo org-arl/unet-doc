@@ -1,0 +1,152 @@
+== State persistence
+
+`*org.arl.unet.Services.STATE_MANAGER*`
+
+=== Overview
+
+An agent offering the STATE_MANAGER service provides a way to save the state (parameter values) of specified (or all) agents.
+
+Such an agent typically subscribes to the https://unetstack.net/javadoc/org/arl/unet/Topics.html#PARAMCHANGE[`PARAMCHANGE`^] topic and monitor `ParamChangeNtf` for all parameter changes for all agents. It then helps persist selected agents' parameter values between reboots.
+
+==== Messages
+
+STATE_MANAGER service providers honor the following messages:
+
+* https://unetstack.net/javadoc/org/arl/unet/state/SaveStateReq.html[`SaveStateReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- save agent state to a file
+* https://unetstack.net/javadoc/org/arl/unet/state/ClearStateReq.html[`ClearStateReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- clear agent state in memory, and track only parameter changes henceforth
+
+The `SaveStateReq` message causes the agent state (changed parameters) to be persisted to a Groovy script file in the `scripts` folder. The default name of the file is `saved-state.groovy`, and this file is automatically loaded on startup. However, the `SaveStateReq` message can specify an alternate filename to persist the state in. In such cases, the file is run manually when the state is to be restored.
+
+=== Examples
+
+Fire up unet audio (`bin/unet audio`) to test out how state persistence works:
+
+[source, console]
+----
+> plvl
+phy[1].powerLevel = -10.0
+phy[2].powerLevel = -10.0
+phy[3].powerLevel = -10.0
+phy[4].powerLevel = -10.0
+phy.signalPowerLevel = -10.0
+> plvl -40
+OK
+> shutdown
+----
+
+Now start unet audio again, and you'll find that the `plvl` state was not retained through reboots:
+
+[source, console]
+----
+> plvl
+phy[1].powerLevel = -10.0
+phy[2].powerLevel = -10.0
+phy[3].powerLevel = -10.0
+phy[4].powerLevel = -10.0
+phy.signalPowerLevel = -10.0
+----
+
+We can ask it to retain the state:
+
+[source, console]
+----
+> plvl -40
+OK
+> savestate                       #<1>
+AGREE
+> ls
+README.md [759 bytes]
+saved-state.groovy [156 bytes]    #<2>
+> shutdown
+----
+<1> The `savestate` command just sends a `SaveStateReq` message to the STATE_MANAGER service provider.
+<2> The `saved-state.groovy` file is created with all the parameter changes to all agents.
+
+Start unet audio again, and you'll find that the state is retained:
+
+[source, console]
+----
+> plvl
+phy[1].powerLevel = -40.0
+phy[2].powerLevel = -40.0
+phy[3].powerLevel = -40.0
+phy[4].powerLevel = -40.0
+phy.signalPowerLevel = -40.0
+> shutdown
+----
+
+The `saved-state.groovy` is human-readable, and you'll see that it simply contains the Groovy code to set the parameters required to restore the state:
+
+.saved-state.groovy:
+[source, groovy]
+----
+def phy = agent('phy')
+phy[1].powerLevel = -40.0
+phy[2].powerLevel = -40.0
+phy[3].powerLevel = -40.0
+phy[4].powerLevel = -40.0
+phy.signalPowerLevel = -40.0
+----
+
+Delete this file and start unet audio again:
+
+[source, console]
+----
+> help savestate
+savestate - save state of all or specified agent in Groovy script format
+
+Examples:
+  savestate 'pandan'          // save current state of all agents
+  savestate 'pandan', 'phy'   // save current state of specified agent
+  savestate 'pandan', phy     // save current state of specified agent
+  savestate                   // save current state in "saved-state.groovy"
+
+> help clrstate
+clrstate - set current state as the baseline for savestate
+
+Example:
+  clrstate                    // set baseline state
+  phy[1].powerLevel = -10     // change parameters
+  savestate                   // save changed parameters
+----
+
+The help shows you that the `savestate` command can be used to save the state of individual agents, if you wish, to a filename of your choice. If you save the state to a different filename, it is not automatically restored on startup. But you can restore it easily with a single command (name of the file):
+
+[source, console]
+----
+> plvl
+phy[1].powerLevel = -10.0
+phy[2].powerLevel = -10.0
+phy[3].powerLevel = -10.0
+phy[4].powerLevel = -10.0
+phy.signalPowerLevel = -10.0
+> plvl -40
+OK
+> savestate 'p40', phy            #<1>
+AGREE
+> plvl -10                        #<2>
+OK
+> ls
+README.md [759 bytes]
+p40.groovy [156 bytes]            #<3>
+> p40                             #<4>
+> plvl
+phy[1].powerLevel = -40.0
+phy[2].powerLevel = -40.0
+phy[3].powerLevel = -40.0
+phy[4].powerLevel = -40.0
+phy.signalPowerLevel = -40.0
+----
+<1> Save the `plvl -40` state to a file called `p40.groovy`.
+<2> Change the state.
+<3> The state is saved in the `p40.groovy` file in the `scripts` folder.
+<4> Command `p40` runs the `p40.groovy` file to restore the state to `plvl -40`.
+
+.Startup scripts
+****
+While the STATE_MANAGER service provides a convenient way to save the current state, sometimes you may wish to write a customized startup script that sets up the node the way you wish. This can be achieved via the `setup.groovy` and `startup.groovy` scripts in the `scripts` folder.
+
+If you create a `setup.groovy` script, the default stack is disabled, allowing you to customize the agents that are loaded. The only agents that are automatically loaded if this script is present are the NODE_INFO, PHYSICAL and SHELL agents. The `setup.groovy` script is called during the setup phase of bootup, when agents are being loaded. It is the responsibility of the `setup.groovy` script to setup the rest of the stack by loading appropriate agents.
+
+If you create a `startup.groovy` script, it is called after all agents are loaded and the stack is fully initialized. You may put Groovy commands in this script to customize your agent parameters and other settings. The `startup.groovy` script is called before the `saved-state.groovy` script, if one exists.
+****

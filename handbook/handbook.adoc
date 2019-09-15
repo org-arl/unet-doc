@@ -107,9 +107,7 @@ WARNING: Coming soon...
 
 WARNING: Coming soon...
 
-== State persistence
-
-WARNING: Coming soon...
+include::state.adoc[]
 
 == Scheduler
 

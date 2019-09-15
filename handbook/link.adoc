@@ -1,4 +1,4 @@
-== Links and reliability
+== Single-hop links
 
 `*org.arl.unet.Services.LINK*`
 
