@@ -1,0 +1,47 @@
+== Address resolution
+
+`*org.arl.unet.Services.ADDRESS_RESOLUTION*`
+
+=== Overview
+
+An ADDRESS_RESOLUTION service provider is responsible for address allocation and resolution. The size of the address space is detemined by the `addressSize` parameter of the NODE_INFO service (<<Node information>>).
+
+==== Messages
+
+Agents supporting this service honor the following requests:
+
+* https://unetstack.net/javadoc/org/arl/unet/addr/AddressAllocReq.html[`AddressAllocReq`^] => https://unetstack.net/javadoc/org/arl/unet/addr/AddressAllocRsp.html[`AddressAllocRsp`^] / `FAILURE` -- request for allocation of address to node
+* https://unetstack.net/javadoc/org/arl/unet/addr/AddressResolutionReq.html[`AddressResolutionReq`^] => https://unetstack.net/javadoc/org/arl/unet/addr/AddressResolutionRsp.html[`AddressResolutionRsp`^] / `FAILURE` -- resolve node name to address
+
+=== Usage and notes
+
+Shell usage of this service via the `host` command is described in <<Node names and addresses>>. In this section, we show examples of how address allocation and address resolution can be implemented directly by sending messages.
+
+Address allocation is typically required at startup, and usually initiated by the agent providing the NODE_INFO service to populate the `address` parameter of that service. To ask the ADDRESS_RESOLUTION service provider to allocate an address, an agent sends it a `AddressAllocReq`. The allocation may depend on the node name, and so the request must contain the node name.
+
+We can start the 2-node network, and manually test this on the shell of node A:
+
+[source, console]
+----
+> a = agentForService(org.arl.unet.Services.ADDRESS_RESOLUTION);
+> a << new AddressAllocReq(name: 'A')
+AddressAllocRsp:INFORM[address:232]
+----
+
+Address resolution is performed via the `AddressResolutionReq` message. The `host` command sends this message on your behalf, and shows you the response:
+
+[source, console]
+----
+> a << new AddressResolutionReq(name: 'A')
+AddressResolutionRsp:INFORM[address:232 name:A]
+> ans.address
+232
+> host('A')
+232
+----
+
+While the address allocation and resolution processes might seem very similar, there is a conceptual difference between the two. Address allocation is performed for a new node without an address. The address allocation process associates it with an address. Address resolution is performed to find the address that was assigned to a node.
+
+TIP: The default ADDRESS_RESOLUTION service provider uses a hashing function to map node names to addresses. This enables it to allocate and resolve addresses without generating network traffic (at the cost of manual checking due to a small probability of duplicate addresses). The hashing mechanism is not time-dependent, and so in the special case of this agent, the distinction between address allocation and resolution is blurred.
+
+CAUTION: Network designers and protocol developers should not rely on the ADDRESS_RESOLUTION service provider being based on a hashing function for correct operation of the network.

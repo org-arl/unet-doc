@@ -1,21 +1,23 @@
 == Datagram service
 
+`*org.arl.unet.Services.DATAGRAM*`
+
 Unets are all about sending datagrams between nodes!
 
-The datagram service is, therefore, one of the fundamental services that many agents provide. However, different agents have very different capabilities in terms of what they can do with datagrams. Let's take a look at what the service offers, and how to use it effectively.
+The DATAGRAM service is, therefore, one of the fundamental services that many agents provide. However, different agents have very different capabilities in terms of what they can do with datagrams. Let's take a look at what the service offers, and how to use it effectively.
 
 === Overview
 
 ==== Messages
 
-Agents offering the datagram service support messages to transmit and receive datagrams:
+Agents offering the DATAGRAM service support messages to transmit and receive datagrams:
 
 * https://unetstack.net/javadoc/org/arl/unet/DatagramReq.html[`DatagramReq`^] => `AGREE` / `REFUSE` / `FAILURE`
 * https://unetstack.net/javadoc/org/arl/unet/DatagramNtf.html[`DatagramNtf`^] -- sent to the agent's topic, when a datagram is received
 
 ==== Parameters
 
-Agents offering the datagram service support the following parameter:
+Agents offering the DATAGRAM service support the following parameter:
 
 * https://unetstack.net/javadoc/org/arl/unet/DatagramParam.html#MTU[`MTU`^] -- maximum datagram size in bytes
 
@@ -73,7 +75,7 @@ CapabilityListRsp:INFORM[RELIABILITY,FRAGMENTATION]
 > subscribe uwlink
 ----
 
-We obtained a list of agents which provide the datagram service. We checked the `MTU` of the `phy` and `uwlink` agents, and found them to be 56 bytes and 848 bytes respectively. We decided to use the `uwlink` agent to communicate over a single-hop link between node A and B, and checked its capabilities. We found that it supports reliability and fragmentation. We then decided to listen to all datagrams received by node B's `uwlink` agent by subscribing to its topic.
+We obtained a list of agents which provide the DATAGRAM service. We checked the `MTU` of the `phy` and `uwlink` agents, and found them to be 56 bytes and 848 bytes respectively. We decided to use the `uwlink` agent to communicate over a single-hop link between node A and B, and checked its capabilities. We found that it supports reliability and fragmentation. We then decided to listen to all datagrams received by node B's `uwlink` agent by subscribing to its topic.
 
 On node A:
 
@@ -112,7 +114,7 @@ uwlink >> DatagramNtf:INFORM[from:232 to:31 (64 bytes)]
 uwlink >> DatagramNtf:INFORM[from:232 (64 bytes)]
 ----
 
-TIP: Agent `uwlink` uses the physical service (agent `phy`) to deliver the data. Since the `phy.MTU` is only 56 bytes, but our datagrams were 64 bytes, unbeknownst to us, the `uwlink` agent must have been fragmenting these datagrams and reassembling them on the other side!
+TIP: Agent `uwlink` uses the PHYSICAL service (agent `phy`) to deliver the data. Since the `phy.MTU` is only 56 bytes, but our datagrams were 64 bytes, unbeknownst to us, the `uwlink` agent must have been fragmenting these datagrams and reassembling them on the other side!
 
 === Short-circuit delivery
 
@@ -185,9 +187,9 @@ But why was it sent on `phy` agent's topic and not `uwlink` agent's topic, like 
 
 This is due to an optimization known as *short-circuit delivery* (introduced in UnetStack 3), depicted in <<fig_shortcircuit>>. The `uwlink` agent on node A looked at the unreliable `DatagramReq` for 32 bytes and realized that it is within the `phy` agent's capability (no reliability needed, and the datagram size is less than `phy.MTU`) to deliver this without the help of the `uwlink` agent. It delegated the task to the `phy` agent, which in turn send the datagram to its peer on node B, and therefore it was delivered to us by the `phy` agent on node B. This delegation not only reduces computation, but more importantly reduces the overhead of link headers in the frame, and therefore save valuable bandwidth in a resource-constrained underwater network.
 
-Short-circuit delivery is not only done by `uwlink`, but by all agents supporting the datagram service. If a downstream agent is capable of delivering the datagram, the delivery is delegated automatically.
+Short-circuit delivery is not only done by `uwlink`, but by all agents supporting the DATAGRAM service. If a downstream agent is capable of delivering the datagram, the delivery is delegated automatically.
 
-WARNING: As a result of short-circuit delivery optimization, you need to subscribe to *all* datagram service providers to receive `DatagramNtf` messages, and not just the one you send the datagram via.
+WARNING: As a result of short-circuit delivery optimization, you need to subscribe to *all* DATAGRAM service providers to receive `DatagramNtf` messages, and not just the one you send the datagram via.
 
 [[fig_shortcircuit]]
 .With short-circuit delivery, `uwlink` on node A recognizes the `DatagramReq` to be within the `phy` agent's capability, and no delegates it without adding any headers. On node B, the received frame is directly delivered as a `DatagramNtf` by the `phy` agent, since `uwlink` functionality is not required.
@@ -201,7 +203,7 @@ On node B, we should have done this in the first place:
 > agentsForService(org.arl.unet.Services.DATAGRAM).each { subscribe it }
 ----
 
-This single-liner in Groovy iterates over the list of agents providing the datagram service, and subscribes to the topic of each agent in that list.
+This single-liner in Groovy iterates over the list of agents providing the DATAGRAM service, and subscribes to the topic of each agent in that list.
 
 === Datagrams and the UnetSocket API
 

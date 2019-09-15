@@ -2,7 +2,7 @@
 
 This chapter serves two purposes:
 
-In <<Medium access control (MAC)>>, we looked at the MAC service in detail. In the next few sections, we develop three simple MAC agents to illustrate how network protocols and services are implemented by agents. The MAC agents are intentionally kept simple and not optimized for performance, as we wish to illustrate the key aspects of MAC agent development without getting lost in the details of optimal protocols.
+In <<Medium access control>>, we looked at the MAC service in detail. In the next few sections, we develop three simple MAC agents to illustrate how network protocols and services are implemented by agents. The MAC agents are intentionally kept simple and not optimized for performance, as we wish to illustrate the key aspects of MAC agent development without getting lost in the details of optimal protocols.
 
 While developing the MAC agents, we learn many new techniques -- advertising services, looking up other agents, providing read-only dynamic parameters, generating random variates, encoding/decoding PDUs, implemeting finite state machines (FSMs), etc. These techniques are not only useful for MAC development, but also commonly needed in the development of many other types of protocols.
 
@@ -70,7 +70,7 @@ Note a number of interesting features of the code above:
 3. We prepare the AGREE response as well as the START and END status notification messages, all at once. We send out the START notification immediately (using a `OneShotBehavior`), use a `WakerBehavior` to schedule the END notification to be sent out at an appropriate time, and then simply return the AGREE response. The use of the `OneShotBehavior` ensures that the START notificaion is sent after the AGREE response, and not before.
 4. We return a `null` if we don't understand the request, allowing the superclass to respond with a NOT_UNDERSTOOD message.
 
-While the above code implements a fully functional MAC agent, it needs to respond to `ReservationCancelReq`, `ReservationAcceptReq` and `TxAckReq` messages, and provide `channelBusy`, `reservationPayloadSize`, `ackPayloadSize`, `maxReservationDuration` and `recommendedReservationDuration` parameters in order to comply to the MAC service specification (<<Medium access control (MAC)>>). We add this functionality trivially, by responding to the messages with `RefuseRsp` (message with a `REFUSE` performative and a descriptive reason), and returning default values for all the parameters. The resulting complete source code is shown below:
+While the above code implements a fully functional MAC agent, it needs to respond to `ReservationCancelReq`, `ReservationAcceptReq` and `TxAckReq` messages, and provide `channelBusy`, `reservationPayloadSize`, `ackPayloadSize`, `maxReservationDuration` and `recommendedReservationDuration` parameters in order to comply to the MAC service specification (<<Medium access control>>). We add this functionality trivially, by responding to the messages with `RefuseRsp` (message with a `REFUSE` performative and a descriptive reason), and returning default values for all the parameters. The resulting complete source code is shown below:
 
 [source, groovy]
 ----
@@ -357,7 +357,7 @@ class MySimpleThrottledMac extends UnetAgent {
 <7> Note that we no longer send the START notification immediately. Instead we schedule it after a backoff, and then schedule the END notification after the reservation duration from the START.
 <8> We implement one user configurable parameter `nodes`, and advertise it.
 <9> Parameter `busy` is no longer always false, since we now keep track of reservations. We return `busy` to be true only during the time between a reservation START and END.
-<10> Parameter `recommendedReservationDuration` is now determined based on the frame duration of the physical service, assuming that most reservations are for transmitting one frame. A client is free to choose a longer reservation time, if he wishes to transmit many frames in one go.
+<10> Parameter `recommendedReservationDuration` is now determined based on the frame duration of the PHYSICAL service, assuming that most reservations are for transmitting one frame. A client is free to choose a longer reservation time, if he wishes to transmit many frames in one go.
 
 A copy of this code is available in the `samples` folder of your unet simulator. We encourage you to test it out, in the same way as we tested `MySimplestMac` in <<Testing our simple MAC>>. You'll find that the START notification no longer arrives immediately after the AGREE response, but arrives a few seconds later, after a random backoff.
 
@@ -585,7 +585,7 @@ void sendReservationStatusNtf(ReservationReq msg, ReservationStatus status) {
 }
 ----
 
-Now the hard work is done. We initialize our agent by registering the MAC service, looking up and subscribing to the physical service (to transmit and receive PDUs), looking up our own address using the node information service, and starting the `fsm` behavior:
+Now the hard work is done. We initialize our agent by registering the MAC service, looking up and subscribing to the PHYSICAL service (to transmit and receive PDUs), looking up our own address using the NODE_INFO service, and starting the `fsm` behavior:
 
 [source, groovy]
 ----

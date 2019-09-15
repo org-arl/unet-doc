@@ -1,8 +1,10 @@
-== Medium access control (MAC)
+== Medium access control
+
+`*org.arl.unet.Services.MAC*`
 
 === Overview
 
-Agents offering the MAC service advise other agents on when they may be permitted to make transmissions, in an effort to reduce collisions and improve network throughput.
+Agents offering the medium access control (MAC) service advise other agents on when they may be permitted to make transmissions, in an effort to reduce collisions and improve network throughput.
 
 MAC protocols that use PDUs for channel reservation may support piggybacking of client data in the PDU. If such support is available, it is advertised using a non-zero `reservationPayloadSize` parameter. A `ReservationReq` should provide the payload data to be sent to a peer node (as part of RTS or equivalent PDU) to whom the reservation is made. If that node wishes to send payload data back (as part of CTS or equivalent PDU), it may send a `ReservationAcceptReq` in response to a `ReservationStatusNtf` to provide its payload data.
 

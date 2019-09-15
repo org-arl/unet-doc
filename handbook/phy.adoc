@@ -1,16 +1,18 @@
 == Physical service
 
+`*org.arl.unet.Services.PHYSICAL*`
+
+Agents offering the PHYSICAL service are most commonly modem drivers and modem simulators. They support messages and parameters that are explained below. PHYSICAL service providers may also provide optional capabilities to send frames triggered at a specified time, or send timestamped frames where the timestamp is embedded in the transmitted frame.
+
+CAUTION: Agents implementing the PHYSICAL service typically directly access the channel, bypassing any MAC protocol that may be in use in the network. It is highly recommended that clients wishing to use the PHYSICAL service consult with the MAC service for advice on when it is safe to access the channel, so as not to adversely affect the network performance.
+
 === Overview
 
-Agents offering the physical service are most commonly modem drivers and modem simulators. They support messages and parameters that are explained below. Physical service providers may also provide optional capabilities to send frames triggered at a specified time, or send timestamped frames where the timestamp is embedded in the transmitted frame.
-
-CAUTION: Agents implementing the physical service typically directly access the channel, bypassing any MAC protocol that may be in use in the network. It is highly recommended that clients wishing to use the physical service consult with the MAC service for advice on when it is safe to access the channel, so as not to adversely affect the network performance.
-
-All agents supporting the physical service must also support the datagram service (<<Datagram service>>).
+All agents supporting the PHYSICAL service must also support the DATAGRAM service (<<Datagram service>>).
 
 ==== Messages
 
-Agents supporting the physical service provide a set of messages to manage frame transmission and reception:
+Agents supporting the PHYSICAL service provide a set of messages to manage frame transmission and reception:
 
 * https://unetstack.net/javadoc/org/arl/unet/phy/TxFrameReq.html[`TxFrameReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- transmit a frame
 * https://unetstack.net/javadoc/org/arl/unet/phy/TxRawFrameReq.html[`TxRawFrameReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- transmit a frame without headers
@@ -26,15 +28,15 @@ The `TxFrameReq` class extends a `DatagramReq` to add physical layer options, an
 
 ==== Parameters
 
-Agents offering the physical service support the following parameters:
+Agents offering the PHYSICAL service support the following parameters:
 
 * https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#rxEnable[`rxEnable`^] -- true if reception is enabled, false otherwise
 * https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#propagationSpeed[`propagationSpeed`^] -- signal propagation speed in m/s
 * https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#time[`time`^] -- current physical layer clock time in microseconds
 * https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#busy[`busy`^] -- true if modem is busy transmitting/receiving (carrier sense), false if modem is idle
 * https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#refPowerLevel[`refPowerLevel`^] -- reference source level in dB (re micro-Pascals @ 1m for underwater modems)
-* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#maxPowerLevel[`maxPowerLevel`^] -- maximum allowable transmission power in dB re refPowerLevel
-* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#minPowerLevel[`minPowerLevel`^] -- minimum allowable transmission power in dB re refPowerLevel
+* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#maxPowerLevel[`maxPowerLevel`^] -- maximum allowable transmission power in dB re `refPowerLevel`
+* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#minPowerLevel[`minPowerLevel`^] -- minimum allowable transmission power in dB re `refPowerLevel`
 * https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#rxSensitivity[`rxSensitivity`^] -- reference receive sensitivity (dB re micro Pascals for underwater modems)
 
 NOTE: All physical layer timestamps are in microseconds as per the clock provided by the `time` parameter. This clock is generally not synchronized with the platform clock (system time).
@@ -42,7 +44,7 @@ NOTE: All physical layer timestamps are in microseconds as per the clock provide
 In addition to the above parameters, agents also support indexed (frame type) parameters:
 
 * https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#frameDuration[`frameDuration`^] -- frame duration in seconds (maximum duration in case of variable frame length)
-* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#powerLevel[`powerLevel`^] -- transmission power in dB re refPowerLevel
+* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#powerLevel[`powerLevel`^] -- transmission power in dB re `refPowerLevel`
 * https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#errorDetection[`errorDetection`^] -- number of bytes used for error detection
 * https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#frameLength[`frameLength`^] -- frame length in bytes (maximum length in case of variable frame length)
 * https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#maxFrameLength[`maxFrameLength`^] -- maximum possible frame length in bytes
@@ -423,7 +425,7 @@ CAUTION: The transmission time is honored on a _best effort_ basis, which means 
 
 === Snooping frames meant for other nodes
 
-If you're familiar with Ethernet network interface cards, you may have come across _promiscuous mode_. In this mode, the network card receives all packets that it hears, not just the ones that are addressed to the node. Agents providing the physical service essentially do this continuously, but they send the notifications for frames intended for other nodes on a special sub-topic called SNOOP.
+If you're familiar with Ethernet network interface cards, you may have come across _promiscuous mode_. In this mode, the network card receives all packets that it hears, not just the ones that are addressed to the node. Agents providing the PHYSICAL service essentially do this continuously, but they send the notifications for frames intended for other nodes on a special sub-topic called SNOOP.
 
 With the 2-node network simulation, let's first only subscribe to the `phy` agent's topic on node B:
 

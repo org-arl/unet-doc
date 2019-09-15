@@ -19,7 +19,7 @@ To check the current address size on your node:
   nodeName = A
   address = 232
   addressSize = 8
-  canForward = false
+  canForward = true
   mobility = false
   location = [0.0, 0.0, -15.0]
   origin = [NaN, NaN]
@@ -40,7 +40,7 @@ buoy_A
   nodeName = buoy_A
   address = 232
   addressSize = 8
-  canForward = false
+  canForward = true
   mobility = false
   location = [1000.0, 0.0, -15.0]
   origin = []

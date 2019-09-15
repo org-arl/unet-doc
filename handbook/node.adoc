@@ -1,0 +1,69 @@
+== Node information
+
+`*org.arl.unet.Services.NODE_INFO*`
+
+The NODE_INFO service provides a single place to collate node-related information that is commonly needed by many agents. It is a special service, in the sense that each node must be configured to have *one and only one* agent providing this service.
+
+=== Overview
+
+An agent implementing the NODE_INFO service not only exposes a set of parameters, as described in this section, but also provides some special handling for specific parameters.
+
+==== Parameters
+
+An agent offering the NODE_INFO service supports several parameters:
+
+* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#nodeName[`nodeName`^] -- node name
+* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#address[`address`^] -- node address
+* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#addressSize[`addressSize`^] -- address size in bits (valid values are 8 or 16)
+* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#time[`time`^] -- node time (read-only)
+* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#canForward[`canForward`^] -- true if the node will forward datagrams to other nodes (routing)
+* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#origin[`origin`^] -- origin (latitude, longitude)
+* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#location[`location`^] -- location (x, y, z) m if origin set, otherwise (latitude, longitude, z)
+* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#mobility[`mobility`^] -- true if the node is mobile, false if it is fixed
+* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#speed[`speed`^] -- speed (m/s), if mobile node
+* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#heading[`heading`^] -- heading (deg, 0 is North, clockwise), if mobile node
+* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#turnRate[`turnRate`^] -- turn rate (deg/s, clockwise), if mobile node
+* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#diveRate[`diveRate`^] -- dive rate (m/s), if mobile node
+
+Any changes to parameters `nodeName`, `address`, `addressSize`, `origin` or `location` are published as `ParamChangeNtf` to the agent's topic (in addition to the `PARAMCHANGE` topic that all parameter changes are automatically published to -- see <<State persistence>>). This is to facilitate monitoring of changes to these important parameters by other agents, simply by subscribing to the NODE_INFO service provider's topic.
+
+Additionally, if time stability or location accuracy information is available, the following parameters are populated:
+
+* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#timeStability[`timeStability`^] -- time stability in ppm
+* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#locationAccuracy[`locationAccuracy`^] -- location accuracy (x, y, z) m
+
+// Finally, for nodes that support network time synchronization, the following parameters are defined:
+
+// * https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#isSynchronized[`isSynchronized`^] -- true if synchronised with network
+// * https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#networkTime[`networkTime`^] -- time in ms, if synchronized
+// * https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#networkTimeAccuracy[`networkTimeAccuracy`^] -- time accuracy in ms, if synchronized
+
+==== Notes
+
+* See <<Node names and addresses>> for a discussion on `nodeName`, `address` and `addressSize`.
+* See <<Node locations & coordinate systems>> for a discussion on `origin`, `location` and coordinate systems.
+* If node `mobility` is enabled, the agent may automatically update `location` based on motion parameters such as `speed`, `heading`, etc.
+
+=== Example
+
+If you start the mission2013 network simulation (`bin/unet samples/mission2013-network.groovy`), connect to node 21's shell and type `node`, you'll see the NODE_INFO parameters for the node in this network:
+
+[source, console]
+----
+> node
+<<< NodeInfo >>>
+
+[org.arl.unet.nodeinfo.NodeInfoParam]
+  address = 21
+  addressSize = 8
+  canForward = true
+  diveRate = 0
+  heading = 0
+  location = [-512.0, 248.8, -6.0]
+  mobility = false
+  nodeName = 21
+  origin = [1.217, 103.743]
+  speed = 0
+  time = Sun Sep 15 20:31:49 SGT 2019
+  turnRate = 0
+----

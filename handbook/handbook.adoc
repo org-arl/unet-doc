@@ -85,17 +85,11 @@ include::phy.adoc[]
 
 include::bb.adoc[]
 
-== Ranging and synchronization
+include::ranging.adoc[]
 
-WARNING: Coming soon...
+include::node.adoc[]
 
-== Node information
-
-WARNING: Coming soon...
-
-== Address resolution
-
-WARNING: Coming soon...
+include::addr.adoc[]
 
 == Links and reliability
 

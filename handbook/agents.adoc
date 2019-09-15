@@ -101,7 +101,7 @@ class EchoDaemon extends UnetAgent {
 Let's walk through the above code:
 
 1. Our agent does not provide any formal services or capabilities, so we we skip the `setup()` and `processRequest()` methods from the skeleton.
-2. The `startup()` method looks up all agents providing the datagram service, and subscribes to any notifications from any of these agents. These notifications will inlcude the `DatagramNtf` messages that are published when datagrams are received from another node. When a notification arrives, the `processMessage()` method will be called.
+2. The `startup()` method looks up all agents providing the DATAGRAM service, and subscribes to any notifications from any of these agents. These notifications will inlcude the `DatagramNtf` messages that are published when datagrams are received from another node. When a notification arrives, the `processMessage()` method will be called.
 3. In the `processMessage()` method, we check for datagram notifications with protocol `USER`, and respond to each of them by sending a `DatagramReq` to the sender of the notification, requesting it to send a datagram with protocol `DATA` to the node that sent the echo request, with the data copied from the echo request.
 
 That's it!
@@ -378,4 +378,4 @@ TIP: While our example above uses a static description, the description can also
 
 === Services, capabilities and notifications
 
-Most of the agents we have been interacting with advertised services, and sometimes optional capabilities. They also honor requests and publish unsolicited notifications. All of these are quite straightforward to implement, and you can explore some of these features in this https://blog.unetstack.net/developing-modem-drivers-for-unetstack[blog article^] on how to implement a simple physical service agent (modem driver). We will explore some of these in the next chapter, along with other cool features like finite state machine behaviors and protocol data unit (PDU) codecs.
+Most of the agents we have been interacting with advertised services, and sometimes optional capabilities. They also honor requests and publish unsolicited notifications. All of these are quite straightforward to implement, and you can explore some of these features in this https://blog.unetstack.net/developing-modem-drivers-for-unetstack[blog article^] on how to implement a simple PHYSICAL service agent (modem driver). We will explore some of these in the next chapter, along with other cool features like finite state machine behaviors and protocol data unit (PDU) codecs.

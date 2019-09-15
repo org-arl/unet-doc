@@ -51,7 +51,7 @@ But what if there were more than one agents capable of providing the same servic
 [phy]
 ----
 
-Well, there was only one agent providing the physical service. Are there other services that multiple agents provide? Indeed, there are:
+Well, there was only one agent providing the PHYSICAL service. Are there other services that multiple agents provide? Indeed, there are:
 
 [source, console]
 ----
@@ -59,9 +59,9 @@ Well, there was only one agent providing the physical service. Are there other s
 [transport, router, uwlink, phy]
 ----
 
-The datagram service is provided by several agents. If you were interested in all incoming datagrams, you'd need to subscribe to the topics of all these agents!
+The DATAGRAM service is provided by several agents. If you were interested in all incoming datagrams, you'd need to subscribe to the topics of all these agents!
 
-What would have happened if you only asked for `agentForService()` instead of `agentsForService()` for the datagram service? Try it:
+What would have happened if you only asked for `agentForService()` instead of `agentsForService()` for the DATAGRAM service? Try it:
 
 [source, console]
 ----
@@ -78,7 +78,7 @@ When you try to print an AgentID object on the shell, the shell tries to be help
 
 === Checking capabilities
 
-So let's say you looked up the list of agents that provide the datagram service:
+So let's say you looked up the list of agents that provide the DATAGRAM service:
 
 [source, console]
 ----
@@ -108,7 +108,7 @@ CapabilityListRsp:INFORM[PROGRESS,RELIABILITY,FRAGMENTATION,CANCELLATION]
 
 The `transport` agent says it can do reliable datagram delivery, fragment & reassemble large datagrams (if necessary), report on the progress of large datagram transfers, and cancel datagram delivery half way through the process (if the user wishes to).
 
-Another way you may choose a service provider is by checking its parameters. For example, the `MTU` parameter (defined in the datagram service) tells you what is the largest datagram the agent can deliver:
+Another way you may choose a service provider is by checking its parameters. For example, the `MTU` parameter (defined in the DATAGRAM service) tells you what is the largest datagram the agent can deliver:
 
 [source, console]
 ----
@@ -120,7 +120,7 @@ Another way you may choose a service provider is by checking its parameters. For
 
 If you had a small datagram (56 bytes or less) to deliver, and you did not care about reliability, you could ask `phy` to deliver it for you. But, if your datagram was larger, even if you did not need reliability, you'd have to ask `uwlink` to deliver it for you.
 
-TIP: The `MTU` parameter is the datagram service is actually `org.arl.unet.DatagramParam.MTU`. Since we only have one `MTU` parameter that `phy` advertises, there is no ambiguity in using `phy.MTU`. But if you wanted to explicitly ask for the parameter by its fully qualified name, you could send a `ParameterReq` for it: `phy << new ParameterReq().get(org.arl.unet.DatagramParam.MTU)`
+TIP: The `MTU` parameter is the DATAGRAM service is actually `org.arl.unet.DatagramParam.MTU`. Since we only have one `MTU` parameter that `phy` advertises, there is no ambiguity in using `phy.MTU`. But if you wanted to explicitly ask for the parameter by its fully qualified name, you could send a `ParameterReq` for it: `phy << new ParameterReq().get(org.arl.unet.DatagramParam.MTU)`
 
 === Service list
 
@@ -129,21 +129,21 @@ The following services are currently defined in UnetStack:
 [%header,cols="1,2,3,1",format=csv]
 |===
 Short name, Fully qualified name, Description, Read...
-Datagram, `org.arl.unet.Services.DATAGRAM`, Send and receive datagrams, <<Datagram service>>
-Physical, `org.arl.unet.Services.PHYSICAL`, Physical layer, <<Physical service>>
-Baseband, `org.arl.unet.Services.BASEBAND`, Arbitrary waveform transmission & recording, <<Baseband service>>
-Ranging, `org.arl.unet.Services.RANGING`, Ranging & synchronization, <<Ranging and synchronization>>
-Node Information, `org.arl.unet.Services.NODE_INFO`, Node & network information, <<Node information>>
-Address Resolution, `org.arl.unet.Services.ADDRESS_RESOLUTION`, Address allocation & resolution, <<Address resolution>>
-Link, `org.arl.unet.Services.LINK`, Datagram transmission over a single hop, <<Links and reliability>>
-MAC, `org.arl.unet.Services.MAC`, Medium access control, <<Medium access control (MAC)>>
-Routing, `org.arl.unet.Services.ROUTING`, Routing of datagrams over a multihop network, <<Routing and route maintenance>>
-Route Maintenance, `org.arl.unet.Services.ROUTE_MAINTENANCE`, Discovery & maintenance of routes in a multihop network, <<Routing and route maintenance>>
-Transport, `org.arl.unet.Services.TRANSPORT`, Datagram transmission over a multihop network, <<Transport and reliability>>
-Remote, `org.arl.unet.Services.REMOTE`, "Remote command execution, text messaging & file transfer", <<Remote access>>
-StateManager, `org.arl.unet.Services.STATE_MANAGER`, State persistence across node reboots, <<State persistence>>
-Scheduler, `org.arl.unet.Services.SCHEDULER`, Sleep-wake scheduling for energy management, <<Scheduler>>
-Shell, `org.arl.fjage.shell.Services.SHELL`, Commmand execution & file management services, <<Shell>>
+DATAGRAM, `org.arl.unet.Services.DATAGRAM`, Send and receive datagrams, <<Datagram service>>
+PHYSICAL, `org.arl.unet.Services.PHYSICAL`, Physical layer, <<Physical service>>
+BASEBAND, `org.arl.unet.Services.BASEBAND`, Arbitrary waveform transmission & recording, <<Baseband service>>
+RANGING, `org.arl.unet.Services.RANGING`, Ranging & synchronization, <<Ranging and synchronization>>
+NODE_INFO, `org.arl.unet.Services.NODE_INFO`, Node & network information, <<Node information>>
+ADDRESS_RESOLUTION, `org.arl.unet.Services.ADDRESS_RESOLUTION`, Address allocation & resolution, <<Address resolution>>
+LINK, `org.arl.unet.Services.LINK`, Datagram transmission over a single hop, <<Links and reliability>>
+MAC, `org.arl.unet.Services.MAC`, Medium access control, <<Medium access control>>
+ROUTING, `org.arl.unet.Services.ROUTING`, Routing of datagrams over a multihop network, <<Routing and route maintenance>>
+ROUTE_MAINTENANCE, `org.arl.unet.Services.ROUTE_MAINTENANCE`, Discovery & maintenance of routes in a multihop network, <<Routing and route maintenance>>
+TRANSPORT, `org.arl.unet.Services.TRANSPORT`, Datagram transmission over a multihop network, <<Transport and reliability>>
+REMOTE, `org.arl.unet.Services.REMOTE`, "Remote command execution, text messaging & file transfer", <<Remote access>>
+STATE_MANAGER, `org.arl.unet.Services.STATE_MANAGER`, State persistence across node reboots, <<State persistence>>
+SCHEDULER, `org.arl.unet.Services.SCHEDULER`, Sleep-wake scheduling for energy management, <<Scheduler>>
+SHELL, `org.arl.fjage.shell.Services.SHELL`, Commmand execution & file management services, <<Shell>>
 |===
 
 You can enjoy reading more about these services in the next few chapters.

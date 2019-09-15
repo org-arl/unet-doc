@@ -1,12 +1,14 @@
 == Baseband service
 
+`*org.arl.unet.Services.BASEBAND*`
+
 Software-defined modems often allow developers to transmit and record arbitrary waveforms. This functionality is encapsulated in the baseband service of UnetStack.
+
+CAUTION: Agents implementing the baseband service typically directly access the channel, bypassing any MAC protocol that may be in use in the network. It is highly recommended that clients wishing to use the baseband service for transmitting arbitrary waveforms consult with the MAC service for advice on when it is safe to access the channel, so as not to adversely affect the network performance.
 
 === Overview
 
 Agents offering the baseband service are most commonly modem drivers (and simulators). They support a set of messages and parameters that are explained below. Baseband service providers may also provide optional capabilities to send or record signals at a specified time, or based on premable detection.
-
-CAUTION: Agents implementing the baseband service typically directly access the channel, bypassing any MAC protocol that may be in use in the network. It is highly recommended that clients wishing to use the baseband service for transmitting arbitrary waveforms consult with the MAC service for advice on when it is safe to access the channel, so as not to adversely affect the network performance.
 
 ==== Messages
 
@@ -16,7 +18,7 @@ Agents supporting the baseband service provide messages for arbitrary signal tra
 * https://unetstack.net/javadoc/org/arl/unet/bb/RecordBasebandSignalReq.html[`RecordBasebandSignalReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- record a signal
 * https://unetstack.net/javadoc/org/arl/unet/bb/RxBasebandSignalNtf.html[`RxBasebandSignalNtf`^] -- signal recording sent to requestor, or to agent's topic if the recording was not specifically requested
 
-During signal transmission, an agent implementing the baseband service sends out `TxFrameStartNtf` and `TxFrameNtf`, as described in the physical service (<<Physical service>>). Similarly, if recording is triggered on a preamble detection, the agent sends out a `RxFrameStartNtf` as described in the physical service.
+During signal transmission, an agent implementing the baseband service sends out `TxFrameStartNtf` and `TxFrameNtf`, as described in the PHYSICAL service (<<Physical service>>). Similarly, if recording is triggered on a preamble detection, the agent sends out a `RxFrameStartNtf` as described in the PHYSICAL service.
 
 Detection preambles are often added to transmitted signals for the receiving modem to identify the incoming signals. The receiving modem can capture the signal when it detects the preamble, and then send a `RxBasebandSignalNtf`. If a modem supports multiple preambles, the `TxBasebandSignalReq` can specify the `preamble` to be used. Setting the `preamble` to 0 results in a signal transmission without a preamble. Such a transmission will ordinarily not be received by any modem, unless it is recorded by an explicit `RecordBasebandSignalReq` at the appropriate time.
 
@@ -28,7 +30,7 @@ Agents offering the baseband service support the following parameter:
 * https://unetstack.net/javadoc/org/arl/unet/bb/BasebandParam.html#basebandRate[`basebandRate`^] -- default baseband sampling rate for baseband signals (samples/s)
 * https://unetstack.net/javadoc/org/arl/unet/bb/BasebandParam.html#maxPreambleID[`maxPreambleID`^] -- maximum preamble identifier supported
 * https://unetstack.net/javadoc/org/arl/unet/bb/BasebandParam.html#maxSignalLength[`maxSignalLength`^] -- maximum baseband signal length (in samples) for transmission/reception
-* https://unetstack.net/javadoc/org/arl/unet/bb/BasebandParam.html#signalPowerLevel[`signalPowerLevel`^] -- signal transmission power level in dB re refPowerLevel (refPowerLevel is specified in the physical service)
+* https://unetstack.net/javadoc/org/arl/unet/bb/BasebandParam.html#signalPowerLevel[`signalPowerLevel`^] -- signal transmission power level in dB re `refPowerLevel` (`refPowerLevel` is specified in the PHYSICAL service)
 
 ==== Capabilities
 
