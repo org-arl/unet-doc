@@ -1,10 +1,8 @@
 == Implementing network protocols
 
-This chapter serves two purposes:
+You now know how to write simple agents. But real world network protocols demand more complexity such as advertising services, looking up other agents, providing parameters that are computed on demand, encoding/decoding complex PDUs, generating random variates, and describing behaviors as finite state machines (FSMs). In this chapter, we illustrate how to do all these things with ease, using a few examples.
 
-In <<Medium access control>>, we looked at the MAC service in detail. In the next few sections, we develop three simple MAC agents to illustrate how network protocols and services are implemented by agents. The MAC agents are intentionally kept simple and not optimized for performance, as we wish to illustrate the key aspects of MAC agent development without getting lost in the details of optimal protocols.
-
-While developing the MAC agents, we learn many new techniques -- advertising services, looking up other agents, providing read-only dynamic parameters, generating random variates, encoding/decoding PDUs, implemeting finite state machines (FSMs), etc. These techniques are not only useful for MAC development, but also commonly needed in the development of many other types of protocols.
+In <<Medium access control>>, we looked at the MAC service in detail. In the next few sections, we develop three simple MAC agents (`MySimplestMac`, `MySimpleThrottledMac` and `MySimpleHandshakeMac`) to illustrate how network protocols and services are implemented by agents. The MAC agents are intentionally kept simple and not optimized for performance, as we wish to illustrate the key aspects of MAC agent development without getting lost in the details of optimal protocols.
 
 === Simple MAC without handshake
 
@@ -54,7 +52,7 @@ class MySimplestMac extends UnetAgent {
         send ntf2
       })
 
-      // return a rservation response, which defaults to an AGREE performative
+      // return a reservation response, which defaults to an AGREE performative
       return new ReservationRsp(msg)
     }
     return null
@@ -70,7 +68,7 @@ Note a number of interesting features of the code above:
 3. We prepare the AGREE response as well as the START and END status notification messages, all at once. We send out the START notification immediately (using a `OneShotBehavior`), use a `WakerBehavior` to schedule the END notification to be sent out at an appropriate time, and then simply return the AGREE response. The use of the `OneShotBehavior` ensures that the START notificaion is sent after the AGREE response, and not before.
 4. We return a `null` if we don't understand the request, allowing the superclass to respond with a NOT_UNDERSTOOD message.
 
-While the above code implements a fully functional MAC agent, it needs to respond to `ReservationCancelReq`, `ReservationAcceptReq` and `TxAckReq` messages, and provide `channelBusy`, `reservationPayloadSize`, `ackPayloadSize`, `maxReservationDuration` and `recommendedReservationDuration` parameters in order to comply to the MAC service specification (<<Medium access control>>). We add this functionality trivially, by responding to the messages with `RefuseRsp` (message with a `REFUSE` performative and a descriptive reason), and returning default values for all the parameters. The resulting complete source code is shown below:
+While the above code implements a fully functional MAC agent, it needs to respond to `ReservationCancelReq`, `ReservationAcceptReq` and `TxAckReq` messages, and provide `channelBusy`, `reservationPayloadSize`, `ackPayloadSize`, `maxReservationDuration` and `recommendedReservationDuration` parameters in order to comply with the MAC service specification (<<Medium access control>>). We add this functionality trivially, by responding to the messages with `RefuseRsp` (message with a `REFUSE` performative and a descriptive reason), and returning default values for all the parameters. The resulting complete source code is shown below:
 
 [source, groovy]
 ----
@@ -280,7 +278,7 @@ class MySimpleThrottledMac extends UnetAgent {
     switch (msg) {
       case ReservationReq:
         if (msg.duration <= 0) return new RefuseRsp(msg, 'Bad reservation duration')
-        if (waiting >= MAX_QUEUE_LEN) return new Message(msg, Performative.FAILURE) #<3>
+        if (waiting >= MAX_QUEUE_LEN) return new RefuseRsp(msg, 'Queue full')
         ReservationStatusNtf ntf1 = new ReservationStatusNtf(
           recipient: msg.sender,
           inReplyTo: msg.msgID,
@@ -292,9 +290,9 @@ class MySimpleThrottledMac extends UnetAgent {
           to: msg.to,
           status: ReservationStatus.END)
 
-        // grant the request after a random backoff        #<4>
-        AgentLocalRandom rnd = AgentLocalRandom.current()  #<5>
-        double backoff = rnd.nextExp(TARGET_LOAD/msg.duration/nodes)
+        // grant the request after a random backoff                         #<3>
+        AgentLocalRandom rnd = AgentLocalRandom.current()                   #<4>
+        double backoff = rnd.nextExp(TARGET_LOAD/msg.duration/nodes)        #<5>
         long t = currentTimeMillis()
         if (t0 == null || t0 < t) t0 = t
         t0 += Math.round(1000*backoff)  // schedule packet with a random backoff
@@ -350,14 +348,14 @@ class MySimpleThrottledMac extends UnetAgent {
 ----
 <1> We define a few attributes to keep track of channel state and reservation queue.
 <2> We lookup other agents in `startup()` after they have had a chance to advertise their services during the setup phase.
-<3> Note the FAILURE rather than a REFUSE, since usually this request would have been accepted, but it has failed due to the queue being full. While this distinction is sometimes blurred, for consistency across the stack, we encourage you to try and differentiate between the two cases when implementing your agents.
-<4> Requests are no longer granted immediately, but after a random backoff instead.
-<5> Random numbers are generated using a `AgentLocalRandom` utility. This utility ensures repeatable results during discrete event simulation, aiding with debugging, and so is the preferred way of generating random variates.
+<3> Requests are no longer granted immediately, but after a random backoff instead.
+<4> Random numbers are generated using a `AgentLocalRandom` utility. This utility ensures repeatable results during discrete event simulation, aiding with debugging, and so is the preferred way of generating random variates.
+<5> The `nextExp()` function generate a exponentially distributed random number with a specified rate parameter. The rate parameter is computed such that the average backoff introduced helps to achieve the specified target load.
 <6> In Groovy, a comparison with `null` (initial value of `t1`) is permitted, and will always be false.
 <7> Note that we no longer send the START notification immediately. Instead we schedule it after a backoff, and then schedule the END notification after the reservation duration from the START.
 <8> We implement one user configurable parameter `nodes`, and advertise it.
 <9> Parameter `busy` is no longer always false, since we now keep track of reservations. We return `busy` to be true only during the time between a reservation START and END.
-<10> Parameter `recommendedReservationDuration` is now determined based on the frame duration of the PHYSICAL service, assuming that most reservations are for transmitting one frame. A client is free to choose a longer reservation time, if he wishes to transmit many frames in one go.
+<10> Parameter `recommendedReservationDuration` is now determined based on the frame duration of the PHYSICAL service, assuming that most reservations are for transmitting one frame. A client is free to choose a longer reservation time, if he wishes to transmit many frames in one go (as he should for efficient use of the channel).
 
 A copy of this code is available in the `samples` folder of your unet simulator. We encourage you to test it out, in the same way as we tested `MySimplestMac` in <<Testing our simple MAC>>. You'll find that the START notification no longer arrives immediately after the AGREE response, but arrives a few seconds later, after a random backoff.
 
@@ -373,7 +371,7 @@ image::fsm.png[]
 
 When the channel is free, the agent is in an IDLE state. If the agent receives a `ReservationReq`, it switches to the RTS state and sends a RTS PDU to the intended destination node. If it receives a CTS PDU back, then it switches to a TX state and urges the client to transmit data via a `ReservationStatusNtf` with a START status. After the reservation period is over, the agent switches back to the IDLE state. If no CTS PDU is received in the RTS state for a while, the agent times out and returns to the IDLE state while informing the client of a reservation FAILURE.
 
-If the agent receives a RTS PDU in the IDLE state, it switches to the RX state and responds back with a CTS PDU. The node initiating the handshake may then transmit data for the reservation duration. After the duration (plus some allowance for 2-way propagation delay), the agent switches back to the IDLE state. If the agent overhears (aka snoops) RTS or CTS PDUs destined for other nodes, it switches to a BACKOFF state for a while. During the state, it does not initiate or respond to RTS PDUs. After the backoff period, it switches back to the IDLE state.
+If the agent receives a RTS PDU in the IDLE state, it switches to the RX state and responds with a CTS PDU. The node initiating the handshake may then transmit data for the reservation duration. After the duration (plus some allowance for 2-way propagation delay), the agent switches back to the IDLE state. If the agent overhears (aka snoops) RTS or CTS PDUs destined for other nodes, it switches to a BACKOFF state for a while. During the state, it does not initiate or respond to RTS PDUs. After the backoff period, it switches back to the IDLE state.
 
 Our RTS and CTS PDUs are identified by a protocol number. Since we are implementing a MAC protocol, we choose to tag our PDUs using the protocol number reserved for MAC agents (`Protocol.MAC`). We also define some timeouts and delays that we will need to use:
 
@@ -426,7 +424,7 @@ This is best illustrated with an example that you can try on a shell:
 [data:42, type:7]
 ----
 
-The PDU length is defined using the `length` declaration, and the byte order is defined with the `order` declaration. Supported fields include `uint8`, `int8`, `uint16`, `int16`, `uint32`, `int32`, int64`, and `chars` (string). Fillers and paddings are defined with `filler` and `padding` declarations.
+The PDU length is defined using the `length` declaration, and the byte order is defined with the `order` declaration. Supported fields include `uint8`, `int8`, `uint16`, `int16`, `uint32`, `int32`, `int64`, and `chars` (string). Fillers and paddings are defined with `filler` and `padding` declarations.
 ****
 
 Now comes the heart of our MAC protocol implementation –- the FSM shown in <<fig_fsm>>. First we define the FSM states and the events that the FSM reacts to:
@@ -454,7 +452,7 @@ Here are the key steps in setting up the FSM:
 
 1. Define the states and events in the FSM as `enum` declarations.
 2. Build the `FSMBehavior` using `FSMBuilder.build`. In building the FSM, you should have a `state(...)` defined for each of your FSM states.
-3. In each FSM state, define your actions, events and timers using the `action`, `onEnter()`, `onExit()`, `onEvent()` and `after()` clauses. Actions are continuously executed, like a `CyclicBehavior`, when the FSM is in the relevant state. The `onEnter` and `onExit` clauses are triggered when the state is entered and exited respectively. Events are triggered when the `trigger()` method of the behavior is called and the FSM is in the specified state. Timers (`after`) are automatically triggered after the specified amount of time after the state is entered.
+3. In each FSM state, define your actions, events and timers using the `action`, `onEnter`, `onExit`, `onEvent` and `after` clauses. Actions are continuously executed, like a `CyclicBehavior`, when the FSM is in the relevant state. You should call `block()` and `restart()` on the behavior to avoid busy loops when the FSM is idle. The `onEnter` and `onExit` clauses are triggered when the state is entered and exited respectively. Events are triggered when the `trigger()` method of the behavior is called and the FSM is in the specified state. Timers (`after`) are automatically triggered after the specified amount of time after the state is entered.
 4. The `setNextState()` and `reenterState()` methods allow you to effect state transitions in your FSM.
 5. For short-lived FSMs, the `terminate()` method should be called when the FSM behavior is completed and should be terminated.
 ****
@@ -477,6 +475,8 @@ FSMBehavior fsm = FSMBuilder.build {
   state(State.IDLE) {
     action {
       if (!queue.isEmpty()) {
+        // add random backoff for each reservation to allow other nodes
+        // a chance to reserve, especially in case of a heavily loaded network
         after(rnd(0, BACKOFF_RANDOM)) {
           setNextState(State.RTS)
         }
@@ -622,7 +622,7 @@ Message processRequest(Message msg) {
       if (msg.duration <= 0 || msg.duration > maxReservationDuration)
         return new RefuseRsp(msg, 'Bad reservation duration')
       if (queue.size() >= MAX_QUEUE_LEN)
-        return new Message(msg, Performative.FAILURE)
+        return new RefuseRsp(msg, 'Queue full')
       queue.add(msg)
       fsm.restart()    // tell fsm to check queue, as it may block if empty
       return new ReservationRsp(msg)

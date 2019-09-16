@@ -53,6 +53,17 @@ In addition to the above parameters, agents also support indexed (frame type) pa
 * https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#dataRate[`dataRate`^] -- effective frame data rate (bps)
 * https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#llr[`llr`^] -- true to enable log-likelihood ratio reporting in `BadFrameNtf`, false otherwise
 
+.Seconds, milliseconds or microseconds?
+****
+You'll notice that we use seconds as a unit of time in some places, and milliseconds in others, and microseconds in yet others. While we recognize that this can be confusing at times, there is a good reason for this.
+
+Whenever time or duration can be a `float`, we prefer to use seconds as our unit of time. We also define some Groovy syntactic sugar to allow writing down values in our preferred units, while automatically converting them to seconds. For example: `10.s` -> 10.0, `10.ms` -> 0.01, and `1.minute` -> 60.
+
+Many existing Java and fjåge API calls (e.g. `currentTimeMillis()`, `WakerBehavior()`, `TickerBehavior()`) use the `long` data type for time in milliseconds. Where UnetStack inherits that API, we have no choice but to stick with milliseconds. Do be careful NOT to use values such as `10.ms` there, as these are really values in seconds.
+
+The only time value in microseconds is the PHYSICAL service's `time` parameter, and the corresponding `rxTime`, `recTime` and `txTime` timestamps. This is also inherited by the synchronization time `offset` between node times in the RANGING service.
+****
+
 Two frame types are defined:
 
 * https://unetstack.net/javadoc/org/arl/unet/phy/Physical.html#CONTROL[`CONTROL`^] frame = 1

@@ -10,6 +10,17 @@ The DATAGRAM service is, therefore, one of the fundamental services that many ag
 
 ==== Messages
 
+.Notation guide
+****
+Every request message requires a response. When describing request messages, we also specify what responses to expect, through the notation:
+
+* _request message_ => _possible response messages_ -- _short description_
+
+On the other hand, notification messages do not have corresponding responses, so we only describe them:
+
+* _notification message_ -- _short description_
+****
+
 Agents offering the DATAGRAM service support messages to transmit and receive datagrams:
 
 * https://unetstack.net/javadoc/org/arl/unet/DatagramReq.html[`DatagramReq`^] => `AGREE` / `REFUSE` / `FAILURE`

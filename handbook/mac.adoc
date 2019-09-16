@@ -10,16 +10,22 @@ MAC protocols that use PDUs for channel reservation may support piggybacking of 
 
 NOTE: Protocol data units (PDUs) are protocol-specific datagrams exchanged by nodes in a network. MAC protocls that use a handshake often use three basic type of PDUs -- request to send (RTS), clear to send (CTS) and acknowledgement (ACK).
 
+.What is a payload?
+****
+We talk about MAC service's support for payloads quite a bit in this chapter, but what exactly is a payload?
+
+A _payload_ is a few bytes of data that can be carried by a MAC PDU on behalf of the user or another agent, without consuming significant additional resources (time or energy). It is essentially an optimization for a low bandwidth network, reducing the need for additional datagrams to be transmitted to convey a few bytes of side information from other agents. For example, a LINK agent might send power control information as payload during a CTS-RTS exchange to optimize transmission power. Or it might send channel state information to aid in adaptive modulation to optimize link throughput.
+****
+
 ==== Messages
 
 Agents supporting the MAC service provide messages to request, grant and cancel reservations:
 
 * https://unetstack.net/javadoc/org/arl/unet/mac/ReservationReq.html[`ReservationReq`^] => https://unetstack.net/javadoc/org/arl/unet/mac/ReservationRsp.html[`ReservationRsp`^] / `REFUSE` -- request a reservation
 * https://unetstack.net/javadoc/org/arl/unet/mac/ReservationCancelReq.html[`ReservationCancelReq`^] => `AGREE` / `REFUSE` -- cancel a reservation
-* https://unetstack.net/javadoc/org/arl/unet/mac/ReservationAcceptReq.html[`ReservationAcceptReq`^] => `AGREE` / `REFUSE` -- request piggybacking of payload in a reservation PDU
+* https://unetstack.net/javadoc/org/arl/unet/mac/ReservationAcceptReq.html[`ReservationAcceptReq`^] => `AGREE` / `REFUSE` -- request piggybacking of payload in a reservation PDU, typically sent by a client on receiving a `ReservationStatusNtf[status: REQUEST]` notification
 * https://unetstack.net/javadoc/org/arl/unet/mac/TxAckReq.html[`TxAckReq`^] => `AGREE` / `REFUSE` -- request transmission of acknowledgement payload
-* https://unetstack.net/javadoc/org/arl/unet/mac/ReservationStatusNtf.html[`ReservationStatusNtf`^] -- sent to requestor or agent's topic if when a reservation-related events occur
-* https://unetstack.net/javadoc/org/arl/unet/mac/RxAckNtf.html[`RxAckNtf`^] -- sent to requestor when an acknowledgement payload is received
+* https://unetstack.net/javadoc/org/arl/unet/mac/ReservationStatusNtf.html[`ReservationStatusNtf`^] -- sent to requestor or agent's topic when a reservation-related events occur
 
 ==== Parameters
 
@@ -75,14 +81,14 @@ if (mac) {
 <1> Send a channel reservation request.
 <2> Wait for a channel reservation notification.
 
-In the above sample code, error handling has been omitted for simplicity. In reality, you would want to have else clauses to handle reservation failures. The MAC agent not only sends a `ReservationStatusNtf[status: START]` notification, but also a `ReservationStatusNtf[status: END]` notification at the end of the reservation duration. The sample code above ignores this notification, but has to ensure that the transmission does not exceed the requested duration.
+In the above sample code, error handling has been omitted for simplicity. In reality, you would want to have else clauses to handle reservation failures. The MAC agent not only sends a `ReservationStatusNtf[status: START]` notification, but also a `ReservationStatusNtf[status: END]` notification at the end of the reservation duration. The sample code above ignores this notification, but a well-behaved client should ensure that the transmission does not exceed the requested duration.
 
 === Working with MAC payloads
 
 Messages such as `ReservationReq` and `ReservationStatusNtf` may carry payloads, when the MAC protocol supports them. When payloads are supported, additional messages such as `ReservationAcceptReq`, `TxAckReq` and `TxAckNtf` are available for clients to provide payloads to the MAC service provider to piggyback on the MAC PDUs. A typical exchange is illustrated in <<fig_mac>>.
 
 [[fig_mac]]
-.Typical message exchange for MAC with payloads. RRQ is a `ReservationReq`, `RSNTF` is a `ReservationStatusNtf`, `RARQ` is a ReservationAcceptReq`, `TXACKRQ` is a `TxAckReq`, and a `RXACKNTF` is a `RxAckNtf`. (1), (2) and (3) are optional payloads carried by the RTS, CTS and ACK PDUs respectively.
+.Typical message exchange for MAC with payloads and ACK.
 image::mac.png[]
 
 For a MAC reservation initiated by node A with node B, we elaborate on the steps for a full reservation lifecycle with payloads:
@@ -91,12 +97,12 @@ For a MAC reservation initiated by node A with node B, we elaborate on the steps
 2. MAC on node A sends a RTS PDU with the payload to the MAC on node B.
 3. MAC on node B generates a `ReservationStatusNtf[status: REQUEST]` message and publishes it on its topic. A client subscribing to this topic receives the notification.
 4. If the client on node B wants to send back some payload with the CTS PDU, it immediately sends a `ReservationAcceptReq` to the MAC, with the payload.
-5. The MAC accepts the request and responds back to node A's MAC with a clients PDU containing the payload.
-6. The payload is delivered to the client on node A as part of a `ReservationStatusNtf[status: START]` message marking the start of the reservation time. At roughly the same time, the MAC on node B also sends a `ReservationStatusNtf[status: START]` message to its client.
+5. The MAC accepts the request and responds to node A's MAC with a clients PDU containing the payload.
+6. The payload is delivered to the client on node A as part of a `ReservationStatusNtf[status: START]` message marking the start of the reservation time.
 7. During the reservation, the two nodes exchange data as they wish.
-8. At the end of the reservation, the MAC agents on both nodes sends `ReservationStatusNtf[status: END]` messages to their respective clients.
-9. If the client on node B wishes to provide an acknoledgment (with a payload), it responds back immediately with a `TxAckReq` message, which the MAC on node B accepts.
-10. The MAC on node B sends a ACK PDU with the payload to the MAC on node A. The MAC delivers this acknoledgment payload to the client on node A using a `RxAckNtf` message.
+8. If the client on node B wishes to provide an acknowledgment (with a payload), it sends a `TxAckReq` message before the reservation duration ends, and the MAC on node B accepts.
+9. The MAC on node B sends an ACK PDU with the payload to the MAC on node A. The ACK PDU marks the end of the channel reservation. The MAC delivers this acknowledgment payload to the client on node A as a part of the `ReservationStatusNtf[status: END]` message.
+10. If node B does not send an ACK PDU, when the channel reservation ends, the MAC on node A sends a `ReservationStatusNtf[status: END]` message to its client.
 
 === Examples
 
