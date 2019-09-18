@@ -76,6 +76,35 @@ TIP: Ever wondered what we assigned the `a = agentForService(...)`, and then ask
  +
 When you try to print an AgentID object on the shell, the shell tries to be helpful and queries the agent for all its parameters and displays them. In this case, we were only interested in the name and not all the parameters, so we asked the shell not to get the parameters by explicitly asking for just `a.name`.
 
+You can also ask an agent for the list of services it provides:
+
+[source, console]
+----
+> phy.services
+[org.arl.unet.Services.PHYSICAL, org.arl.unet.Services.DATAGRAM, org.arl.unet.Services.BASEBAND]
+----
+
+or get a list of all services provided by all agents in the stack:
+
+[source, console]
+----
+> services
+org.arl.unet.Services.NODE_INFO: node
+org.arl.unet.Services.PHYSICAL: phy
+org.arl.unet.Services.REMOTE: remote
+org.arl.unet.Services.TRANSPORT: transport
+org.arl.unet.Services.ADDRESS_RESOLUTION: arp
+org.arl.unet.Services.MAC: mac
+org.arl.unet.Services.RANGING: ranging
+org.arl.fjage.shell.Services.SHELL: websh
+org.arl.unet.Services.DATAGRAM: transport router uwlink phy
+org.arl.unet.Services.BASEBAND: phy
+org.arl.unet.Services.LINK: uwlink
+org.arl.unet.Services.ROUTING: router
+org.arl.unet.Services.STATE_MANAGER: state
+org.arl.unet.Services.ROUTE_MAINTENANCE: rdp
+----
+
 === Checking capabilities
 
 So let's say you looked up the list of agents that provide the DATAGRAM service:

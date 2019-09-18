@@ -2,6 +2,127 @@
 
 The networks we explored in the last few chapters were completely underwater. All links were underwater acoustic links. If we wanted to replace some of the acoustic links with underwater optical or RF links, or even through-the-air cellular, WiFi or RF links, that could easily be done, as long as you had a modem driver (a specific type of agent) that supported the device that provided the link. Cellular, WiFi and other devices often already have TCP/IP network stacks running on them, to provide seamless connectivity to the Internet. UnetStack can leverage the existing network stack in these devices without having to develop new modem drivers, by translating Unet datagrams to UDP/IP datagrams, tunneling them through the IP network, and translating them back to Unet datagrams at the other end.
 
-//=== The UdpLink agent
+=== The UdpLink agent
 
-WARNING: Coming soon...
+The `UdpLink` agent offers the LINK service (<<Single-hop links>>) over an IP network.
+
+To see how this works, let us revisit the MISSION 2013 network from <<fig_m13_map>>. Recall that node 21 was a gateway node with surface expression, and was connected to the Internet via a 3G cellular IP connection. During the experiment, we had no direct acoustic connectivity between nodes 21 and 31, and hence we routed all communication to node 31 via node 28.
+
+Let us consider a scenario where node 31 also has a surface expression and 3G cellular IP connectivity. In this case, it would be nice to have a direct link from node 21 to node 31 via UDP/IP. Let's see how to set that up.
+
+Fire up the `mission2013-network.groovy` network simulation (or if you already have it running from the last chapter, terminate and restart it, so that we have no routes in our routing tables). Connect to node 21's shell and add the `UdpLink` agent, and setup a route to node 31 via the UDP link:
+
+.Node 21:
+[source, console]
+----
+> container.add 'udplink', new UdpLink();
+> udplink
+<<< UdpLink >>>
+
+[org.arl.unet.DatagramParam]
+  MTU = 1450
+
+[org.arl.unet.link.LinkParam]
+  dataRate = 0.0
+
+[org.arl.unet.link.UdpLinkParam]
+  monitorTimeout = 200
+  multicastAddr = 239.0.0.1
+  multicastIface = en0
+  multicastPort = 5100
+  multicastTTL = 1
+  retries = 2
+  timeout = 0.5
+
+> addroute 31, 31, udplink
+> routes
+1: to 31 via udplink/31 [reliable, hops: 1, metric: 1.0]
+----
+
+Similarly, connect to node 31's shell and add the `UdpLink` agent as well as a route to node 21 via the UDP link:
+
+.Node 31:
+[source, console]
+----
+> container.add 'udplink', new UdpLink();
+> addroute 21, 21, udplink
+> routes
+1: to 21 via udplink/21 [reliable, hops: 1, metric: 1.0]
+----
+
+Go back to node 21's shell and see if you can communicate to node 31 via the UDP link:
+
+.Node 21:
+[source, console]
+----
+> ping 31
+PING 31
+Response from 31: seq=0 rthops=2 time=18 ms
+Response from 31: seq=1 rthops=2 time=1 ms
+Response from 31: seq=2 rthops=2 time=2 ms
+3 packets transmitted, 3 packets received, 0% packet loss
+
+> ack on
+> tell 31, 'hello'
+AGREE
+remote >> RemoteSuccessNtf:INFORM[RemoteTextReq:REQUEST[to:31 text:hello ack:true]]
+----
+
+and on node 31, you'll see:
+
+.Node 31:
+[source, console]
+----
+[21]: hello
+----
+
+You'll also notice that the communication is much faster, since the UDP/IP latency is low and data rate is much higher.
+
+=== Multilink routing
+
+When we added the `UdpLink` agent in the last section, we set up static routes manually on both nodes. Let's delete these routes on both nodes:
+
+.Node 21, 31:
+[source, console]
+----
+> delroutes
+----
+
+Now, let's see what the route discovery agent does when we ask it to discover routes for us:
+
+.Node 21
+[source, console]
+----
+> rreq 31
+OK
+> routes      #<1>
+1: to 31 via udplink/31 [reliable, hops: 1, metric: 1.0]
+> routes      #<2>
+1: to 29 via uwlink/29 [reliable, hops: 1, metric: 1.0]
+2: to 31 via uwlink/29 [reliable, hops: 2, metric: 0.85]
+3: to 22 via uwlink/22 [reliable, hops: 1, metric: 1.0]
+4: to 31 via udplink/31 [reliable, hops: 1, metric: 3.0]
+5: to 28 via uwlink/28 [reliable, hops: 1, metric: 2.0]
+> trace 31    #<3>
+[21, 31, 21]
+----
+<1> Checking routes within a few seconds after the `rreq`, we see that the route via the `udplink` is discovered very quickly.
+<2> After a few minutes, we see that additional acoustic routes are also discovered (your routes may vary, as the route discovery is a stochastic process).
+<3> The route used for data transfer is the single-hop `udplink` route to node 31 and back.
+
+Note that the route discovery resulted in 2 routes to node 31 in this case. The first one is an acoustic route (using `uwlink`) via node 29. The second one is a single-hop UDP (`udplink`) route. We can see that the metric for the 2-hop acoustic route is lower than that of the UDP route, and so the latter is used for data transfer. The metric is computed based on a combination of number of hops and the packet loss on a route.
+
+You can check the routing table on node 31:
+
+.Node 31
+[source, console]
+----
+> routes
+1: to 29 via uwlink/29 [reliable, hops: 1, metric: 1.0]
+2: to 21 via uwlink/29 [reliable, hops: 2, metric: 0.85]
+3: to 21 via udplink/21 [reliable, hops: 1, metric: 3.0]
+4: to 28 via uwlink/28 [reliable, hops: 1, metric: 2.0]
+5: to 21 via uwlink/28 [reliable, hops: 2, metric: 1.7]
+----
+
+We see 3 routes (via node 29/`uwlink`, via node 28/`uwlink` and direct/`udplink`), and the route with the largest metric is still the `udplink` direct route.

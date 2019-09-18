@@ -216,6 +216,8 @@ On node B, we should have done this in the first place:
 
 This single-liner in Groovy iterates over the list of agents providing the DATAGRAM service, and subscribes to the topic of each agent in that list.
 
+TIP: Agents should use the call `subscribeForService(org.arl.unet.Services.DATAGRAM)` instead. This call subscribes to all agents providing teh DATAGRAM service, but has an added advantage: it also asks the agent to keep track of new agents that are added to the stack later, and subscribes to them if they provide the DATAGRAM service.
+
 === Datagrams and the UnetSocket API
 
 The UnetSocket API also supports delivery of datagrams. Let's try it. On node A:

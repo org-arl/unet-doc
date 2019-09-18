@@ -77,9 +77,7 @@ class EchoDaemon extends UnetAgent {
   @Override
   void startup() {
     // subscribe to all agents that provide the datagram service
-    agentsForService(Services.DATAGRAM).each {
-      subscribe topic(it)
-    }
+    subscribeForService(Services.DATAGRAM)
   }
 
   @Override
@@ -180,10 +178,7 @@ public class EchoDaemon extends UnetAgent {
   @Override
   public void startup() {
     // subscribe to all agents that provide the datagram service
-    AgentID[] agents = agentsForService(Services.DATAGRAM);
-    for (AgentID it: agents) {
-      subscribe(topic(it));
-    }
+    subscribeForService(Services.DATAGRAM);
   }
 
   @Override
@@ -309,9 +304,7 @@ class EchoDaemon extends UnetAgent {
   @Override
   void startup() {
     // subscribe to all agents that provide the datagram service
-    agentsForService(Services.DATAGRAM).each {
-      subscribe topic(it)
-    }
+    subscribeForService(Services.DATAGRAM)
   }
 
   @Override

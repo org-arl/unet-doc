@@ -43,7 +43,7 @@ To: From:,    21,    22,    27,    28,    29,    31,    34
 
 === Connectivity without routing
 
-During the MISSION 2013 experiment, node 21 was a gateway node with surface expression. All other nodes were on the seabed and not directly accessible. So let us start by exploring the connectivity from node 21 to other nodes:
+During the MISSION 2013 experiment, node 21 was a gateway node with surface expression and connectivity to the Internet (via a 3G cellular network). All other nodes were on the seabed and not directly accessible. So let us start by exploring the connectivity from node 21 to other nodes:
 
 .`Node 21`
 [source, console]
