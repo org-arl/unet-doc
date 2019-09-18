@@ -144,9 +144,11 @@ phy.signalPowerLevel = -40.0
 
 .Startup scripts
 ****
-While the STATE_MANAGER service provides a convenient way to save the current state, sometimes you may wish to write a customized startup script that sets up the node the way you wish. This can be achieved via the `setup.groovy` and `startup.groovy` scripts in the `scripts` folder.
+While the STATE_MANAGER service provides a convenient way to save the current state, sometimes you may wish to write a customized startup script that sets up the node the way you wish. This can be achieved via the `setup.groovy`, `startup.groovy` and `fshrc.groovy` scripts in the `scripts` folder.
 
 If you create a `setup.groovy` script, the default stack is disabled, allowing you to customize the agents that are loaded. The only agents that are automatically loaded if this script is present are the NODE_INFO, PHYSICAL and SHELL agents. The `setup.groovy` script is called during the setup phase of bootup, when agents are being loaded. It is the responsibility of the `setup.groovy` script to setup the rest of the stack by loading appropriate agents.
 
 If you create a `startup.groovy` script, it is called after all agents are loaded and the stack is fully initialized. You may put Groovy commands in this script to customize your agent parameters and other settings. The `startup.groovy` script is called before the `saved-state.groovy` script, if one exists.
+
+If you create a `fshrc.groovy` script, it is executed by each Groovy shell agent, when it is loaded. This allows customization of commands and variables available in the shell for user interaction.
 ****
