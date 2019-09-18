@@ -74,7 +74,7 @@ ranging >> RangeNtf:INFORM[from:31 to:232 range:371.0 offset:-256067128]
 <2> The CONTROL channel (channel 1) is being used for ranging.
 <3> The `lifetime` is set to 0, indicating that the node clocks may have a large drift.
 <4> The `range` command provides us the range to node B of almost 1 km.
-<5> The `range` command is implemented by sending a `RangeReq` to the `ranging` agent. We directly send that message. As expected, it leads to a `RangeNtf` message that gives us the same range estimate as the `range` command. The `RangeNtf` also provides us time synchronization information between the nodes (in the form of a time `offset` in microseconds).
+<5> The `range` command is implemented by sending a `RangeReq` to the `ranging` agent. We directly send that message. As expected, it leads to a `RangeNtf` message that gives us the same range estimate as the `range` command. The `RangeNtf` also provides us time synchronization information between the nodes (as time difference between the nodes, or `offset`, in microseconds).
 <6> While the `RangeNtf` showed a range of 371.0 m, this was just due to rounding off for display. The actual value in the message is 370.98 m, as reported previously by the `range` command.
 
 ==== Two-way travel time ranging
