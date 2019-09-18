@@ -156,9 +156,9 @@ s.close()
 ----
 from unetpy import UnetSocket
 
-s = UnetSocket('localhost', 1102)                #<1>
-rx = s.receive()                                 #<2>
-print('from node', rx.from_, ':', str(rx.data))  #<3>
+s = UnetSocket('localhost', 1102)                               #<1>
+rx = s.receive()                                                #<2>
+print('from node', rx.from_, ':', bytearray(rx.data).decode())  #<3>
 s.close()
 ----
 <1> Connect to node B (`localhost` API port 1102). Change the `localhost` to modem B's IP address and port 1102 to port 1100, if you are working with a modem.
