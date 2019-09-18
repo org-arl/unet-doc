@@ -16,8 +16,8 @@ The following messages are defined by the RANGING service:
 
 * https://unetstack.net/javadoc/org/arl/unet/phy/RangeReq.html[`RangeReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- measure range to peer node via OWTT or TWTT
 * https://unetstack.net/javadoc/org/arl/unet/phy/BeaconReq.html[`BeaconReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- transmit beacon message for OWTT
-* https://unetstack.net/javadoc/org/arl/unet/phy/ClearSyncReq.html[`ClearSyncReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- clear synchronization information for peer node
 * https://unetstack.net/javadoc/org/arl/unet/phy/SyncInfoReq.html[`SyncInfoReq`^] => https://unetstack.net/javadoc/org/arl/unet/phy/SyncInfoRsp.html[`SyncInfoRsp`^] / `REFUSE` / `FAILURE` -- get synchronization information for peer node
+* https://unetstack.net/javadoc/org/arl/unet/phy/ClearSyncReq.html[`ClearSyncReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- clear synchronization information for peer node
 * https://unetstack.net/javadoc/org/arl/unet/phy/RangeNtf.html[`RangeNtf`^] -- sent to agent's topic when range information for peer node becomes available
 * https://unetstack.net/javadoc/org/arl/unet/phy/BadRangeNtf.html[`BadRangeNtf`^] -- sent to agent's topic when invalid range information for peer node indicates potentially outdated synchronization with that node
 
@@ -34,6 +34,13 @@ A few parameters control the behavior of the RANGING service provider:
 * https://unetstack.net/javadoc/org/arl/unet/phy/RangeParam.html#maxBadRangeCnt[`maxBadRangeCnt`^] -- number of `BadRangeNtf` for peer node to discard synchronization information
 
 The _lifetime_ of syncrhonization information should be set based on the expected drift of modem clocks. Lifetime is defined as the time for the expected clock drift (scaled by speed of sound in water) to exceed the required range estimation accuracy. If a network uses modems with low-drift clocks (such as oven-controlled oscillators), the lifetime can be quite long (hours to days). Without low-drift clocks, reasonable lifetimes may only be in the order of several minutes to tens of minutes.
+
+.Why do clocks drift?
+****
+Most electronics use crystal oscillators for timekeeping. A crystal oscillator is an electronic circuit that uses the mechanical resonance of a vibrating piezoelectric crystal to create an electrical signal with a desired frequency. The resonant frequency depends on size, shape, elasticity, and the speed of sound in the material. Due to manufacturing tolerences, these properties are not exactly identical across manufactured crystals, and so different crystals designed for the same nominal frequency produce slightly different frequency signals. Furthermore, as the operating temperature of the crystal changes, its material properties change, and so does its resonant frequency. These differences in frequency are tiny, but over long periods of time, the differences accumulate and cause the clocks to drift.
+
+For applications where drift is undesirable, temperature-compensated crystal oscillators (TCXO) or oven-controlled crystal oscillators (OCXO) may be used. TCXOs try to adjust their oscillation frequency electronically, to compensate for temperature changes. OCXOs, on the other hand, try to maintain a constant temperature with a mini-oven around the crystal. For very sensitive applications, atomic clocks may be used for even lower drift. But given long enough time, even the most precise of these oscillators will accumulate tiny errors and the clocks will eventually drift!
+****
 
 The minimum and maximum valid range settings control what the RANGING service considers to be a _bad range_ -- a range measurement that is unlikely to occur in reality (e.g. negative values, or ranges much further than the communication ability of the modems). Frequent bad ranges to a node are used to detect that the node synchronization information is invalid and should be discarded. The number of `BadRangeNtf` before discarding the synchronization information is specified as `maxBadRangeCnt`.
 
@@ -68,7 +75,7 @@ ranging >> RangeNtf:INFORM[from:31 to:232 range:371.0 offset:-256067128]
 <3> The `lifetime` is set to 0, indicating that the node clocks may have a large drift.
 <4> The `range` command provides us the range to node B of almost 1 km.
 <5> The `range` command is implemented by sending a `RangeReq` to the `ranging` agent. We directly send that message. As expected, it leads to a `RangeNtf` message that gives us the same range estimate as the `range` command. The `RangeNtf` also provides us time synchronization information between the nodes (in the form of a time `offset` in microseconds).
-<6> While the `RangeNtf` showed a range of 371.0 m, this was just due to rounding off for display. The actual value in the message is 370.98 m, as repored previously by the `range` command.
+<6> While the `RangeNtf` showed a range of 371.0 m, this was just due to rounding off for display. The actual value in the message is 370.98 m, as reported previously by the `range` command.
 
 ==== Two-way travel time ranging
 
@@ -103,7 +110,7 @@ phy >> TxFrameStartNtf:INFORM[type:CONTROL txTime:2292518452 txDuration:950]
 
 We see that node B received a CONTROL frame and responded back with a CONTROL frame.
 
-We can ask node A for synchronization information it has gathered:
+We can ask node A for the synchronization information it has gathered:
 
 .Node A:
 [source, console]
@@ -146,7 +153,7 @@ AGREE
 ranging >> RangeNtf:INFORM[from:31 to:232 range:371.0 offset:-256067128]
 ----
 
-Not much of difference here, but if you look at the shell for node B, you'll see a notification:
+Not much of a difference here, but if you look at the shell for node B, you'll see a notification:
 
 .Node B:
 [source, console]
