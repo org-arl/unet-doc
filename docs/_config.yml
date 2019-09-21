@@ -15,12 +15,10 @@
 # in the templates via {{ site.myvariable }}.
 title: Unet
 description: >- # this means to ignore newlines until "baseurl:"
-  At the heart of the Unet project, we have UnetStack, an agent-based network stack and simulator
-  designed to run highly optimized protocols for use in underwater communication networks. Although
-  the default stack provides everything needed to get a basic underwater network working, the real
-  power of the stack lies in its customizability and extensibility. It not only allows you to easily
-  configure a network to meet your needs, but also to automate network management, develop, simulate
-  and test new network protocols, and implement software-defined signaling at the physical layer.
+  UnetStack3, a software framework developed as part of the Underwater networks (Unet) project,
+  is a collection of technologies that allow us to extend communication networks underwater,
+  be it via acoustic, optical, or even wired links. Some nodes in such networks may be above water,
+  while others are underwater.
 baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://org-arl.github.io/unet-doc" # the base hostname & protocol for your site, e.g. http://example.com
 
