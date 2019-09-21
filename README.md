@@ -1,4 +1,6 @@
-# The Unet Handbook
+# The Unet Documentation Project
 
-**Coming soon!**  
-(Work in progress)
+- UnetStack.net web site
+- Unet handbook
+- UnetStack API documentation (build only)
+- UnetStack shell reference (build only)
