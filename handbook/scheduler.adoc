@@ -1,0 +1,117 @@
+== Scheduler
+
+`*org.arl.unet.Services.SCHEDULER*`
+
+=== Overview
+
+Agents offering the SCHEDULER service provide a way to schedule sleep/wake tasks in the future.
+
+==== Messages
+
+The following messages are used by the SCHEDULER service:
+
+* https://unetstack.net/javadoc/org/arl/unet/scheduler/AddScheduledSleepReq.html[`AddScheduledSleepReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- add a new scheduled sleep
+* https://unetstack.net/javadoc/org/arl/unet/scheduler/RemoveScheduledSleepReq.html[`RemoveScheduledSleepReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- remove a scheduled sleep
+* https://unetstack.net/javadoc/org/arl/unet/scheduler/GetSleepScheduleReq.html[`GetSleepScheduleReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- get all the scheduled sleep/wake times
+* https://unetstack.net/javadoc/org/arl/unet/scheduler/WakeFromSleepNtf.html[`WakeFromSleepNtf`^] -- sent to agent's topic just after node wakes up from a sleep
+
+==== Parameters
+
+Only parameter is required by the SCHEDULER service:
+
+* https://unetstack.net/javadoc/org/arl/unet/scheduler/SchedulerParam.html#rtc[`etc`^] -- current date/time
+
+=== Sleep/wake scheduling
+
+The unet simulator currently does not support sleep/wake scheduling. While unet audio supports the SCHEDULER service, it does not actually put your computer to sleep. Therefore you can experiment with creating and managing schedules on unet audio, without worrying about your computer going to sleep. Start up unet audio (`bin/unet audio`) and connect to its shell:
+
+[source, console]
+----
+> agentsForService org.arl.unet.Services.SCHEDULER
+[phy]
+
+> phy.rtc
+Sun Sep 22 02:58:20 SGT 2019
+
+> help scheduler
+scheduler - access to scheduling service
+
+Commands:
+
+- addsleep - schedule sleep and wakeup of the modem
+- showsleep - shows sleep/wakeup schedule
+- rmsleep - removes sleep/wakeup schedule
+
+> help addsleep
+addsleep - schedule sleep and wakeup of the modem
+
+Examples:
+  addsleep 1507014548, 1507014558  // sleep from epoch 1507014548 to 1507014558
+  addsleep 1507014558              // sleep immediately until 1507014548
+  addsleep 10.s.later, 20.s.later  // sleep 10s later and wake up 20s later
+  addsleep 20.s.later              // sleep immediately and wake up 20s later
+  addsleep 20.s.later, forever     // sleep 20s later forever
+  addsleep                         // sleep immediately forever
+
+> addsleep 1.hour.later, forever
+AGREE
+> showsleep
+bbfb3b79-942c-4fba-bc37-ab9d18dabda5: Sun Sep 22 04:00:00 SGT 2019 to eternity
+> rmsleep 'bbfb3b79-942c-4fba-bc37-ab9d18dabda5'
+AGREE
+> showsleep
+
+> addsleep 1.hour.later, 2.hours.later
+AGREE
+> showsleep
+87de2dec-db29-4b34-a93c-775bfe8c68c5: Sun Sep 22 04:02:36 SGT 2019 to Sun Sep 22 05:02:36 SGT 2019
+----
+
+We see that the `phy` agent provides the SCHEDULER service in unet audio. We add a sleep schedule, check that it shows up, remove it, and check that it is deleted. We then add another schedule.
+
+The `addsleep`, `showsleep`, and `rmsleep` commands use the `AddScheduledSleepReq`, `GetSleepScheduleReq`, and `RemoveScheduledSleepReq` messages to achieve their functionality. We can manually send this messages to confirm this, if we like:
+
+[source, console]
+----
+> phy << new GetSleepScheduleReq()
+SleepScheduleRsp:INFORM[(1 item)]
+> ans.sleepSchedule
+[87de2dec-db29-4b34-a93c-775bfe8c68c5: Sun Sep 22 04:02:36 SGT 2019 to Sun Sep 22 05:02:36 SGT 2019]
+----
+
+We can also use the web interface to manage the sleep schedule, if we like:
+
+image::sleep-schedule.png[]
+
+A big advantage of working with the web interface for sleep scheduling is that the user interface displays date/time in a human readable format. On the other hand, programmatic access with messages requires times to be specified as Unix epoch time.
+
+=== Epoch time
+
+The Unix epoch is the number of seconds that have elapsed since January 1, 1970 (midnight UTC), not counting leap seconds. While computers find it easy to work with epoch time, we find it hard to interpret. So UnetStack introduces syntactic sugar such as "1.hour.later" that computer the Unix epoch time 1 hour from now:
+
+[source, console]
+----
+> 1.hour.later
+1569097078
+
+> 2.minutes.later
+1569093616
+----
+
+There are https://www.epochconverter.com[online calculators^] that'll help you convert between Unix epoch time and human readable date/time. This works well, if you need to manually convert a few date/times, but what if you needed to do this programmatically? Java provides simple APIs to deal with date/times:
+
+[source, console]
+----
+> import java.time.Instant
+> Instant.now().epochSecond                           #<1>
+1569094526
+> Instant.ofEpochSecond(1569093616)                   #<2>
+2019-09-21T19:20:16Z
+> Instant.parse("2019-09-21T19:20:16Z").epochSecond   #<3>
+1569093616
+----
+<1> Get current epoch time.
+<2> Convert epoch time to human readable time in UTC.
+<3> Convert human readable time in UTC to epoch time.
+
+If you want even nicer looking date/time strings, you should check out Java's https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html[SimpleDateFormat^] class.

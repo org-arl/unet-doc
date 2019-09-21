@@ -1,0 +1,21 @@
+== Remote access
+
+Agents offering the Remote service provide control over remote nodes.
+
+WARNING: Coming soon...
+
+//They support a set of messages and parameters that are explained below.
+
+// RemoteGetParamReq AGREE, FAILURE  Request to get parameter(s) from a remote node
+// RemoteSetParamReq AGREE, FAILURE  Request to set parameter(s) of a remote node
+// RemoteScriptReq AGREE, FAILURE  Request to execute a script on a remote node
+// RemoteTextReq AGREE, FAILURE  Request to send text message to remote node
+// RemoteFilePutReq  AGREE, FAILURE  Request to transfer file to remote node
+// RemoteFileGetReq  AGREE, FAILURE  Request to retreive file from remote node
+// RemoteParamNtf  default Notification of remote get/set parameter(s)
+// RemoteScriptNtf default Notification of start of remote script execution
+// RemoteTextNtf default Notification of text message from remote node
+// RemoteFileNtf default Notification of completion of file transfer from remote node
+
+// pendingCount  rw  Number of pending remote requests
+// reliability rw  Reliability setting of remote datagrams

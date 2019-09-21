@@ -95,23 +95,15 @@ include::mac.adoc[]
 
 include::link.adoc[]
 
-== Routing and route maintenance
+include::router.adoc[]
 
-WARNING: Coming soon...
+include::transport.adoc[]
 
-== Transport and reliability
-
-WARNING: Coming soon...
-
-== Remote access
-
-WARNING: Coming soon...
+include::remote.adoc[]
 
 include::state.adoc[]
 
-== Scheduler
-
-WARNING: Coming soon...
+include::scheduler.adoc[]
 
 include::shell.adoc[]
 
@@ -121,11 +113,9 @@ include::agents.adoc[]
 
 include::agents2.adoc[]
 
-== Integrating with sensors
+//== Integrating with sensors
 
-WARNING: Coming soon...
-
-== UnetStack shell extensions
+//== UnetStack shell extensions
 
 WARNING: Coming soon...
 

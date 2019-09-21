@@ -108,6 +108,17 @@ TIP: Do not get confused between `sender` and `from`, and `recipient` and `to` f
 
 It's time for us to test this agent. Create a file called `EchoDaemon.groovy` in the `classes` folder and copy the above daemon code into it.
 
+.Editing scripts and classes
+****
+With the unet simulator or unet audio running on your machine, you can use your favorite text editor to directly create the `EchoDaemon.groovy` in the `classes` folder. However, a more generic way (that works on modems as well) is to open node A's shell, select `Script editor`, and use the new file icon in the `/classes/` section to create the file:
+
+image::script-editor-1.png[width=80%,align="center"]
+
+image::script-editor-2.png[width=80%,align="center"]
+
+The same approach can be used to create Groovy scripts in the `scripts` folder.
+****
+
 Now start the 2-node network simulation that we have been using as a testbed, and on node B, load the agent:
 
 [source, console]

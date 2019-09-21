@@ -484,7 +484,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_medium_access_control">19. Medium access control</a></li>
 <li><a href="#_single_hop_links">20. Single-hop links</a></li>
 <li><a href="#_routing_and_route_maintenance">21. Routing and route maintenance</a></li>
-<li><a href="#_transport_and_reliability">22. Transport and reliability</a></li>
+<li><a href="#_transport_service">22. Transport service</a></li>
 <li><a href="#_remote_access">23. Remote access</a></li>
 <li><a href="#_state_persistence">24. State persistence</a></li>
 <li><a href="#_scheduler">25. Scheduler</a></li>
@@ -495,17 +495,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#_developing_your_own_agents">27. Developing your own agents</a></li>
 <li><a href="#_implementing_network_protocols">28. Implementing network protocols</a></li>
-<li><a href="#_integrating_with_sensors">29. Integrating with sensors</a></li>
-<li><a href="#_unetstack_shell_extensions">30. UnetStack shell extensions</a></li>
 </ul>
 </li>
 <li><a href="#_part_vi_simulating_underwater_networks"><strong>Part VI: Simulating underwater networks</strong></a>
 <ul class="sectlevel1">
-<li><a href="#_integrated_development_environment_ide">31. Integrated development environment (IDE)</a></li>
-<li><a href="#_writing_simulation_scripts">32. Writing simulation scripts</a></li>
-<li><a href="#_modems_and_channel_models">33. Modems and channel models</a></li>
-<li><a href="#_developing_your_own_channel_models">34. Developing your own channel models</a></li>
-<li><a href="#_node_mobility">35. Node mobility</a></li>
+<li><a href="#_integrated_development_environment_ide">29. Integrated development environment (IDE)</a></li>
+<li><a href="#_writing_simulation_scripts">30. Writing simulation scripts</a></li>
+<li><a href="#_modems_and_channel_models">31. Modems and channel models</a></li>
+<li><a href="#_developing_your_own_channel_models">32. Developing your own channel models</a></li>
+<li><a href="#_node_mobility">33. Node mobility</a></li>
 </ul>
 </li>
 <li><a href="#_appendices"><strong>Appendices</strong></a>
@@ -4261,7 +4259,7 @@ The <code>MTU</code> parameter is the DATAGRAM service is actually <code>org.arl
 <td class="tableblock halign-left valign-top"><p class="tableblock">TRANSPORT</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>org.arl.unet.Services.TRANSPORT</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Datagram transmission over a multihop network</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_transport_and_reliability">Chapter 22</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#Transport and reliability">[Transport and reliability]</a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">REMOTE</p></td>
@@ -6914,7 +6912,7 @@ Protocol data units (PDUs) are protocol-specific datagrams exchanged by nodes in
 <p>Single-hop here refers to a single hop in the Unet sense. For example, a link may be provided over wireless RF network that has multiple physical hops (e.g. using UDP/IP). However, as long as the link does not pass through multiple Unet nodes, it is considered a logically single-hop link.</p>
 </div>
 <div class="paragraph">
-<p>All agents supporting the PHYSICAL service must also support the DATAGRAM service (<a href="#_datagram_service">Chapter 13</a>).</p>
+<p>All agents supporting the LINK service must also support the DATAGRAM service (<a href="#_datagram_service">Chapter 13</a>).</p>
 </div>
 <div class="paragraph">
 <p>It is recommended that agents offering the LINK service provide reliability, when requested. Agents that are able to provide reliability, do so by advertising the DATAGRAM service capability RELIABILITY.</p>
@@ -6923,7 +6921,184 @@ Protocol data units (PDUs) are protocol-specific datagrams exchanged by nodes in
 <p>LINK service providers using the PHYSICAL service should also consult the MAC service to determine when they should transmit.</p>
 </div>
 <div class="paragraph">
-<p>In a typical Unet, gateway nodes may have several LINK service providers, with the ROUTING service provider forwarding datagrams across links.</p>
+<p>In a typical Unet, gateway nodes may have several LINK service providers, with the ROUTING service (<a href="#_routing_service">Section 21.2</a>) provider forwarding datagrams across links.</p>
+</div>
+<div class="sect3">
+<h4 id="_parameters_7">20.1.1. Parameters</h4>
+<div class="paragraph">
+<p>Agents offering the LINK service may support the following parameter:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://unetstack.net/javadoc/org/arl/unet/link/LinkParam.html#dataRate" target="_blank" rel="noopener"><code>dataRate</code></a>&#8201;&#8212;&#8201;nominal data rate of link in bps (0 if unknown)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_reliablelink">20.2. ReliableLink</h3>
+<div class="paragraph">
+<p>Start the 2-node network and connect to node A:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> agentsForService org.arl.unet.Services.LINK
+<span class="go">[uwlink]
+
+</span><span class="gp">&gt;</span> uwlink
+<span class="gp">&lt;&lt;&lt; ReliableLink &gt;</span><span class="o">&gt;&gt;</span>
+<span class="go">
+[org.arl.unet.DatagramParam]
+  MTU = 848
+
+[org.arl.unet.link.LinkParam]
+  dataRate = 731.4286
+
+[org.arl.unet.link.ReliableLinkParam]
+  acks = 2
+  controlChannel = 1
+  dataChannel = 2
+  mac = mac
+  maxPropagationDelay = 2.5
+  maxRetries = 2
+  phy = phy
+  reservationGuardTime = 0.5</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We see that in the 2-node network simulation, the only agent that provides the link service is the <code>uwlink</code> agent of type <code>ReliableLink</code>. This agent fragments large datagrams, and transmits a batch of frames at a time, before waiting for an acknowledgement from the peer node. Unacknowledged frames are retransmitted until all frames are delivered, or there are too many retries. Once all frames are received, the peer node&#8217;s <code>uwlink</code> agent reassembles the datagram and delivers it.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>ReliableLink</code> provides the LINK service for all underwater links in Unet basic stack that ships as part of the community edition.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>With the default PHYSICAL service settings, the nominal data rate provided by this link is 731 bps, and that only 848 bytes may be transferred per datagram. The actual data rate may differ, depending on the size of the datagram, reliability settings, and the channel conditions.</p>
+</div>
+<div class="paragraph">
+<p>We also see that <code>ReliableLink</code> provides a set of configurable parameters:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>acks</code></dt>
+<dd>
+<p>Number of acknowledgements to use for reliable data transfer. Since a lost acknowledgement frame results in retransmission of the entire batch of frames, multiple acknowledgements are used to improve the robustness of the acknowledgement frame.</p>
+</dd>
+<dt class="hdlist1"><code>controlChannel</code></dt>
+<dd>
+<p>Frame type to use for control information. This is usually the CONTROL frame type.</p>
+</dd>
+<dt class="hdlist1"><code>dataChannel</code></dt>
+<dd>
+<p>Frame type to use for data frames. This is usually the DATA frame type.</p>
+</dd>
+<dt class="hdlist1"><code>mac</code></dt>
+<dd>
+<p>MAC service provider to use for reserving the channel. This is automatically discovered during startup. Setting this to <code>null</code> disables MAC reservation.</p>
+</dd>
+<dt class="hdlist1"><code>maxPropagationDelay</code></dt>
+<dd>
+<p>Maximum expected propagation delay for the link (in seconds). This should be set based on the expected single-hop communication range, and the sound speed (in case of acoustic links). This parameter is used to determine expected round-trip time for setting timeouts for acknowledgement frames.</p>
+</dd>
+<dt class="hdlist1"><code>maxRetries</code></dt>
+<dd>
+<p>Maximum number of retries per frame. Once the maximum number of retries is exceeded, a datagram transfer is deemed to have failed.</p>
+</dd>
+<dt class="hdlist1"><code>phy</code></dt>
+<dd>
+<p>PHYSICAL service provider for data transmission. This is automatically discovered during startup, but may be configured manually on gateway nodes with multiple PHYSICAL service providers.</p>
+</dd>
+<dt class="hdlist1"><code>reservationGuardTime</code></dt>
+<dd>
+<p>Guard time (in seconds) that is included in a MAC reservation of the channel. The guard time allows for small timing variability in transmission and small delays in response from peer node.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_eclink">20.3. ECLink</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In the Unet premium stack, <code>ECLink</code> replaces <code>ReliableLink</code> as the default LINK service provider for underwater links.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>ECLink</code> uses erase correction codes to reduce the protocol overhead required for retransmissions in a lossy channel. This usuaully results in significantly better performance than <code>ReliableLink</code> in poor channel conditions, and when transferring large datagrams.</p>
+</div>
+<div class="paragraph">
+<p>If you have a modem with the commercial version of UnetStack3, it&#8217;ll have <code>ECLink</code> loaded as the default LINK service provider:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="groovy"><span class="o">&gt;</span> <span class="n">uwlink</span>
+<span class="o">&lt;&lt;&lt;</span> <span class="n">ECLink</span> <span class="o">&gt;&gt;&gt;</span>
+
+<span class="o">[</span><span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">DatagramParam</span><span class="o">]</span>
+  <span class="n">MTU</span> <span class="o">=</span> <span class="mi">3145632</span>
+
+<span class="o">[</span><span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">link</span><span class="o">.</span><span class="na">ECLinkParam</span><span class="o">]</span>
+  <span class="n">controlChannel</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="n">dataChannel</span> <span class="o">=</span> <span class="mi">2</span>
+  <span class="n">mac</span> <span class="o">=</span> <span class="n">mac</span>
+  <span class="n">maxBatchSize</span> <span class="o">=</span> <span class="mi">65534</span>
+  <span class="n">maxPropagationDelay</span> <span class="o">=</span> <span class="mf">3.0</span>
+  <span class="n">maxRetries</span> <span class="o">=</span> <span class="mi">2</span>
+  <span class="n">minBatchSize</span> <span class="o">=</span> <span class="mi">3</span>
+  <span class="n">phy</span> <span class="o">=</span> <span class="n">phy</span>
+  <span class="n">reliability</span> <span class="o">=</span> <span class="kc">false</span>
+  <span class="n">reliableExtra</span> <span class="o">=</span> <span class="mf">0.2</span>
+  <span class="n">unreliableExtra</span> <span class="o">=</span> <span class="mf">0.3</span>
+
+<span class="o">[</span><span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">link</span><span class="o">.</span><span class="na">LinkParam</span><span class="o">]</span>
+  <span class="n">dataRate</span> <span class="o">=</span> <span class="mf">731.4286</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We see that the <code>MTU</code> for <code>ECLink</code> is quite large (as compared to <code>ReliableLink</code>), as <code>ECLink</code> can efficiently transfer large amounts of data. While the <code>dataRate</code> parameter advertises a similar nominal rate as with <code>ReliableLink</code>, you&#8217;ll find that <code>ECLink</code> yields better practical performance when transferring large files, and in poor channel conditions.</p>
+</div>
+<div class="paragraph">
+<p>The <code>phy</code>, <code>controlChannel</code>, <code>dataChannel</code>, <code>mac</code>, <code>maxRetries</code>, and <code>maxPropagationDelay</code> parameters of <code>ECLink</code> are similar to the ones in <code>ReliableLink</code>. However, <code>ECLink</code> has several additional parameters that control performance:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>minBatchSize</code></dt>
+<dd>
+<p>Minimum number of frames to send in each batch.</p>
+</dd>
+<dt class="hdlist1"><code>maxBatchSize</code></dt>
+<dd>
+<p>Maximum number of frames to send in each batch.</p>
+</dd>
+<dt class="hdlist1"><code>reliability</code></dt>
+<dd>
+<p>Default reliability for a datagram transfer, if a <code>DatagramReq</code> does not specify reliability (<code>null</code>).</p>
+</dd>
+<dt class="hdlist1"><code>reliableExtra</code></dt>
+<dd>
+<p>Fraction of extra frames to transmit for erasure correction, during reliable datagram transfer (using acknowledgements to determine retries). A value of 0.2 indicates 20% extra frames are transmitted. This allows for 20% frame loss without the need for retries.</p>
+</dd>
+<dt class="hdlist1"><code>unreliableExtra</code></dt>
+<dd>
+<p>Fraction of extra frames to transmit for erasure correction, during unreliable datagram transfer (no acknowledgement or retries). A value of 0.3 indicates 30% extra frames are transmitted. This allows for successful datagram transfer with as much as 30% frame loss.</p>
+</dd>
+</dl>
 </div>
 </div>
 </div>
@@ -6931,40 +7106,237 @@ Protocol data units (PDUs) are protocol-specific datagrams exchanged by nodes in
 <div class="sect1">
 <h2 id="_routing_and_route_maintenance">21. Routing and route maintenance</h2>
 <div class="sectionbody">
-<div class="admonitionblock warning">
+<div class="sect2">
+<h3 id="_overview_9">21.1. Overview</h3>
+<div class="paragraph">
+<p>The ROUTING and ROUTE_MAINTENANCE services work closely to provide multi-hop communications. The ROUTING serice provider is responsible for maintaining a routing table, and for routing datagrams according to the table. The ROUTE_MAINTENANCE service provider, on the other hand, is responsible for discovering new routes and providing updated routing information to the ROUTING service provider.</p>
+</div>
+<div class="paragraph">
+<p>If a network only requires static routes, the ROUTING service provider is sufficient to provide the functionality. In case of networks with dynamic route discovery, a ROUTE_MAINTENANCE service provider discovers routes (or route changes) and publishes <code>RouteDiscoveryNtf</code> messages. The ROUTING service provider subscribes to these messages and updates its routing tables.</p>
+</div>
+<div class="paragraph">
+<p>Both services are described below.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_routing_service">21.2. Routing service</h3>
+<div class="paragraph">
+<p><code><strong>org.arl.unet.Services.ROUTING</strong></code></p>
+</div>
+<div class="paragraph">
+<p>Agents offering the ROUTING service provide multi-hop communication.</p>
+</div>
+<div class="paragraph">
+<p>All agents supporting the ROUTING service must also support the DATAGRAM service (<a href="#_datagram_service">Chapter 13</a>).</p>
+</div>
+<div class="paragraph">
+<p>It is recommended that agents offering the ROUTING service provide reliability, when requested. Agents that are able to provide reliability, do so by advertising the DATAGRAM service capability RELIABILITY.</p>
+</div>
+<div class="admonitionblock note">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Coming soon&#8230;&#8203;
+The ROUTING service currently does not define a way to add, update or delete static routes in the routing table. Dynamic routes may be added/updated using the <code>RouteDiscoveryNtf</code> messages. An agent implementing this service may choose to provide agent-specific messages or parameters to manage the routes. The agent should provide <code>routes</code>, <code>addroute</code>, <code>delroute</code> and <code>delroutesto</code> commands (see <a href="#_static_routing">Section 6.3</a>) for user interaction from the shell.
 </td>
 </tr>
 </table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_route_maintenance_service">21.3. Route maintenance service</h3>
+<div class="paragraph">
+<p><code><strong>org.arl.unet.Services.ROUTE_MAINTENANCE</strong></code></p>
+</div>
+<div class="paragraph">
+<p>Agents offering the ROUTE_MAINTENANCE service generate <code>RouteDiscoveryNtf</code> messages to allow ROUTING service providers to maintain routing tables.</p>
+</div>
+<div class="sect3">
+<h4 id="_messages_7">21.3.1. Messages</h4>
+<div class="paragraph">
+<p>Agents providing the ROUTE_MAINTENANCE service support the following messages:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://unetstack.net/javadoc/org/arl/unet/net/RouteDiscoveryReq.html" target="_blank" rel="noopener"><code>RouteDiscoveryReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;start route discovery to a specified node</p>
+</li>
+<li>
+<p><a href="https://unetstack.net/javadoc/org/arl/unet/net/RouteTraceReq.html" target="_blank" rel="noopener"><code>RouteTraceReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;trace current route to a specified node</p>
+</li>
+<li>
+<p><a href="https://unetstack.net/javadoc/org/arl/unet/net/RouteDiscoveryNtf.html" target="_blank" rel="noopener"><code>RouteDiscoveryNtf</code></a>&#8201;&#8212;&#8201;sent to the agent&#8217;s topic when a route is discovered</p>
+</li>
+<li>
+<p><a href="https://unetstack.net/javadoc/org/arl/unet/net/RouteTraceNtf.html" target="_blank" rel="noopener"><code>RouteTraceNtf</code></a>&#8201;&#8212;&#8201;sent to requestor when a requested trace is successfully completed</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_router_and_the_route_discovery_protocol">21.4. Router and the route discovery protocol</h3>
+<div class="paragraph">
+<p>The <code>Router</code> class (agent name <code>router</code>) provides the ROUTING service in the standard stack. Apart from supporting the <code>routes</code>, <code>addroute</code>, <code>delroute</code> and <code>delroutesto</code> commands, this agent exposes two parameters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://unetstack.net/javadoc/org/arl/unet/net/RouterParam.html#auto1hop"><code>auto1hop</code></a>&#8201;&#8212;&#8201;automatically assume single-hop routes available, if no entry for destination node in routing table</p>
+</li>
+<li>
+<p><a href="https://unetstack.net/javadoc/org/arl/unet/net/RouterParam.html#defaultLink"><code>defaultLink</code></a>&#8201;&#8212;&#8201;default LINK service provider to use for datagram transmission, if unspecified while adding a route</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> router
+<span class="gp">&lt;&lt;&lt; Router &gt;</span><span class="o">&gt;&gt;</span>
+<span class="go">
+[org.arl.unet.DatagramParam]
+  MTU = 3145630
+
+[org.arl.unet.net.RouterParam]
+  auto1hop = true
+  defaultLink = uwlink</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>RouteDiscoveryProtocol</code> class (agent name <code>rdp</code>) provides the ROUTE_MAINTENANCE service in the standard stack. This agent has no configurable parameters.</p>
+</div>
+<div class="paragraph">
+<p>In <a href="#_routing_in_larger_networks">Chapter 6</a>, we explored several examples of how to set up networks with static and dynamic routes. To find out more about routing, type <code>help router</code> in the shell:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> <span class="nb">help </span>router
+<span class="go">router - access to routing service
+
+Examples:
+  routes              // display routing table
+  routes 2            // display routes to node 2
+  addroute 27, 29     // add a route to node 27 via node 29
+  delroute 2          // delete route number 2
+  delroutesto 27      // delete all routes to node 27
+  delroutes           // delete all routes
+  trace 27            // trace route to node 27
+  ping 27             // check if node 27 is accessible
+
+Parameters:
+
+- router.MTU - maximum data transfer size
+- router.auto1hop - automatically assume single hop routes
+- router.defaultLink - default link to use
+
+Commands:
+
+- routes - print routing table
+- addroute - add a route to the routing table
+- delroute - delete a route from the routing table
+- delroutesto - delete all routes to specified node from the routing table
+- delroutes - delete all routes from the routing table</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can also type <code>help</code> followed by any of the commands above to get more information on the usage of that command.</p>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_transport_and_reliability">22. Transport and reliability</h2>
+<h2 id="_transport_service">22. Transport service</h2>
 <div class="sectionbody">
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-Coming soon&#8230;&#8203;
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p><code><strong>org.arl.unet.Services.TRANSPORT</strong></code></p>
+</div>
+<div class="sect2">
+<h3 id="_overview_10">22.1. Overview</h3>
+<div class="paragraph">
+<p>Agents offering the TRANSPORT service provide end-to-end reliability and fragmentation/reassembly for large datagrams. They may also support connection-oriented services for data streaming. Agents providing this service typically use the ROUTING service for multi-hop delivery of data.</p>
+</div>
+<div class="paragraph">
+<p>All agents supporting the ROUTING service must also support the DATAGRAM service (<a href="#_datagram_service">Chapter 13</a>), along with the RELIABILITY and FRAGMENTATION capabilities. It is also recommended that they support the CANCELLATION and PROGRESS capabilities, since datagrams at this level are likely to be large.</p>
+</div>
+<div class="paragraph">
+<p>There are no special messages or parameters defined by the TRANSPORT service, but agents providing this service may expose additional parameters to configure the transport protocol in use.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_stop_and_wait_transport">22.2. Stop-and-wait transport</h3>
+<div class="paragraph">
+<p>The default implementation of the TRANSPORT service is the <code>SWTransport</code> class. If you start the 2-node network simulation and connect to node A, you can explore the configurable parameters that it advertises:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> transport
+<span class="gp">&lt;&lt;&lt; SWTransport &gt;</span><span class="o">&gt;&gt;</span>
+<span class="go">
+[org.arl.unet.DatagramParam]
+  MTU = 16777215
+
+[org.arl.unet.transport.SWTransportParam]
+  dsp = router
+  maxHops = 3
+  maxRetries = 2
+  reportProgress = false
+  timeoutPerHop = 90.0</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We briefly explain each parameter below:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>dsp</code></dt>
+<dd>
+<p>Datagram service provider. This is the agent that the transport uses to deliver datagrams. Using <code>router</code> for this parameter enables multi-hop networks.</p>
+</dd>
+<dt class="hdlist1"><code>maxHops</code></dt>
+<dd>
+<p>Maximum number of hops expected to destination nodes.</p>
+</dd>
+<dt class="hdlist1"><code>maxRetries</code></dt>
+<dd>
+<p>Maximum number of end-to-end retries, if end-to-end acknowledgements are not received. We recommend that link level reliability be enabled to reduce end-to-end retries. This is easily done by setting the <code>reliability</code> parameter for a route, or by enabling <code>reliability</code> at the LINK service provider (if it offers such a parameter).</p>
+</dd>
+<dt class="hdlist1"><code>reportProgress</code></dt>
+<dd>
+<p>Setting this parameter to <code>true</code> asks the <code>transport</code> agent to send out periodic <code>DatagramProgressNtf</code> messages to the requester (transmitting node) or on the agent&#8217;s topic (receiving node), when transferring large datagrams.</p>
+</dd>
+<dt class="hdlist1"><code>timeoutPerHop</code></dt>
+<dd>
+<p>Timeout (in seconds) per hop, for datagram transfer.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>Next, let&#8217;s try a 2048-byte datagram transfer from node A to node B with progress reports:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> transport <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> DatagramReq(to: 31, data: new float[2048], reliability: true)
+</span><span class="go">AGREE
+</span><span class="gp">transport &gt;</span><span class="o">&gt;</span> DatagramProgressNtf:INFORM[id:2 to:31 to:<span class="o">(</span>838/2048 bytes, 40%<span class="o">)]</span>
+<span class="gp">transport &gt;</span><span class="o">&gt;</span> DatagramProgressNtf:INFORM[id:2 to:31 to:<span class="o">(</span>1676/2048 bytes, 81%<span class="o">)]</span>
+<span class="gp">transport &gt;</span><span class="o">&gt;</span> DatagramProgressNtf:INFORM[id:2 to:31 to:<span class="o">(</span>2048/2048 bytes, 100%<span class="o">)]</span>
+<span class="gp">transport &gt;</span><span class="o">&gt;</span> DatagramDeliveryNtf:INFORM[id:d76a56bf-58f6-4a9c-8a19-7a0a6ce8bcd4 to:31]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The entire transfer will take a few minutes. During that time, we get periodic <code>DatagramProgressNtf</code> reports showing how much of the data transfer was completed.</p>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_remote_access">23. Remote access</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>Agents offering the Remote service provide control over remote nodes.</p>
+</div>
 <div class="admonitionblock warning">
 <table>
 <tr>
@@ -6986,7 +7358,7 @@ Coming soon&#8230;&#8203;
 <p><code><strong>org.arl.unet.Services.STATE_MANAGER</strong></code></p>
 </div>
 <div class="sect2">
-<h3 id="_overview_9">24.1. Overview</h3>
+<h3 id="_overview_11">24.1. Overview</h3>
 <div class="paragraph">
 <p>An agent offering the STATE_MANAGER service provides a way to save the state (parameter values) of specified (or all) agents.</p>
 </div>
@@ -6994,7 +7366,7 @@ Coming soon&#8230;&#8203;
 <p>Such an agent typically subscribes to the <a href="https://unetstack.net/javadoc/org/arl/unet/Topics.html#PARAMCHANGE" target="_blank" rel="noopener"><code>PARAMCHANGE</code></a> topic and monitor <code>ParamChangeNtf</code> for all parameter changes for all agents. It then helps persist selected agents' parameter values between reboots.</p>
 </div>
 <div class="sect3">
-<h4 id="_messages_7">24.1.1. Messages</h4>
+<h4 id="_messages_8">24.1.1. Messages</h4>
 <div class="paragraph">
 <p>STATE_MANAGER service providers honor the following messages:</p>
 </div>
@@ -7194,17 +7566,170 @@ phy.signalPowerLevel = -40.0</span></code></pre>
 <div class="sect1">
 <h2 id="_scheduler">25. Scheduler</h2>
 <div class="sectionbody">
-<div class="admonitionblock warning">
+<div class="paragraph">
+<p><code><strong>org.arl.unet.Services.SCHEDULER</strong></code></p>
+</div>
+<div class="sect2">
+<h3 id="_overview_12">25.1. Overview</h3>
+<div class="paragraph">
+<p>Agents offering the SCHEDULER service provide a way to schedule sleep/wake tasks in the future.</p>
+</div>
+<div class="sect3">
+<h4 id="_messages_9">25.1.1. Messages</h4>
+<div class="paragraph">
+<p>The following messages are used by the SCHEDULER service:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://unetstack.net/javadoc/org/arl/unet/scheduler/AddScheduledSleepReq.html" target="_blank" rel="noopener"><code>AddScheduledSleepReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;add a new scheduled sleep</p>
+</li>
+<li>
+<p><a href="https://unetstack.net/javadoc/org/arl/unet/scheduler/RemoveScheduledSleepReq.html" target="_blank" rel="noopener"><code>RemoveScheduledSleepReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;remove a scheduled sleep</p>
+</li>
+<li>
+<p><a href="https://unetstack.net/javadoc/org/arl/unet/scheduler/GetSleepScheduleReq.html" target="_blank" rel="noopener"><code>GetSleepScheduleReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;get all the scheduled sleep/wake times</p>
+</li>
+<li>
+<p><a href="https://unetstack.net/javadoc/org/arl/unet/scheduler/WakeFromSleepNtf.html" target="_blank" rel="noopener"><code>WakeFromSleepNtf</code></a>&#8201;&#8212;&#8201;sent to agent&#8217;s topic just after node wakes up from a sleep</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_parameters_8">25.1.2. Parameters</h4>
+<div class="paragraph">
+<p>Only parameter is required by the SCHEDULER service:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://unetstack.net/javadoc/org/arl/unet/scheduler/SchedulerParam.html#rtc" target="_blank" rel="noopener"><code>etc</code></a>&#8201;&#8212;&#8201;current date/time</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sleepwake_scheduling">25.2. Sleep/wake scheduling</h3>
+<div class="paragraph">
+<p>The unet simulator currently does not support sleep/wake scheduling. While unet audio supports the SCHEDULER service, it does not actually put your computer to sleep. Therefore you can experiment with creating and managing schedules on unet audio, without worrying about your computer going to sleep. Start up unet audio (<code>bin/unet audio</code>) and connect to its shell:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> agentsForService org.arl.unet.Services.SCHEDULER
+<span class="go">[phy]
+
+</span><span class="gp">&gt;</span> phy.rtc
+<span class="go">Sun Sep 22 02:58:20 SGT 2019
+
+</span><span class="gp">&gt;</span> <span class="nb">help </span>scheduler
+<span class="go">scheduler - access to scheduling service
+
+Commands:
+
+- addsleep - schedule sleep and wakeup of the modem
+- showsleep - shows sleep/wakeup schedule
+- rmsleep - removes sleep/wakeup schedule
+
+</span><span class="gp">&gt;</span> <span class="nb">help </span>addsleep
+<span class="go">addsleep - schedule sleep and wakeup of the modem
+
+Examples:
+  addsleep 1507014548, 1507014558  // sleep from epoch 1507014548 to 1507014558
+  addsleep 1507014558              // sleep immediately until 1507014548
+  addsleep 10.s.later, 20.s.later  // sleep 10s later and wake up 20s later
+  addsleep 20.s.later              // sleep immediately and wake up 20s later
+  addsleep 20.s.later, forever     // sleep 20s later forever
+  addsleep                         // sleep immediately forever
+
+</span><span class="gp">&gt;</span> addsleep 1.hour.later, forever
+<span class="go">AGREE
+</span><span class="gp">&gt;</span> showsleep
+<span class="go">bbfb3b79-942c-4fba-bc37-ab9d18dabda5: Sun Sep 22 04:00:00 SGT 2019 to eternity
+</span><span class="gp">&gt;</span> rmsleep <span class="s1">'bbfb3b79-942c-4fba-bc37-ab9d18dabda5'</span>
+<span class="go">AGREE
+</span><span class="gp">&gt;</span> showsleep
+<span class="go">
+</span><span class="gp">&gt;</span> addsleep 1.hour.later, 2.hours.later
+<span class="go">AGREE
+</span><span class="gp">&gt;</span> showsleep
+<span class="go">87de2dec-db29-4b34-a93c-775bfe8c68c5: Sun Sep 22 04:02:36 SGT 2019 to Sun Sep 22 05:02:36 SGT 2019</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We see that the <code>phy</code> agent provides the SCHEDULER service in unet audio. We add a sleep schedule, check that it shows up, remove it, and check that it is deleted. We then add another schedule.</p>
+</div>
+<div class="paragraph">
+<p>The <code>addsleep</code>, <code>showsleep</code>, and <code>rmsleep</code> commands use the <code>AddScheduledSleepReq</code>, <code>GetSleepScheduleReq</code>, and <code>RemoveScheduledSleepReq</code> messages to achieve their functionality. We can manually send this messages to confirm this, if we like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> GetSleepScheduleReq()
+</span><span class="go">SleepScheduleRsp:INFORM[(1 item)]
+</span><span class="gp">&gt;</span> ans.sleepSchedule
+<span class="go">[87de2dec-db29-4b34-a93c-775bfe8c68c5: Sun Sep 22 04:02:36 SGT 2019 to Sun Sep 22 05:02:36 SGT 2019]</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We can also use the web interface to manage the sleep schedule, if we like:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/sleep-schedule.png" alt="sleep schedule">
+</div>
+</div>
+<div class="paragraph">
+<p>A big advantage of working with the web interface for sleep scheduling is that the user interface displays date/time in a human readable format. On the other hand, programmatic access with messages requires times to be specified as Unix epoch time.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_epoch_time">25.3. Epoch time</h3>
+<div class="paragraph">
+<p>The Unix epoch is the number of seconds that have elapsed since January 1, 1970 (midnight UTC), not counting leap seconds. While computers find it easy to work with epoch time, we find it hard to interpret. So UnetStack introduces syntactic sugar such as "1.hour.later" that computer the Unix epoch time 1 hour from now:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> 1.hour.later
+<span class="go">1569097078
+
+</span><span class="gp">&gt;</span> 2.minutes.later
+<span class="go">1569093616</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There are <a href="https://www.epochconverter.com" target="_blank" rel="noopener">online calculators</a> that&#8217;ll help you convert between Unix epoch time and human readable date/time. This works well, if you need to manually convert a few date/times, but what if you needed to do this programmatically? Java provides simple APIs to deal with date/times:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> import java.time.Instant
+<span class="gp">&gt;</span> Instant.now<span class="o">()</span>.epochSecond                           <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="go">1569094526
+</span><span class="gp">&gt;</span> Instant.ofEpochSecond<span class="o">(</span>1569093616<span class="o">)</span>                   <i class="conum" data-value="2"></i><b>(2)</b>
+<span class="go">2019-09-21T19:20:16Z
+</span><span class="gp">&gt;</span> Instant.parse<span class="o">(</span><span class="s2">"2019-09-21T19:20:16Z"</span><span class="o">)</span>.epochSecond   <i class="conum" data-value="3"></i><b>(3)</b>
+<span class="go">1569093616</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
 <table>
 <tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-Coming soon&#8230;&#8203;
-</td>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Get current epoch time.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Convert epoch time to human readable time in UTC.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Convert human readable time in UTC to epoch time.</td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>If you want even nicer looking date/time strings, you should check out Java&#8217;s <a href="https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html" target="_blank" rel="noopener">SimpleDateFormat</a> class.</p>
+</div>
 </div>
 </div>
 </div>
@@ -7218,12 +7743,12 @@ Coming soon&#8230;&#8203;
 <p>The SHELL service provides a way to run commands and access files on a node. It is used by agents providing the REMOTE service to support remote execution of commands from other nodes.</p>
 </div>
 <div class="sect2">
-<h3 id="_overview_10">26.1. Overview</h3>
+<h3 id="_overview_13">26.1. Overview</h3>
 <div class="paragraph">
 <p>Agents providing the SHELL service support execution of commands, and access to files on the node. While shell agents typically provide interactivity using a terminal/console, they also support messages for other agents to request execution of commands or access to files.</p>
 </div>
 <div class="sect3">
-<h4 id="_messages_8">26.1.1. Messages</h4>
+<h4 id="_messages_10">26.1.1. Messages</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -7522,6 +8047,27 @@ Do not get confused between <code>sender</code> and <code>from</code>, and <code
 <div class="paragraph">
 <p>It&#8217;s time for us to test this agent. Create a file called <code>EchoDaemon.groovy</code> in the <code>classes</code> folder and copy the above daemon code into it.</p>
 </div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Editing scripts and classes</div>
+<div class="paragraph">
+<p>With the unet simulator or unet audio running on your machine, you can use your favorite text editor to directly create the <code>EchoDaemon.groovy</code> in the <code>classes</code> folder. However, a more generic way (that works on modems as well) is to open node A&#8217;s shell, select <code>Script editor</code>, and use the new file icon in the <code>/classes/</code> section to create the file:</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/script-editor-1.png" alt="script editor 1" width="80%">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/script-editor-2.png" alt="script editor 2" width="80%">
+</div>
+</div>
+<div class="paragraph">
+<p>The same approach can be used to create Groovy scripts in the <code>scripts</code> folder.</p>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>Now start the 2-node network simulation that we have been using as a testbed, and on node B, load the agent:</p>
 </div>
@@ -7791,7 +8337,7 @@ Behaviors in Groovy use closures to make the syntax easy to work with. If you we
 </div>
 </div>
 <div class="sect2">
-<h3 id="_parameters_7">27.5. Parameters</h3>
+<h3 id="_parameters_9">27.5. Parameters</h3>
 <div class="paragraph">
 <p>We have seen many agents with parameters that you can get/set. If we wanted to make our echo daemon delay configurable, it would be perfect to expose it as a parameter. Let&#8217;s do that next.</p>
 </div>
@@ -8801,12 +9347,6 @@ mac: MySimplestMac - IDLE
 <div class="paragraph">
 <p>We see that a CTS is transmitted (<code>TxFrameStartNtf</code>), then a RTS is received from node B (<code>RxFrameStartNtf</code> and <code>RxFrameNtf</code>). The reservation starts as soon as the CTS is received, and it ends 3 seconds later. Exactly as we wanted!</p>
 </div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_integrating_with_sensors">29. Integrating with sensors</h2>
-<div class="sectionbody">
 <div class="admonitionblock warning">
 <table>
 <tr>
@@ -8819,28 +9359,12 @@ Coming soon&#8230;&#8203;
 </tr>
 </table>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_unetstack_shell_extensions">30. UnetStack shell extensions</h2>
-<div class="sectionbody">
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-Coming soon&#8230;&#8203;
-</td>
-</tr>
-</table>
 </div>
 </div>
 </div>
 <h1 id="_part_vi_simulating_underwater_networks" class="sect0"><strong>Part VI: Simulating underwater networks</strong></h1>
 <div class="sect1">
-<h2 id="_integrated_development_environment_ide">31. Integrated development environment (IDE)</h2>
+<h2 id="_integrated_development_environment_ide">29. Integrated development environment (IDE)</h2>
 <div class="sectionbody">
 <div class="admonitionblock warning">
 <table>
@@ -8857,7 +9381,7 @@ Coming soon&#8230;&#8203;
 </div>
 </div>
 <div class="sect1">
-<h2 id="_writing_simulation_scripts">32. Writing simulation scripts</h2>
+<h2 id="_writing_simulation_scripts">30. Writing simulation scripts</h2>
 <div class="sectionbody">
 <div class="admonitionblock warning">
 <table>
@@ -8874,7 +9398,7 @@ Coming soon&#8230;&#8203;
 </div>
 </div>
 <div class="sect1">
-<h2 id="_modems_and_channel_models">33. Modems and channel models</h2>
+<h2 id="_modems_and_channel_models">31. Modems and channel models</h2>
 <div class="sectionbody">
 <div class="admonitionblock warning">
 <table>
@@ -8891,7 +9415,7 @@ Coming soon&#8230;&#8203;
 </div>
 </div>
 <div class="sect1">
-<h2 id="_developing_your_own_channel_models">34. Developing your own channel models</h2>
+<h2 id="_developing_your_own_channel_models">32. Developing your own channel models</h2>
 <div class="sectionbody">
 <div class="admonitionblock warning">
 <table>
@@ -8908,7 +9432,7 @@ Coming soon&#8230;&#8203;
 </div>
 </div>
 <div class="sect1">
-<h2 id="_node_mobility">35. Node mobility</h2>
+<h2 id="_node_mobility">33. Node mobility</h2>
 <div class="sectionbody">
 <div class="admonitionblock warning">
 <table>
@@ -9174,7 +9698,7 @@ Coming soon&#8230;&#8203;
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br>
-Last updated 2019-09-16 01:33:45 +0800
+Last updated 2019-09-22 02:38:30 +0800
 </div>
 </div>
 <style>

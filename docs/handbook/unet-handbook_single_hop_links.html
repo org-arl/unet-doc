@@ -604,8 +604,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
         </a>
        </li>
        <li>
-        <a href="unet-handbook_transport_and_reliability.html">
-         22. Transport and reliability
+        <a href="unet-handbook_transport_service.html">
+         22. Transport service
         </a>
        </li>
        <li>
@@ -647,16 +647,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
          28. Implementing network protocols
         </a>
        </li>
-       <li>
-        <a href="unet-handbook_integrating_with_sensors.html">
-         29. Integrating with sensors
-        </a>
-       </li>
-       <li>
-        <a href="unet-handbook_unetstack_shell_extensions.html">
-         30. UnetStack shell extensions
-        </a>
-       </li>
       </ul>
      </li>
      <li>
@@ -668,27 +658,27 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       <ul class="sectlevel1">
        <li>
         <a href="unet-handbook_integrated_development_environment_ide.html">
-         31. Integrated development environment (IDE)
+         29. Integrated development environment (IDE)
         </a>
        </li>
        <li>
         <a href="unet-handbook_writing_simulation_scripts.html">
-         32. Writing simulation scripts
+         30. Writing simulation scripts
         </a>
        </li>
        <li>
         <a href="unet-handbook_modems_and_channel_models.html">
-         33. Modems and channel models
+         31. Modems and channel models
         </a>
        </li>
        <li>
         <a href="unet-handbook_developing_your_own_channel_models.html">
-         34. Developing your own channel models
+         32. Developing your own channel models
         </a>
        </li>
        <li>
         <a href="unet-handbook_node_mobility.html">
-         35. Node mobility
+         33. Node mobility
         </a>
        </li>
       </ul>
@@ -741,7 +731,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="paragraph">
        <p>
-        All agents supporting the PHYSICAL service must also support the DATAGRAM service (
+        All agents supporting the LINK service must also support the DATAGRAM service (
         <a href="unet-handbook_datagram_service.html">
          Chapter 13
         </a>
@@ -760,8 +750,414 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="paragraph">
        <p>
-        In a typical Unet, gateway nodes may have several LINK service providers, with the ROUTING service provider forwarding datagrams across links.
+        In a typical Unet, gateway nodes may have several LINK service providers, with the ROUTING service (
+        <a href="unet-handbook_routing_and_route_maintenance.html#_routing_service">
+         Section 21.2
+        </a>
+        ) provider forwarding datagrams across links.
        </p>
+      </div>
+      <div class="sect3">
+       <h4 id="_parameters_7">
+        20.1.1. Parameters
+       </h4>
+       <div class="paragraph">
+        <p>
+         Agents offering the LINK service may support the following parameter:
+        </p>
+       </div>
+       <div class="ulist">
+        <ul>
+         <li>
+          <p>
+           <a href="https://unetstack.net/javadoc/org/arl/unet/link/LinkParam.html#dataRate" rel="noopener" target="_blank">
+            <code>
+             dataRate
+            </code>
+           </a>
+           — nominal data rate of link in bps (0 if unknown)
+          </p>
+         </li>
+        </ul>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_reliablelink">
+       20.2. ReliableLink
+      </h3>
+      <div class="paragraph">
+       <p>
+        Start the 2-node network and connect to node A:
+       </p>
+      </div>
+      <div class="listingblock">
+       <div class="content">
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> agentsForService org.arl.unet.Services.LINK
+<span class="go">[uwlink]
+
+</span><span class="gp">&gt;</span> uwlink
+<span class="gp">&lt;&lt;&lt; ReliableLink &gt;</span><span class="o">&gt;&gt;</span>
+<span class="go">
+[org.arl.unet.DatagramParam]
+  MTU = 848
+
+[org.arl.unet.link.LinkParam]
+  dataRate = 731.4286
+
+[org.arl.unet.link.ReliableLinkParam]
+  acks = 2
+  controlChannel = 1
+  dataChannel = 2
+  mac = mac
+  maxPropagationDelay = 2.5
+  maxRetries = 2
+  phy = phy
+  reservationGuardTime = 0.5</span></code></pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        We see that in the 2-node network simulation, the only agent that provides the link service is the
+        <code>
+         uwlink
+        </code>
+        agent of type
+        <code>
+         ReliableLink
+        </code>
+        . This agent fragments large datagrams, and transmits a batch of frames at a time, before waiting for an acknowledgement from the peer node. Unacknowledged frames are retransmitted until all frames are delivered, or there are too many retries. Once all frames are received, the peer node’s
+        <code>
+         uwlink
+        </code>
+        agent reassembles the datagram and delivers it.
+       </p>
+      </div>
+      <div class="admonitionblock note">
+       <table>
+        <tr>
+         <td class="icon">
+          <i class="fa icon-note" title="Note">
+          </i>
+         </td>
+         <td class="content">
+          <code>
+           ReliableLink
+          </code>
+          provides the LINK service for all underwater links in Unet basic stack that ships as part of the community edition.
+         </td>
+        </tr>
+       </table>
+      </div>
+      <div class="paragraph">
+       <p>
+        With the default PHYSICAL service settings, the nominal data rate provided by this link is 731 bps, and that only 848 bytes may be transferred per datagram. The actual data rate may differ, depending on the size of the datagram, reliability settings, and the channel conditions.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        We also see that
+        <code>
+         ReliableLink
+        </code>
+        provides a set of configurable parameters:
+       </p>
+      </div>
+      <div class="dlist">
+       <dl>
+        <dt class="hdlist1">
+         <code>
+          acks
+         </code>
+        </dt>
+        <dd>
+         <p>
+          Number of acknowledgements to use for reliable data transfer. Since a lost acknowledgement frame results in retransmission of the entire batch of frames, multiple acknowledgements are used to improve the robustness of the acknowledgement frame.
+         </p>
+        </dd>
+        <dt class="hdlist1">
+         <code>
+          controlChannel
+         </code>
+        </dt>
+        <dd>
+         <p>
+          Frame type to use for control information. This is usually the CONTROL frame type.
+         </p>
+        </dd>
+        <dt class="hdlist1">
+         <code>
+          dataChannel
+         </code>
+        </dt>
+        <dd>
+         <p>
+          Frame type to use for data frames. This is usually the DATA frame type.
+         </p>
+        </dd>
+        <dt class="hdlist1">
+         <code>
+          mac
+         </code>
+        </dt>
+        <dd>
+         <p>
+          MAC service provider to use for reserving the channel. This is automatically discovered during startup. Setting this to
+          <code>
+           null
+          </code>
+          disables MAC reservation.
+         </p>
+        </dd>
+        <dt class="hdlist1">
+         <code>
+          maxPropagationDelay
+         </code>
+        </dt>
+        <dd>
+         <p>
+          Maximum expected propagation delay for the link (in seconds). This should be set based on the expected single-hop communication range, and the sound speed (in case of acoustic links). This parameter is used to determine expected round-trip time for setting timeouts for acknowledgement frames.
+         </p>
+        </dd>
+        <dt class="hdlist1">
+         <code>
+          maxRetries
+         </code>
+        </dt>
+        <dd>
+         <p>
+          Maximum number of retries per frame. Once the maximum number of retries is exceeded, a datagram transfer is deemed to have failed.
+         </p>
+        </dd>
+        <dt class="hdlist1">
+         <code>
+          phy
+         </code>
+        </dt>
+        <dd>
+         <p>
+          PHYSICAL service provider for data transmission. This is automatically discovered during startup, but may be configured manually on gateway nodes with multiple PHYSICAL service providers.
+         </p>
+        </dd>
+        <dt class="hdlist1">
+         <code>
+          reservationGuardTime
+         </code>
+        </dt>
+        <dd>
+         <p>
+          Guard time (in seconds) that is included in a MAC reservation of the channel. The guard time allows for small timing variability in transmission and small delays in response from peer node.
+         </p>
+        </dd>
+       </dl>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_eclink">
+       20.3. ECLink
+      </h3>
+      <div class="admonitionblock note">
+       <table>
+        <tr>
+         <td class="icon">
+          <i class="fa icon-note" title="Note">
+          </i>
+         </td>
+         <td class="content">
+          In the Unet premium stack,
+          <code>
+           ECLink
+          </code>
+          replaces
+          <code>
+           ReliableLink
+          </code>
+          as the default LINK service provider for underwater links.
+         </td>
+        </tr>
+       </table>
+      </div>
+      <div class="paragraph">
+       <p>
+        <code>
+         ECLink
+        </code>
+        uses erase correction codes to reduce the protocol overhead required for retransmissions in a lossy channel. This usuaully results in significantly better performance than
+        <code>
+         ReliableLink
+        </code>
+        in poor channel conditions, and when transferring large datagrams.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        If you have a modem with the commercial version of UnetStack3, it’ll have
+        <code>
+         ECLink
+        </code>
+        loaded as the default LINK service provider:
+       </p>
+      </div>
+      <div class="listingblock">
+       <div class="content">
+        <pre class="rouge highlight"><code data-lang="groovy"><span class="o">&gt;</span> <span class="n">uwlink</span>
+<span class="o">&lt;&lt;&lt;</span> <span class="n">ECLink</span> <span class="o">&gt;&gt;&gt;</span>
+
+<span class="o">[</span><span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">DatagramParam</span><span class="o">]</span>
+  <span class="n">MTU</span> <span class="o">=</span> <span class="mi">3145632</span>
+
+<span class="o">[</span><span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">link</span><span class="o">.</span><span class="na">ECLinkParam</span><span class="o">]</span>
+  <span class="n">controlChannel</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="n">dataChannel</span> <span class="o">=</span> <span class="mi">2</span>
+  <span class="n">mac</span> <span class="o">=</span> <span class="n">mac</span>
+  <span class="n">maxBatchSize</span> <span class="o">=</span> <span class="mi">65534</span>
+  <span class="n">maxPropagationDelay</span> <span class="o">=</span> <span class="mf">3.0</span>
+  <span class="n">maxRetries</span> <span class="o">=</span> <span class="mi">2</span>
+  <span class="n">minBatchSize</span> <span class="o">=</span> <span class="mi">3</span>
+  <span class="n">phy</span> <span class="o">=</span> <span class="n">phy</span>
+  <span class="n">reliability</span> <span class="o">=</span> <span class="kc">false</span>
+  <span class="n">reliableExtra</span> <span class="o">=</span> <span class="mf">0.2</span>
+  <span class="n">unreliableExtra</span> <span class="o">=</span> <span class="mf">0.3</span>
+
+<span class="o">[</span><span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">link</span><span class="o">.</span><span class="na">LinkParam</span><span class="o">]</span>
+  <span class="n">dataRate</span> <span class="o">=</span> <span class="mf">731.4286</span></code></pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        We see that the
+        <code>
+         MTU
+        </code>
+        for
+        <code>
+         ECLink
+        </code>
+        is quite large (as compared to
+        <code>
+         ReliableLink
+        </code>
+        ), as
+        <code>
+         ECLink
+        </code>
+        can efficiently transfer large amounts of data. While the
+        <code>
+         dataRate
+        </code>
+        parameter advertises a similar nominal rate as with
+        <code>
+         ReliableLink
+        </code>
+        , you’ll find that
+        <code>
+         ECLink
+        </code>
+        yields better practical performance when transferring large files, and in poor channel conditions.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        The
+        <code>
+         phy
+        </code>
+        ,
+        <code>
+         controlChannel
+        </code>
+        ,
+        <code>
+         dataChannel
+        </code>
+        ,
+        <code>
+         mac
+        </code>
+        ,
+        <code>
+         maxRetries
+        </code>
+        , and
+        <code>
+         maxPropagationDelay
+        </code>
+        parameters of
+        <code>
+         ECLink
+        </code>
+        are similar to the ones in
+        <code>
+         ReliableLink
+        </code>
+        . However,
+        <code>
+         ECLink
+        </code>
+        has several additional parameters that control performance:
+       </p>
+      </div>
+      <div class="dlist">
+       <dl>
+        <dt class="hdlist1">
+         <code>
+          minBatchSize
+         </code>
+        </dt>
+        <dd>
+         <p>
+          Minimum number of frames to send in each batch.
+         </p>
+        </dd>
+        <dt class="hdlist1">
+         <code>
+          maxBatchSize
+         </code>
+        </dt>
+        <dd>
+         <p>
+          Maximum number of frames to send in each batch.
+         </p>
+        </dd>
+        <dt class="hdlist1">
+         <code>
+          reliability
+         </code>
+        </dt>
+        <dd>
+         <p>
+          Default reliability for a datagram transfer, if a
+          <code>
+           DatagramReq
+          </code>
+          does not specify reliability (
+          <code>
+           null
+          </code>
+          ).
+         </p>
+        </dd>
+        <dt class="hdlist1">
+         <code>
+          reliableExtra
+         </code>
+        </dt>
+        <dd>
+         <p>
+          Fraction of extra frames to transmit for erasure correction, during reliable datagram transfer (using acknowledgements to determine retries). A value of 0.2 indicates 20% extra frames are transmitted. This allows for 20% frame loss without the need for retries.
+         </p>
+        </dd>
+        <dt class="hdlist1">
+         <code>
+          unreliableExtra
+         </code>
+        </dt>
+        <dd>
+         <p>
+          Fraction of extra frames to transmit for erasure correction, during unreliable datagram transfer (no acknowledgement or retries). A value of 0.3 indicates 30% extra frames are transmitted. This allows for successful datagram transfer with as much as 30% frame loss.
+         </p>
+        </dd>
+       </dl>
       </div>
      </div>
     </div>
@@ -784,7 +1180,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
    <div id="footer-text">
     Version 0.1
     <br/>
-    Last updated 2019-09-16 01:33:45 +0800
+    Last updated 2019-09-22 02:38:30 +0800
    </div>
   </div>
   <style>

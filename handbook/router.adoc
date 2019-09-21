@@ -1,0 +1,92 @@
+== Routing and route maintenance
+
+=== Overview
+
+The ROUTING and ROUTE_MAINTENANCE services work closely to provide multi-hop communications. The ROUTING serice provider is responsible for maintaining a routing table, and for routing datagrams according to the table. The ROUTE_MAINTENANCE service provider, on the other hand, is responsible for discovering new routes and providing updated routing information to the ROUTING service provider.
+
+If a network only requires static routes, the ROUTING service provider is sufficient to provide the functionality. In case of networks with dynamic route discovery, a ROUTE_MAINTENANCE service provider discovers routes (or route changes) and publishes `RouteDiscoveryNtf` messages. The ROUTING service provider subscribes to these messages and updates its routing tables.
+
+Both services are described below.
+
+=== Routing service
+
+`*org.arl.unet.Services.ROUTING*`
+
+Agents offering the ROUTING service provide multi-hop communication.
+
+All agents supporting the ROUTING service must also support the DATAGRAM service (<<Datagram service>>).
+
+It is recommended that agents offering the ROUTING service provide reliability, when requested. Agents that are able to provide reliability, do so by advertising the DATAGRAM service capability RELIABILITY.
+
+NOTE: The ROUTING service currently does not define a way to add, update or delete static routes in the routing table. Dynamic routes may be added/updated using the `RouteDiscoveryNtf` messages. An agent implementing this service may choose to provide agent-specific messages or parameters to manage the routes. The agent should provide `routes`, `addroute`, `delroute` and `delroutesto` commands (see <<Static routing>>) for user interaction from the shell.
+
+=== Route maintenance service
+
+`*org.arl.unet.Services.ROUTE_MAINTENANCE*`
+
+Agents offering the ROUTE_MAINTENANCE service generate `RouteDiscoveryNtf` messages to allow ROUTING service providers to maintain routing tables.
+
+==== Messages
+
+Agents providing the ROUTE_MAINTENANCE service support the following messages:
+
+* https://unetstack.net/javadoc/org/arl/unet/net/RouteDiscoveryReq.html[`RouteDiscoveryReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- start route discovery to a specified node
+* https://unetstack.net/javadoc/org/arl/unet/net/RouteTraceReq.html[`RouteTraceReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- trace current route to a specified node
+* https://unetstack.net/javadoc/org/arl/unet/net/RouteDiscoveryNtf.html[`RouteDiscoveryNtf`^] -- sent to the agent's topic when a route is discovered
+* https://unetstack.net/javadoc/org/arl/unet/net/RouteTraceNtf.html[`RouteTraceNtf`^] -- sent to requestor when a requested trace is successfully completed
+
+=== Router and the route discovery protocol
+
+The `Router` class (agent name `router`) provides the ROUTING service in the standard stack. Apart from supporting the `routes`, `addroute`, `delroute` and `delroutesto` commands, this agent exposes two parameters:
+
+* https://unetstack.net/javadoc/org/arl/unet/net/RouterParam.html#auto1hop[`auto1hop`] -- automatically assume single-hop routes available, if no entry for destination node in routing table
+* https://unetstack.net/javadoc/org/arl/unet/net/RouterParam.html#defaultLink[`defaultLink`] -- default LINK service provider to use for datagram transmission, if unspecified while adding a route
+
+[source, console]
+----
+> router
+<<< Router >>>
+
+[org.arl.unet.DatagramParam]
+  MTU = 3145630
+
+[org.arl.unet.net.RouterParam]
+  auto1hop = true
+  defaultLink = uwlink
+----
+
+The `RouteDiscoveryProtocol` class (agent name `rdp`) provides the ROUTE_MAINTENANCE service in the standard stack. This agent has no configurable parameters.
+
+In <<Routing in larger networks>>, we explored several examples of how to set up networks with static and dynamic routes. To find out more about routing, type `help router` in the shell:
+
+[source, console]
+----
+> help router
+router - access to routing service
+
+Examples:
+  routes              // display routing table
+  routes 2            // display routes to node 2
+  addroute 27, 29     // add a route to node 27 via node 29
+  delroute 2          // delete route number 2
+  delroutesto 27      // delete all routes to node 27
+  delroutes           // delete all routes
+  trace 27            // trace route to node 27
+  ping 27             // check if node 27 is accessible
+
+Parameters:
+
+- router.MTU - maximum data transfer size
+- router.auto1hop - automatically assume single hop routes
+- router.defaultLink - default link to use
+
+Commands:
+
+- routes - print routing table
+- addroute - add a route to the routing table
+- delroute - delete a route from the routing table
+- delroutesto - delete all routes to specified node from the routing table
+- delroutes - delete all routes from the routing table
+----
+
+You can also type `help` followed by any of the commands above to get more information on the usage of that command.
