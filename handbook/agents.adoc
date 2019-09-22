@@ -114,8 +114,6 @@ With the unet simulator or unet audio running on your machine, you can use your 
 
 image::script-editor-1.png[width=80%,align="center"]
 
-image::script-editor-2.png[width=80%,align="center"]
-
 The same approach can be used to create Groovy scripts in the `scripts` folder.
 ****
 

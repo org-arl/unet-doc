@@ -851,7 +851,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="paragraph">
        <p>
-        With the default PHYSICAL service settings, the nominal data rate provided by this link is 731 bps, and that only 848 bytes may be transferred per datagram. The actual data rate may differ, depending on the size of the datagram, reliability settings, and the channel conditions.
+        With the default PHYSICAL service settings, the nominal data rate provided by this link is 731 bps, and that only 848 or less bytes may be transferred per datagram. The actual data rate may differ, depending on the size of the datagram, reliability settings, and the channel conditions.
        </p>
       </div>
       <div class="paragraph">
@@ -982,7 +982,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
         <code>
          ECLink
         </code>
-        uses erase correction codes to reduce the protocol overhead required for retransmissions in a lossy channel. This usuaully results in significantly better performance than
+        uses an erasure correction code (type of error correction code that deals with lost frames) to reduce the protocol overhead required for retransmissions in a lossy channel. This usuaully results in significantly better performance than
         <code>
          ReliableLink
         </code>

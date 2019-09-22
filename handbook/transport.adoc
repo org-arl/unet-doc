@@ -6,7 +6,7 @@
 
 Agents offering the TRANSPORT service provide end-to-end reliability and fragmentation/reassembly for large datagrams. They may also support connection-oriented services for data streaming. Agents providing this service typically use the ROUTING service for multi-hop delivery of data.
 
-All agents supporting the ROUTING service must also support the DATAGRAM service (<<Datagram service>>), along with the RELIABILITY and FRAGMENTATION capabilities. It is also recommended that they support the CANCELLATION and PROGRESS capabilities, since datagrams at this level are likely to be large.
+All agents supporting the TRANSPORT service must also support the DATAGRAM service (<<Datagram service>>), along with the RELIABILITY and FRAGMENTATION capabilities. It is also recommended that they support the CANCELLATION and PROGRESS capabilities, since datagrams at this level are likely to be large.
 
 There are no special messages or parameters defined by the TRANSPORT service, but agents providing this service may expose additional parameters to configure the transport protocol in use.
 

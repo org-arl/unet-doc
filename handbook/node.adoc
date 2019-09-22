@@ -17,20 +17,20 @@ An agent offering the NODE_INFO service supports several parameters:
 * https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#addressSize[`addressSize`^] -- address size in bits (valid values are 8 or 16)
 * https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#time[`time`^] -- node time (read-only)
 * https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#canForward[`canForward`^] -- true if the node will forward datagrams to other nodes (routing)
-* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#origin[`origin`^] -- origin (latitude, longitude)
-* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#location[`location`^] -- location (x, y, z) m if origin set, otherwise (latitude, longitude, z)
+* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#origin[`origin`^] -- origin as (latitude, longitude)
+* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#location[`location`^] -- location as (x, y, z) in meters if origin set, otherwise (latitude, longitude, z)
 * https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#mobility[`mobility`^] -- true if the node is mobile, false if it is fixed
-* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#speed[`speed`^] -- speed (m/s), if mobile node
-* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#heading[`heading`^] -- heading (deg, 0 is North, clockwise), if mobile node
-* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#turnRate[`turnRate`^] -- turn rate (deg/s, clockwise), if mobile node
-* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#diveRate[`diveRate`^] -- dive rate (m/s), if mobile node
+* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#speed[`speed`^] -- speed in m/s, if mobile node
+* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#heading[`heading`^] -- heading in degrees, 0 is North, measured clockwise, if mobile node
+* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#turnRate[`turnRate`^] -- turn rate in degrees/s, measured clockwise, if mobile node
+* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#diveRate[`diveRate`^] -- dive rate in m/s, if mobile node
 
 Any changes to parameters `nodeName`, `address`, `addressSize`, `origin` or `location` are published as `ParamChangeNtf` to the agent's topic (in addition to the `PARAMCHANGE` topic that all parameter changes are automatically published to -- see <<State persistence>>). This is to facilitate monitoring of changes to these important parameters by other agents, simply by subscribing to the NODE_INFO service provider's topic.
 
 Additionally, if time stability or location accuracy information is available, the following parameters are populated:
 
 * https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#timeStability[`timeStability`^] -- time stability in ppm
-* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#locationAccuracy[`locationAccuracy`^] -- location accuracy (x, y, z) m
+* https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#locationAccuracy[`locationAccuracy`^] -- location accuracy as (x, y, z) in meters
 
 // Finally, for nodes that support network time synchronization, the following parameters are defined:
 

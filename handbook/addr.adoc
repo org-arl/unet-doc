@@ -40,8 +40,8 @@ AddressResolutionRsp:INFORM[address:232 name:A]
 232
 ----
 
-While the address allocation and resolution processes might seem very similar, there is a conceptual difference between the two. Address allocation is performed for a new node without an address. The address allocation process associates it with an address. Address resolution is performed to find the address that was assigned to a node.
+While the address allocation and resolution processes may seem very similar, there is a conceptual difference between the two. Address allocation is performed for a new node without an address. The address allocation process associates it with an address. Address resolution is performed to find the address that was assigned to a node.
 
-TIP: The default ADDRESS_RESOLUTION service provider uses a hashing function to map node names to addresses. This enables it to allocate and resolve addresses without generating network traffic (at the cost of manual checking due to a small probability of duplicate addresses). The hashing mechanism is not time-dependent, and so in the special case of this agent, the distinction between address allocation and resolution is blurred.
+TIP: The default ADDRESS_RESOLUTION service provider uses a hashing function to map node names to addresses. This enables it to allocate and resolve addresses without generating network traffic, as the hashing function generates the same address for a given name on each node. Because the hashing maps a large name space to a small address space, there is always the chance that two names map to the same address; we require that the network architect check this manually, and assign node names such that there are no address conflicts.
 
 CAUTION: Network designers and protocol developers should not rely on the ADDRESS_RESOLUTION service provider being based on a hashing function for correct operation of the network.

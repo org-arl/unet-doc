@@ -958,6 +958,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
         </li>
        </ul>
       </div>
+      <div class="paragraph">
+       <p>
+        Without
+        <code>
+         auto1hop
+        </code>
+        enabled, every route must be explicitly added to the routing table (even when the node is accessible over a single hop). By enabling
+        <code>
+         auto1hop
+        </code>
+        , we tell the router than any node that isn’t explicitly added to the routing table is assumed to be accessible over a single hop. This is the default setting:
+       </p>
+      </div>
       <div class="listingblock">
        <div class="content">
         <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> router

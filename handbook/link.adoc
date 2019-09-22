@@ -55,7 +55,7 @@ We see that in the 2-node network simulation, the only agent that provides the l
 
 NOTE: `ReliableLink` provides the LINK service for all underwater links in Unet basic stack that ships as part of the community edition.
 
-With the default PHYSICAL service settings, the nominal data rate provided by this link is 731 bps, and that only 848 bytes may be transferred per datagram. The actual data rate may differ, depending on the size of the datagram, reliability settings, and the channel conditions.
+With the default PHYSICAL service settings, the nominal data rate provided by this link is 731 bps, and that only 848 or less bytes may be transferred per datagram. The actual data rate may differ, depending on the size of the datagram, reliability settings, and the channel conditions.
 
 We also see that `ReliableLink` provides a set of configurable parameters:
 
@@ -79,7 +79,7 @@ We also see that `ReliableLink` provides a set of configurable parameters:
 
 NOTE: In the Unet premium stack, `ECLink` replaces `ReliableLink` as the default LINK service provider for underwater links.
 
-`ECLink` uses erase correction codes to reduce the protocol overhead required for retransmissions in a lossy channel. This usuaully results in significantly better performance than `ReliableLink` in poor channel conditions, and when transferring large datagrams.
+`ECLink` uses an erasure correction code (type of error correction code that deals with lost frames) to reduce the protocol overhead required for retransmissions in a lossy channel. This usuaully results in significantly better performance than `ReliableLink` in poor channel conditions, and when transferring large datagrams.
 
 If you have a modem with the commercial version of UnetStack3, it'll have `ECLink` loaded as the default LINK service provider:
 

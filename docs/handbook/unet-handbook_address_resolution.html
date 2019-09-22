@@ -854,7 +854,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="paragraph">
        <p>
-        While the address allocation and resolution processes might seem very similar, there is a conceptual difference between the two. Address allocation is performed for a new node without an address. The address allocation process associates it with an address. Address resolution is performed to find the address that was assigned to a node.
+        While the address allocation and resolution processes may seem very similar, there is a conceptual difference between the two. Address allocation is performed for a new node without an address. The address allocation process associates it with an address. Address resolution is performed to find the address that was assigned to a node.
        </p>
       </div>
       <div class="admonitionblock tip">
@@ -865,7 +865,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
           </i>
          </td>
          <td class="content">
-          The default ADDRESS_RESOLUTION service provider uses a hashing function to map node names to addresses. This enables it to allocate and resolve addresses without generating network traffic (at the cost of manual checking due to a small probability of duplicate addresses). The hashing mechanism is not time-dependent, and so in the special case of this agent, the distinction between address allocation and resolution is blurred.
+          The default ADDRESS_RESOLUTION service provider uses a hashing function to map node names to addresses. This enables it to allocate and resolve addresses without generating network traffic, as the hashing function generates the same address for a given name on each node. Because the hashing maps a large name space to a small address space, there is always the chance that two names map to the same address; we require that the network architect check this manually, and assign node names such that there are no address conflicts.
          </td>
         </tr>
        </table>
