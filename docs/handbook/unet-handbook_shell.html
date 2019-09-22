@@ -721,7 +721,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </p>
      </div>
      <div class="sect2">
-      <h3 id="_overview_13">
+      <h3 id="_overview_14">
        26.1. Overview
       </h3>
       <div class="paragraph">
@@ -730,7 +730,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
        </p>
       </div>
       <div class="sect3">
-       <h4 id="_messages_10">
+       <h4 id="_messages_11">
         26.1.1. Messages
        </h4>
        <div class="ulist">
@@ -1133,7 +1133,15 @@ README.md [759 bytes]
       </div>
       <div class="paragraph">
        <p>
-        We interacted with the SHELL service provider using a shell! That’s not very useful in practice, but served to show you how these messages work. Typically, these messages are sent by other agents that wish to get the shell to run commands and access files for them. The agents may be running remotely in a fjåge slave container or on a gateway (via the UnetSocket API), where they may not have direct access to the filesystem of the node.
+        We interacted with the SHELL service provider using a shell! That’s not very useful in practice, but served to show you how these messages work. Typically, these messages are sent by other agents that wish to get the shell to run commands and access files for them (e.g.
+        <code>
+         RemoteControl
+        </code>
+        agent in
+        <a href="unet-handbook_remote_access.html#_remotecontrol">
+         Section 23.2
+        </a>
+        ). The agents may be running remotely in a fjåge slave container or on a gateway (via the UnetSocket API), where they may not have direct access to the filesystem of the node.
        </p>
       </div>
      </div>

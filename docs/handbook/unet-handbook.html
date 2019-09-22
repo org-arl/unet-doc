@@ -7295,7 +7295,7 @@ Commands:
 <dl>
 <dt class="hdlist1"><code>dsp</code></dt>
 <dd>
-<p>Datagram service provider. This is the agent that the transport uses to deliver datagrams. Using <code>router</code> for this parameter enables multi-hop networks.</p>
+<p>Datagram service provider. This is the agent that is used to deliver datagrams. Using <code>router</code> for this parameter enables multi-hop networks.</p>
 </dd>
 <dt class="hdlist1"><code>maxHops</code></dt>
 <dd>
@@ -7338,7 +7338,111 @@ Commands:
 <h2 id="_remote_access">23. Remote access</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Agents offering the Remote service provide control over remote nodes.</p>
+<p><code><strong>org.arl.unet.Services.REMOTE</strong></code></p>
+</div>
+<div class="sect2">
+<h3 id="_overview_11">23.1. Overview</h3>
+<div class="paragraph">
+<p>Agents offering the REMOTE service provide text messaging, file transfer, and remote command execution services across a network.</p>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+While the REMOTE service provides a field for credentials to be included in a request, it does not specify how authentication and security should be handled by an agent. It is important for developers and users of the REMOTE service to give due consideration to network security before enabling this service on their network.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_messages_8">23.1.1. Messages</h4>
+<div class="paragraph">
+<p>Agents providing the REMOTE service support the following messages:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://unetstack.net/javadoc/org/arl/unet/remote/RemoteTextReq.html" target="_blank" rel="noopener"><code>RemoteTextReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;send a text message to remote node</p>
+</li>
+<li>
+<p><a href="https://unetstack.net/javadoc/org/arl/unet/remote/RemoteFileGetReq.html" target="_blank" rel="noopener"><code>RemoteFileGetReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;download a file from remote node</p>
+</li>
+<li>
+<p><a href="https://unetstack.net/javadoc/org/arl/unet/remote/RemoteFilePutReq.html" target="_blank" rel="noopener"><code>RemoteFilePutReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;upload a file to remote node</p>
+</li>
+<li>
+<p><a href="https://unetstack.net/javadoc/org/arl/unet/remote/RemoteExecReq.html" target="_blank" rel="noopener"><code>RemoteExecReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;execute a shell command on the remote node</p>
+</li>
+<li>
+<p><a href="https://unetstack.net/javadoc/org/arl/unet/remote/RemoteTextNtf.html" target="_blank" rel="noopener"><code>RemoteTextNtf</code></a>&#8201;&#8212;&#8201;sent to the agent&#8217;s topic when a text message from another node arrives</p>
+</li>
+<li>
+<p><a href="https://unetstack.net/javadoc/org/arl/unet/remote/RemoteFileNtf.html" target="_blank" rel="noopener"><code>RemoteFileNtf</code></a>&#8201;&#8212;&#8201;sent to the agent&#8217;s topic when an incoming file transfer from another node is completed</p>
+</li>
+<li>
+<p><a href="https://unetstack.net/javadoc/org/arl/unet/remote/RemoteSuccessNtf.html" target="_blank" rel="noopener"><code>RemoteSuccessNtf</code></a>&#8201;&#8212;&#8201;sent to a requester when a remote operation is successfully completed, if an acknowledgement was requested</p>
+</li>
+<li>
+<p><a href="https://unetstack.net/javadoc/org/arl/unet/remote/RemoteFailureNtf.html" target="_blank" rel="noopener"><code>RemoteFailureNtf</code></a>&#8201;&#8212;&#8201;sent to a requester when a remote operation fails, if an acknowledgement was requested</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_remotecontrol">23.2. RemoteControl</h3>
+<div class="paragraph">
+<p>Start the 2-node network and connect to node A:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> agentsForService org.arl.unet.Services.REMOTE
+<span class="go">[remote]
+</span><span class="gp">&gt;</span> remote
+<span class="gp">&lt;&lt;&lt; RemoteControl &gt;</span><span class="o">&gt;&gt;</span>
+<span class="go">
+[org.arl.unet.remote.RemoteControlParam]
+  cwd = /Users/mandar/Projects/unet/scripts
+  dsp = transport
+  enable = false
+  groovy = true
+  reliability = true
+  shell = websh</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We see that the REMOTE service is provided by the <code>remote</code> agent of type <code>RemoteControl</code>. The agent&#8217;s behavior is controlled by several parameters:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>cwd</code></dt>
+<dd>
+<p>Current working directory. This directory is the reference location for all file transfers and command execution.</p>
+</dd>
+<dt class="hdlist1"><code>dsp</code></dt>
+<dd>
+<p>Datagram service provider. This is the agent that is used to deliver datagrams.</p>
+</dd>
+<dt class="hdlist1"><code>shell</code></dt>
+<dd>
+<p>SHELL service provider (see <a href="#_shell">Chapter 26</a>) used to execute commands. When a remote command is to be executed, a request is sent to this shell agent to execute the command.</p>
+</dd>
+<dt class="hdlist1"><code>groovy</code></dt>
+<dd>
+<p>Enable Groovy extensions for shell commands. This should only be enabled if the <code>shell</code> is a Groovy shell. The only Groovy extension defined at this point in time is the <code>?</code> shortcut. Starting a command with a <code>?</code> automatically sends the output of the command back to the requesting node (e.g. <code>?phy.MTU</code> is equivalent to <code>tell me, phy.MTU as String</code>). We have encountered the use of this extension before in <a href="#_file_transfer_and_remote_access">Section 5.5</a>.</p>
+</dd>
+<dt class="hdlist1"><code>reliability</code></dt>
+<dd>
+<p>Setting this to <code>true</code> enables <code>reliability</code> for all datagrams used by the agent.</p>
+</dd>
+<dt class="hdlist1"><code>enable</code></dt>
+<dd>
+<p>Setting this to <code>true</code> enables incoming remote file operations and remote commands. The parameter is <code>false</code> by default, for security reasons. Outgoing remote operations are always enabled, irrespective of this parameter. Incoming and outgoing text messaging is also always enabled when this agent is loaded.</p>
+</dd>
+</dl>
 </div>
 <div class="admonitionblock warning">
 <table>
@@ -7347,10 +7451,44 @@ Commands:
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-Coming soon&#8230;&#8203;
+The default <code>RemoteControl</code> agent in the basic stack does not implement any authentication. Once enabled, it will accept all file transfer and remote command execution requests. Care should be taken not to <code>enable</code> it in networks where malicious hackers may be able to send harmful requests to your node.
 </td>
 </tr>
 </table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The <code>phy[CONTROL].scrambler</code> and <code>phy[DATA].scrambler</code> parameters available in many UnetStack-based modems provide a basic level of protection against malicious hackers by scrambling each transmission in the modem. Setting the <code>scrambler</code> to a "secret" value (64-bit key) in all your nodes enables this basic protection. Do bear in mind that scrambling is not a crypotgraphically strong technique, and will not protect you from a serious hacker. The technique is also vulnerable to playback attack, even if the malicious hacker is unable to unscramble your frame.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>All remote commands (<code>tell</code>, <code>fget</code>, <code>fput</code>, <code>rsh</code>, and <code>ack</code>) encountered in <a href="#_sending_text_messages">Section 5.4</a> and <a href="#_file_transfer_and_remote_access">Section 5.5</a> are implemented by the shell using the above messages. For example, the same effect as the <code>tell</code> command can be achieved by directly sending the <code>RemoteTextReq</code> message to the <code>remote</code> agent on node A:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> remote <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RemoteTextReq(to: host('B'), text: 'hello!', ack: true)
+</span><span class="go">AGREE
+</span><span class="gp">remote &gt;</span><span class="o">&gt;</span> RemoteSuccessNtf:INFORM[RemoteTextReq:REQUEST[to:31 text:hello! ack:true]]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We should see the text message delivered on node B:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="console"><span class="go">[232]: hello!</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We encourage you to re-read <a href="#_file_transfer_and_remote_access">Section 5.5</a> and explore the help (<code>help remote</code>) to fully appreciate the use of this service.</p>
+</div>
 </div>
 </div>
 </div>
@@ -7361,7 +7499,7 @@ Coming soon&#8230;&#8203;
 <p><code><strong>org.arl.unet.Services.STATE_MANAGER</strong></code></p>
 </div>
 <div class="sect2">
-<h3 id="_overview_11">24.1. Overview</h3>
+<h3 id="_overview_12">24.1. Overview</h3>
 <div class="paragraph">
 <p>An agent offering the STATE_MANAGER service provides a way to save the state (parameter values) of specified (or all) agents.</p>
 </div>
@@ -7369,7 +7507,7 @@ Coming soon&#8230;&#8203;
 <p>Such an agent typically subscribes to the <a href="https://unetstack.net/javadoc/org/arl/unet/Topics.html#PARAMCHANGE" target="_blank" rel="noopener"><code>PARAMCHANGE</code></a> topic and monitor <code>ParamChangeNtf</code> for all parameter changes for all agents. It then helps persist selected agents' parameter values between reboots.</p>
 </div>
 <div class="sect3">
-<h4 id="_messages_8">24.1.1. Messages</h4>
+<h4 id="_messages_9">24.1.1. Messages</h4>
 <div class="paragraph">
 <p>STATE_MANAGER service providers honor the following messages:</p>
 </div>
@@ -7573,12 +7711,12 @@ phy.signalPowerLevel = -40.0</span></code></pre>
 <p><code><strong>org.arl.unet.Services.SCHEDULER</strong></code></p>
 </div>
 <div class="sect2">
-<h3 id="_overview_12">25.1. Overview</h3>
+<h3 id="_overview_13">25.1. Overview</h3>
 <div class="paragraph">
 <p>Agents offering the SCHEDULER service provide a way to schedule sleep/wake tasks in the future.</p>
 </div>
 <div class="sect3">
-<h4 id="_messages_9">25.1.1. Messages</h4>
+<h4 id="_messages_10">25.1.1. Messages</h4>
 <div class="paragraph">
 <p>The following messages are used by the SCHEDULER service:</p>
 </div>
@@ -7746,12 +7884,12 @@ Examples:
 <p>The SHELL service provides a way to run commands and access files on a node. It is used by agents providing the REMOTE service to support remote execution of commands from other nodes.</p>
 </div>
 <div class="sect2">
-<h3 id="_overview_13">26.1. Overview</h3>
+<h3 id="_overview_14">26.1. Overview</h3>
 <div class="paragraph">
 <p>Agents providing the SHELL service support execution of commands, and access to files on the node. While shell agents typically provide interactivity using a terminal/console, they also support messages for other agents to request execution of commands or access to files.</p>
 </div>
 <div class="sect3">
-<h4 id="_messages_10">26.1.1. Messages</h4>
+<h4 id="_messages_11">26.1.1. Messages</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -7874,7 +8012,7 @@ README.md [759 bytes]
 </table>
 </div>
 <div class="paragraph">
-<p>We interacted with the SHELL service provider using a shell! That&#8217;s not very useful in practice, but served to show you how these messages work. Typically, these messages are sent by other agents that wish to get the shell to run commands and access files for them. The agents may be running remotely in a fjåge slave container or on a gateway (via the UnetSocket API), where they may not have direct access to the filesystem of the node.</p>
+<p>We interacted with the SHELL service provider using a shell! That&#8217;s not very useful in practice, but served to show you how these messages work. Typically, these messages are sent by other agents that wish to get the shell to run commands and access files for them (e.g. <code>RemoteControl</code> agent in <a href="#_remotecontrol">Section 23.2</a>). The agents may be running remotely in a fjåge slave container or on a gateway (via the UnetSocket API), where they may not have direct access to the filesystem of the node.</p>
 </div>
 </div>
 </div>

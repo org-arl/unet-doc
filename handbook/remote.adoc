@@ -1,21 +1,78 @@
 == Remote access
 
-Agents offering the Remote service provide control over remote nodes.
+`*org.arl.unet.Services.REMOTE*`
 
-WARNING: Coming soon...
+=== Overview
 
-//They support a set of messages and parameters that are explained below.
+Agents offering the REMOTE service provide text messaging, file transfer, and remote command execution services across a network.
 
-// RemoteGetParamReq AGREE, FAILURE  Request to get parameter(s) from a remote node
-// RemoteSetParamReq AGREE, FAILURE  Request to set parameter(s) of a remote node
-// RemoteScriptReq AGREE, FAILURE  Request to execute a script on a remote node
-// RemoteTextReq AGREE, FAILURE  Request to send text message to remote node
-// RemoteFilePutReq  AGREE, FAILURE  Request to transfer file to remote node
-// RemoteFileGetReq  AGREE, FAILURE  Request to retreive file from remote node
-// RemoteParamNtf  default Notification of remote get/set parameter(s)
-// RemoteScriptNtf default Notification of start of remote script execution
-// RemoteTextNtf default Notification of text message from remote node
-// RemoteFileNtf default Notification of completion of file transfer from remote node
+CAUTION: While the REMOTE service provides a field for credentials to be included in a request, it does not specify how authentication and security should be handled by an agent. It is important for developers and users of the REMOTE service to give due consideration to network security before enabling this service on their network.
 
-// pendingCount  rw  Number of pending remote requests
-// reliability rw  Reliability setting of remote datagrams
+==== Messages
+
+Agents providing the REMOTE service support the following messages:
+
+* https://unetstack.net/javadoc/org/arl/unet/remote/RemoteTextReq.html[`RemoteTextReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- send a text message to remote node
+* https://unetstack.net/javadoc/org/arl/unet/remote/RemoteFileGetReq.html[`RemoteFileGetReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- download a file from remote node
+* https://unetstack.net/javadoc/org/arl/unet/remote/RemoteFilePutReq.html[`RemoteFilePutReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- upload a file to remote node
+* https://unetstack.net/javadoc/org/arl/unet/remote/RemoteExecReq.html[`RemoteExecReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- execute a shell command on the remote node
+* https://unetstack.net/javadoc/org/arl/unet/remote/RemoteTextNtf.html[`RemoteTextNtf`^] -- sent to the agent's topic when a text message from another node arrives
+* https://unetstack.net/javadoc/org/arl/unet/remote/RemoteFileNtf.html[`RemoteFileNtf`^] -- sent to the agent's topic when an incoming file transfer from another node is completed
+* https://unetstack.net/javadoc/org/arl/unet/remote/RemoteSuccessNtf.html[`RemoteSuccessNtf`^] -- sent to a requester when a remote operation is successfully completed, if an acknowledgement was requested
+* https://unetstack.net/javadoc/org/arl/unet/remote/RemoteFailureNtf.html[`RemoteFailureNtf`^] -- sent to a requester when a remote operation fails, if an acknowledgement was requested
+
+=== RemoteControl
+
+Start the 2-node network and connect to node A:
+
+[source, console]
+----
+> agentsForService org.arl.unet.Services.REMOTE
+[remote]
+> remote
+<<< RemoteControl >>>
+
+[org.arl.unet.remote.RemoteControlParam]
+  cwd = /Users/mandar/Projects/unet/scripts
+  dsp = transport
+  enable = false
+  groovy = true
+  reliability = true
+  shell = websh
+----
+
+We see that the REMOTE service is provided by the `remote` agent of type `RemoteControl`. The agent's behavior is controlled by several parameters:
+
+`cwd`:: Current working directory. This directory is the reference location for all file transfers and command execution.
+
+`dsp`:: Datagram service provider. This is the agent that is used to deliver datagrams.
+
+`shell`:: SHELL service provider (see <<Shell>>) used to execute commands. When a remote command is to be executed, a request is sent to this shell agent to execute the command.
+
+`groovy`:: Enable Groovy extensions for shell commands. This should only be enabled if the `shell` is a Groovy shell. The only Groovy extension defined at this point in time is the `?` shortcut. Starting a command with a `?` automatically sends the output of the command back to the requesting node (e.g. `?phy.MTU` is equivalent to `tell me, phy.MTU as String`). We have encountered the use of this extension before in <<File transfer and remote access>>.
+
+`reliability`:: Setting this to `true` enables `reliability` for all datagrams used by the agent.
+
+`enable`:: Setting this to `true` enables incoming remote file operations and remote commands. The parameter is `false` by default, for security reasons. Outgoing remote operations are always enabled, irrespective of this parameter. Incoming and outgoing text messaging is also always enabled when this agent is loaded.
+
+WARNING: The default `RemoteControl` agent in the basic stack does not implement any authentication. Once enabled, it will accept all file transfer and remote command execution requests. Care should be taken not to `enable` it in networks where malicious hackers may be able to send harmful requests to your node.
+
+TIP: The `phy[CONTROL].scrambler` and `phy[DATA].scrambler` parameters available in many UnetStack-based modems provide a basic level of protection against malicious hackers by scrambling each transmission in the modem. Setting the `scrambler` to a "secret" value (64-bit key) in all your nodes enables this basic protection. Do bear in mind that scrambling is not a crypotgraphically strong technique, and will not protect you from a serious hacker. The technique is also vulnerable to playback attack, even if the malicious hacker is unable to unscramble your frame.
+
+All remote commands (`tell`, `fget`, `fput`, `rsh`, and `ack`) encountered in <<Sending text messages>> and <<File transfer and remote access>> are implemented by the shell using the above messages. For example, the same effect as the `tell` command can be achieved by directly sending the `RemoteTextReq` message to the `remote` agent on node A:
+
+[source, console]
+----
+> remote << new RemoteTextReq(to: host('B'), text: 'hello!', ack: true)
+AGREE
+remote >> RemoteSuccessNtf:INFORM[RemoteTextReq:REQUEST[to:31 text:hello! ack:true]]
+----
+
+We should see the text message delivered on node B:
+
+[source, console]
+----
+[232]: hello!
+----
+
+We encourage you to re-read <<File transfer and remote access>> and explore the help (`help remote`) to fully appreciate the use of this service.

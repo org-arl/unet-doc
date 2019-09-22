@@ -708,21 +708,445 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
     <div class="sectionbody">
      <div class="paragraph">
       <p>
-       Agents offering the Remote service provide control over remote nodes.
+       <code>
+        <strong>
+         org.arl.unet.Services.REMOTE
+        </strong>
+       </code>
       </p>
      </div>
-     <div class="admonitionblock warning">
-      <table>
-       <tr>
-        <td class="icon">
-         <i class="fa icon-warning" title="Warning">
-         </i>
-        </td>
-        <td class="content">
-         Coming soon…​
-        </td>
-       </tr>
-      </table>
+     <div class="sect2">
+      <h3 id="_overview_11">
+       23.1. Overview
+      </h3>
+      <div class="paragraph">
+       <p>
+        Agents offering the REMOTE service provide text messaging, file transfer, and remote command execution services across a network.
+       </p>
+      </div>
+      <div class="admonitionblock caution">
+       <table>
+        <tr>
+         <td class="icon">
+          <i class="fa icon-caution" title="Caution">
+          </i>
+         </td>
+         <td class="content">
+          While the REMOTE service provides a field for credentials to be included in a request, it does not specify how authentication and security should be handled by an agent. It is important for developers and users of the REMOTE service to give due consideration to network security before enabling this service on their network.
+         </td>
+        </tr>
+       </table>
+      </div>
+      <div class="sect3">
+       <h4 id="_messages_8">
+        23.1.1. Messages
+       </h4>
+       <div class="paragraph">
+        <p>
+         Agents providing the REMOTE service support the following messages:
+        </p>
+       </div>
+       <div class="ulist">
+        <ul>
+         <li>
+          <p>
+           <a href="https://unetstack.net/javadoc/org/arl/unet/remote/RemoteTextReq.html" rel="noopener" target="_blank">
+            <code>
+             RemoteTextReq
+            </code>
+           </a>
+           ⇒
+           <code>
+            AGREE
+           </code>
+           /
+           <code>
+            REFUSE
+           </code>
+           /
+           <code>
+            FAILURE
+           </code>
+           — send a text message to remote node
+          </p>
+         </li>
+         <li>
+          <p>
+           <a href="https://unetstack.net/javadoc/org/arl/unet/remote/RemoteFileGetReq.html" rel="noopener" target="_blank">
+            <code>
+             RemoteFileGetReq
+            </code>
+           </a>
+           ⇒
+           <code>
+            AGREE
+           </code>
+           /
+           <code>
+            REFUSE
+           </code>
+           /
+           <code>
+            FAILURE
+           </code>
+           — download a file from remote node
+          </p>
+         </li>
+         <li>
+          <p>
+           <a href="https://unetstack.net/javadoc/org/arl/unet/remote/RemoteFilePutReq.html" rel="noopener" target="_blank">
+            <code>
+             RemoteFilePutReq
+            </code>
+           </a>
+           ⇒
+           <code>
+            AGREE
+           </code>
+           /
+           <code>
+            REFUSE
+           </code>
+           /
+           <code>
+            FAILURE
+           </code>
+           — upload a file to remote node
+          </p>
+         </li>
+         <li>
+          <p>
+           <a href="https://unetstack.net/javadoc/org/arl/unet/remote/RemoteExecReq.html" rel="noopener" target="_blank">
+            <code>
+             RemoteExecReq
+            </code>
+           </a>
+           ⇒
+           <code>
+            AGREE
+           </code>
+           /
+           <code>
+            REFUSE
+           </code>
+           /
+           <code>
+            FAILURE
+           </code>
+           — execute a shell command on the remote node
+          </p>
+         </li>
+         <li>
+          <p>
+           <a href="https://unetstack.net/javadoc/org/arl/unet/remote/RemoteTextNtf.html" rel="noopener" target="_blank">
+            <code>
+             RemoteTextNtf
+            </code>
+           </a>
+           — sent to the agent’s topic when a text message from another node arrives
+          </p>
+         </li>
+         <li>
+          <p>
+           <a href="https://unetstack.net/javadoc/org/arl/unet/remote/RemoteFileNtf.html" rel="noopener" target="_blank">
+            <code>
+             RemoteFileNtf
+            </code>
+           </a>
+           — sent to the agent’s topic when an incoming file transfer from another node is completed
+          </p>
+         </li>
+         <li>
+          <p>
+           <a href="https://unetstack.net/javadoc/org/arl/unet/remote/RemoteSuccessNtf.html" rel="noopener" target="_blank">
+            <code>
+             RemoteSuccessNtf
+            </code>
+           </a>
+           — sent to a requester when a remote operation is successfully completed, if an acknowledgement was requested
+          </p>
+         </li>
+         <li>
+          <p>
+           <a href="https://unetstack.net/javadoc/org/arl/unet/remote/RemoteFailureNtf.html" rel="noopener" target="_blank">
+            <code>
+             RemoteFailureNtf
+            </code>
+           </a>
+           — sent to a requester when a remote operation fails, if an acknowledgement was requested
+          </p>
+         </li>
+        </ul>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_remotecontrol">
+       23.2. RemoteControl
+      </h3>
+      <div class="paragraph">
+       <p>
+        Start the 2-node network and connect to node A:
+       </p>
+      </div>
+      <div class="listingblock">
+       <div class="content">
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> agentsForService org.arl.unet.Services.REMOTE
+<span class="go">[remote]
+</span><span class="gp">&gt;</span> remote
+<span class="gp">&lt;&lt;&lt; RemoteControl &gt;</span><span class="o">&gt;&gt;</span>
+<span class="go">
+[org.arl.unet.remote.RemoteControlParam]
+  cwd = /Users/mandar/Projects/unet/scripts
+  dsp = transport
+  enable = false
+  groovy = true
+  reliability = true
+  shell = websh</span></code></pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        We see that the REMOTE service is provided by the
+        <code>
+         remote
+        </code>
+        agent of type
+        <code>
+         RemoteControl
+        </code>
+        . The agent’s behavior is controlled by several parameters:
+       </p>
+      </div>
+      <div class="dlist">
+       <dl>
+        <dt class="hdlist1">
+         <code>
+          cwd
+         </code>
+        </dt>
+        <dd>
+         <p>
+          Current working directory. This directory is the reference location for all file transfers and command execution.
+         </p>
+        </dd>
+        <dt class="hdlist1">
+         <code>
+          dsp
+         </code>
+        </dt>
+        <dd>
+         <p>
+          Datagram service provider. This is the agent that is used to deliver datagrams.
+         </p>
+        </dd>
+        <dt class="hdlist1">
+         <code>
+          shell
+         </code>
+        </dt>
+        <dd>
+         <p>
+          SHELL service provider (see
+          <a href="unet-handbook_shell.html">
+           Chapter 26
+          </a>
+          ) used to execute commands. When a remote command is to be executed, a request is sent to this shell agent to execute the command.
+         </p>
+        </dd>
+        <dt class="hdlist1">
+         <code>
+          groovy
+         </code>
+        </dt>
+        <dd>
+         <p>
+          Enable Groovy extensions for shell commands. This should only be enabled if the
+          <code>
+           shell
+          </code>
+          is a Groovy shell. The only Groovy extension defined at this point in time is the
+          <code>
+           ?
+          </code>
+          shortcut. Starting a command with a
+          <code>
+           ?
+          </code>
+          automatically sends the output of the command back to the requesting node (e.g.
+          <code>
+           ?phy.MTU
+          </code>
+          is equivalent to
+          <code>
+           tell me, phy.MTU as String
+          </code>
+          ). We have encountered the use of this extension before in
+          <a href="unet-handbook_setting_up_small_networks.html#_file_transfer_and_remote_access">
+           Section 5.5
+          </a>
+          .
+         </p>
+        </dd>
+        <dt class="hdlist1">
+         <code>
+          reliability
+         </code>
+        </dt>
+        <dd>
+         <p>
+          Setting this to
+          <code>
+           true
+          </code>
+          enables
+          <code>
+           reliability
+          </code>
+          for all datagrams used by the agent.
+         </p>
+        </dd>
+        <dt class="hdlist1">
+         <code>
+          enable
+         </code>
+        </dt>
+        <dd>
+         <p>
+          Setting this to
+          <code>
+           true
+          </code>
+          enables incoming remote file operations and remote commands. The parameter is
+          <code>
+           false
+          </code>
+          by default, for security reasons. Outgoing remote operations are always enabled, irrespective of this parameter. Incoming and outgoing text messaging is also always enabled when this agent is loaded.
+         </p>
+        </dd>
+       </dl>
+      </div>
+      <div class="admonitionblock warning">
+       <table>
+        <tr>
+         <td class="icon">
+          <i class="fa icon-warning" title="Warning">
+          </i>
+         </td>
+         <td class="content">
+          The default
+          <code>
+           RemoteControl
+          </code>
+          agent in the basic stack does not implement any authentication. Once enabled, it will accept all file transfer and remote command execution requests. Care should be taken not to
+          <code>
+           enable
+          </code>
+          it in networks where malicious hackers may be able to send harmful requests to your node.
+         </td>
+        </tr>
+       </table>
+      </div>
+      <div class="admonitionblock tip">
+       <table>
+        <tr>
+         <td class="icon">
+          <i class="fa icon-tip" title="Tip">
+          </i>
+         </td>
+         <td class="content">
+          The
+          <code>
+           phy[CONTROL].scrambler
+          </code>
+          and
+          <code>
+           phy[DATA].scrambler
+          </code>
+          parameters available in many UnetStack-based modems provide a basic level of protection against malicious hackers by scrambling each transmission in the modem. Setting the
+          <code>
+           scrambler
+          </code>
+          to a "secret" value (64-bit key) in all your nodes enables this basic protection. Do bear in mind that scrambling is not a crypotgraphically strong technique, and will not protect you from a serious hacker. The technique is also vulnerable to playback attack, even if the malicious hacker is unable to unscramble your frame.
+         </td>
+        </tr>
+       </table>
+      </div>
+      <div class="paragraph">
+       <p>
+        All remote commands (
+        <code>
+         tell
+        </code>
+        ,
+        <code>
+         fget
+        </code>
+        ,
+        <code>
+         fput
+        </code>
+        ,
+        <code>
+         rsh
+        </code>
+        , and
+        <code>
+         ack
+        </code>
+        ) encountered in
+        <a href="unet-handbook_setting_up_small_networks.html#_sending_text_messages">
+         Section 5.4
+        </a>
+        and
+        <a href="unet-handbook_setting_up_small_networks.html#_file_transfer_and_remote_access">
+         Section 5.5
+        </a>
+        are implemented by the shell using the above messages. For example, the same effect as the
+        <code>
+         tell
+        </code>
+        command can be achieved by directly sending the
+        <code>
+         RemoteTextReq
+        </code>
+        message to the
+        <code>
+         remote
+        </code>
+        agent on node A:
+       </p>
+      </div>
+      <div class="listingblock">
+       <div class="content">
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> remote <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RemoteTextReq(to: host('B'), text: 'hello!', ack: true)
+</span><span class="go">AGREE
+</span><span class="gp">remote &gt;</span><span class="o">&gt;</span> RemoteSuccessNtf:INFORM[RemoteTextReq:REQUEST[to:31 text:hello! ack:true]]</code></pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        We should see the text message delivered on node B:
+       </p>
+      </div>
+      <div class="listingblock">
+       <div class="content">
+        <pre class="rouge highlight"><code data-lang="console"><span class="go">[232]: hello!</span></code></pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        We encourage you to re-read
+        <a href="unet-handbook_setting_up_small_networks.html#_file_transfer_and_remote_access">
+         Section 5.5
+        </a>
+        and explore the help (
+        <code>
+         help remote
+        </code>
+        ) to fully appreciate the use of this service.
+       </p>
+      </div>
      </div>
     </div>
    </div>

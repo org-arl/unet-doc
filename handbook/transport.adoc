@@ -32,7 +32,7 @@ The default implementation of the TRANSPORT service is the `SWTransport` class. 
 
 We briefly explain each parameter below:
 
-`dsp`:: Datagram service provider. This is the agent that the transport uses to deliver datagrams. Using `router` for this parameter enables multi-hop networks.
+`dsp`:: Datagram service provider. This is the agent that is used to deliver datagrams. Using `router` for this parameter enables multi-hop networks.
 
 `maxHops`:: Maximum number of hops expected to destination nodes.
 
