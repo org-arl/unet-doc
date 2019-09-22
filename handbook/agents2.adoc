@@ -402,7 +402,7 @@ Here we have defined a PDU with two fields – type (8 bit) and duration (16 bit
 
 .Encoding and decoding PDUs
 ****
-Since encoding and decoding of PDUs is required in almost all protocol implementations, UnetStack provides a https://unetstack.net/javadoc/org/arl/unet/PDU.html[`PDU`^] class to help you with it. The `PDU` class provides a declarative syntax for describing the PDU format. Once you have the PDU format declared, encoding and decoding PDUs is simply a matter of calling the `encode()` and `decode()` methods.
+Since encoding and decoding of PDUs is required in almost all protocol implementations, UnetStack provides a {url-unet-javadoc}org/arl/unet/PDU.html[`PDU`^] class to help you with it. The `PDU` class provides a declarative syntax for describing the PDU format. Once you have the PDU format declared, encoding and decoding PDUs is simply a matter of calling the `encode()` and `decode()` methods.
 
 This is best illustrated with an example that you can try on a shell:
 
@@ -446,7 +446,7 @@ The FSM states are defined using the `state(...)` declarations. The actions to t
 
 .Finite state machines (FSMs)
 ****
-FSMs are very commonly used in network protocol development. Although fjåge provides a https://org-arl.github.io/fjage/javadoc/org/arl/fjage/FSMBehavior.html[`FSMBehavior`^] that helps implement FSMs in agents, it can be tedious to set up. UnetStack provides a https://unetstack.net/javadoc/org/arl/unet/FSMBuilder.html[`FSMBuilder`^] to make setting up FSM behaviors in agents easy.
+FSMs are very commonly used in network protocol development. Although fjåge provides a {url-fjage-javadoc}org/arl/fjage/FSMBehavior.html[`FSMBehavior`^] that helps implement FSMs in agents, it can be tedious to set up. UnetStack provides a {url-unet-javadoc}org/arl/unet/FSMBuilder.html[`FSMBuilder`^] to make setting up FSM behaviors in agents easy.
 
 Here are the key steps in setting up the FSM:
 

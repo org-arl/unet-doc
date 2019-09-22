@@ -20,7 +20,7 @@ In a typical Unet, gateway nodes may have several LINK service providers, with t
 
 Agents offering the LINK service may support the following parameter:
 
-* https://unetstack.net/javadoc/org/arl/unet/link/LinkParam.html#dataRate[`dataRate`^] -- nominal data rate of link in bps (0 if unknown)
+* {url-unet-javadoc}org/arl/unet/link/LinkParam.html#dataRate[`dataRate`^] -- nominal data rate of link in bps (0 if unknown)
 
 === ReliableLink
 

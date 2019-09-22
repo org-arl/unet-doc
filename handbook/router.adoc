@@ -30,17 +30,17 @@ Agents offering the ROUTE_MAINTENANCE service generate `RouteDiscoveryNtf` messa
 
 Agents providing the ROUTE_MAINTENANCE service support the following messages:
 
-* https://unetstack.net/javadoc/org/arl/unet/net/RouteDiscoveryReq.html[`RouteDiscoveryReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- start route discovery to a specified node
-* https://unetstack.net/javadoc/org/arl/unet/net/RouteTraceReq.html[`RouteTraceReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- trace current route to a specified node
-* https://unetstack.net/javadoc/org/arl/unet/net/RouteDiscoveryNtf.html[`RouteDiscoveryNtf`^] -- sent to the agent's topic when a route is discovered
-* https://unetstack.net/javadoc/org/arl/unet/net/RouteTraceNtf.html[`RouteTraceNtf`^] -- sent to requestor when a requested trace is successfully completed
+* {url-unet-javadoc}org/arl/unet/net/RouteDiscoveryReq.html[`RouteDiscoveryReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- start route discovery to a specified node
+* {url-unet-javadoc}org/arl/unet/net/RouteTraceReq.html[`RouteTraceReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- trace current route to a specified node
+* {url-unet-javadoc}org/arl/unet/net/RouteDiscoveryNtf.html[`RouteDiscoveryNtf`^] -- sent to the agent's topic when a route is discovered
+* {url-unet-javadoc}org/arl/unet/net/RouteTraceNtf.html[`RouteTraceNtf`^] -- sent to requestor when a requested trace is successfully completed
 
 === Router and the route discovery protocol
 
 The `Router` class (agent name `router`) provides the ROUTING service in the standard stack. Apart from supporting the `routes`, `addroute`, `delroute` and `delroutesto` commands, this agent exposes two parameters:
 
-* https://unetstack.net/javadoc/org/arl/unet/net/RouterParam.html#auto1hop[`auto1hop`] -- automatically assume single-hop routes available, if no entry for destination node in routing table
-* https://unetstack.net/javadoc/org/arl/unet/net/RouterParam.html#defaultLink[`defaultLink`] -- default LINK service provider to use for datagram transmission, if unspecified while adding a route
+* {url-unet-javadoc}org/arl/unet/net/RouterParam.html#auto1hop[`auto1hop`] -- automatically assume single-hop routes available, if no entry for destination node in routing table
+* {url-unet-javadoc}org/arl/unet/net/RouterParam.html#defaultLink[`defaultLink`] -- default LINK service provider to use for datagram transmission, if unspecified while adding a route
 
 Without `auto1hop` enabled, every route must be explicitly added to the routing table (even when the node is accessible over a single hop). By enabling `auto1hop`, we tell the router than any node that isn't explicitly added to the routing table is assumed to be accessible over a single hop. This is the default setting:
 

@@ -4340,10 +4340,10 @@ The <code>MTU</code> parameter is the DATAGRAM service is actually <code>org.arl
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/DatagramReq.html" target="_blank" rel="noopener"><code>DatagramReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code></p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/DatagramReq.html" target="_blank" rel="noopener"><code>DatagramReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code></p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/DatagramNtf.html" target="_blank" rel="noopener"><code>DatagramNtf</code></a>&#8201;&#8212;&#8201;sent to the agent&#8217;s topic, when a datagram is received</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/DatagramNtf.html" target="_blank" rel="noopener"><code>DatagramNtf</code></a>&#8201;&#8212;&#8201;sent to the agent&#8217;s topic, when a datagram is received</p>
 </li>
 </ul>
 </div>
@@ -4356,7 +4356,7 @@ The <code>MTU</code> parameter is the DATAGRAM service is actually <code>org.arl
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/DatagramParam.html#MTU" target="_blank" rel="noopener"><code>MTU</code></a>&#8201;&#8212;&#8201;maximum datagram size in bytes</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/DatagramParam.html#MTU" target="_blank" rel="noopener"><code>MTU</code></a>&#8201;&#8212;&#8201;maximum datagram size in bytes</p>
 </li>
 </ul>
 </div>
@@ -4367,13 +4367,13 @@ The <code>MTU</code> parameter is the DATAGRAM service is actually <code>org.arl
 <p>Agents may support several optional capabilities:</p>
 </div>
 <div class="paragraph">
-<p><strong><a href="https://unetstack.net/javadoc/org/arl/unet/DatagramCapability.html#FRAGMENTATION" target="_blank" rel="noopener">FRAGMENTATION</a></strong></p>
+<p><strong><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/DatagramCapability.html#FRAGMENTATION" target="_blank" rel="noopener">FRAGMENTATION</a></strong></p>
 </div>
 <div class="paragraph">
 <p>Agents capable of fragmentation may break a datagram into smaller datagrams, transmit each of them across the network, and reassemble them on the peer node.</p>
 </div>
 <div class="paragraph">
-<p><strong><a href="https://unetstack.net/javadoc/org/arl/unet/DatagramCapability.html#RELIABILITY" target="_blank" rel="noopener">RELIABILITY</a></strong></p>
+<p><strong><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/DatagramCapability.html#RELIABILITY" target="_blank" rel="noopener">RELIABILITY</a></strong></p>
 </div>
 <div class="paragraph">
 <p>If an agent advertises relaibility, it is able to acknowledge the successful delivery of the datagram. Reliability is enabled on a per-datagram basis by setting the <code>reliability</code> flag in the <code>DatagramReq</code>. Depending on whether the datagram could be successfully delivered or not, one of the following notifications is generated:</p>
@@ -4381,15 +4381,15 @@ The <code>MTU</code> parameter is the DATAGRAM service is actually <code>org.arl
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/DatagramDeliveryNtf.html" target="_blank" rel="noopener"><code>DatagramDeliveryNtf</code></a>&#8201;&#8212;&#8201;sent to requestor</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/DatagramDeliveryNtf.html" target="_blank" rel="noopener"><code>DatagramDeliveryNtf</code></a>&#8201;&#8212;&#8201;sent to requestor</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/DatagramFailureNtf.html" target="_blank" rel="noopener"><code>DatagramFailureNtf</code></a>&#8201;&#8212;&#8201;sent to requestor</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/DatagramFailureNtf.html" target="_blank" rel="noopener"><code>DatagramFailureNtf</code></a>&#8201;&#8212;&#8201;sent to requestor</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p><strong><a href="https://unetstack.net/javadoc/org/arl/unet/DatagramCapability.html#PROGRESS" target="_blank" rel="noopener">PROGRESS</a></strong></p>
+<p><strong><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/DatagramCapability.html#PROGRESS" target="_blank" rel="noopener">PROGRESS</a></strong></p>
 </div>
 <div class="paragraph">
 <p>Agents capable of reporting progress do so by periodically sending the following notification for long data transfers:</p>
@@ -4397,12 +4397,12 @@ The <code>MTU</code> parameter is the DATAGRAM service is actually <code>org.arl
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/DatagramProgressNtf.html" target="_blank" rel="noopener"><code>DatagramProgressNtf</code></a>&#8201;&#8212;&#8201;sent to requestor on the transmitting node, and agent&#8217;s topic on the receiving node</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/DatagramProgressNtf.html" target="_blank" rel="noopener"><code>DatagramProgressNtf</code></a>&#8201;&#8212;&#8201;sent to requestor on the transmitting node, and agent&#8217;s topic on the receiving node</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p><strong><a href="https://unetstack.net/javadoc/org/arl/unet/DatagramCapability.html#CANCELLATION" target="_blank" rel="noopener">CANCELLATION</a></strong></p>
+<p><strong><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/DatagramCapability.html#CANCELLATION" target="_blank" rel="noopener">CANCELLATION</a></strong></p>
 </div>
 <div class="paragraph">
 <p>If an agent supports cancellation, it honors the following request for stopping an ongoing data transfer:</p>
@@ -4410,18 +4410,18 @@ The <code>MTU</code> parameter is the DATAGRAM service is actually <code>org.arl
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/DatagramCancelReq.html" target="_blank" rel="noopener"><code>DatagramCancelReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code> / <code>NOT_UNDERSTOOD</code> (if unsupported)</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/DatagramCancelReq.html" target="_blank" rel="noopener"><code>DatagramCancelReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code> / <code>NOT_UNDERSTOOD</code> (if unsupported)</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p><strong><a href="https://unetstack.net/javadoc/org/arl/unet/DatagramCapability.html#PRIORITY" target="_blank" rel="noopener">PRIORITY</a></strong></p>
+<p><strong><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/DatagramCapability.html#PRIORITY" target="_blank" rel="noopener">PRIORITY</a></strong></p>
 </div>
 <div class="paragraph">
 <p>Agents advertising this capability prioritize datagrams with higher <code>priority</code> indicated in the <code>DatagramReq</code>.</p>
 </div>
 <div class="paragraph">
-<p><strong><a href="https://unetstack.net/javadoc/org/arl/unet/DatagramCapability.html#TTL" target="_blank" rel="noopener">TTL</a></strong></p>
+<p><strong><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/DatagramCapability.html#TTL" target="_blank" rel="noopener">TTL</a></strong></p>
 </div>
 <div class="paragraph">
 <p>Agents that spool <code>DatagramReq</code> over extended periods of time usually advertise this capability. They discard <code>DatagramReq</code> that are undelivered after the time-to-live (<code>ttl</code> attribute of the <code>DatagramReq</code>) has expired.</p>
@@ -4721,31 +4721,31 @@ Agents implementing the PHYSICAL service typically directly access the channel, 
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/TxFrameReq.html" target="_blank" rel="noopener"><code>TxFrameReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;transmit a frame</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/TxFrameReq.html" target="_blank" rel="noopener"><code>TxFrameReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;transmit a frame</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/TxRawFrameReq.html" target="_blank" rel="noopener"><code>TxRawFrameReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;transmit a frame without headers</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/TxRawFrameReq.html" target="_blank" rel="noopener"><code>TxRawFrameReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;transmit a frame without headers</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/ClearReq.html" target="_blank" rel="noopener"><code>ClearReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;cancel all ongoing and pending transmissions</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/ClearReq.html" target="_blank" rel="noopener"><code>ClearReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;cancel all ongoing and pending transmissions</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/RxFrameNtf.html" target="_blank" rel="noopener"><code>RxFrameNtf</code></a>&#8201;&#8212;&#8201;sent to agent&#8217;s topic when a frame addressed to the node is received, and the agent&#8217;s <a href="https://unetstack.net/javadoc/org/arl/unet/phy/Physical.html#SNOOP" target="_blank" rel="noopener"><code>SNOOP</code></a> sub-topic when a frame addressed to other nodes is overheard</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/RxFrameNtf.html" target="_blank" rel="noopener"><code>RxFrameNtf</code></a>&#8201;&#8212;&#8201;sent to agent&#8217;s topic when a frame addressed to the node is received, and the agent&#8217;s <a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/Physical.html#SNOOP" target="_blank" rel="noopener"><code>SNOOP</code></a> sub-topic when a frame addressed to other nodes is overheard</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/TxFrameNtf.html" target="_blank" rel="noopener"><code>TxFrameNtf</code></a>&#8201;&#8212;&#8201;sent to requestor when a frame is transmitted</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/TxFrameNtf.html" target="_blank" rel="noopener"><code>TxFrameNtf</code></a>&#8201;&#8212;&#8201;sent to requestor when a frame is transmitted</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/RxFrameStartNtf.html" target="_blank" rel="noopener"><code>RxFrameStartNtf</code></a>&#8201;&#8212;&#8201;sent to agent&#8217;s topic when a frame is detected</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/RxFrameStartNtf.html" target="_blank" rel="noopener"><code>RxFrameStartNtf</code></a>&#8201;&#8212;&#8201;sent to agent&#8217;s topic when a frame is detected</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/TxFrameStartNtf.html" target="_blank" rel="noopener"><code>TxFrameStartNtf</code></a>&#8201;&#8212;&#8201;sent to agent&#8217;s topic when a frame transmission is started</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/TxFrameStartNtf.html" target="_blank" rel="noopener"><code>TxFrameStartNtf</code></a>&#8201;&#8212;&#8201;sent to agent&#8217;s topic when a frame transmission is started</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/BadFrameNtf.html" target="_blank" rel="noopener"><code>BadFrameNtf</code></a>&#8201;&#8212;&#8201;sent to agent&#8217;s topic when a bad frame is received</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/BadFrameNtf.html" target="_blank" rel="noopener"><code>BadFrameNtf</code></a>&#8201;&#8212;&#8201;sent to agent&#8217;s topic when a bad frame is received</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/CollisionNtf.html" target="_blank" rel="noopener"><code>CollisionNtf</code></a>&#8201;&#8212;&#8201;sent to agent&#8217;s topic when a frame is detected (and dropped) while another frame is being received</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/CollisionNtf.html" target="_blank" rel="noopener"><code>CollisionNtf</code></a>&#8201;&#8212;&#8201;sent to agent&#8217;s topic when a frame is detected (and dropped) while another frame is being received</p>
 </li>
 </ul>
 </div>
@@ -4761,28 +4761,28 @@ Agents implementing the PHYSICAL service typically directly access the channel, 
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#rxEnable" target="_blank" rel="noopener"><code>rxEnable</code></a>&#8201;&#8212;&#8201;true if reception is enabled, false otherwise</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/PhysicalParam.html#rxEnable" target="_blank" rel="noopener"><code>rxEnable</code></a>&#8201;&#8212;&#8201;true if reception is enabled, false otherwise</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#propagationSpeed" target="_blank" rel="noopener"><code>propagationSpeed</code></a>&#8201;&#8212;&#8201;signal propagation speed in m/s</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/PhysicalParam.html#propagationSpeed" target="_blank" rel="noopener"><code>propagationSpeed</code></a>&#8201;&#8212;&#8201;signal propagation speed in m/s</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#time" target="_blank" rel="noopener"><code>time</code></a>&#8201;&#8212;&#8201;current physical layer clock time in microseconds</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/PhysicalParam.html#time" target="_blank" rel="noopener"><code>time</code></a>&#8201;&#8212;&#8201;current physical layer clock time in microseconds</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#busy" target="_blank" rel="noopener"><code>busy</code></a>&#8201;&#8212;&#8201;true if modem is busy transmitting/receiving (carrier sense), false if modem is idle</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/PhysicalParam.html#busy" target="_blank" rel="noopener"><code>busy</code></a>&#8201;&#8212;&#8201;true if modem is busy transmitting/receiving (carrier sense), false if modem is idle</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#refPowerLevel" target="_blank" rel="noopener"><code>refPowerLevel</code></a>&#8201;&#8212;&#8201;reference source level in dB (re micro-Pascals @ 1m for underwater modems)</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/PhysicalParam.html#refPowerLevel" target="_blank" rel="noopener"><code>refPowerLevel</code></a>&#8201;&#8212;&#8201;reference source level in dB (re micro-Pascals @ 1m for underwater modems)</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#maxPowerLevel" target="_blank" rel="noopener"><code>maxPowerLevel</code></a>&#8201;&#8212;&#8201;maximum allowable transmission power in dB re <code>refPowerLevel</code></p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/PhysicalParam.html#maxPowerLevel" target="_blank" rel="noopener"><code>maxPowerLevel</code></a>&#8201;&#8212;&#8201;maximum allowable transmission power in dB re <code>refPowerLevel</code></p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#minPowerLevel" target="_blank" rel="noopener"><code>minPowerLevel</code></a>&#8201;&#8212;&#8201;minimum allowable transmission power in dB re <code>refPowerLevel</code></p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/PhysicalParam.html#minPowerLevel" target="_blank" rel="noopener"><code>minPowerLevel</code></a>&#8201;&#8212;&#8201;minimum allowable transmission power in dB re <code>refPowerLevel</code></p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#rxSensitivity" target="_blank" rel="noopener"><code>rxSensitivity</code></a>&#8201;&#8212;&#8201;reference receive sensitivity (dB re micro Pascals for underwater modems)</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/PhysicalParam.html#rxSensitivity" target="_blank" rel="noopener"><code>rxSensitivity</code></a>&#8201;&#8212;&#8201;reference receive sensitivity (dB re micro Pascals for underwater modems)</p>
 </li>
 </ul>
 </div>
@@ -4804,31 +4804,31 @@ All physical layer timestamps are in microseconds as per the clock provided by t
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#frameDuration" target="_blank" rel="noopener"><code>frameDuration</code></a>&#8201;&#8212;&#8201;frame duration in seconds (maximum duration in case of variable frame length)</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/PhysicalChannelParam.html#frameDuration" target="_blank" rel="noopener"><code>frameDuration</code></a>&#8201;&#8212;&#8201;frame duration in seconds (maximum duration in case of variable frame length)</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#powerLevel" target="_blank" rel="noopener"><code>powerLevel</code></a>&#8201;&#8212;&#8201;transmission power in dB re <code>refPowerLevel</code></p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/PhysicalChannelParam.html#powerLevel" target="_blank" rel="noopener"><code>powerLevel</code></a>&#8201;&#8212;&#8201;transmission power in dB re <code>refPowerLevel</code></p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#errorDetection" target="_blank" rel="noopener"><code>errorDetection</code></a>&#8201;&#8212;&#8201;number of bytes used for error detection</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/PhysicalChannelParam.html#errorDetection" target="_blank" rel="noopener"><code>errorDetection</code></a>&#8201;&#8212;&#8201;number of bytes used for error detection</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#frameLength" target="_blank" rel="noopener"><code>frameLength</code></a>&#8201;&#8212;&#8201;frame length in bytes (maximum length in case of variable frame length)</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/PhysicalChannelParam.html#frameLength" target="_blank" rel="noopener"><code>frameLength</code></a>&#8201;&#8212;&#8201;frame length in bytes (maximum length in case of variable frame length)</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#maxFrameLength" target="_blank" rel="noopener"><code>maxFrameLength</code></a>&#8201;&#8212;&#8201;maximum possible frame length in bytes</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/PhysicalChannelParam.html#maxFrameLength" target="_blank" rel="noopener"><code>maxFrameLength</code></a>&#8201;&#8212;&#8201;maximum possible frame length in bytes</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#fec" target="_blank" rel="noopener"><code>fec</code></a>&#8201;&#8212;&#8201;forward error correction (FEC) code (0 = none/default, otherwise base 1 index from fecList)</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/PhysicalChannelParam.html#fec" target="_blank" rel="noopener"><code>fec</code></a>&#8201;&#8212;&#8201;forward error correction (FEC) code (0 = none/default, otherwise base 1 index from fecList)</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#fecList" target="_blank" rel="noopener"><code>fecList</code></a>&#8201;&#8212;&#8201;list of available FEC code names (in the order of increasing robustness), may be null if FEC change not supported</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/PhysicalChannelParam.html#fecList" target="_blank" rel="noopener"><code>fecList</code></a>&#8201;&#8212;&#8201;list of available FEC code names (in the order of increasing robustness), may be null if FEC change not supported</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#dataRate" target="_blank" rel="noopener"><code>dataRate</code></a>&#8201;&#8212;&#8201;effective frame data rate (bps)</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/PhysicalChannelParam.html#dataRate" target="_blank" rel="noopener"><code>dataRate</code></a>&#8201;&#8212;&#8201;effective frame data rate (bps)</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#llr" target="_blank" rel="noopener"><code>llr</code></a>&#8201;&#8212;&#8201;true to enable log-likelihood ratio reporting in <code>BadFrameNtf</code>, false otherwise</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/PhysicalChannelParam.html#llr" target="_blank" rel="noopener"><code>llr</code></a>&#8201;&#8212;&#8201;true to enable log-likelihood ratio reporting in <code>BadFrameNtf</code>, false otherwise</p>
 </li>
 </ul>
 </div>
@@ -4855,10 +4855,10 @@ All physical layer timestamps are in microseconds as per the clock provided by t
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/Physical.html#CONTROL" target="_blank" rel="noopener"><code>CONTROL</code></a> frame = 1</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/Physical.html#CONTROL" target="_blank" rel="noopener"><code>CONTROL</code></a> frame = 1</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/Physical.html#DATA" target="_blank" rel="noopener"><code>DATA</code></a> frame = 2</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/Physical.html#DATA" target="_blank" rel="noopener"><code>DATA</code></a> frame = 2</p>
 </li>
 </ul>
 </div>
@@ -4869,7 +4869,7 @@ All physical layer timestamps are in microseconds as per the clock provided by t
 <p>Agents may support several optional capabilities:</p>
 </div>
 <div class="paragraph">
-<p><strong><a href="https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalCapability.html#TIMESTAMPED_TX" target="_blank" rel="noopener">TIMESTAMPED_TX</a></strong></p>
+<p><strong><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/PhysicalCapability.html#TIMESTAMPED_TX" target="_blank" rel="noopener">TIMESTAMPED_TX</a></strong></p>
 </div>
 <div class="paragraph">
 <p>Agents advertising this capability are able to transmit frames with a transmission timestamp (start of transmission) encapsulated in the frame. This is requested through the <code>timestamped</code> flag in the <code>TxFrameReq</code> message. In order to do the timestamping, the frame has to be scheduled for transmission after a short delay. This delay is configured via an additional parameter:</p>
@@ -4877,18 +4877,18 @@ All physical layer timestamps are in microseconds as per the clock provided by t
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#timestampedTxDelay" target="_blank" rel="noopener"><code>timestampedTxDelay</code></a>&#8201;&#8212;&#8201;delay in seconds to transmit timestamped frames</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/PhysicalParam.html#timestampedTxDelay" target="_blank" rel="noopener"><code>timestampedTxDelay</code></a>&#8201;&#8212;&#8201;delay in seconds to transmit timestamped frames</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p><strong><a href="https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalCapability.html#TIMED_TX" target="_blank" rel="noopener">TIMED_TX</a></strong></p>
+<p><strong><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/PhysicalCapability.html#TIMED_TX" target="_blank" rel="noopener">TIMED_TX</a></strong></p>
 </div>
 <div class="paragraph">
 <p>Agents advertising this capability are able to start transmitting a frame at a specified time (on a best effort basis). The time is given in the <code>txTime</code> attribute of the <code>TxFrameReq</code> message.</p>
 </div>
 <div class="paragraph">
-<p><strong><a href="https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalCapability.html#JANUS" target="_blank" rel="noopener">JANUS</a></strong></p>
+<p><strong><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/PhysicalCapability.html#JANUS" target="_blank" rel="noopener">JANUS</a></strong></p>
 </div>
 <div class="paragraph">
 <p>If an agent supports the ANEP-87 JANUS standard, it advertises this capability. An additional frame type (indexed parameter set) is defined:</p>
@@ -4896,7 +4896,7 @@ All physical layer timestamps are in microseconds as per the clock provided by t
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/Physical.html#JANUS" target="_blank" rel="noopener"><code>JANUS</code></a> frame = 3</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/Physical.html#JANUS" target="_blank" rel="noopener"><code>JANUS</code></a> frame = 3</p>
 </li>
 </ul>
 </div>
@@ -4906,7 +4906,7 @@ All physical layer timestamps are in microseconds as per the clock provided by t
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#janus" target="_blank" rel="noopener"><code>janus</code></a>&#8201;&#8212;&#8201;true for JANUS frame type, false for all other frame types</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/PhysicalChannelParam.html#janus" target="_blank" rel="noopener"><code>janus</code></a>&#8201;&#8212;&#8201;true for JANUS frame type, false for all other frame types</p>
 </li>
 </ul>
 </div>
@@ -4916,15 +4916,15 @@ All physical layer timestamps are in microseconds as per the clock provided by t
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/TxJanusFrameReq.html" target="_blank" rel="noopener"><code>TxJanusFrameReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;transmit a JANUS frame</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/TxJanusFrameReq.html" target="_blank" rel="noopener"><code>TxJanusFrameReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;transmit a JANUS frame</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/RxJanusFrameNtf.html" target="_blank" rel="noopener"><code>RxJanusFrameNtf</code></a>&#8201;&#8212;&#8201;sent to agent&#8217;s topic when a JANUS frame is received</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/RxJanusFrameNtf.html" target="_blank" rel="noopener"><code>RxJanusFrameNtf</code></a>&#8201;&#8212;&#8201;sent to agent&#8217;s topic when a JANUS frame is received</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p><strong><a href="https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalCapability.html#FEC_DECODING" target="_blank" rel="noopener">FEC_DECODING</a></strong></p>
+<p><strong><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/PhysicalCapability.html#FEC_DECODING" target="_blank" rel="noopener">FEC_DECODING</a></strong></p>
 </div>
 <div class="paragraph">
 <p>If an agent advertises this capability, it supports an additional request to perform FEC decoding:</p>
@@ -4932,7 +4932,7 @@ All physical layer timestamps are in microseconds as per the clock provided by t
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/FecDecodeReq.html" target="_blank" rel="noopener"><code>FecDecodeReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;attempt FEC decoding a frame, and if successful, send out a <code>RxFrameNtf</code></p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/FecDecodeReq.html" target="_blank" rel="noopener"><code>FecDecodeReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;attempt FEC decoding a frame, and if successful, send out a <code>RxFrameNtf</code></p>
 </li>
 </ul>
 </div>
@@ -5535,13 +5535,13 @@ Agents implementing the baseband service typically directly access the channel, 
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/bb/TxBasebandSignalReq.html" target="_blank" rel="noopener"><code>TxBasebandSignalReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;transmit a signal</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/bb/TxBasebandSignalReq.html" target="_blank" rel="noopener"><code>TxBasebandSignalReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;transmit a signal</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/bb/RecordBasebandSignalReq.html" target="_blank" rel="noopener"><code>RecordBasebandSignalReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;record a signal</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/bb/RecordBasebandSignalReq.html" target="_blank" rel="noopener"><code>RecordBasebandSignalReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;record a signal</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/bb/RxBasebandSignalNtf.html" target="_blank" rel="noopener"><code>RxBasebandSignalNtf</code></a>&#8201;&#8212;&#8201;signal recording sent to requestor, or to agent&#8217;s topic if the recording was not specifically requested</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/bb/RxBasebandSignalNtf.html" target="_blank" rel="noopener"><code>RxBasebandSignalNtf</code></a>&#8201;&#8212;&#8201;signal recording sent to requestor, or to agent&#8217;s topic if the recording was not specifically requested</p>
 </li>
 </ul>
 </div>
@@ -5560,19 +5560,19 @@ Agents implementing the baseband service typically directly access the channel, 
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/bb/BasebandParam.html#carrierFrequency" target="_blank" rel="noopener"><code>carrierFrequency</code></a>&#8201;&#8212;&#8201;default carrier frequency for baseband signals (Hz)</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/bb/BasebandParam.html#carrierFrequency" target="_blank" rel="noopener"><code>carrierFrequency</code></a>&#8201;&#8212;&#8201;default carrier frequency for baseband signals (Hz)</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/bb/BasebandParam.html#basebandRate" target="_blank" rel="noopener"><code>basebandRate</code></a>&#8201;&#8212;&#8201;default baseband sampling rate for baseband signals (samples/s)</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/bb/BasebandParam.html#basebandRate" target="_blank" rel="noopener"><code>basebandRate</code></a>&#8201;&#8212;&#8201;default baseband sampling rate for baseband signals (samples/s)</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/bb/BasebandParam.html#maxPreambleID" target="_blank" rel="noopener"><code>maxPreambleID</code></a>&#8201;&#8212;&#8201;maximum preamble identifier supported</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/bb/BasebandParam.html#maxPreambleID" target="_blank" rel="noopener"><code>maxPreambleID</code></a>&#8201;&#8212;&#8201;maximum preamble identifier supported</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/bb/BasebandParam.html#maxSignalLength" target="_blank" rel="noopener"><code>maxSignalLength</code></a>&#8201;&#8212;&#8201;maximum baseband signal length (in samples) for transmission/reception</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/bb/BasebandParam.html#maxSignalLength" target="_blank" rel="noopener"><code>maxSignalLength</code></a>&#8201;&#8212;&#8201;maximum baseband signal length (in samples) for transmission/reception</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/bb/BasebandParam.html#signalPowerLevel" target="_blank" rel="noopener"><code>signalPowerLevel</code></a>&#8201;&#8212;&#8201;signal transmission power level in dB re <code>refPowerLevel</code> (<code>refPowerLevel</code> is specified in the PHYSICAL service)</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/bb/BasebandParam.html#signalPowerLevel" target="_blank" rel="noopener"><code>signalPowerLevel</code></a>&#8201;&#8212;&#8201;signal transmission power level in dB re <code>refPowerLevel</code> (<code>refPowerLevel</code> is specified in the PHYSICAL service)</p>
 </li>
 </ul>
 </div>
@@ -5583,13 +5583,13 @@ Agents implementing the baseband service typically directly access the channel, 
 <p>Agents may support several optional capabilities:</p>
 </div>
 <div class="paragraph">
-<p><strong><a href="https://unetstack.net/javadoc/org/arl/unet/bb/BasebandCapability.html#TIMED_BBTX" target="_blank" rel="noopener">TIMED_BBTX</a></strong></p>
+<p><strong><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/bb/BasebandCapability.html#TIMED_BBTX" target="_blank" rel="noopener">TIMED_BBTX</a></strong></p>
 </div>
 <div class="paragraph">
 <p>Agents advertising this capability are able to transmit signals at specified time (on a best effort basis). The time is given in the <code>txTime</code> attribute of the <code>TxBasebandSignalReq</code> message.</p>
 </div>
 <div class="paragraph">
-<p><strong><a href="https://unetstack.net/javadoc/org/arl/unet/bb/BasebandCapability.html#TIMED_BBREC" target="_blank" rel="noopener">TIMED_BBREC</a></strong></p>
+<p><strong><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/bb/BasebandCapability.html#TIMED_BBREC" target="_blank" rel="noopener">TIMED_BBREC</a></strong></p>
 </div>
 <div class="paragraph">
 <p>Agents advertising this capability are able to record signals at specified time (on a best effort basis). The time is given in the <code>recTime</code> attribute of the <code>RecordBasebandSignalReq</code> message.</p>
@@ -6118,22 +6118,22 @@ The name of the signals file and number of files kept through log rotation is co
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/RangeReq.html" target="_blank" rel="noopener"><code>RangeReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;measure range to peer node via OWTT or TWTT</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/RangeReq.html" target="_blank" rel="noopener"><code>RangeReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;measure range to peer node via OWTT or TWTT</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/BeaconReq.html" target="_blank" rel="noopener"><code>BeaconReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;transmit beacon message for OWTT</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/BeaconReq.html" target="_blank" rel="noopener"><code>BeaconReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;transmit beacon message for OWTT</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/SyncInfoReq.html" target="_blank" rel="noopener"><code>SyncInfoReq</code></a> &#8658; <a href="https://unetstack.net/javadoc/org/arl/unet/phy/SyncInfoRsp.html" target="_blank" rel="noopener"><code>SyncInfoRsp</code></a> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;get synchronization information for peer node</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/SyncInfoReq.html" target="_blank" rel="noopener"><code>SyncInfoReq</code></a> &#8658; <a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/SyncInfoRsp.html" target="_blank" rel="noopener"><code>SyncInfoRsp</code></a> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;get synchronization information for peer node</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/ClearSyncReq.html" target="_blank" rel="noopener"><code>ClearSyncReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;clear synchronization information for peer node</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/ClearSyncReq.html" target="_blank" rel="noopener"><code>ClearSyncReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;clear synchronization information for peer node</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/RangeNtf.html" target="_blank" rel="noopener"><code>RangeNtf</code></a>&#8201;&#8212;&#8201;sent to agent&#8217;s topic when range information for peer node becomes available</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/RangeNtf.html" target="_blank" rel="noopener"><code>RangeNtf</code></a>&#8201;&#8212;&#8201;sent to agent&#8217;s topic when range information for peer node becomes available</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/BadRangeNtf.html" target="_blank" rel="noopener"><code>BadRangeNtf</code></a>&#8201;&#8212;&#8201;sent to agent&#8217;s topic when invalid range information for peer node indicates potentially outdated synchronization with that node</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/BadRangeNtf.html" target="_blank" rel="noopener"><code>BadRangeNtf</code></a>&#8201;&#8212;&#8201;sent to agent&#8217;s topic when invalid range information for peer node indicates potentially outdated synchronization with that node</p>
 </li>
 </ul>
 </div>
@@ -6149,19 +6149,19 @@ The name of the signals file and number of files kept through log rotation is co
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/RangeParam.html#channel" target="_blank" rel="noopener"><code>channel</code></a>&#8201;&#8212;&#8201;channel (DATA/CONTROL) to use for ranging</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/RangeParam.html#channel" target="_blank" rel="noopener"><code>channel</code></a>&#8201;&#8212;&#8201;channel (DATA/CONTROL) to use for ranging</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/RangeParam.html#lifetime" target="_blank" rel="noopener"><code>lifetime</code></a>&#8201;&#8212;&#8201;lifetime or validity for synchronization information (seconds)</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/RangeParam.html#lifetime" target="_blank" rel="noopener"><code>lifetime</code></a>&#8201;&#8212;&#8201;lifetime or validity for synchronization information (seconds)</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/RangeParam.html#minRange" target="_blank" rel="noopener"><code>minRange</code></a>&#8201;&#8212;&#8201;minimum valid range (m)</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/RangeParam.html#minRange" target="_blank" rel="noopener"><code>minRange</code></a>&#8201;&#8212;&#8201;minimum valid range (m)</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/RangeParam.html#maxRange" target="_blank" rel="noopener"><code>maxRange</code></a>&#8201;&#8212;&#8201;maximum valid range (m)</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/RangeParam.html#maxRange" target="_blank" rel="noopener"><code>maxRange</code></a>&#8201;&#8212;&#8201;maximum valid range (m)</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/phy/RangeParam.html#maxBadRangeCnt" target="_blank" rel="noopener"><code>maxBadRangeCnt</code></a>&#8201;&#8212;&#8201;number of <code>BadRangeNtf</code> for peer node to discard synchronization information</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/phy/RangeParam.html#maxBadRangeCnt" target="_blank" rel="noopener"><code>maxBadRangeCnt</code></a>&#8201;&#8212;&#8201;number of <code>BadRangeNtf</code> for peer node to discard synchronization information</p>
 </li>
 </ul>
 </div>
@@ -6495,40 +6495,40 @@ on nodes B and C, if you subscribe to <code>phy</code>, in addition to the <code
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#nodeName" target="_blank" rel="noopener"><code>nodeName</code></a>&#8201;&#8212;&#8201;node name</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/nodeinfo/NodeInfoParam.html#nodeName" target="_blank" rel="noopener"><code>nodeName</code></a>&#8201;&#8212;&#8201;node name</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#address" target="_blank" rel="noopener"><code>address</code></a>&#8201;&#8212;&#8201;node address</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/nodeinfo/NodeInfoParam.html#address" target="_blank" rel="noopener"><code>address</code></a>&#8201;&#8212;&#8201;node address</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#addressSize" target="_blank" rel="noopener"><code>addressSize</code></a>&#8201;&#8212;&#8201;address size in bits (valid values are 8 or 16)</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/nodeinfo/NodeInfoParam.html#addressSize" target="_blank" rel="noopener"><code>addressSize</code></a>&#8201;&#8212;&#8201;address size in bits (valid values are 8 or 16)</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#time" target="_blank" rel="noopener"><code>time</code></a>&#8201;&#8212;&#8201;node time (read-only)</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/nodeinfo/NodeInfoParam.html#time" target="_blank" rel="noopener"><code>time</code></a>&#8201;&#8212;&#8201;node time (read-only)</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#canForward" target="_blank" rel="noopener"><code>canForward</code></a>&#8201;&#8212;&#8201;true if the node will forward datagrams to other nodes (routing)</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/nodeinfo/NodeInfoParam.html#canForward" target="_blank" rel="noopener"><code>canForward</code></a>&#8201;&#8212;&#8201;true if the node will forward datagrams to other nodes (routing)</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#origin" target="_blank" rel="noopener"><code>origin</code></a>&#8201;&#8212;&#8201;origin as (latitude, longitude)</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/nodeinfo/NodeInfoParam.html#origin" target="_blank" rel="noopener"><code>origin</code></a>&#8201;&#8212;&#8201;origin as (latitude, longitude)</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#location" target="_blank" rel="noopener"><code>location</code></a>&#8201;&#8212;&#8201;location as (x, y, z) in meters if origin set, otherwise (latitude, longitude, z)</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/nodeinfo/NodeInfoParam.html#location" target="_blank" rel="noopener"><code>location</code></a>&#8201;&#8212;&#8201;location as (x, y, z) in meters if origin set, otherwise (latitude, longitude, z)</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#mobility" target="_blank" rel="noopener"><code>mobility</code></a>&#8201;&#8212;&#8201;true if the node is mobile, false if it is fixed</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/nodeinfo/NodeInfoParam.html#mobility" target="_blank" rel="noopener"><code>mobility</code></a>&#8201;&#8212;&#8201;true if the node is mobile, false if it is fixed</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#speed" target="_blank" rel="noopener"><code>speed</code></a>&#8201;&#8212;&#8201;speed in m/s, if mobile node</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/nodeinfo/NodeInfoParam.html#speed" target="_blank" rel="noopener"><code>speed</code></a>&#8201;&#8212;&#8201;speed in m/s, if mobile node</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#heading" target="_blank" rel="noopener"><code>heading</code></a>&#8201;&#8212;&#8201;heading in degrees, 0 is North, measured clockwise, if mobile node</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/nodeinfo/NodeInfoParam.html#heading" target="_blank" rel="noopener"><code>heading</code></a>&#8201;&#8212;&#8201;heading in degrees, 0 is North, measured clockwise, if mobile node</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#turnRate" target="_blank" rel="noopener"><code>turnRate</code></a>&#8201;&#8212;&#8201;turn rate in degrees/s, measured clockwise, if mobile node</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/nodeinfo/NodeInfoParam.html#turnRate" target="_blank" rel="noopener"><code>turnRate</code></a>&#8201;&#8212;&#8201;turn rate in degrees/s, measured clockwise, if mobile node</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#diveRate" target="_blank" rel="noopener"><code>diveRate</code></a>&#8201;&#8212;&#8201;dive rate in m/s, if mobile node</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/nodeinfo/NodeInfoParam.html#diveRate" target="_blank" rel="noopener"><code>diveRate</code></a>&#8201;&#8212;&#8201;dive rate in m/s, if mobile node</p>
 </li>
 </ul>
 </div>
@@ -6541,10 +6541,10 @@ on nodes B and C, if you subscribe to <code>phy</code>, in addition to the <code
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#timeStability" target="_blank" rel="noopener"><code>timeStability</code></a>&#8201;&#8212;&#8201;time stability in ppm</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/nodeinfo/NodeInfoParam.html#timeStability" target="_blank" rel="noopener"><code>timeStability</code></a>&#8201;&#8212;&#8201;time stability in ppm</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/nodeinfo/NodeInfoParam.html#locationAccuracy" target="_blank" rel="noopener"><code>locationAccuracy</code></a>&#8201;&#8212;&#8201;location accuracy as (x, y, z) in meters</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/nodeinfo/NodeInfoParam.html#locationAccuracy" target="_blank" rel="noopener"><code>locationAccuracy</code></a>&#8201;&#8212;&#8201;location accuracy as (x, y, z) in meters</p>
 </li>
 </ul>
 </div>
@@ -6613,10 +6613,10 @@ on nodes B and C, if you subscribe to <code>phy</code>, in addition to the <code
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/addr/AddressAllocReq.html" target="_blank" rel="noopener"><code>AddressAllocReq</code></a> &#8658; <a href="https://unetstack.net/javadoc/org/arl/unet/addr/AddressAllocRsp.html" target="_blank" rel="noopener"><code>AddressAllocRsp</code></a> / <code>FAILURE</code>&#8201;&#8212;&#8201;request for allocation of address to node</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/addr/AddressAllocReq.html" target="_blank" rel="noopener"><code>AddressAllocReq</code></a> &#8658; <a href="https://unetstack.net/javadoc/index.html?org/arl/unet/addr/AddressAllocRsp.html" target="_blank" rel="noopener"><code>AddressAllocRsp</code></a> / <code>FAILURE</code>&#8201;&#8212;&#8201;request for allocation of address to node</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/addr/AddressResolutionReq.html" target="_blank" rel="noopener"><code>AddressResolutionReq</code></a> &#8658; <a href="https://unetstack.net/javadoc/org/arl/unet/addr/AddressResolutionRsp.html" target="_blank" rel="noopener"><code>AddressResolutionRsp</code></a> / <code>FAILURE</code>&#8201;&#8212;&#8201;resolve node name to address</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/addr/AddressResolutionReq.html" target="_blank" rel="noopener"><code>AddressResolutionReq</code></a> &#8658; <a href="https://unetstack.net/javadoc/index.html?org/arl/unet/addr/AddressResolutionRsp.html" target="_blank" rel="noopener"><code>AddressResolutionRsp</code></a> / <code>FAILURE</code>&#8201;&#8212;&#8201;resolve node name to address</p>
 </li>
 </ul>
 </div>
@@ -6728,19 +6728,19 @@ Protocol data units (PDUs) are protocol-specific datagrams exchanged by nodes in
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/mac/ReservationReq.html" target="_blank" rel="noopener"><code>ReservationReq</code></a> &#8658; <a href="https://unetstack.net/javadoc/org/arl/unet/mac/ReservationRsp.html" target="_blank" rel="noopener"><code>ReservationRsp</code></a> / <code>REFUSE</code>&#8201;&#8212;&#8201;request a reservation</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/mac/ReservationReq.html" target="_blank" rel="noopener"><code>ReservationReq</code></a> &#8658; <a href="https://unetstack.net/javadoc/index.html?org/arl/unet/mac/ReservationRsp.html" target="_blank" rel="noopener"><code>ReservationRsp</code></a> / <code>REFUSE</code>&#8201;&#8212;&#8201;request a reservation</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/mac/ReservationCancelReq.html" target="_blank" rel="noopener"><code>ReservationCancelReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code>&#8201;&#8212;&#8201;cancel a reservation</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/mac/ReservationCancelReq.html" target="_blank" rel="noopener"><code>ReservationCancelReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code>&#8201;&#8212;&#8201;cancel a reservation</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/mac/ReservationAcceptReq.html" target="_blank" rel="noopener"><code>ReservationAcceptReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code>&#8201;&#8212;&#8201;request piggybacking of payload in a reservation PDU, typically sent by a client on receiving a <code>ReservationStatusNtf[status: REQUEST]</code> notification</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/mac/ReservationAcceptReq.html" target="_blank" rel="noopener"><code>ReservationAcceptReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code>&#8201;&#8212;&#8201;request piggybacking of payload in a reservation PDU, typically sent by a client on receiving a <code>ReservationStatusNtf[status: REQUEST]</code> notification</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/mac/TxAckReq.html" target="_blank" rel="noopener"><code>TxAckReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code>&#8201;&#8212;&#8201;request transmission of acknowledgement payload</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/mac/TxAckReq.html" target="_blank" rel="noopener"><code>TxAckReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code>&#8201;&#8212;&#8201;request transmission of acknowledgement payload</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/mac/ReservationStatusNtf.html" target="_blank" rel="noopener"><code>ReservationStatusNtf</code></a>&#8201;&#8212;&#8201;sent to requestor or agent&#8217;s topic when a reservation-related events occur</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/mac/ReservationStatusNtf.html" target="_blank" rel="noopener"><code>ReservationStatusNtf</code></a>&#8201;&#8212;&#8201;sent to requestor or agent&#8217;s topic when a reservation-related events occur</p>
 </li>
 </ul>
 </div>
@@ -6753,19 +6753,19 @@ Protocol data units (PDUs) are protocol-specific datagrams exchanged by nodes in
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/mac/MacParam.html#channelBusy" target="_blank" rel="noopener"><code>channelBusy</code></a>&#8201;&#8212;&#8201;true if channel is busy, false otherwise</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/mac/MacParam.html#channelBusy" target="_blank" rel="noopener"><code>channelBusy</code></a>&#8201;&#8212;&#8201;true if channel is busy, false otherwise</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/mac/MacParam.html#reservationPayloadSize" target="_blank" rel="noopener"><code>reservationPayloadSize</code></a>&#8201;&#8212;&#8201;maximum size of payload (bytes) that can be piggybacked in a reservation PDU</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/mac/MacParam.html#reservationPayloadSize" target="_blank" rel="noopener"><code>reservationPayloadSize</code></a>&#8201;&#8212;&#8201;maximum size of payload (bytes) that can be piggybacked in a reservation PDU</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/mac/MacParam.html#ackPayloadSize" target="_blank" rel="noopener"><code>ackPayloadSize</code></a>&#8201;&#8212;&#8201;maximum size of acknowledgement (bytes) that can be included in an ACK PDU</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/mac/MacParam.html#ackPayloadSize" target="_blank" rel="noopener"><code>ackPayloadSize</code></a>&#8201;&#8212;&#8201;maximum size of acknowledgement (bytes) that can be included in an ACK PDU</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/mac/MacParam.html#maxReservationDuration" target="_blank" rel="noopener"><code>maxReservationDuration</code></a>&#8201;&#8212;&#8201;maximum duration of reservation in seconds</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/mac/MacParam.html#maxReservationDuration" target="_blank" rel="noopener"><code>maxReservationDuration</code></a>&#8201;&#8212;&#8201;maximum duration of reservation in seconds</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/mac/MacParam.html#recommendedReservationDuration" target="_blank" rel="noopener"><code>recommendedReservationDuration</code></a>&#8201;&#8212;&#8201;recommended duration of reservation in seconds (null, if unspecified)</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/mac/MacParam.html#recommendedReservationDuration" target="_blank" rel="noopener"><code>recommendedReservationDuration</code></a>&#8201;&#8212;&#8201;recommended duration of reservation in seconds (null, if unspecified)</p>
 </li>
 </ul>
 </div>
@@ -6776,25 +6776,25 @@ Protocol data units (PDUs) are protocol-specific datagrams exchanged by nodes in
 <p>Agents may support several optional capabilities:</p>
 </div>
 <div class="paragraph">
-<p><strong><a href="https://unetstack.net/javadoc/org/arl/unet/mac/MacCapability.html#RELIABILITY" target="_blank" rel="noopener">RELIABILITY</a></strong></p>
+<p><strong><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/mac/MacCapability.html#RELIABILITY" target="_blank" rel="noopener">RELIABILITY</a></strong></p>
 </div>
 <div class="paragraph">
 <p>An agent advertising this capability must be able to send acknowlegements as part of the MAC protocol. The agent must support the <code>TxAckReq</code> request to provide acknowledgement payload to be transmitted to the peer node at the end of the reservation. On reception, this should generate a <code>RxAckNtf</code> on the peer node.</p>
 </div>
 <div class="paragraph">
-<p><strong><a href="https://unetstack.net/javadoc/org/arl/unet/mac/MacCapability.html#PRIORITY" target="_blank" rel="noopener">PRIORITY</a></strong></p>
+<p><strong><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/mac/MacCapability.html#PRIORITY" target="_blank" rel="noopener">PRIORITY</a></strong></p>
 </div>
 <div class="paragraph">
 <p>Agents advertising this capability must honor priority settings in the reservation request.</p>
 </div>
 <div class="paragraph">
-<p><strong><a href="https://unetstack.net/javadoc/org/arl/unet/mac/MacCapability.html#TTL" target="_blank" rel="noopener">TTL</a></strong></p>
+<p><strong><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/mac/MacCapability.html#TTL" target="_blank" rel="noopener">TTL</a></strong></p>
 </div>
 <div class="paragraph">
 <p>Agents advertising this capability must honor time-to-live settings in the reservation request.</p>
 </div>
 <div class="paragraph">
-<p><strong><a href="https://unetstack.net/javadoc/org/arl/unet/mac/MacCapability.html#TIMED_RESERVATION" target="_blank" rel="noopener">TIMED_RESERVATION</a></strong></p>
+<p><strong><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/mac/MacCapability.html#TIMED_RESERVATION" target="_blank" rel="noopener">TIMED_RESERVATION</a></strong></p>
 </div>
 <div class="paragraph">
 <p>Agents advertising this capability must support scheduling of reservations in the future, through the use of the <code>startTime</code> attribute of the <code>ReservationReq</code>.</p>
@@ -6931,7 +6931,7 @@ Protocol data units (PDUs) are protocol-specific datagrams exchanged by nodes in
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/link/LinkParam.html#dataRate" target="_blank" rel="noopener"><code>dataRate</code></a>&#8201;&#8212;&#8201;nominal data rate of link in bps (0 if unknown)</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/link/LinkParam.html#dataRate" target="_blank" rel="noopener"><code>dataRate</code></a>&#8201;&#8212;&#8201;nominal data rate of link in bps (0 if unknown)</p>
 </li>
 </ul>
 </div>
@@ -7161,16 +7161,16 @@ The ROUTING service currently does not define a way to add, update or delete sta
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/net/RouteDiscoveryReq.html" target="_blank" rel="noopener"><code>RouteDiscoveryReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;start route discovery to a specified node</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/net/RouteDiscoveryReq.html" target="_blank" rel="noopener"><code>RouteDiscoveryReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;start route discovery to a specified node</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/net/RouteTraceReq.html" target="_blank" rel="noopener"><code>RouteTraceReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;trace current route to a specified node</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/net/RouteTraceReq.html" target="_blank" rel="noopener"><code>RouteTraceReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;trace current route to a specified node</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/net/RouteDiscoveryNtf.html" target="_blank" rel="noopener"><code>RouteDiscoveryNtf</code></a>&#8201;&#8212;&#8201;sent to the agent&#8217;s topic when a route is discovered</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/net/RouteDiscoveryNtf.html" target="_blank" rel="noopener"><code>RouteDiscoveryNtf</code></a>&#8201;&#8212;&#8201;sent to the agent&#8217;s topic when a route is discovered</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/net/RouteTraceNtf.html" target="_blank" rel="noopener"><code>RouteTraceNtf</code></a>&#8201;&#8212;&#8201;sent to requestor when a requested trace is successfully completed</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/net/RouteTraceNtf.html" target="_blank" rel="noopener"><code>RouteTraceNtf</code></a>&#8201;&#8212;&#8201;sent to requestor when a requested trace is successfully completed</p>
 </li>
 </ul>
 </div>
@@ -7184,10 +7184,10 @@ The ROUTING service currently does not define a way to add, update or delete sta
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/net/RouterParam.html#auto1hop"><code>auto1hop</code></a>&#8201;&#8212;&#8201;automatically assume single-hop routes available, if no entry for destination node in routing table</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/net/RouterParam.html#auto1hop"><code>auto1hop</code></a>&#8201;&#8212;&#8201;automatically assume single-hop routes available, if no entry for destination node in routing table</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/net/RouterParam.html#defaultLink"><code>defaultLink</code></a>&#8201;&#8212;&#8201;default LINK service provider to use for datagram transmission, if unspecified while adding a route</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/net/RouterParam.html#defaultLink"><code>defaultLink</code></a>&#8201;&#8212;&#8201;default LINK service provider to use for datagram transmission, if unspecified while adding a route</p>
 </li>
 </ul>
 </div>
@@ -7365,28 +7365,28 @@ While the REMOTE service provides a field for credentials to be included in a re
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/remote/RemoteTextReq.html" target="_blank" rel="noopener"><code>RemoteTextReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;send a text message to remote node</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/remote/RemoteTextReq.html" target="_blank" rel="noopener"><code>RemoteTextReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;send a text message to remote node</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/remote/RemoteFileGetReq.html" target="_blank" rel="noopener"><code>RemoteFileGetReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;download a file from remote node</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/remote/RemoteFileGetReq.html" target="_blank" rel="noopener"><code>RemoteFileGetReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;download a file from remote node</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/remote/RemoteFilePutReq.html" target="_blank" rel="noopener"><code>RemoteFilePutReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;upload a file to remote node</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/remote/RemoteFilePutReq.html" target="_blank" rel="noopener"><code>RemoteFilePutReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;upload a file to remote node</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/remote/RemoteExecReq.html" target="_blank" rel="noopener"><code>RemoteExecReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;execute a shell command on the remote node</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/remote/RemoteExecReq.html" target="_blank" rel="noopener"><code>RemoteExecReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;execute a shell command on the remote node</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/remote/RemoteTextNtf.html" target="_blank" rel="noopener"><code>RemoteTextNtf</code></a>&#8201;&#8212;&#8201;sent to the agent&#8217;s topic when a text message from another node arrives</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/remote/RemoteTextNtf.html" target="_blank" rel="noopener"><code>RemoteTextNtf</code></a>&#8201;&#8212;&#8201;sent to the agent&#8217;s topic when a text message from another node arrives</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/remote/RemoteFileNtf.html" target="_blank" rel="noopener"><code>RemoteFileNtf</code></a>&#8201;&#8212;&#8201;sent to the agent&#8217;s topic when an incoming file transfer from another node is completed</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/remote/RemoteFileNtf.html" target="_blank" rel="noopener"><code>RemoteFileNtf</code></a>&#8201;&#8212;&#8201;sent to the agent&#8217;s topic when an incoming file transfer from another node is completed</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/remote/RemoteSuccessNtf.html" target="_blank" rel="noopener"><code>RemoteSuccessNtf</code></a>&#8201;&#8212;&#8201;sent to a requester when a remote operation is successfully completed, if an acknowledgement was requested</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/remote/RemoteSuccessNtf.html" target="_blank" rel="noopener"><code>RemoteSuccessNtf</code></a>&#8201;&#8212;&#8201;sent to a requester when a remote operation is successfully completed, if an acknowledgement was requested</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/remote/RemoteFailureNtf.html" target="_blank" rel="noopener"><code>RemoteFailureNtf</code></a>&#8201;&#8212;&#8201;sent to a requester when a remote operation fails, if an acknowledgement was requested</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/remote/RemoteFailureNtf.html" target="_blank" rel="noopener"><code>RemoteFailureNtf</code></a>&#8201;&#8212;&#8201;sent to a requester when a remote operation fails, if an acknowledgement was requested</p>
 </li>
 </ul>
 </div>
@@ -7504,7 +7504,7 @@ The <code>phy[CONTROL].scrambler</code> and <code>phy[DATA].scrambler</code> par
 <p>An agent offering the STATE_MANAGER service provides a way to save the state (parameter values) of specified (or all) agents.</p>
 </div>
 <div class="paragraph">
-<p>Such an agent typically subscribes to the <a href="https://unetstack.net/javadoc/org/arl/unet/Topics.html#PARAMCHANGE" target="_blank" rel="noopener"><code>PARAMCHANGE</code></a> topic and monitor <code>ParamChangeNtf</code> for all parameter changes for all agents. It then helps persist selected agents' parameter values between reboots.</p>
+<p>Such an agent typically subscribes to the <a href="https://unetstack.net/javadoc/index.html?org/arl/unet/Topics.html#PARAMCHANGE" target="_blank" rel="noopener"><code>PARAMCHANGE</code></a> topic and monitor <code>ParamChangeNtf</code> for all parameter changes for all agents. It then helps persist selected agents' parameter values between reboots.</p>
 </div>
 <div class="sect3">
 <h4 id="_messages_9">24.1.1. Messages</h4>
@@ -7514,10 +7514,10 @@ The <code>phy[CONTROL].scrambler</code> and <code>phy[DATA].scrambler</code> par
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/state/SaveStateReq.html" target="_blank" rel="noopener"><code>SaveStateReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;save agent state to a file</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/state/SaveStateReq.html" target="_blank" rel="noopener"><code>SaveStateReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;save agent state to a file</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/state/ClearStateReq.html" target="_blank" rel="noopener"><code>ClearStateReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;clear agent state in memory, and track only parameter changes henceforth</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/state/ClearStateReq.html" target="_blank" rel="noopener"><code>ClearStateReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;clear agent state in memory, and track only parameter changes henceforth</p>
 </li>
 </ul>
 </div>
@@ -7723,16 +7723,16 @@ phy.signalPowerLevel = -40.0</span></code></pre>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/scheduler/AddScheduledSleepReq.html" target="_blank" rel="noopener"><code>AddScheduledSleepReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;add a new scheduled sleep</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/scheduler/AddScheduledSleepReq.html" target="_blank" rel="noopener"><code>AddScheduledSleepReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;add a new scheduled sleep</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/scheduler/RemoveScheduledSleepReq.html" target="_blank" rel="noopener"><code>RemoveScheduledSleepReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;remove a scheduled sleep</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/scheduler/RemoveScheduledSleepReq.html" target="_blank" rel="noopener"><code>RemoveScheduledSleepReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;remove a scheduled sleep</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/scheduler/GetSleepScheduleReq.html" target="_blank" rel="noopener"><code>GetSleepScheduleReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;get all the scheduled sleep/wake times</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/scheduler/GetSleepScheduleReq.html" target="_blank" rel="noopener"><code>GetSleepScheduleReq</code></a> &#8658; <code>AGREE</code> / <code>REFUSE</code> / <code>FAILURE</code>&#8201;&#8212;&#8201;get all the scheduled sleep/wake times</p>
 </li>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/scheduler/WakeFromSleepNtf.html" target="_blank" rel="noopener"><code>WakeFromSleepNtf</code></a>&#8201;&#8212;&#8201;sent to agent&#8217;s topic just after node wakes up from a sleep</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/scheduler/WakeFromSleepNtf.html" target="_blank" rel="noopener"><code>WakeFromSleepNtf</code></a>&#8201;&#8212;&#8201;sent to agent&#8217;s topic just after node wakes up from a sleep</p>
 </li>
 </ul>
 </div>
@@ -7745,7 +7745,7 @@ phy.signalPowerLevel = -40.0</span></code></pre>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://unetstack.net/javadoc/org/arl/unet/scheduler/SchedulerParam.html#rtc" target="_blank" rel="noopener"><code>etc</code></a>&#8201;&#8212;&#8201;current date/time</p>
+<p><a href="https://unetstack.net/javadoc/index.html?org/arl/unet/scheduler/SchedulerParam.html#rtc" target="_blank" rel="noopener"><code>etc</code></a>&#8201;&#8212;&#8201;current date/time</p>
 </li>
 </ul>
 </div>
@@ -8042,7 +8042,7 @@ The term <strong>agent</strong> describes a software abstraction, an idea, or a 
 <div class="sect2">
 <h3 id="_unet_agents">27.1. Unet agents</h3>
 <div class="paragraph">
-<p>Agents are the basic building blocks of the UnetStack. They exchange messages, provide services and implement protocols. While what is expected from a well-behaved agent is quite demanding, most of the necessary core behaviors are already implemented for you by the <a href="https://unetstack.net/javadoc/org/arl/unet/UnetAgent.html" target="_blank" rel="noopener"><code>UnetAgent</code></a> base class. All you need to do is to extend it, and add in a little code to teach the agent what you want it to do.</p>
+<p>Agents are the basic building blocks of the UnetStack. They exchange messages, provide services and implement protocols. While what is expected from a well-behaved agent is quite demanding, most of the necessary core behaviors are already implemented for you by the <a href="https://unetstack.net/javadoc/index.html?org/arl/unet/UnetAgent.html" target="_blank" rel="noopener"><code>UnetAgent</code></a> base class. All you need to do is to extend it, and add in a little code to teach the agent what you want it to do.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -9136,7 +9136,7 @@ mac: MySimplestMac - IDLE
 <div class="content">
 <div class="title">Encoding and decoding PDUs</div>
 <div class="paragraph">
-<p>Since encoding and decoding of PDUs is required in almost all protocol implementations, UnetStack provides a <a href="https://unetstack.net/javadoc/org/arl/unet/PDU.html" target="_blank" rel="noopener"><code>PDU</code></a> class to help you with it. The <code>PDU</code> class provides a declarative syntax for describing the PDU format. Once you have the PDU format declared, encoding and decoding PDUs is simply a matter of calling the <code>encode()</code> and <code>decode()</code> methods.</p>
+<p>Since encoding and decoding of PDUs is required in almost all protocol implementations, UnetStack provides a <a href="https://unetstack.net/javadoc/index.html?org/arl/unet/PDU.html" target="_blank" rel="noopener"><code>PDU</code></a> class to help you with it. The <code>PDU</code> class provides a declarative syntax for describing the PDU format. Once you have the PDU format declared, encoding and decoding PDUs is simply a matter of calling the <code>encode()</code> and <code>decode()</code> methods.</p>
 </div>
 <div class="paragraph">
 <p>This is best illustrated with an example that you can try on a shell:</p>
@@ -9188,7 +9188,7 @@ mac: MySimplestMac - IDLE
 <div class="content">
 <div class="title">Finite state machines (FSMs)</div>
 <div class="paragraph">
-<p>FSMs are very commonly used in network protocol development. Although fjåge provides a <a href="https://org-arl.github.io/fjage/javadoc/org/arl/fjage/FSMBehavior.html" target="_blank" rel="noopener"><code>FSMBehavior</code></a> that helps implement FSMs in agents, it can be tedious to set up. UnetStack provides a <a href="https://unetstack.net/javadoc/org/arl/unet/FSMBuilder.html" target="_blank" rel="noopener"><code>FSMBuilder</code></a> to make setting up FSM behaviors in agents easy.</p>
+<p>FSMs are very commonly used in network protocol development. Although fjåge provides a <a href="https://org-arl.github.io/fjage/javadoc/index.html?org/arl/fjage/FSMBehavior.html" target="_blank" rel="noopener"><code>FSMBehavior</code></a> that helps implement FSMs in agents, it can be tedious to set up. UnetStack provides a <a href="https://unetstack.net/javadoc/index.html?org/arl/unet/FSMBuilder.html" target="_blank" rel="noopener"><code>FSMBuilder</code></a> to make setting up FSM behaviors in agents easy.</p>
 </div>
 <div class="paragraph">
 <p>Here are the key steps in setting up the FSM:</p>
@@ -9834,7 +9834,7 @@ Coming soon&#8230;&#8203;
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br>
-Last updated 2019-09-22 02:38:30 +0800
+Last updated 2019-09-22 22:12:45 +0800
 </div>
 </div>
 <style>

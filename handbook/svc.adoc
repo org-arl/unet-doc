@@ -26,7 +26,7 @@ Service:: A service is a collection of messages (requests, responses and notific
 
 Capability:: Services often define optional capabilities. These capabilities may be offered by some agents advertising a service, but may be omitted by others. An agent can be queried to check if it supports a specific capability using the `CapabilityReq` message.
 
-TIP: If all of these terms pique your curiosity, you may wish to take a look at the https://fjage.readthedocs.io/en/latest/index.html[fjåge documentation^]. fjåge is the underlying agent framework that UnetStack is built on. While we don't assume familiarity with fjåge in this handbook, your understanding of UnetStack would certainly be quicker if you were to invest in building that familiarity.
+TIP: If all of these terms pique your curiosity, you may wish to take a look at the {url-fjage-doc}/index.html[fjåge documentation^]. fjåge is the underlying agent framework that UnetStack is built on. While we don't assume familiarity with fjåge in this handbook, your understanding of UnetStack would certainly be quicker if you were to invest in building that familiarity.
 
 === Finding service providers
 

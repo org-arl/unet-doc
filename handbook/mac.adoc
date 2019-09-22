@@ -21,39 +21,39 @@ A _payload_ is a few bytes of data that can be carried by a MAC PDU on behalf of
 
 Agents supporting the MAC service provide messages to request, grant and cancel reservations:
 
-* https://unetstack.net/javadoc/org/arl/unet/mac/ReservationReq.html[`ReservationReq`^] => https://unetstack.net/javadoc/org/arl/unet/mac/ReservationRsp.html[`ReservationRsp`^] / `REFUSE` -- request a reservation
-* https://unetstack.net/javadoc/org/arl/unet/mac/ReservationCancelReq.html[`ReservationCancelReq`^] => `AGREE` / `REFUSE` -- cancel a reservation
-* https://unetstack.net/javadoc/org/arl/unet/mac/ReservationAcceptReq.html[`ReservationAcceptReq`^] => `AGREE` / `REFUSE` -- request piggybacking of payload in a reservation PDU, typically sent by a client on receiving a `ReservationStatusNtf[status: REQUEST]` notification
-* https://unetstack.net/javadoc/org/arl/unet/mac/TxAckReq.html[`TxAckReq`^] => `AGREE` / `REFUSE` -- request transmission of acknowledgement payload
-* https://unetstack.net/javadoc/org/arl/unet/mac/ReservationStatusNtf.html[`ReservationStatusNtf`^] -- sent to requestor or agent's topic when a reservation-related events occur
+* {url-unet-javadoc}org/arl/unet/mac/ReservationReq.html[`ReservationReq`^] => {url-unet-javadoc}org/arl/unet/mac/ReservationRsp.html[`ReservationRsp`^] / `REFUSE` -- request a reservation
+* {url-unet-javadoc}org/arl/unet/mac/ReservationCancelReq.html[`ReservationCancelReq`^] => `AGREE` / `REFUSE` -- cancel a reservation
+* {url-unet-javadoc}org/arl/unet/mac/ReservationAcceptReq.html[`ReservationAcceptReq`^] => `AGREE` / `REFUSE` -- request piggybacking of payload in a reservation PDU, typically sent by a client on receiving a `ReservationStatusNtf[status: REQUEST]` notification
+* {url-unet-javadoc}org/arl/unet/mac/TxAckReq.html[`TxAckReq`^] => `AGREE` / `REFUSE` -- request transmission of acknowledgement payload
+* {url-unet-javadoc}org/arl/unet/mac/ReservationStatusNtf.html[`ReservationStatusNtf`^] -- sent to requestor or agent's topic when a reservation-related events occur
 
 ==== Parameters
 
 Agents offering the MAC service support the following parameters:
 
-* https://unetstack.net/javadoc/org/arl/unet/mac/MacParam.html#channelBusy[`channelBusy`^] -- true if channel is busy, false otherwise
-* https://unetstack.net/javadoc/org/arl/unet/mac/MacParam.html#reservationPayloadSize[`reservationPayloadSize`^] -- maximum size of payload (bytes) that can be piggybacked in a reservation PDU
-* https://unetstack.net/javadoc/org/arl/unet/mac/MacParam.html#ackPayloadSize[`ackPayloadSize`^] -- maximum size of acknowledgement (bytes) that can be included in an ACK PDU
-* https://unetstack.net/javadoc/org/arl/unet/mac/MacParam.html#maxReservationDuration[`maxReservationDuration`^] -- maximum duration of reservation in seconds
-* https://unetstack.net/javadoc/org/arl/unet/mac/MacParam.html#recommendedReservationDuration[`recommendedReservationDuration`^] -- recommended duration of reservation in seconds (null, if unspecified)
+* {url-unet-javadoc}org/arl/unet/mac/MacParam.html#channelBusy[`channelBusy`^] -- true if channel is busy, false otherwise
+* {url-unet-javadoc}org/arl/unet/mac/MacParam.html#reservationPayloadSize[`reservationPayloadSize`^] -- maximum size of payload (bytes) that can be piggybacked in a reservation PDU
+* {url-unet-javadoc}org/arl/unet/mac/MacParam.html#ackPayloadSize[`ackPayloadSize`^] -- maximum size of acknowledgement (bytes) that can be included in an ACK PDU
+* {url-unet-javadoc}org/arl/unet/mac/MacParam.html#maxReservationDuration[`maxReservationDuration`^] -- maximum duration of reservation in seconds
+* {url-unet-javadoc}org/arl/unet/mac/MacParam.html#recommendedReservationDuration[`recommendedReservationDuration`^] -- recommended duration of reservation in seconds (null, if unspecified)
 
 ==== Capabilities
 
 Agents may support several optional capabilities:
 
-*https://unetstack.net/javadoc/org/arl/unet/mac/MacCapability.html#RELIABILITY[RELIABILITY^]*
+*{url-unet-javadoc}org/arl/unet/mac/MacCapability.html#RELIABILITY[RELIABILITY^]*
 
 An agent advertising this capability must be able to send acknowlegements as part of the MAC protocol. The agent must support the `TxAckReq` request to provide acknowledgement payload to be transmitted to the peer node at the end of the reservation. On reception, this should generate a `RxAckNtf` on the peer node.
 
-*https://unetstack.net/javadoc/org/arl/unet/mac/MacCapability.html#PRIORITY[PRIORITY^]*
+*{url-unet-javadoc}org/arl/unet/mac/MacCapability.html#PRIORITY[PRIORITY^]*
 
 Agents advertising this capability must honor priority settings in the reservation request.
 
-*https://unetstack.net/javadoc/org/arl/unet/mac/MacCapability.html#TTL[TTL^]*
+*{url-unet-javadoc}org/arl/unet/mac/MacCapability.html#TTL[TTL^]*
 
 Agents advertising this capability must honor time-to-live settings in the reservation request.
 
-*https://unetstack.net/javadoc/org/arl/unet/mac/MacCapability.html#TIMED_RESERVATION[TIMED_RESERVATION^]*
+*{url-unet-javadoc}org/arl/unet/mac/MacCapability.html#TIMED_RESERVATION[TIMED_RESERVATION^]*
 
 Agents advertising this capability must support scheduling of reservations in the future, through the use of the `startTime` attribute of the `ReservationReq`.
 

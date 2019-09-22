@@ -6,14 +6,14 @@
 
 An agent offering the STATE_MANAGER service provides a way to save the state (parameter values) of specified (or all) agents.
 
-Such an agent typically subscribes to the https://unetstack.net/javadoc/org/arl/unet/Topics.html#PARAMCHANGE[`PARAMCHANGE`^] topic and monitor `ParamChangeNtf` for all parameter changes for all agents. It then helps persist selected agents' parameter values between reboots.
+Such an agent typically subscribes to the {url-unet-javadoc}org/arl/unet/Topics.html#PARAMCHANGE[`PARAMCHANGE`^] topic and monitor `ParamChangeNtf` for all parameter changes for all agents. It then helps persist selected agents' parameter values between reboots.
 
 ==== Messages
 
 STATE_MANAGER service providers honor the following messages:
 
-* https://unetstack.net/javadoc/org/arl/unet/state/SaveStateReq.html[`SaveStateReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- save agent state to a file
-* https://unetstack.net/javadoc/org/arl/unet/state/ClearStateReq.html[`ClearStateReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- clear agent state in memory, and track only parameter changes henceforth
+* {url-unet-javadoc}org/arl/unet/state/SaveStateReq.html[`SaveStateReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- save agent state to a file
+* {url-unet-javadoc}org/arl/unet/state/ClearStateReq.html[`ClearStateReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- clear agent state in memory, and track only parameter changes henceforth
 
 The `SaveStateReq` message causes the agent state (changed parameters) to be persisted to a Groovy script file in the `scripts` folder. The default name of the file is `saved-state.groovy`, and this file is automatically loaded on startup. However, the `SaveStateReq` message can specify an alternate filename to persist the state in. In such cases, the file is run manually when the state is to be restored.
 

@@ -10,16 +10,16 @@ Agents offering the SCHEDULER service provide a way to schedule sleep/wake tasks
 
 The following messages are used by the SCHEDULER service:
 
-* https://unetstack.net/javadoc/org/arl/unet/scheduler/AddScheduledSleepReq.html[`AddScheduledSleepReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- add a new scheduled sleep
-* https://unetstack.net/javadoc/org/arl/unet/scheduler/RemoveScheduledSleepReq.html[`RemoveScheduledSleepReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- remove a scheduled sleep
-* https://unetstack.net/javadoc/org/arl/unet/scheduler/GetSleepScheduleReq.html[`GetSleepScheduleReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- get all the scheduled sleep/wake times
-* https://unetstack.net/javadoc/org/arl/unet/scheduler/WakeFromSleepNtf.html[`WakeFromSleepNtf`^] -- sent to agent's topic just after node wakes up from a sleep
+* {url-unet-javadoc}org/arl/unet/scheduler/AddScheduledSleepReq.html[`AddScheduledSleepReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- add a new scheduled sleep
+* {url-unet-javadoc}org/arl/unet/scheduler/RemoveScheduledSleepReq.html[`RemoveScheduledSleepReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- remove a scheduled sleep
+* {url-unet-javadoc}org/arl/unet/scheduler/GetSleepScheduleReq.html[`GetSleepScheduleReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- get all the scheduled sleep/wake times
+* {url-unet-javadoc}org/arl/unet/scheduler/WakeFromSleepNtf.html[`WakeFromSleepNtf`^] -- sent to agent's topic just after node wakes up from a sleep
 
 ==== Parameters
 
 Only parameter is required by the SCHEDULER service:
 
-* https://unetstack.net/javadoc/org/arl/unet/scheduler/SchedulerParam.html#rtc[`etc`^] -- current date/time
+* {url-unet-javadoc}org/arl/unet/scheduler/SchedulerParam.html#rtc[`etc`^] -- current date/time
 
 === Sleep/wake scheduling
 

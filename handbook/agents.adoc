@@ -11,7 +11,7 @@ In this chapter, we take this somewhat abstract concept and crystallize it by de
 
 === Unet agents
 
-Agents are the basic building blocks of the UnetStack. They exchange messages, provide services and implement protocols. While what is expected from a well-behaved agent is quite demanding, most of the necessary core behaviors are already implemented for you by the https://unetstack.net/javadoc/org/arl/unet/UnetAgent.html[`UnetAgent`^] base class. All you need to do is to extend it, and add in a little code to teach the agent what you want it to do.
+Agents are the basic building blocks of the UnetStack. They exchange messages, provide services and implement protocols. While what is expected from a well-behaved agent is quite demanding, most of the necessary core behaviors are already implemented for you by the {url-unet-javadoc}org/arl/unet/UnetAgent.html[`UnetAgent`^] base class. All you need to do is to extend it, and add in a little code to teach the agent what you want it to do.
 
 TIP: While you have the option of writing agents in Java or Groovy (or any other language running on the Java VM), we recommend writing agents in Groovy, as Groovy agents tend to need less biolerplate code and are more readable and maintainable. They are also easier to test as Groovy classes can be dynamically loaded from source, without having to pre-compile them. However, if you are already an expert in Java and prefer to use it, you're welcome to do so.
 
@@ -57,7 +57,7 @@ While you don't strictly need the `@Override` annotations, it is a good practice
 
 If you do not need any of these methods, you can skip the definition as the base class provides default implementations. There are a several other methods that you can override to customize your agent, but these are less commonly needed and so we'll skip them for now. You'll come across them later.
 
-TIP: If you happen to be already familiar with the https://fjage.readthedocs.io/en/latest/behaviors.html#agent-lifecycle[fjåge agent lifecycle^], you may wish to note that the `setup()` method is called from the `init()` method of the agent. The `startup()` method is called from a one-shot behavior scheduled during initialization. The `processRequest()` and `processMessage()` methods are called from a message behavior added during initialization.
+TIP: If you happen to be already familiar with the {url-fjage-doc}/behaviors.html#agent-lifecycle[fjåge agent lifecycle^], you may wish to note that the `setup()` method is called from the `init()` method of the agent. The `startup()` method is called from a one-shot behavior scheduled during initialization. The `processRequest()` and `processMessage()` methods are called from a message behavior added during initialization.
 
 === Groovy echo daemon
 
@@ -222,7 +222,7 @@ Finally, you can run the 2-node network simulator and test the agent, just as yo
 
 Agents implement most of their functionality with behaviors.
 
-TIP: UnetStack is implemented on top of the https://fjage.readthedocs.io/en/latest/introduction.html[fjåge^] agent framework. fjåge provides a set of standard behaviors for agents to extend. We will explore some of these behaviors in this section, but encourage you to read the https://fjage.readthedocs.io/en/latest/index.html[fjåge documentation] at your leisure to learn more.
+TIP: UnetStack is implemented on top of the {url-fjage-doc}/introduction.html[fjåge^] agent framework. fjåge provides a set of standard behaviors for agents to extend. We will explore some of these behaviors in this section, but encourage you to read the {url-fjage-doc}/index.html[fjåge documentation] at your leisure to learn more.
 
 We have been implicitly using two behaviors so far. The `startup()` method is called by the `UnetAgent` base class using a `OneShotBehavior`, and the `processMessage()` method is called from a `MessageBehavior`. While you could have manually added these behaviors, the `UnetAgent` base class does this for you, because almost all unet agents require this.
 
@@ -277,7 +277,7 @@ Backoff behavior:: A behavior that is similar to the waker behavior, but allows 
 Poisson behavior:: A behavior that is similar to a ticker behavior, but the interval between invocations is an exponentially distributed random variable. This simulates a Poisson arrival process, commonly used to model network data sources.
 Finite state machine behavior:: Finite state machines are commonly used to implement network protocols. They can easily be implemented using this behavior. These machines are composed out of multiple states, each of which is like a cyclic behavior, with state transitions that can be triggered by the component behaviors.
 
-You can read more about these behaviors in the fjåge documentation on https://fjage.readthedocs.io/en/latest/behaviors.html[Agents & Behaviors^].
+You can read more about these behaviors in the fjåge documentation on {url-fjage-doc}/behaviors.html[Agents & Behaviors^].
 ****
 
 === Parameters

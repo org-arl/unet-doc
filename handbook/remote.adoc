@@ -12,14 +12,14 @@ CAUTION: While the REMOTE service provides a field for credentials to be include
 
 Agents providing the REMOTE service support the following messages:
 
-* https://unetstack.net/javadoc/org/arl/unet/remote/RemoteTextReq.html[`RemoteTextReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- send a text message to remote node
-* https://unetstack.net/javadoc/org/arl/unet/remote/RemoteFileGetReq.html[`RemoteFileGetReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- download a file from remote node
-* https://unetstack.net/javadoc/org/arl/unet/remote/RemoteFilePutReq.html[`RemoteFilePutReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- upload a file to remote node
-* https://unetstack.net/javadoc/org/arl/unet/remote/RemoteExecReq.html[`RemoteExecReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- execute a shell command on the remote node
-* https://unetstack.net/javadoc/org/arl/unet/remote/RemoteTextNtf.html[`RemoteTextNtf`^] -- sent to the agent's topic when a text message from another node arrives
-* https://unetstack.net/javadoc/org/arl/unet/remote/RemoteFileNtf.html[`RemoteFileNtf`^] -- sent to the agent's topic when an incoming file transfer from another node is completed
-* https://unetstack.net/javadoc/org/arl/unet/remote/RemoteSuccessNtf.html[`RemoteSuccessNtf`^] -- sent to a requester when a remote operation is successfully completed, if an acknowledgement was requested
-* https://unetstack.net/javadoc/org/arl/unet/remote/RemoteFailureNtf.html[`RemoteFailureNtf`^] -- sent to a requester when a remote operation fails, if an acknowledgement was requested
+* {url-unet-javadoc}org/arl/unet/remote/RemoteTextReq.html[`RemoteTextReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- send a text message to remote node
+* {url-unet-javadoc}org/arl/unet/remote/RemoteFileGetReq.html[`RemoteFileGetReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- download a file from remote node
+* {url-unet-javadoc}org/arl/unet/remote/RemoteFilePutReq.html[`RemoteFilePutReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- upload a file to remote node
+* {url-unet-javadoc}org/arl/unet/remote/RemoteExecReq.html[`RemoteExecReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- execute a shell command on the remote node
+* {url-unet-javadoc}org/arl/unet/remote/RemoteTextNtf.html[`RemoteTextNtf`^] -- sent to the agent's topic when a text message from another node arrives
+* {url-unet-javadoc}org/arl/unet/remote/RemoteFileNtf.html[`RemoteFileNtf`^] -- sent to the agent's topic when an incoming file transfer from another node is completed
+* {url-unet-javadoc}org/arl/unet/remote/RemoteSuccessNtf.html[`RemoteSuccessNtf`^] -- sent to a requester when a remote operation is successfully completed, if an acknowledgement was requested
+* {url-unet-javadoc}org/arl/unet/remote/RemoteFailureNtf.html[`RemoteFailureNtf`^] -- sent to a requester when a remote operation fails, if an acknowledgement was requested
 
 === RemoteControl
 

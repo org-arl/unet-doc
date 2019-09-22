@@ -14,9 +14,9 @@ Agents offering the baseband service are most commonly modem drivers (and simula
 
 Agents supporting the baseband service provide messages for arbitrary signal transmission and recording:
 
-* https://unetstack.net/javadoc/org/arl/unet/bb/TxBasebandSignalReq.html[`TxBasebandSignalReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- transmit a signal
-* https://unetstack.net/javadoc/org/arl/unet/bb/RecordBasebandSignalReq.html[`RecordBasebandSignalReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- record a signal
-* https://unetstack.net/javadoc/org/arl/unet/bb/RxBasebandSignalNtf.html[`RxBasebandSignalNtf`^] -- signal recording sent to requestor, or to agent's topic if the recording was not specifically requested
+* {url-unet-javadoc}org/arl/unet/bb/TxBasebandSignalReq.html[`TxBasebandSignalReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- transmit a signal
+* {url-unet-javadoc}org/arl/unet/bb/RecordBasebandSignalReq.html[`RecordBasebandSignalReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- record a signal
+* {url-unet-javadoc}org/arl/unet/bb/RxBasebandSignalNtf.html[`RxBasebandSignalNtf`^] -- signal recording sent to requestor, or to agent's topic if the recording was not specifically requested
 
 During signal transmission, an agent implementing the baseband service sends out `TxFrameStartNtf` and `TxFrameNtf`, as described in the PHYSICAL service (<<Physical service>>). Similarly, if recording is triggered on a preamble detection, the agent sends out a `RxFrameStartNtf` as described in the PHYSICAL service.
 
@@ -26,21 +26,21 @@ Detection preambles are often added to transmitted signals for the receiving mod
 
 Agents offering the baseband service support the following parameter:
 
-* https://unetstack.net/javadoc/org/arl/unet/bb/BasebandParam.html#carrierFrequency[`carrierFrequency`^] -- default carrier frequency for baseband signals (Hz)
-* https://unetstack.net/javadoc/org/arl/unet/bb/BasebandParam.html#basebandRate[`basebandRate`^] -- default baseband sampling rate for baseband signals (samples/s)
-* https://unetstack.net/javadoc/org/arl/unet/bb/BasebandParam.html#maxPreambleID[`maxPreambleID`^] -- maximum preamble identifier supported
-* https://unetstack.net/javadoc/org/arl/unet/bb/BasebandParam.html#maxSignalLength[`maxSignalLength`^] -- maximum baseband signal length (in samples) for transmission/reception
-* https://unetstack.net/javadoc/org/arl/unet/bb/BasebandParam.html#signalPowerLevel[`signalPowerLevel`^] -- signal transmission power level in dB re `refPowerLevel` (`refPowerLevel` is specified in the PHYSICAL service)
+* {url-unet-javadoc}org/arl/unet/bb/BasebandParam.html#carrierFrequency[`carrierFrequency`^] -- default carrier frequency for baseband signals (Hz)
+* {url-unet-javadoc}org/arl/unet/bb/BasebandParam.html#basebandRate[`basebandRate`^] -- default baseband sampling rate for baseband signals (samples/s)
+* {url-unet-javadoc}org/arl/unet/bb/BasebandParam.html#maxPreambleID[`maxPreambleID`^] -- maximum preamble identifier supported
+* {url-unet-javadoc}org/arl/unet/bb/BasebandParam.html#maxSignalLength[`maxSignalLength`^] -- maximum baseband signal length (in samples) for transmission/reception
+* {url-unet-javadoc}org/arl/unet/bb/BasebandParam.html#signalPowerLevel[`signalPowerLevel`^] -- signal transmission power level in dB re `refPowerLevel` (`refPowerLevel` is specified in the PHYSICAL service)
 
 ==== Capabilities
 
 Agents may support several optional capabilities:
 
-*https://unetstack.net/javadoc/org/arl/unet/bb/BasebandCapability.html#TIMED_BBTX[TIMED_BBTX^]*
+*{url-unet-javadoc}org/arl/unet/bb/BasebandCapability.html#TIMED_BBTX[TIMED_BBTX^]*
 
 Agents advertising this capability are able to transmit signals at specified time (on a best effort basis). The time is given in the `txTime` attribute of the `TxBasebandSignalReq` message.
 
-*https://unetstack.net/javadoc/org/arl/unet/bb/BasebandCapability.html#TIMED_BBREC[TIMED_BBREC^]*
+*{url-unet-javadoc}org/arl/unet/bb/BasebandCapability.html#TIMED_BBREC[TIMED_BBREC^]*
 
 Agents advertising this capability are able to record signals at specified time (on a best effort basis). The time is given in the `recTime` attribute of the `RecordBasebandSignalReq` message.
 

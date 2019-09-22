@@ -14,12 +14,12 @@ The RANGING service provides messages and parameters to support OWTT and TWTT ra
 
 The following messages are defined by the RANGING service:
 
-* https://unetstack.net/javadoc/org/arl/unet/phy/RangeReq.html[`RangeReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- measure range to peer node via OWTT or TWTT
-* https://unetstack.net/javadoc/org/arl/unet/phy/BeaconReq.html[`BeaconReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- transmit beacon message for OWTT
-* https://unetstack.net/javadoc/org/arl/unet/phy/SyncInfoReq.html[`SyncInfoReq`^] => https://unetstack.net/javadoc/org/arl/unet/phy/SyncInfoRsp.html[`SyncInfoRsp`^] / `REFUSE` / `FAILURE` -- get synchronization information for peer node
-* https://unetstack.net/javadoc/org/arl/unet/phy/ClearSyncReq.html[`ClearSyncReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- clear synchronization information for peer node
-* https://unetstack.net/javadoc/org/arl/unet/phy/RangeNtf.html[`RangeNtf`^] -- sent to agent's topic when range information for peer node becomes available
-* https://unetstack.net/javadoc/org/arl/unet/phy/BadRangeNtf.html[`BadRangeNtf`^] -- sent to agent's topic when invalid range information for peer node indicates potentially outdated synchronization with that node
+* {url-unet-javadoc}org/arl/unet/phy/RangeReq.html[`RangeReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- measure range to peer node via OWTT or TWTT
+* {url-unet-javadoc}org/arl/unet/phy/BeaconReq.html[`BeaconReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- transmit beacon message for OWTT
+* {url-unet-javadoc}org/arl/unet/phy/SyncInfoReq.html[`SyncInfoReq`^] => {url-unet-javadoc}org/arl/unet/phy/SyncInfoRsp.html[`SyncInfoRsp`^] / `REFUSE` / `FAILURE` -- get synchronization information for peer node
+* {url-unet-javadoc}org/arl/unet/phy/ClearSyncReq.html[`ClearSyncReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- clear synchronization information for peer node
+* {url-unet-javadoc}org/arl/unet/phy/RangeNtf.html[`RangeNtf`^] -- sent to agent's topic when range information for peer node becomes available
+* {url-unet-javadoc}org/arl/unet/phy/BadRangeNtf.html[`BadRangeNtf`^] -- sent to agent's topic when invalid range information for peer node indicates potentially outdated synchronization with that node
 
 The use of these messages will become clearer through examples below.
 
@@ -27,11 +27,11 @@ The use of these messages will become clearer through examples below.
 
 A few parameters control the behavior of the RANGING service provider:
 
-* https://unetstack.net/javadoc/org/arl/unet/phy/RangeParam.html#channel[`channel`^] -- channel (DATA/CONTROL) to use for ranging
-* https://unetstack.net/javadoc/org/arl/unet/phy/RangeParam.html#lifetime[`lifetime`^] -- lifetime or validity for synchronization information (seconds)
-* https://unetstack.net/javadoc/org/arl/unet/phy/RangeParam.html#minRange[`minRange`^] -- minimum valid range (m)
-* https://unetstack.net/javadoc/org/arl/unet/phy/RangeParam.html#maxRange[`maxRange`^] -- maximum valid range (m)
-* https://unetstack.net/javadoc/org/arl/unet/phy/RangeParam.html#maxBadRangeCnt[`maxBadRangeCnt`^] -- number of `BadRangeNtf` for peer node to discard synchronization information
+* {url-unet-javadoc}org/arl/unet/phy/RangeParam.html#channel[`channel`^] -- channel (DATA/CONTROL) to use for ranging
+* {url-unet-javadoc}org/arl/unet/phy/RangeParam.html#lifetime[`lifetime`^] -- lifetime or validity for synchronization information (seconds)
+* {url-unet-javadoc}org/arl/unet/phy/RangeParam.html#minRange[`minRange`^] -- minimum valid range (m)
+* {url-unet-javadoc}org/arl/unet/phy/RangeParam.html#maxRange[`maxRange`^] -- maximum valid range (m)
+* {url-unet-javadoc}org/arl/unet/phy/RangeParam.html#maxBadRangeCnt[`maxBadRangeCnt`^] -- number of `BadRangeNtf` for peer node to discard synchronization information
 
 The _lifetime_ of syncrhonization information should be set based on the expected drift of modem clocks. Lifetime is defined as the time for the expected clock drift (scaled by speed of sound in water) to exceed the required range estimation accuracy. If a network uses modems with low-drift clocks (such as oven-controlled oscillators), the lifetime can be quite long (hours to days). Without low-drift clocks, reasonable lifetimes may only be in the order of several minutes to tens of minutes.
 

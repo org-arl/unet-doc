@@ -23,47 +23,47 @@ On the other hand, notification messages do not have corresponding responses, so
 
 Agents offering the DATAGRAM service support messages to transmit and receive datagrams:
 
-* https://unetstack.net/javadoc/org/arl/unet/DatagramReq.html[`DatagramReq`^] => `AGREE` / `REFUSE` / `FAILURE`
-* https://unetstack.net/javadoc/org/arl/unet/DatagramNtf.html[`DatagramNtf`^] -- sent to the agent's topic, when a datagram is received
+* {url-unet-javadoc}org/arl/unet/DatagramReq.html[`DatagramReq`^] => `AGREE` / `REFUSE` / `FAILURE`
+* {url-unet-javadoc}org/arl/unet/DatagramNtf.html[`DatagramNtf`^] -- sent to the agent's topic, when a datagram is received
 
 ==== Parameters
 
 Agents offering the DATAGRAM service support the following parameter:
 
-* https://unetstack.net/javadoc/org/arl/unet/DatagramParam.html#MTU[`MTU`^] -- maximum datagram size in bytes
+* {url-unet-javadoc}org/arl/unet/DatagramParam.html#MTU[`MTU`^] -- maximum datagram size in bytes
 
 ==== Capabilities
 
 Agents may support several optional capabilities:
 
-*https://unetstack.net/javadoc/org/arl/unet/DatagramCapability.html#FRAGMENTATION[FRAGMENTATION^]*
+*{url-unet-javadoc}org/arl/unet/DatagramCapability.html#FRAGMENTATION[FRAGMENTATION^]*
 
 Agents capable of fragmentation may break a datagram into smaller datagrams, transmit each of them across the network, and reassemble them on the peer node.
 
-*https://unetstack.net/javadoc/org/arl/unet/DatagramCapability.html#RELIABILITY[RELIABILITY^]*
+*{url-unet-javadoc}org/arl/unet/DatagramCapability.html#RELIABILITY[RELIABILITY^]*
 
 If an agent advertises relaibility, it is able to acknowledge the successful delivery of the datagram. Reliability is enabled on a per-datagram basis by setting the `reliability` flag in the `DatagramReq`. Depending on whether the datagram could be successfully delivered or not, one of the following notifications is generated:
 
-* https://unetstack.net/javadoc/org/arl/unet/DatagramDeliveryNtf.html[`DatagramDeliveryNtf`^] -- sent to requestor
-* https://unetstack.net/javadoc/org/arl/unet/DatagramFailureNtf.html[`DatagramFailureNtf`^] -- sent to requestor
+* {url-unet-javadoc}org/arl/unet/DatagramDeliveryNtf.html[`DatagramDeliveryNtf`^] -- sent to requestor
+* {url-unet-javadoc}org/arl/unet/DatagramFailureNtf.html[`DatagramFailureNtf`^] -- sent to requestor
 
-*https://unetstack.net/javadoc/org/arl/unet/DatagramCapability.html#PROGRESS[PROGRESS^]*
+*{url-unet-javadoc}org/arl/unet/DatagramCapability.html#PROGRESS[PROGRESS^]*
 
 Agents capable of reporting progress do so by periodically sending the following notification for long data transfers:
 
-* https://unetstack.net/javadoc/org/arl/unet/DatagramProgressNtf.html[`DatagramProgressNtf`^] -- sent to requestor on the transmitting node, and agent's topic on the receiving node
+* {url-unet-javadoc}org/arl/unet/DatagramProgressNtf.html[`DatagramProgressNtf`^] -- sent to requestor on the transmitting node, and agent's topic on the receiving node
 
-*https://unetstack.net/javadoc/org/arl/unet/DatagramCapability.html#CANCELLATION[CANCELLATION^]*
+*{url-unet-javadoc}org/arl/unet/DatagramCapability.html#CANCELLATION[CANCELLATION^]*
 
 If an agent supports cancellation, it honors the following request for stopping an ongoing data transfer:
 
-* https://unetstack.net/javadoc/org/arl/unet/DatagramCancelReq.html[`DatagramCancelReq`^] => `AGREE` / `REFUSE` / `FAILURE` / `NOT_UNDERSTOOD` (if unsupported)
+* {url-unet-javadoc}org/arl/unet/DatagramCancelReq.html[`DatagramCancelReq`^] => `AGREE` / `REFUSE` / `FAILURE` / `NOT_UNDERSTOOD` (if unsupported)
 
-*https://unetstack.net/javadoc/org/arl/unet/DatagramCapability.html#PRIORITY[PRIORITY^]*
+*{url-unet-javadoc}org/arl/unet/DatagramCapability.html#PRIORITY[PRIORITY^]*
 
 Agents advertising this capability prioritize datagrams with higher `priority` indicated in the `DatagramReq`.
 
-*https://unetstack.net/javadoc/org/arl/unet/DatagramCapability.html#TTL[TTL^]*
+*{url-unet-javadoc}org/arl/unet/DatagramCapability.html#TTL[TTL^]*
 
 Agents that spool `DatagramReq` over extended periods of time usually advertise this capability. They discard `DatagramReq` that are undelivered after the time-to-live (`ttl` attribute of the `DatagramReq`) has expired.
 

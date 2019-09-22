@@ -14,15 +14,15 @@ All agents supporting the PHYSICAL service must also support the DATAGRAM servic
 
 Agents supporting the PHYSICAL service provide a set of messages to manage frame transmission and reception:
 
-* https://unetstack.net/javadoc/org/arl/unet/phy/TxFrameReq.html[`TxFrameReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- transmit a frame
-* https://unetstack.net/javadoc/org/arl/unet/phy/TxRawFrameReq.html[`TxRawFrameReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- transmit a frame without headers
-* https://unetstack.net/javadoc/org/arl/unet/phy/ClearReq.html[`ClearReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- cancel all ongoing and pending transmissions
-* https://unetstack.net/javadoc/org/arl/unet/phy/RxFrameNtf.html[`RxFrameNtf`^] -- sent to agent's topic when a frame addressed to the node is received, and the agent's https://unetstack.net/javadoc/org/arl/unet/phy/Physical.html#SNOOP[`SNOOP`^] sub-topic when a frame addressed to other nodes is overheard
-* https://unetstack.net/javadoc/org/arl/unet/phy/TxFrameNtf.html[`TxFrameNtf`^] -- sent to requestor when a frame is transmitted
-* https://unetstack.net/javadoc/org/arl/unet/phy/RxFrameStartNtf.html[`RxFrameStartNtf`^] -- sent to agent's topic when a frame is detected
-* https://unetstack.net/javadoc/org/arl/unet/phy/TxFrameStartNtf.html[`TxFrameStartNtf`^] -- sent to agent's topic when a frame transmission is started
-* https://unetstack.net/javadoc/org/arl/unet/phy/BadFrameNtf.html[`BadFrameNtf`^] -- sent to agent's topic when a bad frame is received
-* https://unetstack.net/javadoc/org/arl/unet/phy/CollisionNtf.html[`CollisionNtf`^] -- sent to agent's topic when a frame is detected (and dropped) while another frame is being received
+* {url-unet-javadoc}org/arl/unet/phy/TxFrameReq.html[`TxFrameReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- transmit a frame
+* {url-unet-javadoc}org/arl/unet/phy/TxRawFrameReq.html[`TxRawFrameReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- transmit a frame without headers
+* {url-unet-javadoc}org/arl/unet/phy/ClearReq.html[`ClearReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- cancel all ongoing and pending transmissions
+* {url-unet-javadoc}org/arl/unet/phy/RxFrameNtf.html[`RxFrameNtf`^] -- sent to agent's topic when a frame addressed to the node is received, and the agent's {url-unet-javadoc}org/arl/unet/phy/Physical.html#SNOOP[`SNOOP`^] sub-topic when a frame addressed to other nodes is overheard
+* {url-unet-javadoc}org/arl/unet/phy/TxFrameNtf.html[`TxFrameNtf`^] -- sent to requestor when a frame is transmitted
+* {url-unet-javadoc}org/arl/unet/phy/RxFrameStartNtf.html[`RxFrameStartNtf`^] -- sent to agent's topic when a frame is detected
+* {url-unet-javadoc}org/arl/unet/phy/TxFrameStartNtf.html[`TxFrameStartNtf`^] -- sent to agent's topic when a frame transmission is started
+* {url-unet-javadoc}org/arl/unet/phy/BadFrameNtf.html[`BadFrameNtf`^] -- sent to agent's topic when a bad frame is received
+* {url-unet-javadoc}org/arl/unet/phy/CollisionNtf.html[`CollisionNtf`^] -- sent to agent's topic when a frame is detected (and dropped) while another frame is being received
 
 The `TxFrameReq` class extends a `DatagramReq` to add physical layer options, and the `RxFrameNtf` class extends a `DatagramNtf` to add physical layer metadata.
 
@@ -30,28 +30,28 @@ The `TxFrameReq` class extends a `DatagramReq` to add physical layer options, an
 
 Agents offering the PHYSICAL service support the following parameters:
 
-* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#rxEnable[`rxEnable`^] -- true if reception is enabled, false otherwise
-* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#propagationSpeed[`propagationSpeed`^] -- signal propagation speed in m/s
-* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#time[`time`^] -- current physical layer clock time in microseconds
-* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#busy[`busy`^] -- true if modem is busy transmitting/receiving (carrier sense), false if modem is idle
-* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#refPowerLevel[`refPowerLevel`^] -- reference source level in dB (re micro-Pascals @ 1m for underwater modems)
-* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#maxPowerLevel[`maxPowerLevel`^] -- maximum allowable transmission power in dB re `refPowerLevel`
-* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#minPowerLevel[`minPowerLevel`^] -- minimum allowable transmission power in dB re `refPowerLevel`
-* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#rxSensitivity[`rxSensitivity`^] -- reference receive sensitivity (dB re micro Pascals for underwater modems)
+* {url-unet-javadoc}org/arl/unet/phy/PhysicalParam.html#rxEnable[`rxEnable`^] -- true if reception is enabled, false otherwise
+* {url-unet-javadoc}org/arl/unet/phy/PhysicalParam.html#propagationSpeed[`propagationSpeed`^] -- signal propagation speed in m/s
+* {url-unet-javadoc}org/arl/unet/phy/PhysicalParam.html#time[`time`^] -- current physical layer clock time in microseconds
+* {url-unet-javadoc}org/arl/unet/phy/PhysicalParam.html#busy[`busy`^] -- true if modem is busy transmitting/receiving (carrier sense), false if modem is idle
+* {url-unet-javadoc}org/arl/unet/phy/PhysicalParam.html#refPowerLevel[`refPowerLevel`^] -- reference source level in dB (re micro-Pascals @ 1m for underwater modems)
+* {url-unet-javadoc}org/arl/unet/phy/PhysicalParam.html#maxPowerLevel[`maxPowerLevel`^] -- maximum allowable transmission power in dB re `refPowerLevel`
+* {url-unet-javadoc}org/arl/unet/phy/PhysicalParam.html#minPowerLevel[`minPowerLevel`^] -- minimum allowable transmission power in dB re `refPowerLevel`
+* {url-unet-javadoc}org/arl/unet/phy/PhysicalParam.html#rxSensitivity[`rxSensitivity`^] -- reference receive sensitivity (dB re micro Pascals for underwater modems)
 
 NOTE: All physical layer timestamps are in microseconds as per the clock provided by the `time` parameter. This clock is generally not synchronized with the platform clock (system time).
 
 In addition to the above parameters, agents also support indexed (frame type) parameters:
 
-* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#frameDuration[`frameDuration`^] -- frame duration in seconds (maximum duration in case of variable frame length)
-* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#powerLevel[`powerLevel`^] -- transmission power in dB re `refPowerLevel`
-* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#errorDetection[`errorDetection`^] -- number of bytes used for error detection
-* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#frameLength[`frameLength`^] -- frame length in bytes (maximum length in case of variable frame length)
-* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#maxFrameLength[`maxFrameLength`^] -- maximum possible frame length in bytes
-* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#fec[`fec`^] -- forward error correction (FEC) code (0 = none/default, otherwise base 1 index from fecList)
-* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#fecList[`fecList`^] -- list of available FEC code names (in the order of increasing robustness), may be null if FEC change not supported
-* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#dataRate[`dataRate`^] -- effective frame data rate (bps)
-* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#llr[`llr`^] -- true to enable log-likelihood ratio reporting in `BadFrameNtf`, false otherwise
+* {url-unet-javadoc}org/arl/unet/phy/PhysicalChannelParam.html#frameDuration[`frameDuration`^] -- frame duration in seconds (maximum duration in case of variable frame length)
+* {url-unet-javadoc}org/arl/unet/phy/PhysicalChannelParam.html#powerLevel[`powerLevel`^] -- transmission power in dB re `refPowerLevel`
+* {url-unet-javadoc}org/arl/unet/phy/PhysicalChannelParam.html#errorDetection[`errorDetection`^] -- number of bytes used for error detection
+* {url-unet-javadoc}org/arl/unet/phy/PhysicalChannelParam.html#frameLength[`frameLength`^] -- frame length in bytes (maximum length in case of variable frame length)
+* {url-unet-javadoc}org/arl/unet/phy/PhysicalChannelParam.html#maxFrameLength[`maxFrameLength`^] -- maximum possible frame length in bytes
+* {url-unet-javadoc}org/arl/unet/phy/PhysicalChannelParam.html#fec[`fec`^] -- forward error correction (FEC) code (0 = none/default, otherwise base 1 index from fecList)
+* {url-unet-javadoc}org/arl/unet/phy/PhysicalChannelParam.html#fecList[`fecList`^] -- list of available FEC code names (in the order of increasing robustness), may be null if FEC change not supported
+* {url-unet-javadoc}org/arl/unet/phy/PhysicalChannelParam.html#dataRate[`dataRate`^] -- effective frame data rate (bps)
+* {url-unet-javadoc}org/arl/unet/phy/PhysicalChannelParam.html#llr[`llr`^] -- true to enable log-likelihood ratio reporting in `BadFrameNtf`, false otherwise
 
 .Seconds, milliseconds or microseconds?
 ****
@@ -66,43 +66,43 @@ The only time value in microseconds is the PHYSICAL service's `time` parameter, 
 
 Two frame types are defined:
 
-* https://unetstack.net/javadoc/org/arl/unet/phy/Physical.html#CONTROL[`CONTROL`^] frame = 1
-* https://unetstack.net/javadoc/org/arl/unet/phy/Physical.html#DATA[`DATA`^] frame = 2
+* {url-unet-javadoc}org/arl/unet/phy/Physical.html#CONTROL[`CONTROL`^] frame = 1
+* {url-unet-javadoc}org/arl/unet/phy/Physical.html#DATA[`DATA`^] frame = 2
 
 ==== Capabilities
 
 Agents may support several optional capabilities:
 
-*https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalCapability.html#TIMESTAMPED_TX[TIMESTAMPED_TX^]*
+*{url-unet-javadoc}org/arl/unet/phy/PhysicalCapability.html#TIMESTAMPED_TX[TIMESTAMPED_TX^]*
 
 Agents advertising this capability are able to transmit frames with a transmission timestamp (start of transmission) encapsulated in the frame. This is requested through the `timestamped` flag in the `TxFrameReq` message. In order to do the timestamping, the frame has to be scheduled for transmission after a short delay. This delay is configured via an additional parameter:
 
-* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalParam.html#timestampedTxDelay[`timestampedTxDelay`^] -- delay in seconds to transmit timestamped frames
+* {url-unet-javadoc}org/arl/unet/phy/PhysicalParam.html#timestampedTxDelay[`timestampedTxDelay`^] -- delay in seconds to transmit timestamped frames
 
-*https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalCapability.html#TIMED_TX[TIMED_TX^]*
+*{url-unet-javadoc}org/arl/unet/phy/PhysicalCapability.html#TIMED_TX[TIMED_TX^]*
 
 Agents advertising this capability are able to start transmitting a frame at a specified time (on a best effort basis). The time is given in the `txTime` attribute of the `TxFrameReq` message.
 
-*https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalCapability.html#JANUS[JANUS^]*
+*{url-unet-javadoc}org/arl/unet/phy/PhysicalCapability.html#JANUS[JANUS^]*
 
 If an agent supports the ANEP-87 JANUS standard, it advertises this capability. An additional frame type (indexed parameter set) is defined:
 
-* https://unetstack.net/javadoc/org/arl/unet/phy/Physical.html#JANUS[`JANUS`^] frame = 3
+* {url-unet-javadoc}org/arl/unet/phy/Physical.html#JANUS[`JANUS`^] frame = 3
 
 The JANUS capability also adds one parameter:
 
-* https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalChannelParam.html#janus[`janus`^] -- true for JANUS frame type, false for all other frame types
+* {url-unet-javadoc}org/arl/unet/phy/PhysicalChannelParam.html#janus[`janus`^] -- true for JANUS frame type, false for all other frame types
 
 It also adds two JANUS-specific messages that are supported:
 
-* https://unetstack.net/javadoc/org/arl/unet/phy/TxJanusFrameReq.html[`TxJanusFrameReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- transmit a JANUS frame
-* https://unetstack.net/javadoc/org/arl/unet/phy/RxJanusFrameNtf.html[`RxJanusFrameNtf`^] -- sent to agent's topic when a JANUS frame is received
+* {url-unet-javadoc}org/arl/unet/phy/TxJanusFrameReq.html[`TxJanusFrameReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- transmit a JANUS frame
+* {url-unet-javadoc}org/arl/unet/phy/RxJanusFrameNtf.html[`RxJanusFrameNtf`^] -- sent to agent's topic when a JANUS frame is received
 
-*https://unetstack.net/javadoc/org/arl/unet/phy/PhysicalCapability.html#FEC_DECODING[FEC_DECODING^]*
+*{url-unet-javadoc}org/arl/unet/phy/PhysicalCapability.html#FEC_DECODING[FEC_DECODING^]*
 
 If an agent advertises this capability, it supports an additional request to perform FEC decoding:
 
-* https://unetstack.net/javadoc/org/arl/unet/phy/FecDecodeReq.html[`FecDecodeReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- attempt FEC decoding a frame, and if successful, send out a `RxFrameNtf`
+* {url-unet-javadoc}org/arl/unet/phy/FecDecodeReq.html[`FecDecodeReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- attempt FEC decoding a frame, and if successful, send out a `RxFrameNtf`
 
 === CONTROL and DATA channels
 

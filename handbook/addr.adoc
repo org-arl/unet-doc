@@ -10,8 +10,8 @@ An ADDRESS_RESOLUTION service provider is responsible for address allocation and
 
 Agents supporting this service honor the following requests:
 
-* https://unetstack.net/javadoc/org/arl/unet/addr/AddressAllocReq.html[`AddressAllocReq`^] => https://unetstack.net/javadoc/org/arl/unet/addr/AddressAllocRsp.html[`AddressAllocRsp`^] / `FAILURE` -- request for allocation of address to node
-* https://unetstack.net/javadoc/org/arl/unet/addr/AddressResolutionReq.html[`AddressResolutionReq`^] => https://unetstack.net/javadoc/org/arl/unet/addr/AddressResolutionRsp.html[`AddressResolutionRsp`^] / `FAILURE` -- resolve node name to address
+* {url-unet-javadoc}org/arl/unet/addr/AddressAllocReq.html[`AddressAllocReq`^] => {url-unet-javadoc}org/arl/unet/addr/AddressAllocRsp.html[`AddressAllocRsp`^] / `FAILURE` -- request for allocation of address to node
+* {url-unet-javadoc}org/arl/unet/addr/AddressResolutionReq.html[`AddressResolutionReq`^] => {url-unet-javadoc}org/arl/unet/addr/AddressResolutionRsp.html[`AddressResolutionRsp`^] / `FAILURE` -- resolve node name to address
 
 === Usage and notes
 
