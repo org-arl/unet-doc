@@ -499,11 +499,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_part_vi_simulating_underwater_networks"><strong>Part VI: Simulating underwater networks</strong></a>
 <ul class="sectlevel1">
-<li><a href="#_integrated_development_environment_ide">29. Integrated development environment (IDE)</a></li>
-<li><a href="#_writing_simulation_scripts">30. Writing simulation scripts</a></li>
+<li><a href="#_writing_simulation_scripts">29. Writing simulation scripts</a></li>
+<li><a href="#_discrete_event_simulation">30. Discrete event simulation</a></li>
 <li><a href="#_modems_and_channel_models">31. Modems and channel models</a></li>
-<li><a href="#_developing_your_own_channel_models">32. Developing your own channel models</a></li>
-<li><a href="#_node_mobility">33. Node mobility</a></li>
 </ul>
 </li>
 <li><a href="#_appendices"><strong>Appendices</strong></a>
@@ -8192,7 +8190,7 @@ Do not get confused between <code>sender</code> and <code>from</code>, and <code
 <div class="content">
 <div class="title">Editing scripts and classes</div>
 <div class="paragraph">
-<p>With the unet simulator or unet audio running on your machine, you can use your favorite text editor to directly create the <code>EchoDaemon.groovy</code> in the <code>classes</code> folder. However, a more generic way (that works on modems as well) is to open node A&#8217;s shell, select <code>Script editor</code>, and use the new file icon in the <code>/classes/</code> section to create the file:</p>
+<p>With the unet simulator or unet audio running on your machine, you can use your favorite text editor to directly create the <code>EchoDaemon.groovy</code> in the <code>classes</code> folder. However, a more generic way (that works on modems as well) is to open node A&#8217;s shell, select <code>Script editor</code>, and use the new file button (<span class="icon"><i class="fa fa-file"></i></span>) in the <code>/classes/</code> section to create the file:</p>
 </div>
 <div class="imageblock text-center">
 <div class="content">
@@ -9500,25 +9498,508 @@ Coming soon&#8230;&#8203;
 </div>
 <h1 id="_part_vi_simulating_underwater_networks" class="sect0"><strong>Part VI: Simulating underwater networks</strong></h1>
 <div class="sect1">
-<h2 id="_integrated_development_environment_ide">29. Integrated development environment (IDE)</h2>
+<h2 id="_writing_simulation_scripts">29. Writing simulation scripts</h2>
 <div class="sectionbody">
-<div class="admonitionblock warning">
+<div class="paragraph">
+<p>We have been using simulations throughout the handbook, to demonstrate and test commands, scripts and agents without having to set up a real Unet. But how exactly do we tell the simulator what we want to simulate? This is the main subject of our discussion in this chapter.</p>
+</div>
+<div class="sect2">
+<h3 id="_integrated_development_environment">29.1. Integrated development environment</h3>
+<div class="paragraph">
+<p>We have used the 2-node network simulation (<code>bin/unet samples/2-node-network.groovy</code>) umpteen times, but how did the simulator know where the nodes were and what agents were running on each node? That information must have been in the <code>2-node-network.groovy</code> simulation script, so let&#8217;s take a look at that script next.</p>
+</div>
+<div class="paragraph">
+<p>While we could open the script in our favorite editor directly, let&#8217;s instead use the Unet IDE included with UnetStack, as it provides development tools that we will be needing in our journey. To start the Unet IDE:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="shell"><span class="nv">$ </span>bin/unet sim
+Simulator IDE: http://localhost:8080/</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This should open the IDE in your default browser:</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/ide.png" alt="ide" width="80%">
+</div>
+</div>
+<div class="paragraph">
+<p>The IDE provides you with a fairly common 3-panel layout, with a file browser in the left panel, a simulation shell at the bottom, and a file editor occupying most of the window. On the top, you see several buttons. The key buttons to node are the <code><span class="icon"><i class="fa fa-play"></i></span></code> button that starts/stops simulations, the <code>Map</code> button that shows the current simulated nodes on a map, the 'Logs' button that allows you to view simulation logs, and a <code>Shells</code> dropdown that lists all the simulated nodes with shells. You can select any of the nodes from the list to connect to the shell of that node. The <code>Map</code> and <code>Shells</code> buttons are activated only once a simulation is running.</p>
+</div>
+<div class="paragraph">
+<p>Load the <code>2-node-network.groovy</code> simulation script from the <code>samples</code> folder in the file editor. Then press <code><span class="icon"><i class="fa fa-play"></i></span></code> to run it.</p>
+</div>
+<div class="admonitionblock tip">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
+<i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-Coming soon&#8230;&#8203;
+You can either press the <code><span class="icon"><i class="fa fa-play"></i></span></code> button or type <code>sim.run 'samples/2-node-network.groovy'</code> to run the simulation from the simulation shell panel.
 </td>
 </tr>
 </table>
 </div>
+<div class="paragraph">
+<p>In the shell panel, you&#8217;ll see:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="console"><span class="go">2-node network
+--------------
+
+Node A: tcp://localhost:1101, http://localhost:8081/
+Node B: tcp://localhost:1102, http://localhost:8082/</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To access node A shell, either control-click the URL for node A shell (<code><a href="http://localhost:8081/" class="bare">http://localhost:8081/</a></code>) or select <code>Node A (232)</code> from the <code>Shells</code> dropdown menu. This will open the node A shell in a separate browser tab. Once you have access to the shells for your node, you are on familiar ground, as you have been working with numerous realtime simulation in previous chapters. Now, you can safely close the shell tab for now and go back to the IDE tab. The shell tab can be reopened anytime you want.</p>
+</div>
+<div class="paragraph">
+<p>Next, try out the <code>Map</code> button, and you&#8217;ll see the 2 nodes in our simulation on a map:</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/ide-map1.png" alt="ide map1" width="80%">
+</div>
+</div>
+<div class="paragraph">
+<p>This map doesn&#8217;t look like much, with just 2 nodes 1 km apart on a blue background. The 2-node network simulation isn&#8217;t geolocated, so the map doesn&#8217;t have much to show. Let&#8217;s stop this simulation by pressing the <code><span class="icon"><i class="fa fa-stop"></i></span></code> button, and start the <code>scripts/mission2013-network.groovy</code> simulation instead.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You can either press the <code><span class="icon"><i class="fa fa-stop"></i></span></code> button or type <code>sim.stop</code> in the simulation shell panel to stop the currently running simulation.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now open the <code>Map</code>, and you&#8217;ll get a much nicer map of the network deployed in southern Singapore waters:</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/ide-map2.png" alt="ide map2" width="80%">
+</div>
+</div>
+<div class="paragraph">
+<p>Clicking on each individual node shows some information about that node, and provides a link to opening that node&#8217;s shell (if it has a shell agent running). In case of mobile nodes (<a href="#_node_mobility">Section 29.5</a>), you&#8217;ll see the nodes moving on the map.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_2_node_network">29.2. 2-node network</h3>
+<div class="paragraph">
+<p>Now that we know how to use the IDE, let&#8217;s stop the mission2013 network simulation and reopen the 2-node network simulation in the file browser. Recall that we started off the previous section wanting to study the <code>2-node-network.groovy</code> simulation script in detail to see how it works. So let&#8217;s get down to it:</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>samples/2-node-network.groovy</code>:</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="groovy"><span class="kn">import</span> <span class="nn">org.arl.fjage.*</span>                                     <i class="conum" data-value="1"></i><b>(1)</b>
+
+<span class="c1">///////////////////////////////////////////////////////////////////////////////</span>
+<span class="c1">// display documentation</span>
+
+<span class="n">println</span> <span class="s1">'''                                                <i class="conum" data-value="2"></i><b>(2)</b>
+2-node network
+--------------
+
+Node A: tcp://localhost:1101, http://localhost:8081/
+Node B: tcp://localhost:1102, http://localhost:8082/
+'''</span>
+
+<span class="c1">///////////////////////////////////////////////////////////////////////////////</span>
+<span class="c1">// simulator configuration</span>
+
+<span class="n">platform</span> <span class="o">=</span> <span class="n">RealTimePlatform</span>   <span class="c1">// use real-time mode        </span><i class="conum" data-value="3"></i><b>(3)</b>
+
+<span class="c1">// run the simulation forever</span>
+<span class="n">simulate</span> <span class="o">{</span>                                                 <i class="conum" data-value="4"></i><b>(4)</b>
+  <span class="n">node</span> <span class="s1">'A'</span><span class="o">,</span> <span class="nl">location:</span> <span class="o">[</span> <span class="mi">0</span><span class="o">.</span><span class="na">km</span><span class="o">,</span> <span class="mi">0</span><span class="o">.</span><span class="na">km</span><span class="o">,</span> <span class="o">-</span><span class="mi">15</span><span class="o">.</span><span class="na">m</span><span class="o">],</span> <span class="nl">web:</span> <span class="mi">8081</span><span class="o">,</span> <span class="nl">api:</span> <span class="mi">1101</span><span class="o">,</span> <span class="nl">stack:</span> <span class="s2">"$home/etc/setup"</span>
+  <span class="n">node</span> <span class="s1">'B'</span><span class="o">,</span> <span class="nl">location:</span> <span class="o">[</span> <span class="mi">1</span><span class="o">.</span><span class="na">km</span><span class="o">,</span> <span class="mi">0</span><span class="o">.</span><span class="na">km</span><span class="o">,</span> <span class="o">-</span><span class="mi">15</span><span class="o">.</span><span class="na">m</span><span class="o">],</span> <span class="nl">web:</span> <span class="mi">8082</span><span class="o">,</span> <span class="nl">api:</span> <span class="mi">1102</span><span class="o">,</span> <span class="nl">stack:</span> <span class="s2">"$home/etc/setup"</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Import classes needed in the simulation script.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Display documentation.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Tell the simulator that we want to run in realtime mode.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Describe the simulation specifying nodes names 'A' and 'B', their locations, web interface port numbers, API port numbers and the default network stack to load on each node.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The simulation script is very simple. All it does is specify that we want to use the <code>RealTimePlatform</code> (since we want to run a realtime simulation), and then define the two nodes in the simulation. Node attributes such as node name, location, ports, and stack (agents to load) are specified when describing each node.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s next take a look at the <code>setup.groovy</code> script that describes the stack to load on each node:</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>etc/setup.groovy</code>:</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="groovy"><span class="kn">import</span> <span class="nn">org.arl.fjage.Agent</span>
+
+<span class="kt">boolean</span> <span class="nf">loadAgentByClass</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">String</span> <span class="n">clazz</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">try</span> <span class="o">{</span>
+    <span class="n">container</span><span class="o">.</span><span class="na">add</span> <span class="n">name</span><span class="o">,</span> <span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="n">clazz</span><span class="o">).</span><span class="na">newInstance</span><span class="o">()</span>
+    <span class="k">return</span> <span class="kc">true</span>
+  <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="kc">false</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kt">boolean</span> <span class="nf">loadAgentByClass</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">String</span><span class="o">...</span> <span class="n">clazzes</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="nl">clazz:</span> <span class="n">clazzes</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">loadAgentByClass</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">clazz</span><span class="o">))</span> <span class="k">return</span> <span class="kc">true</span>
+  <span class="o">}</span>
+  <span class="k">return</span> <span class="kc">false</span>
+<span class="o">}</span>
+
+<span class="n">loadAgentByClass</span> <span class="s1">'arp'</span><span class="o">,</span>       <span class="s1">'org.arl.unet.addr.AddressResolution'</span>
+<span class="n">loadAgentByClass</span> <span class="s1">'ranging'</span><span class="o">,</span>   <span class="s1">'org.arl.unet.phy.Ranging'</span>
+<span class="n">loadAgentByClass</span> <span class="s1">'mac'</span><span class="o">,</span>       <span class="s1">'org.arl.unet.mac.CSMA'</span>
+<span class="n">loadAgentByClass</span> <span class="s1">'uwlink'</span><span class="o">,</span>    <span class="s1">'org.arl.unet.link.ECLink'</span><span class="o">,</span> <span class="s1">'org.arl.unet.link.ReliableLink'</span>
+<span class="n">loadAgentByClass</span> <span class="s1">'transport'</span><span class="o">,</span> <span class="s1">'org.arl.unet.transport.SWTransport'</span>
+<span class="n">loadAgentByClass</span> <span class="s1">'router'</span><span class="o">,</span>    <span class="s1">'org.arl.unet.net.Router'</span>
+<span class="n">loadAgentByClass</span> <span class="s1">'rdp'</span><span class="o">,</span>       <span class="s1">'org.arl.unet.net.RouteDiscoveryProtocol'</span>
+<span class="n">loadAgentByClass</span> <span class="s1">'state'</span><span class="o">,</span>     <span class="s1">'org.arl.unet.state.StateManager'</span>
+
+<span class="n">container</span><span class="o">.</span><span class="na">add</span> <span class="s1">'remote'</span><span class="o">,</span>       <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">remote</span><span class="o">.</span><span class="na">RemoteControl</span><span class="o">(</span><span class="nl">cwd:</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">home</span><span class="o">,</span> <span class="s1">'scripts'</span><span class="o">),</span> <span class="nl">enable:</span> <span class="kc">false</span><span class="o">)</span>
+<span class="n">container</span><span class="o">.</span><span class="na">add</span> <span class="s1">'bbmon'</span><span class="o">,</span>        <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">bb</span><span class="o">.</span><span class="na">BasebandSignalMonitor</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">home</span><span class="o">,</span> <span class="s1">'logs/signals-0.txt'</span><span class="o">).</span><span class="na">path</span><span class="o">,</span> <span class="mi">64</span><span class="o">)</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>While this script might look complicated, what it does is quite simple. It loads the standard agents in the network stack. The complicated bits in the script are mostly to handle errors, if certain agents are unavailable (e.g. agents from the premium stack). We could use a much simpler script to load the stack, if we wanted to avoid this complexity:</p>
+</div>
+<div class="listingblock">
+<div class="title">Simpler <code>etc/setup.groovy</code>:</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="groovy"><span class="n">container</span><span class="o">.</span><span class="na">add</span> <span class="s1">'arp'</span><span class="o">,</span>       <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">addr</span><span class="o">.</span><span class="na">AddressResolution</span><span class="o">()</span>
+<span class="n">container</span><span class="o">.</span><span class="na">add</span> <span class="s1">'ranging'</span><span class="o">,</span>   <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">phy</span><span class="o">.</span><span class="na">Ranging</span><span class="o">()</span>
+<span class="n">container</span><span class="o">.</span><span class="na">add</span> <span class="s1">'mac'</span><span class="o">,</span>       <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">mac</span><span class="o">.</span><span class="na">CSMA</span><span class="o">()</span>
+<span class="n">container</span><span class="o">.</span><span class="na">add</span> <span class="s1">'uwlink'</span><span class="o">,</span>    <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">link</span><span class="o">.</span><span class="na">ReliableLink</span><span class="o">()</span>
+<span class="n">container</span><span class="o">.</span><span class="na">add</span> <span class="s1">'transport'</span><span class="o">,</span> <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">transport</span><span class="o">.</span><span class="na">SWTransport</span><span class="o">()</span>
+<span class="n">container</span><span class="o">.</span><span class="na">add</span> <span class="s1">'router'</span><span class="o">,</span>    <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">net</span><span class="o">.</span><span class="na">Router</span><span class="o">()</span>
+<span class="n">container</span><span class="o">.</span><span class="na">add</span> <span class="s1">'rdp'</span><span class="o">,</span>       <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">net</span><span class="o">.</span><span class="na">RouteDiscoveryProtocol</span><span class="o">()</span>
+<span class="n">container</span><span class="o">.</span><span class="na">add</span> <span class="s1">'state'</span><span class="o">,</span>     <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">state</span><span class="o">.</span><span class="na">StateManager</span><span class="o">()</span>
+<span class="n">container</span><span class="o">.</span><span class="na">add</span> <span class="s1">'remote'</span><span class="o">,</span>    <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">remote</span><span class="o">.</span><span class="na">RemoteControl</span><span class="o">(</span><span class="nl">cwd:</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">home</span><span class="o">,</span> <span class="s1">'scripts'</span><span class="o">),</span> <span class="nl">enable:</span> <span class="kc">false</span><span class="o">)</span>
+<span class="n">container</span><span class="o">.</span><span class="na">add</span> <span class="s1">'bbmon'</span><span class="o">,</span>     <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">bb</span><span class="o">.</span><span class="na">BasebandSignalMonitor</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">home</span><span class="o">,</span> <span class="s1">'logs/signals-0.txt'</span><span class="o">).</span><span class="na">path</span><span class="o">,</span> <span class="mi">64</span><span class="o">)</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This script just loads all the standard agents in the basic stack.</p>
+</div>
+<div class="paragraph">
+<p>If you wanted to customize the stack in the simulation, you could specify a different script to setup the stack, or provide a closure directly when defining the simulation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="groovy"><span class="n">simulate</span> <span class="o">{</span>
+  <span class="n">node</span> <span class="s1">'A'</span><span class="o">,</span> <span class="nl">location:</span> <span class="o">[</span> <span class="mi">0</span><span class="o">.</span><span class="na">km</span><span class="o">,</span> <span class="mi">0</span><span class="o">.</span><span class="na">km</span><span class="o">,</span> <span class="o">-</span><span class="mi">15</span><span class="o">.</span><span class="na">m</span><span class="o">],</span> <span class="nl">web:</span> <span class="mi">8081</span><span class="o">,</span> <span class="nl">api:</span> <span class="mi">1101</span><span class="o">,</span> <span class="nl">stack:</span> <span class="s2">"$home/scripts/custom.groovy"</span>
+  <span class="n">node</span> <span class="s1">'B'</span><span class="o">,</span> <span class="nl">location:</span> <span class="o">[</span> <span class="mi">1</span><span class="o">.</span><span class="na">km</span><span class="o">,</span> <span class="mi">0</span><span class="o">.</span><span class="na">km</span><span class="o">,</span> <span class="o">-</span><span class="mi">15</span><span class="o">.</span><span class="na">m</span><span class="o">],</span> <span class="nl">web:</span> <span class="mi">8082</span><span class="o">,</span> <span class="nl">api:</span> <span class="mi">1102</span><span class="o">,</span> <span class="nl">stack:</span> <span class="o">{</span>
+    <span class="c1">// only load 3 agents on node B</span>
+    <span class="n">container</span><span class="o">.</span><span class="na">add</span> <span class="s1">'arp'</span><span class="o">,</span>       <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">addr</span><span class="o">.</span><span class="na">AddressResolution</span><span class="o">()</span>
+    <span class="n">container</span><span class="o">.</span><span class="na">add</span> <span class="s1">'mac'</span><span class="o">,</span>       <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">mac</span><span class="o">.</span><span class="na">CSMA</span><span class="o">()</span>
+    <span class="n">container</span><span class="o">.</span><span class="na">add</span> <span class="s1">'uwlink'</span><span class="o">,</span>    <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">link</span><span class="o">.</span><span class="na">ReliableLink</span><span class="o">()</span>
+  <span class="o">}</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Recall that in <a href="#_groovy_echo_daemon">Section 27.2</a>, we developed our own <code>EchoDaemon.groovy</code> agent. If we wanted to preload it in our 2-node network simulation, we can add <code>container.add 'echo', new EchoDaemon()</code> in the <code>custom.groovy</code> script or directly in the closure shown above.
+</td>
+</tr>
+</table>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Simulated node properties</div>
+<div class="paragraph">
+<p>When defining a node, you can set many properties of the node:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>address</code></dt>
+<dd>
+<p>Node address.</p>
+</dd>
+<dt class="hdlist1"><code>web</code></dt>
+<dd>
+<p>TCP/IP port number for the web interface. Each node should have a unique port number. By default, for security reasons, the web interface is only accessible from your local machine. If you wish for it to be accessible externally, you need to specify the <code>web</code> property as <code>['0.0.0.0', port]</code> where <code>port</code> is the port number.</p>
+</dd>
+<dt class="hdlist1"><code>shell</code></dt>
+<dd>
+<p>If the value of <code>shell</code> is <code>true</code>, a console shell is opened on the node. No more than one node in the simulation should have a console shell. If the value of <code>shell</code> is numeric, it is treated as a TCP/IP port number to make the shell accessible over. Each node should have a unique port number. You can connect to the shell using <code>nc</code> or <code>telnet</code>.</p>
+</dd>
+<dt class="hdlist1"><code>api</code></dt>
+<dd>
+<p>TCP/IP port number for the API port. This port is used by the gateway API or fjåge slave containers. Each node should have a unique port number.</p>
+</dd>
+<dt class="hdlist1"><code>location</code></dt>
+<dd>
+<p>Node location specified as a 3-tuple. The format of the location tuple is described in <a href="#_node_locations_coordinate_systems">Section 5.6</a>.</p>
+</dd>
+<dt class="hdlist1"><code>mobility</code></dt>
+<dd>
+<p><code>true</code> if the node is mobile, <code>false</code> if it is static. The default is <code>false</code>, if <code>mobility</code> is not specified.</p>
+</dd>
+<dt class="hdlist1"><code>heading</code></dt>
+<dd>
+<p>Initial heading of the node (in case of mobile nodes). The heading is specified in degrees, measured clockwise, north being 0.</p>
+</dd>
+<dt class="hdlist1"><code>stack</code></dt>
+<dd>
+<p>Filename of script to run, or a closure to execute, to load agents in the network stack.</p>
+</dd>
+<dt class="hdlist1"><code>model</code></dt>
+<dd>
+<p>Class to use for the NODE_INFO service. The NODE_INFO service for each node is normally provided by the <code>org.arl.unet.nodeinfo.NodeInfo</code> agent class. This agent is loaded before the stack is initialized, and therefore cannot be customized using the <code>stack</code> property.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_netiquette_3_node_network">29.3. Netiquette 3-node network</h3>
+<div class="paragraph">
+<p>The <code>2-node-network.groovy</code> script defined 2 nodes that were 1 km apart, but were not geolocated. Recall from <a href="#_node_locations_coordinate_systems">Section 5.6</a> that specifying a node origin allows us to geolocate the nodes on a map. The <code>netq-network.groovy</code> simulation script does this:</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>samples/netq-network.groovy</code>:</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="groovy"><span class="kn">import</span> <span class="nn">org.arl.fjage.RealTimePlatform</span>
+
+<span class="c1">///////////////////////////////////////////////////////////////////////////////</span>
+<span class="c1">// display documentation</span>
+
+<span class="n">println</span> <span class="s1">'''
+Netiquette 3-node network
+-------------------------
+
+Node A: tcp://localhost:1101, http://localhost:8081/
+Node B: tcp://localhost:1102, http://localhost:8082/
+Node C: tcp://localhost:1103, http://localhost:8083/
+'''</span>
+
+<span class="c1">///////////////////////////////////////////////////////////////////////////////</span>
+<span class="c1">// simulator configuration</span>
+
+<span class="n">platform</span> <span class="o">=</span> <span class="n">RealTimePlatform</span>   <span class="c1">// use real-time mode</span>
+<span class="n">origin</span> <span class="o">=</span> <span class="o">[</span><span class="mf">1.216</span><span class="o">,</span> <span class="mf">103.851</span><span class="o">]</span>     <i class="conum" data-value="1"></i><b>(1)</b>
+
+<span class="n">simulate</span> <span class="o">{</span>
+  <span class="n">node</span> <span class="s1">'A'</span><span class="o">,</span> <span class="nl">location:</span> <span class="o">[</span><span class="mi">121</span><span class="o">.</span><span class="na">m</span><span class="o">,</span>  <span class="mi">137</span><span class="o">.</span><span class="na">m</span><span class="o">,</span> <span class="o">-</span><span class="mi">10</span><span class="o">.</span><span class="na">m</span><span class="o">],</span> <span class="nl">web:</span> <span class="mi">8081</span><span class="o">,</span> <span class="nl">api:</span> <span class="mi">1101</span><span class="o">,</span> <span class="nl">stack:</span> <span class="s2">"$home/etc/setup"</span>
+  <span class="n">node</span> <span class="s1">'B'</span><span class="o">,</span> <span class="nl">location:</span> <span class="o">[</span><span class="mi">160</span><span class="o">.</span><span class="na">m</span><span class="o">,</span> <span class="o">-</span><span class="mi">232</span><span class="o">.</span><span class="na">m</span><span class="o">,</span> <span class="o">-</span><span class="mi">15</span><span class="o">.</span><span class="na">m</span><span class="o">],</span> <span class="nl">web:</span> <span class="mi">8082</span><span class="o">,</span> <span class="nl">api:</span> <span class="mi">1102</span><span class="o">,</span> <span class="nl">stack:</span> <span class="s2">"$home/etc/setup"</span>
+  <span class="n">node</span> <span class="s1">'C'</span><span class="o">,</span> <span class="nl">location:</span> <span class="o">[</span><span class="mi">651</span><span class="o">.</span><span class="na">m</span><span class="o">,</span>  <span class="mi">140</span><span class="o">.</span><span class="na">m</span><span class="o">,</span>  <span class="o">-</span><span class="mi">5</span><span class="o">.</span><span class="na">m</span><span class="o">],</span> <span class="nl">web:</span> <span class="mi">8083</span><span class="o">,</span> <span class="nl">api:</span> <span class="mi">1103</span><span class="o">,</span> <span class="nl">stack:</span> <span class="s2">"$home/etc/setup"</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The specified <code>origin</code> (latitude, longitude) applies to all nodes in the simulation.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Starting the simulation and opening the map shows the nodes on the map, since the origin allows the IDE to geolocate the nodes:</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/ide-map3.png" alt="ide map3" width="80%">
+</div>
+</div>
+<div class="paragraph">
+<p>The <code><span class="icon"><i class="fa fa-plus"></i></span></code> icon on the map marks the origin location.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mission_2013_network_2">29.4. Mission 2013 network</h3>
+<div class="paragraph">
+<p>The simulation script is written in Groovy, so you can include complex logic in the script , if you wish. From this perspective, the <code>mission2013-network.groovy</code> script is instructive to look at:</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>samples/mission2013-network.groovy</code>:</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="groovy"><span class="kn">import</span> <span class="nn">org.arl.fjage.RealTimePlatform</span>
+<span class="kn">import</span> <span class="nn">org.arl.unet.sim.channels.Mission2013a</span>
+
+<span class="c1">///////////////////////////////////////////////////////////////////////////////</span>
+<span class="c1">// display documentation</span>
+
+<span class="n">println</span> <span class="s1">'''
+MISSION 2013 network
+--------------------
+'''</span>
+<span class="n">Mission2013a</span><span class="o">.</span><span class="na">nodes</span><span class="o">.</span><span class="na">each</span> <span class="o">{</span> <span class="n">addr</span> <span class="o">-&gt;</span>
+  <span class="n">println</span> <span class="s2">"Node $addr: tcp://localhost:${1100+addr}, http://localhost:${8000+addr}/"</span>
+<span class="o">}</span>
+
+<span class="c1">///////////////////////////////////////////////////////////////////////////////</span>
+<span class="c1">// simulator configuration</span>
+
+<span class="n">platform</span> <span class="o">=</span> <span class="n">RealTimePlatform</span>   <span class="c1">// use real-time mode</span>
+<span class="n">channel</span> <span class="o">=</span> <span class="o">[</span> <span class="nl">model:</span> <span class="n">Mission2013a</span> <span class="o">]</span>                          <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="n">origin</span> <span class="o">=</span> <span class="o">[</span><span class="mf">1.217</span><span class="o">,</span> <span class="mf">103.743</span><span class="o">]</span>
+
+<span class="n">simulate</span> <span class="o">{</span>
+  <span class="n">Mission2013a</span><span class="o">.</span><span class="na">nodes</span><span class="o">.</span><span class="na">each</span> <span class="o">{</span> <span class="n">addr</span> <span class="o">-&gt;</span>                        <i class="conum" data-value="2"></i><b>(2)</b>
+    <span class="n">node</span> <span class="s2">"$addr"</span><span class="o">,</span> <span class="nl">location:</span> <span class="n">Mission2013a</span><span class="o">.</span><span class="na">nodeLocation</span><span class="o">[</span><span class="n">addr</span><span class="o">],</span> <span class="nl">web:</span> <span class="mi">8000</span><span class="o">+</span><span class="n">addr</span><span class="o">,</span> <span class="nl">api:</span> <span class="mi">1100</span><span class="o">+</span><span class="n">addr</span><span class="o">,</span> <span class="nl">stack:</span> <span class="s2">"$home/etc/setup"</span>
+  <span class="o">}</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <code>channel</code> property of the simulation enables us to define details of the simulated physical channel for the network. We will learn more about simulating channels in <a href="#_modems_and_channel_models">Chapter 31</a>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Nodes can be created programatically by iterating over the list of nodes defined in the <code>Mission2013a</code> class.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <code>Mission2013a</code> class contains information about the MISSION 2013 experiment. The <code>mission2013-network.groovy</code> simulation script uses this information to create simulated nodes at the correct locations, and to define a channel model based on measurements during that experiment.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_node_mobility">29.5. Node mobility</h3>
+<div class="paragraph">
+<p>Nodes in a simulation may be mobile (e.g. autonomous underwater vehicles). Such nodes are motion models associated with them, to provide appropriate mobility during the simulation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="groovy"><span class="c1">// AUV-1 moving in a straight line at constant speed</span>
+<span class="kt">def</span> <span class="n">n1</span> <span class="o">=</span> <span class="n">node</span> <span class="s1">'AUV-1'</span><span class="o">,</span> <span class="nl">location:</span> <span class="o">[</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">],</span> <span class="nl">mobility:</span> <span class="kc">true</span>
+<span class="n">n1</span><span class="o">.</span><span class="na">motionModel</span> <span class="o">=</span> <span class="o">[</span><span class="nl">speed:</span> <span class="mi">1</span><span class="o">.</span><span class="na">mps</span><span class="o">,</span> <span class="nl">heading:</span> <span class="mi">30</span><span class="o">.</span><span class="na">deg</span><span class="o">]</span>
+
+<span class="c1">// AUV-2 moving in a circle (constant speed, constant turn rate)</span>
+<span class="kt">def</span> <span class="n">n2</span> <span class="o">=</span> <span class="n">node</span> <span class="s1">'AUV-2'</span><span class="o">,</span> <span class="nl">location:</span> <span class="o">[</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">],</span> <span class="nl">mobility:</span> <span class="kc">true</span>
+<span class="n">n2</span><span class="o">.</span><span class="na">motionModel</span> <span class="o">=</span> <span class="o">[</span><span class="nl">speed:</span> <span class="mi">1</span><span class="o">.</span><span class="na">mps</span><span class="o">,</span> <span class="nl">turnRate:</span> <span class="mi">1</span><span class="o">.</span><span class="na">dps</span><span class="o">]</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We can also define more complex motion models:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="groovy"><span class="c1">// AUV-3 moving in a lawnmower pattern</span>
+<span class="kt">def</span> <span class="n">n3</span> <span class="o">=</span> <span class="n">node</span> <span class="s1">'AUV-3'</span><span class="o">,</span> <span class="nl">location:</span> <span class="o">[-</span><span class="mi">20</span><span class="o">.</span><span class="na">m</span><span class="o">,</span> <span class="o">-</span><span class="mi">150</span><span class="o">.</span><span class="na">m</span><span class="o">,</span> <span class="mi">0</span><span class="o">],</span> <span class="nl">heading:</span> <span class="mi">0</span><span class="o">.</span><span class="na">deg</span><span class="o">,</span> <span class="nl">mobility:</span> <span class="kc">true</span>
+<span class="n">n3</span><span class="o">.</span><span class="na">motionModel</span> <span class="o">=</span> <span class="n">MotionModel</span><span class="o">.</span><span class="na">lawnmower</span><span class="o">(</span><span class="nl">speed:</span> <span class="mi">1</span><span class="o">.</span><span class="na">mps</span><span class="o">,</span> <span class="nl">leg:</span> <span class="mi">200</span><span class="o">.</span><span class="na">m</span><span class="o">,</span> <span class="nl">spacing:</span> <span class="mi">20</span><span class="o">.</span><span class="na">m</span><span class="o">,</span> <span class="nl">legs:</span> <span class="mi">10</span><span class="o">)</span>
+
+<span class="c1">// AUV-4 moving as defined below, using time or duration</span>
+<span class="kt">def</span> <span class="n">n4</span> <span class="o">=</span> <span class="n">node</span> <span class="s1">'AUV-4'</span><span class="o">,</span> <span class="nl">location:</span> <span class="o">[-</span><span class="mi">50</span><span class="o">.</span><span class="na">m</span><span class="o">,</span> <span class="o">-</span><span class="mi">50</span><span class="o">.</span><span class="na">m</span><span class="o">,</span> <span class="mi">0</span><span class="o">],</span> <span class="nl">mobility:</span> <span class="kc">true</span>
+<span class="n">n4</span><span class="o">.</span><span class="na">motionModel</span> <span class="o">=</span> <span class="o">[</span>
+  <span class="o">[</span><span class="nl">time:</span>     <span class="mi">0</span><span class="o">.</span><span class="na">minutes</span><span class="o">,</span> <span class="nl">heading:</span>  <span class="mi">60</span><span class="o">.</span><span class="na">deg</span><span class="o">,</span> <span class="nl">speed:</span>       <span class="mi">1</span><span class="o">.</span><span class="na">mps</span><span class="o">],</span>
+  <span class="o">[</span><span class="nl">time:</span>     <span class="mi">3</span><span class="o">.</span><span class="na">minutes</span><span class="o">,</span> <span class="nl">turnRate:</span>  <span class="mi">2</span><span class="o">.</span><span class="na">dps</span><span class="o">,</span> <span class="nl">diveRate:</span>  <span class="mf">0.1</span><span class="o">.</span><span class="na">mps</span><span class="o">],</span>
+  <span class="o">[</span><span class="nl">time:</span>     <span class="mi">4</span><span class="o">.</span><span class="na">minutes</span><span class="o">,</span> <span class="nl">turnRate:</span>  <span class="mi">0</span><span class="o">.</span><span class="na">dps</span><span class="o">,</span> <span class="nl">diveRate:</span>    <span class="mi">0</span><span class="o">.</span><span class="na">mps</span><span class="o">],</span>
+  <span class="o">[</span><span class="nl">time:</span>     <span class="mi">7</span><span class="o">.</span><span class="na">minutes</span><span class="o">,</span> <span class="nl">turnRate:</span>  <span class="mi">2</span><span class="o">.</span><span class="na">dps</span>                    <span class="o">],</span>
+  <span class="o">[</span><span class="nl">time:</span>     <span class="mi">8</span><span class="o">.</span><span class="na">minutes</span><span class="o">,</span> <span class="nl">turnRate:</span>  <span class="mi">0</span><span class="o">.</span><span class="na">dps</span>                    <span class="o">],</span>
+  <span class="o">[</span><span class="nl">duration:</span> <span class="mi">3</span><span class="o">.</span><span class="na">minutes</span><span class="o">,</span> <span class="nl">turnRate:</span>  <span class="mi">2</span><span class="o">.</span><span class="na">dps</span><span class="o">,</span> <span class="nl">diveRate:</span> <span class="o">-</span><span class="mf">0.1</span><span class="o">.</span><span class="na">mps</span><span class="o">],</span>
+  <span class="o">[</span><span class="nl">duration:</span> <span class="mi">1</span><span class="o">.</span><span class="na">minute</span><span class="o">,</span>  <span class="nl">turnRate:</span>  <span class="mi">0</span><span class="o">.</span><span class="na">dps</span><span class="o">,</span> <span class="nl">diveRate:</span>    <span class="mi">0</span><span class="o">.</span><span class="na">mps</span><span class="o">]</span>
+<span class="o">]</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We can even combine motion models:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="groovy"><span class="kt">def</span> <span class="n">n5</span> <span class="o">=</span> <span class="n">node</span> <span class="s1">'AUV-5'</span><span class="o">,</span> <span class="nl">location:</span> <span class="o">[-</span><span class="mi">20</span><span class="o">.</span><span class="na">m</span><span class="o">,</span> <span class="o">-</span><span class="mi">150</span><span class="o">.</span><span class="na">m</span><span class="o">,</span> <span class="mi">0</span><span class="o">],</span> <span class="nl">heading:</span> <span class="mi">0</span><span class="o">.</span><span class="na">deg</span><span class="o">,</span> <span class="nl">mobility:</span> <span class="kc">true</span>
+
+<span class="c1">// dive to 30m before starting survey</span>
+<span class="n">n5</span><span class="o">.</span><span class="na">motionModel</span> <span class="o">=</span> <span class="o">[</span>
+  <span class="o">[</span><span class="nl">duration:</span> <span class="mi">5</span><span class="o">.</span><span class="na">minutes</span><span class="o">,</span> <span class="nl">speed:</span> <span class="mi">1</span><span class="o">.</span><span class="na">mps</span><span class="o">,</span> <span class="nl">diveRate:</span> <span class="mf">0.1</span><span class="o">.</span><span class="na">mps</span><span class="o">],</span>
+  <span class="o">[</span><span class="nl">diveRate:</span> <span class="mi">0</span><span class="o">.</span><span class="na">mps</span><span class="o">]</span>
+<span class="o">]</span>
+
+<span class="c1">// then do a lawnmower survey</span>
+<span class="n">n5</span><span class="o">.</span><span class="na">motionModel</span> <span class="o">+=</span> <span class="n">MotionModel</span><span class="o">.</span><span class="na">lawnmower</span><span class="o">(</span><span class="nl">speed:</span> <span class="mi">1</span><span class="o">.</span><span class="na">mps</span><span class="o">,</span> <span class="nl">leg:</span> <span class="mi">200</span><span class="o">.</span><span class="na">m</span><span class="o">,</span> <span class="nl">spacing:</span> <span class="mi">20</span><span class="o">.</span><span class="na">m</span><span class="o">,</span> <span class="nl">legs:</span> <span class="mi">10</span><span class="o">)</span>
+
+<span class="c1">// finally, come back to the surface and stop</span>
+<span class="n">n5</span><span class="o">.</span><span class="na">motionModel</span> <span class="o">+=</span> <span class="o">[</span>
+  <span class="o">[</span><span class="nl">duration:</span> <span class="mi">5</span><span class="o">.</span><span class="na">minutes</span><span class="o">,</span> <span class="nl">speed:</span> <span class="mi">1</span><span class="o">.</span><span class="na">mps</span><span class="o">,</span> <span class="nl">diveRate:</span> <span class="o">-</span><span class="mf">0.1</span><span class="o">.</span><span class="na">mps</span><span class="o">],</span>
+  <span class="o">[</span><span class="nl">diveRate:</span> <span class="mi">0</span><span class="o">.</span><span class="na">mps</span><span class="o">,</span> <span class="nl">speed:</span> <span class="mi">0</span><span class="o">.</span><span class="na">mps</span><span class="o">]</span>
+<span class="o">]</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s put AUVs 1-4 together into a single simulation script:</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>auv-network.groovy</code></div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="groovy"><span class="kn">import</span> <span class="nn">org.arl.fjage.RealTimePlatform</span>
+<span class="kn">import</span> <span class="nn">org.arl.unet.sim.MotionModel</span>
+
+<span class="n">platform</span> <span class="o">=</span> <span class="n">RealTimePlatform</span>
+
+<span class="n">simulate</span> <span class="o">{</span>
+    <span class="kt">def</span> <span class="n">n1</span> <span class="o">=</span> <span class="n">node</span> <span class="s1">'AUV-1'</span><span class="o">,</span> <span class="nl">location:</span> <span class="o">[</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">],</span> <span class="nl">mobility:</span> <span class="kc">true</span>
+    <span class="n">n1</span><span class="o">.</span><span class="na">motionModel</span> <span class="o">=</span> <span class="o">[</span><span class="nl">speed:</span> <span class="mi">1</span><span class="o">.</span><span class="na">mps</span><span class="o">,</span> <span class="nl">heading:</span> <span class="mi">30</span><span class="o">.</span><span class="na">deg</span><span class="o">]</span>
+    <span class="kt">def</span> <span class="n">n2</span> <span class="o">=</span> <span class="n">node</span> <span class="s1">'AUV-2'</span><span class="o">,</span> <span class="nl">location:</span> <span class="o">[</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">],</span> <span class="nl">mobility:</span> <span class="kc">true</span>
+    <span class="n">n2</span><span class="o">.</span><span class="na">motionModel</span> <span class="o">=</span> <span class="o">[</span><span class="nl">speed:</span> <span class="mi">1</span><span class="o">.</span><span class="na">mps</span><span class="o">,</span> <span class="nl">turnRate:</span> <span class="mi">1</span><span class="o">.</span><span class="na">dps</span><span class="o">]</span>
+    <span class="kt">def</span> <span class="n">n3</span> <span class="o">=</span> <span class="n">node</span> <span class="s1">'AUV-3'</span><span class="o">,</span> <span class="nl">location:</span> <span class="o">[-</span><span class="mi">20</span><span class="o">.</span><span class="na">m</span><span class="o">,</span> <span class="o">-</span><span class="mi">150</span><span class="o">.</span><span class="na">m</span><span class="o">,</span> <span class="mi">0</span><span class="o">],</span> <span class="nl">heading:</span> <span class="mi">0</span><span class="o">.</span><span class="na">deg</span><span class="o">,</span> <span class="nl">mobility:</span> <span class="kc">true</span>
+    <span class="n">n3</span><span class="o">.</span><span class="na">motionModel</span> <span class="o">=</span> <span class="n">MotionModel</span><span class="o">.</span><span class="na">lawnmower</span><span class="o">(</span><span class="nl">speed:</span> <span class="mi">1</span><span class="o">.</span><span class="na">mps</span><span class="o">,</span> <span class="nl">leg:</span> <span class="mi">200</span><span class="o">.</span><span class="na">m</span><span class="o">,</span> <span class="nl">spacing:</span> <span class="mi">20</span><span class="o">.</span><span class="na">m</span><span class="o">,</span> <span class="nl">legs:</span> <span class="mi">10</span><span class="o">)</span>
+    <span class="kt">def</span> <span class="n">n4</span> <span class="o">=</span> <span class="n">node</span> <span class="s1">'AUV-4'</span><span class="o">,</span> <span class="nl">location:</span> <span class="o">[-</span><span class="mi">50</span><span class="o">.</span><span class="na">m</span><span class="o">,</span> <span class="o">-</span><span class="mi">50</span><span class="o">.</span><span class="na">m</span><span class="o">,</span> <span class="mi">0</span><span class="o">],</span> <span class="nl">mobility:</span> <span class="kc">true</span>
+    <span class="n">n4</span><span class="o">.</span><span class="na">motionModel</span> <span class="o">=</span> <span class="o">[</span>
+        <span class="o">[</span><span class="nl">time:</span>     <span class="mi">0</span><span class="o">.</span><span class="na">minutes</span><span class="o">,</span> <span class="nl">heading:</span>  <span class="mi">60</span><span class="o">.</span><span class="na">deg</span><span class="o">,</span> <span class="nl">speed:</span>       <span class="mi">1</span><span class="o">.</span><span class="na">mps</span><span class="o">],</span>
+        <span class="o">[</span><span class="nl">time:</span>     <span class="mi">3</span><span class="o">.</span><span class="na">minutes</span><span class="o">,</span> <span class="nl">turnRate:</span>  <span class="mi">2</span><span class="o">.</span><span class="na">dps</span><span class="o">,</span> <span class="nl">diveRate:</span>  <span class="mf">0.1</span><span class="o">.</span><span class="na">mps</span><span class="o">],</span>
+        <span class="o">[</span><span class="nl">time:</span>     <span class="mi">4</span><span class="o">.</span><span class="na">minutes</span><span class="o">,</span> <span class="nl">turnRate:</span>  <span class="mi">0</span><span class="o">.</span><span class="na">dps</span><span class="o">,</span> <span class="nl">diveRate:</span>    <span class="mi">0</span><span class="o">.</span><span class="na">mps</span><span class="o">],</span>
+        <span class="o">[</span><span class="nl">time:</span>     <span class="mi">7</span><span class="o">.</span><span class="na">minutes</span><span class="o">,</span> <span class="nl">turnRate:</span>  <span class="mi">2</span><span class="o">.</span><span class="na">dps</span>                    <span class="o">],</span>
+        <span class="o">[</span><span class="nl">time:</span>     <span class="mi">8</span><span class="o">.</span><span class="na">minutes</span><span class="o">,</span> <span class="nl">turnRate:</span>  <span class="mi">0</span><span class="o">.</span><span class="na">dps</span>                    <span class="o">],</span>
+        <span class="o">[</span><span class="nl">duration:</span> <span class="mi">3</span><span class="o">.</span><span class="na">minutes</span><span class="o">,</span> <span class="nl">turnRate:</span>  <span class="mi">2</span><span class="o">.</span><span class="na">dps</span><span class="o">,</span> <span class="nl">diveRate:</span> <span class="o">-</span><span class="mf">0.1</span><span class="o">.</span><span class="na">mps</span><span class="o">],</span>
+        <span class="o">[</span><span class="nl">duration:</span> <span class="mi">1</span><span class="o">.</span><span class="na">minute</span><span class="o">,</span>  <span class="nl">turnRate:</span>  <span class="mi">0</span><span class="o">.</span><span class="na">dps</span><span class="o">,</span> <span class="nl">diveRate:</span>    <span class="mi">0</span><span class="o">.</span><span class="na">mps</span><span class="o">]</span>
+    <span class="o">]</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Save this <code>auv-network.groovy</code> in your <code>scripts</code> folder and run it. Open the map, and watch your AUV nodes move!</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/ide-map4.png" alt="ide map4" width="80%">
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_writing_simulation_scripts">30. Writing simulation scripts</h2>
+<h2 id="_discrete_event_simulation">30. Discrete event simulation</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>Running simulations in realtime gives us an experience which is very similar to working with a real Unet, as we have seen in earlier chapters. This is very useful when you want to interact with the network manually, through a shell. However, as a network designer or protocol developer, you may sometimes need to run simulations to see how the network performs over days or months. Doing this with a real-time simulator is impractical, as a realtime simulation would take days or months to run. The Unet simulator can be run in a <em>discrete event</em> mode, where the waiting time between events is <em>fast-forwarded</em> to yield results worth hours or days of real time within minutes. We will also learn how to use the disrete event mode for large-scale simulation of protocol performance.</p>
+</div>
 <div class="admonitionblock warning">
 <table>
 <tr>
@@ -9535,40 +10016,6 @@ Coming soon&#8230;&#8203;
 </div>
 <div class="sect1">
 <h2 id="_modems_and_channel_models">31. Modems and channel models</h2>
-<div class="sectionbody">
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-Coming soon&#8230;&#8203;
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_developing_your_own_channel_models">32. Developing your own channel models</h2>
-<div class="sectionbody">
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-Coming soon&#8230;&#8203;
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_node_mobility">33. Node mobility</h2>
 <div class="sectionbody">
 <div class="admonitionblock warning">
 <table>
@@ -9834,7 +10281,7 @@ Coming soon&#8230;&#8203;
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br>
-Last updated 2019-09-22 22:12:45 +0800
+Last updated 2019-09-23 01:47:43 +0800
 </div>
 </div>
 <style>

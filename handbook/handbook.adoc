@@ -116,33 +116,17 @@ include::agents.adoc[]
 include::agents2.adoc[]
 
 //== Integrating with sensors
-
 //== UnetStack shell extensions
 
 WARNING: Coming soon...
 
 = *Part VI: Simulating underwater networks*
 
-== Integrated development environment (IDE)
+include::sim.adoc[]
 
-WARNING: Coming soon...
+include::sim2.adoc[]
 
-== Writing simulation scripts
-
-WARNING: Coming soon...
-
-== Modems and channel models
-
-// TODO: explain why channel.dataRate differs from phy[].dataRate
-WARNING: Coming soon...
-
-== Developing your own channel models
-
-WARNING: Coming soon...
-
-== Node mobility
-
-WARNING: Coming soon...
+include::models.adoc[]
 
 // appedices
 

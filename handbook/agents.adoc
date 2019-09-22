@@ -110,7 +110,7 @@ It's time for us to test this agent. Create a file called `EchoDaemon.groovy` in
 
 .Editing scripts and classes
 ****
-With the unet simulator or unet audio running on your machine, you can use your favorite text editor to directly create the `EchoDaemon.groovy` in the `classes` folder. However, a more generic way (that works on modems as well) is to open node A's shell, select `Script editor`, and use the new file icon in the `/classes/` section to create the file:
+With the unet simulator or unet audio running on your machine, you can use your favorite text editor to directly create the `EchoDaemon.groovy` in the `classes` folder. However, a more generic way (that works on modems as well) is to open node A's shell, select `Script editor`, and use the new file button (icon:file[]) in the `/classes/` section to create the file:
 
 image::script-editor-1.png[width=80%,align="center"]
 

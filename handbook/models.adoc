@@ -1,0 +1,6 @@
+== Modems and channel models
+
+WARNING: Coming soon...
+
+// TODO: explain why channel.dataRate differs from phy[].dataRate
+// TODO: Developing your own channel models

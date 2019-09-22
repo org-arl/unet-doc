@@ -1,0 +1,5 @@
+== Discrete event simulation
+
+Running simulations in realtime gives us an experience which is very similar to working with a real Unet, as we have seen in earlier chapters. This is very useful when you want to interact with the network manually, through a shell. However, as a network designer or protocol developer, you may sometimes need to run simulations to see how the network performs over days or months. Doing this with a real-time simulator is impractical, as a realtime simulation would take days or months to run. The Unet simulator can be run in a _discrete event_ mode, where the waiting time between events is _fast-forwarded_ to yield results worth hours or days of real time within minutes. We will also learn how to use the disrete event mode for large-scale simulation of protocol performance.
+
+WARNING: Coming soon...

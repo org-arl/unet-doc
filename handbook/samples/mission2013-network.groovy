@@ -1,6 +1,3 @@
-//! Simulation: MISSION 2013 network
-///////////////////////////////////////////////////////////////////////////////
-
 import org.arl.fjage.RealTimePlatform
 import org.arl.unet.sim.channels.Mission2013a
 
