@@ -256,7 +256,7 @@ For brevity, we have omitted the baseband service and scheduler service paramete
 
 Further, let's look at the indexed parameters for the CONTROL channel:
 
-[source, shell]
+[source, console]
 ----
 > phy[CONTROL]
 <<< PHY >>>
@@ -318,12 +318,12 @@ true
 > subscribe phy
 > phy << new TxFrameReq()
 AGREE
-phy >> TxFrameStartNtf:INFORM[type:CONTROL txTime:79322682]                #<1>
-phy >> RxFrameStartNtf:INFORM[type:CONTROL rxTime:79309353 detector:0.87]  #<2>
-phy >> RxFrameStartNtf:INFORM[type:DATA rxTime:80659519 detector:0.26]     #<3>
-phy >> TxFrameNtf:INFORM[type:CONTROL txTime:79310432]                     #<4>
-phy >> RxFrameNtf:INFORM[type:CONTROL from:1 rxTime:79309353 rssi:-29.3]   #<5>
-phy >> BadFrameNtf:INFORM[type:DATA rxTime:80659519 rssi:-38.5 (18 bytes)] #<6>
+phy >> TxFrameStartNtf:INFORM[type:CONTROL txTime:79322682]                //<1>
+phy >> RxFrameStartNtf:INFORM[type:CONTROL rxTime:79309353 detector:0.87]  //<2>
+phy >> RxFrameStartNtf:INFORM[type:DATA rxTime:80659519 detector:0.26]     //<3>
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:79310432]                     //<4>
+phy >> RxFrameNtf:INFORM[type:CONTROL from:1 rxTime:79309353 rssi:-29.3]   //<5>
+phy >> BadFrameNtf:INFORM[type:DATA rxTime:80659519 rssi:-38.5 (18 bytes)] //<6>
 ----
 <1> Transmission of our requested CONTROL frame has started.
 <2> Our frame being transmitted was detected as a CONTROL frame, and reception has started.
@@ -421,10 +421,10 @@ Sometimes you may not need to transmit a timestamped frame, but you do want the 
 
 [source, console]
 ----
-> t = phy.time + 5000000; println(t); phy << new TxFrameReq(txTime: t) #<1>
-3174864375                                                             #<2>
+> t = phy.time + 5000000; println(t); phy << new TxFrameReq(txTime: t) //<1>
+3174864375                                                             //<2>
 AGREE
-phy >> TxFrameNtf:INFORM[type:CONTROL txTime:3174864375]               #<3>
+phy >> TxFrameNtf:INFORM[type:CONTROL txTime:3174864375]               //<3>
 ----
 <1> `t` is the current time + 5 seconds. We ask for a frame to be transmitted at time `t`.
 <2> The value of time `t` is printed immediately (due to the `println(t)`).

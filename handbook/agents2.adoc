@@ -256,7 +256,7 @@ class MySimpleThrottledMac extends UnetAgent {
   private final static double TARGET_LOAD     = 0.5
   private final static int    MAX_QUEUE_LEN   = 16
 
-  #<1>
+  //<1>
   private AgentID phy
   boolean busy = false   // is a reservation currently ongoing?
   Long t0 = null         // time of last reservation start, or null
@@ -270,7 +270,7 @@ class MySimpleThrottledMac extends UnetAgent {
 
   @Override
   void startup() {
-    phy = agentForService Services.PHYSICAL      #<2>
+    phy = agentForService Services.PHYSICAL      //<2>
   }
 
   @Override
@@ -290,17 +290,17 @@ class MySimpleThrottledMac extends UnetAgent {
           to: msg.to,
           status: ReservationStatus.END)
 
-        // grant the request after a random backoff                         #<3>
-        AgentLocalRandom rnd = AgentLocalRandom.current()                   #<4>
-        double backoff = rnd.nextExp(TARGET_LOAD/msg.duration/nodes)        #<5>
+        // grant the request after a random backoff                         //<3>
+        AgentLocalRandom rnd = AgentLocalRandom.current()                   //<4>
+        double backoff = rnd.nextExp(TARGET_LOAD/msg.duration/nodes)        //<5>
         long t = currentTimeMillis()
         if (t0 == null || t0 < t) t0 = t
         t0 += Math.round(1000*backoff)  // schedule packet with a random backoff
-        if (t0 < t1) t0 = t1            //   after the last scheduled packet #<6>
+        if (t0 < t1) t0 = t1            //   after the last scheduled packet //<6>
         long duration = Math.round(1000*msg.duration)
         t1 = t0 + duration
         waiting++
-        add new WakerBehavior(t0-t, {            #<7>
+        add new WakerBehavior(t0-t, {            //<7>
           send ntf1
           busy = true
           waiting--
@@ -327,7 +327,7 @@ class MySimpleThrottledMac extends UnetAgent {
   }
 
   enum Param implements Parameter {
-    nodes                                        #<8>
+    nodes                                        //<8>
   }
 
   int nodes = 6                          // number of nodes in network, to be set by user
@@ -336,11 +336,11 @@ class MySimpleThrottledMac extends UnetAgent {
   final int ackPayloadSize = 0
   final float maxReservationDuration = Float.POSITIVE_INFINITY
 
-  boolean getChannelBusy() {                     #<9>
+  boolean getChannelBusy() {                     //<9>
     return busy
   }
 
-  float getRecommendedReservationDuration() {    #<10>
+  float getRecommendedReservationDuration() {    //<10>
     return get(phy, Physical.DATA, PhysicalChannelParam.frameDuration)
   }
 

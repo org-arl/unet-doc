@@ -92,19 +92,19 @@ On node A:
 
 [source, console]
 ----
-> uwlink << new DatagramReq(to: 31, data: new byte[64])                               #<1>
+> uwlink << new DatagramReq(to: 31, data: new byte[64])                               //<1>
 AGREE
-> uwlink << new DatagramReq(to: 31, data: new byte[64], reliability: true)            #<2>
+> uwlink << new DatagramReq(to: 31, data: new byte[64], reliability: true)            //<2>
 AGREE
-uwlink >> DatagramDeliveryNtf:INFORM[id:4dda055e-a533-401f-89c8-a01065ca5d70 to:31]   #<3>
-> uwlink << new DatagramReq(to: 37, data: new byte[64], reliability: true)            #<4>
+uwlink >> DatagramDeliveryNtf:INFORM[id:4dda055e-a533-401f-89c8-a01065ca5d70 to:31]   //<3>
+> uwlink << new DatagramReq(to: 37, data: new byte[64], reliability: true)            //<4>
 AGREE
-uwlink >> DatagramFailureNtf:INFORM[id:bc65e643-6161-4b06-913c-3ff4f6985d36 to:37]    #<5>
-> uwlink << new DatagramReq(to: 0, data: new byte[64])                                #<6>
+uwlink >> DatagramFailureNtf:INFORM[id:bc65e643-6161-4b06-913c-3ff4f6985d36 to:37]    //<5>
+> uwlink << new DatagramReq(to: 0, data: new byte[64])                                //<6>
 AGREE
-> uwlink << new DatagramReq(to: 0, data: new byte[64], reliability: true)             #<7>
+> uwlink << new DatagramReq(to: 0, data: new byte[64], reliability: true)             //<7>
 REFUSE: Reliability not supported for broadcast
-> uwlink << new DatagramReq(to: 31, data: new byte[1024])                             #<8>
+> uwlink << new DatagramReq(to: 31, data: new byte[1024])                             //<8>
 REFUSE: Data length exceeds MTU
 ----
 <1> Send an unreliable datagram to node 31.

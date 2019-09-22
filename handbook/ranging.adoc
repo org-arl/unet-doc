@@ -50,24 +50,24 @@ In order to understand how the RANGING service provides OWTT and TWTT ranging, i
 
 [source, console]
 ----
-> agentsForService(org.arl.unet.Services.RANGING)  #<1>
+> agentsForService(org.arl.unet.Services.RANGING)  //<1>
 [ranging]
 > ranging
 <<< Ranging >>>
 
 [org.arl.unet.phy.RangeParam]
-  channel = 1                                      #<2>
-  lifetime = 0                                     #<3>
+  channel = 1                                      //<2>
+  lifetime = 0                                     //<3>
   maxBadRangeCnt = 10
   maxRange = 6500.0
   minRange = -10.0
 
-> range host('B')                                  #<4>
+> range host('B')                                  //<4>
 370.98
-> ranging << new RangeReq(to: host('B'))           #<5>
+> ranging << new RangeReq(to: host('B'))           //<5>
 AGREE
 ranging >> RangeNtf:INFORM[from:31 to:232 range:371.0 offset:-256067128]
-> ntf.range                                        #<6>
+> ntf.range                                        //<6>
 370.98
 ----
 <1> We see that the `ranging` agent provides the RANGING service on the node.

@@ -202,14 +202,14 @@ Now we can send & receive files, and run remote commands on node B. Let's try it
 ----
 > B = host('B')
 31
-> rsh B, 'tell me,"hi!"'             #<1>
+> rsh B, 'tell me,"hi!"'             //<1>
 AGREE
-[31]: hi!                            #<2>
-> file('abc.txt').text = 'demo';     #<3>
-> ls                                 #<4>
+[31]: hi!                            //<2>
+> file('abc.txt').text = 'demo';     //<3>
+> ls                                 //<4>
 abc.txt [4 bytes]
 README.md [96 bytes]
-> fput B, 'abc.txt'                  #<5>
+> fput B, 'abc.txt'                  //<5>
 AGREE
 ----
 <1> Ask node B to send a "hi!" back to me. The variable `me` is automatically defined to be the source node address during the execution of the shell command when Groovy extensions are enabled (`remote.groovy = true`).

@@ -34,7 +34,7 @@ To connect to UnetStack from a Groovy application, typical code might look somet
 ----
 import org.arl.unet.api.UnetSocket
 
-def sock = new UnetSocket('192.168.1.9', 1102)    #<1>
+def sock = new UnetSocket('192.168.1.9', 1102)    //<1>
 // do things with sock here
 sock.close()
 ----
@@ -61,9 +61,9 @@ To send datagrams using a socket, we first specify the destination address and p
 
 [source, groovy]
 ----
-def to = sock.host('B')              #<1>
-sock.connect(to, 0)                  #<2>
-sock.send('hello!' as byte[])        #<3>
+def to = sock.host('B')              //<1>
+sock.connect(to, 0)                  //<2>
+sock.send('hello!' as byte[])        //<3>
 sock.send('more data!' as byte[])
 ----
 <1> Resolve node name to address. If the destination address is already known, this step can be skipped.
@@ -100,7 +100,7 @@ To access agent parameters, you first have to look up the relevant agent based o
 
 [source, groovy]
 ----
-def phy = sock.agentForService(org.arl.unet.Services.PHYSICAL)   #<1>
+def phy = sock.agentForService(org.arl.unet.Services.PHYSICAL)   //<1>
 println(phy.MTU)
 println(phy[1].dataRate)
 ----
@@ -139,7 +139,7 @@ For lower level transactions, we obtain a fjåge Gateway instance from the UnetS
 ----
 def gw = sock.gateway
 gw.subscribe(phy)
-def msg = gw.receive(10000)     #<1>
+def msg = gw.receive(10000)     //<1>
 if (msg) println(msg)
 ----
 <1> Receive a message from the gateway with a timeout of 10000 ms. If no message is received during this period, `null` is returned.

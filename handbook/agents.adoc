@@ -121,7 +121,7 @@ Now start the 2-node network simulation that we have been using as a testbed, an
 
 [source, console]
 ----
-> container.add 'echo', new EchoDaemon();             #<1>
+> container.add 'echo', new EchoDaemon();             //<1>
 > ps
 remote: org.arl.unet.remote.RemoteControl - IDLE
 state: org.arl.unet.state.StateManager - IDLE
@@ -135,7 +135,7 @@ phy: org.arl.unet.sim.HalfDuplexModem - IDLE
 bbmon: org.arl.unet.bb.BasebandSignalMonitor - IDLE
 arp: org.arl.unet.addr.AddressResolution - IDLE
 transport: org.arl.unet.transport.SWTransport - IDLE
-echo: EchoDaemon - IDLE                               #<2>
+echo: EchoDaemon - IDLE                               //<2>
 router: org.arl.unet.net.Router - IDLE
 mac: org.arl.unet.mac.CSMA - IDLE
 WebGW-5c9c1c68385a388f: REMOTE
@@ -156,14 +156,14 @@ Once the daemon is successfully loaded on node B, we can test it from node A:
 
 [source, console]
 ----
-> subscribe phy                                       #<1>
-> phy << new DatagramReq(to: host('B'), protocol: Protocol.USER, data: [42]) #<2>
+> subscribe phy                                       //<1>
+> phy << new DatagramReq(to: host('B'), protocol: Protocol.USER, data: [42]) //<2>
 AGREE
 phy >> TxFrameNtf:INFORM[type:DATA txTime:2809812247]
 phy >> RxFrameStartNtf:INFORM[type:DATA rxTime:2811767943]
 phy >> RxFrameNtf:INFORM[type:DATA from:31 to:232 rxTime:2811767943 (1 byte)]
 > ntf.data
-[42]                                                  #<3>
+[42]                                                  //<3>
 ----
 <1> We subscribe to `phy` so that we can see the incoming echo response from the peer node.
 <2> Transmit a physical layer frame containing the echo request and some data.
@@ -301,14 +301,14 @@ import org.arl.unet.*
 
 class EchoDaemon extends UnetAgent {
 
-  enum Params implements Parameter {        #<1>
+  enum Params implements Parameter {        //<1>
     delay
   }
 
-  final String title = 'Echo Daemon'        #<2>
-  final String description = 'Echoes any USER datagrams back as DATA' #<3>
+  final String title = 'Echo Daemon'        //<2>
+  final String description = 'Echoes any USER datagrams back as DATA' //<3>
 
-  int delay = 7000                          #<4>
+  int delay = 7000                          //<4>
 
   @Override
   void startup() {
@@ -331,7 +331,7 @@ class EchoDaemon extends UnetAgent {
     }
   }
 
-  List<Parameter> getParameterList() {      #<5>
+  List<Parameter> getParameterList() {      //<5>
     allOf(Params)
   }
 
@@ -355,9 +355,9 @@ Let's see how the agent looks with parameters. Reload the agent on node B and ch
 true
 > container.add 'echo', new EchoDaemon();
 > echo
-<<< Echo Daemon >>>                      #<1>
+<<< Echo Daemon >>>                      //<1>
 
-Echoes any USER datagrams back as DATA   #<2>
+Echoes any USER datagrams back as DATA   //<2>
 
 [EchoDaemon.Params]
   delay = 7000

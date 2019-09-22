@@ -86,8 +86,8 @@ On node B, type:
 
 [source, console]
 ----
-> s = new UnetSocket(this);              #<1>
-> rx = s.receive()                       #<2>
+> s = new UnetSocket(this);              //<1>
+> rx = s.receive()                       //<2>
 ----
 <1> Open a socket on node B (`this` refers to node B, since you are typing this on node B's command shell). The semicolon (";") at the end of the statement simply prevents the shell from printing the return value automatically.
 <2> Receive a datagram. This call blocks until a datagram is available.
@@ -97,7 +97,7 @@ On node A, type:
 [source, console]
 ----
 > s = new UnetSocket(this);
-> s.send('hello!' as byte[], 0)          #<1>
+> s.send('hello!' as byte[], 0)          //<1>
 true
 > s.close()
 ----
@@ -109,8 +109,8 @@ Node B will receive the bytes as a `RxFrameNtf` message. You can check the data 
 ----
 RxFrameNtf:INFORM[type:DATA from:232 rxTime:4134355059 (6 bytes)]
 > rx.data
-[104, 101, 108, 108, 111, 33]            #<1>
-> new String(rx.data)                    #<2>
+[104, 101, 108, 108, 111, 33]            //<1>
+> new String(rx.data)                    //<2>
 hello!
 > s.close()
 ----
@@ -249,9 +249,9 @@ Next, try sending a simple 10 kHz tonal signal:
 
 [source, console]
 ----
-> bbtx cw(10000, 0.5)                    #<1>
+> bbtx cw(10000, 0.5)                    //<1>
 AGREE
-phy >> TxFrameNtf:INFORM[txTime:4104441] #<2>
+phy >> TxFrameNtf:INFORM[txTime:4104441] //<2>
 ----
 <1> Request transmission of a continuous wave (cw) signal of 10 kHz and 0.5 seconds duration.
 <2> Notification that the signal was successfully transmitted.
@@ -276,7 +276,7 @@ You can equally easily ask the SDOAM to make an acoustic recording for you:
 
 [source, console]
 ----
-> bbrec 12000                            #<1>
+> bbrec 12000                            //<1>
 AGREE
 phy >> RxBasebandSignalNtf:INFORM[adc:1 rxTime:1911353 rssi:-61.2 fc:12000.0 fs:12000.0 (12000 baseband samples)]
 ----

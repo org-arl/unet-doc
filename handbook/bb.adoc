@@ -93,7 +93,7 @@ We see that the unet audio SDOAM operates at a carrier frequency of 12 kHz and a
 
 [source, console]
 ----
-> s = [1,0]*12000                 #<1>
+> s = [1,0]*12000                 //<1>
 [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 <<snip>> 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0]
 > s.size()
 24000
@@ -111,10 +111,10 @@ Unet audio supports transmission of passband signals as well. Let us create a ha
 
 [source, console]
 ----
-> s = cw(2000, 0.5, 0)                             #<1>
+> s = cw(2000, 0.5, 0)                             //<1>
 > s.size()
-48000                                              #<2>
-> phy << new TxBasebandSignalReq(signal: s, fc: 0) #<3>
+48000                                              //<2>
+> phy << new TxBasebandSignalReq(signal: s, fc: 0) //<3>
 AGREE
 phy >> TxFrameNtf:INFORM[txTime:414013271]
 ----
@@ -129,7 +129,7 @@ Next, let's request a recording of 12000 samples (1 second duration):
 > phy << new RecordBasebandSignalReq(recLength: 12000)
 AGREE
 phy >> RxBasebandSignalNtf:INFORM[adc:1 rxTime:11780353 rssi:-79.1 fc:12000.0 fs:12000.0 (12000 baseband samples)]
-> ntf.signal                      #<1>
+> ntf.signal                      //<1>
 [8.611694E-5, 5.8899976E-5, 1.01 <<snip>> E-6, -9.148392E-6, 3.5340495E-6]
 ----
 <1> The `ntf` variable holds the last received notification, which in this case is the `RxBasebandSignalNtf`. The `signal` field contains the complex baseband recording.
@@ -239,7 +239,7 @@ The `RxBasebandSignalNtf` notified us of the recorded signal (containing just th
 
 [source, console]
 ----
-> phy[3].basebandExtra = 1200     #<1>
+> phy[3].basebandExtra = 1200     //<1>
 1200
 > phy << new TxBasebandSignalReq(preamble: 3)
 AGREE
@@ -270,19 +270,19 @@ Now, every `RxBasebandSignalNtf` that is sent to `phy` agent's topic will be rec
 
 [source, console]
 ----
-> logs                                           #<1>
-signals-0.txt [0 bytes]                          #<2>
+> logs                                           //<1>
+signals-0.txt [0 bytes]                          //<2>
 results.txt [39 bytes]
 phy-log-0.txt [687 bytes]
 log-0.txt [4 kB]
-> phy << new TxBasebandSignalReq(preamble: 3)    #<3>
+> phy << new TxBasebandSignalReq(preamble: 3)    //<3>
 AGREE
 phy >> TxFrameStartNtf:INFORM[txTime:102528016 txDuration:170916]
 phy >> TxFrameNtf:INFORM[txTime:102513266]
 phy >> RxFrameStartNtf:INFORM[type:#3 rxTime:102531520 rxDuration:270500 detector:0.74]
 phy >> RxBasebandSignalNtf:INFORM[adc:1 rxTime:102531520 rssi:-23.6 preamble:3 fc:12000.0 fs:12000.0 (3246 baseband samples)]
 > logs
-signals-0.txt [34 kB]                            #<4>
+signals-0.txt [34 kB]                            //<4>
 results.txt [39 bytes]
 phy-log-0.txt [687 bytes]
 log-0.txt [5 kB]

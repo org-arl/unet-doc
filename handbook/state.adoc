@@ -52,11 +52,11 @@ We can ask it to retain the state:
 ----
 > plvl -40
 OK
-> savestate                       #<1>
+> savestate                       //<1>
 AGREE
 > ls
 README.md [759 bytes]
-saved-state.groovy [156 bytes]    #<2>
+saved-state.groovy [156 bytes]    //<2>
 > shutdown
 ----
 <1> The `savestate` command just sends a `SaveStateReq` message to the STATE_MANAGER service provider.
@@ -122,14 +122,14 @@ phy[4].powerLevel = -10.0
 phy.signalPowerLevel = -10.0
 > plvl -40
 OK
-> savestate 'p40', phy            #<1>
+> savestate 'p40', phy            //<1>
 AGREE
-> plvl -10                        #<2>
+> plvl -10                        //<2>
 OK
 > ls
 README.md [759 bytes]
-p40.groovy [156 bytes]            #<3>
-> p40                             #<4>
+p40.groovy [156 bytes]            //<3>
+> p40                             //<4>
 > plvl
 phy[1].powerLevel = -40.0
 phy[2].powerLevel = -40.0

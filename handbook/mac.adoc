@@ -66,10 +66,10 @@ MAC agents advise other agents that wish to transmit (we shall call them _client
 // client wishes to transmit data to "destination" for specified "duration"
 def mac = agentForService(Services.MAC)
 if (mac) {
-  def req = new ReservationReq(recipient: mac, to: destination, duration: duration) #<1>
+  def req = new ReservationReq(recipient: mac, to: destination, duration: duration) //<1>
   def rsp = request(req)
   if (rsp && rsp.performative == Performative.AGREE) {
-    def ntf = receive(ReservationStatusNtf, timeout)       #<2>
+    def ntf = receive(ReservationStatusNtf, timeout)       //<2>
     if (ntf && ntf.inReplyTo == req.messageID && ntf.status == ReservationStatus.START) {
       //    :
       // transmit data for requested duration

@@ -16,10 +16,10 @@ The AT command interpreter is available as a script engine that can be loaded us
 
 [source, console]
 ----
-> conn = new org.arl.fjage.connectors.TcpHubConnector(5001, false)        #<1>
+> conn = new org.arl.fjage.connectors.TcpHubConnector(5001, false)        //<1>
 > cshell = new org.arl.fjage.shell.ConsoleShell(conn, true)
 > shell = new ShellAgent(cshell, new org.arl.unet.shell.ATScriptEngine())
-> shell.addInitrc 'etc/atshrc.atc'                                        #<2>
+> shell.addInitrc 'etc/atshrc.atc'                                        //<2>
 > container.add 'at', shell
 ----
 <1> The AT command interpreter is exposed over a TCP/IP connection on port 5001. The `conn` could easily be replaced by another type of connection (e.g. RS232 port), if desired.

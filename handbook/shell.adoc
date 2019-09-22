@@ -24,14 +24,14 @@ Start the 2-node network and connect to node A:
 
 [source, console]
 ----
-> agentsForService org.arl.fjage.shell.Services.SHELL                  #<1>
+> agentsForService org.arl.fjage.shell.Services.SHELL                  //<1>
 [websh]
-> websh.send new ShellExecReq(cmd: 'file("foobar").text = "FOOBAR";')  #<2>
+> websh.send new ShellExecReq(cmd: 'file("foobar").text = "FOOBAR";')  //<2>
 websh >> AGREE
-> ls                                                                   #<3>
+> ls                                                                   //<3>
 foobar [6 bytes]
 README.md [759 bytes]
-> file("foobar").text                                                  #<4>
+> file("foobar").text                                                  //<4>
 FOOBAR
 ----
 <1> We find that `websh` is the agent that provides us the SHELL service.
@@ -43,24 +43,24 @@ Next, let's try the `GetFileReq` and `PutFileReq` messages to read, write and de
 
 [source, console]
 ----
-> websh.send new GetFileReq(filename: 'scripts/foobar')                #<1>
+> websh.send new GetFileReq(filename: 'scripts/foobar')                //<1>
 websh >> INFORM: GetFileRsp
-> ntf.contents                                                         #<2>
+> ntf.contents                                                         //<2>
 [70, 79, 79, 66, 65, 82]
-> new String(ntf.contents)                                             #<3>
+> new String(ntf.contents)                                             //<3>
 FOOBAR
 > websh.send new PutFileReq(filename: 'scripts/foobar', contents: 'foooobaaaar')
-websh >> AGREE                                                         #<4>
-> file('foobar').text                                                  #<5>
+websh >> AGREE                                                         //<4>
+> file('foobar').text                                                  //<5>
 foooobaaaar
 > websh.send new PutFileReq(filename: 'scripts/foobar', contents: null)
-websh >> AGREE                                                         #<6>
+websh >> AGREE                                                         //<6>
 > ls
 README.md [759 bytes]
-> websh.send new GetFileReq(filename: 'scripts')                       #<7>
+> websh.send new GetFileReq(filename: 'scripts')                       //<7>
 websh >> INFORM: GetFileRsp
 > new String(ntf.contents)
-README.md       759     1568297372000                                  #<8>
+README.md       759     1568297372000                                  //<8>
 ----
 <1> The file `foobar` was created in the `scripts` folder, which is the default location for the `file()` function. We ask to read the file, and get a `GetFileRsp` response back.
 <2> The file contents are read back as a list of bytes.

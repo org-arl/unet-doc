@@ -5139,41 +5139,41 @@ Modem web: http://localhost:8080/</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="rouge highlight"><code data-lang="shell"><span class="o">&gt;</span> phy[CONTROL]
-<span class="o">&lt;&lt;&lt;</span> PHY <span class="o">&gt;&gt;&gt;</span>
+<pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> phy[CONTROL]
+<span class="gp">&lt;&lt;&lt; PHY &gt;</span><span class="o">&gt;&gt;</span>
+<span class="go">
+[org.arl.unet.DatagramParam]
+  MTU = 13
 
-<span class="o">[</span>org.arl.unet.DatagramParam]
-  MTU <span class="o">=</span> 13
+[org.arl.unet.phy.PhysicalChannelParam]
+  dataRate = 70.588234
+  errorDetection = true
+  fec = 1
+  fecList = [ICONV2]
+  frameDuration = 2.04
+  frameLength = 18
+  janus = false
+  llr = false
+  maxFrameLength = 396
+  powerLevel = -10.0
 
-<span class="o">[</span>org.arl.unet.phy.PhysicalChannelParam]
-  dataRate <span class="o">=</span> 70.588234
-  errorDetection <span class="o">=</span> <span class="nb">true
-  </span>fec <span class="o">=</span> 1
-  fecList <span class="o">=</span> <span class="o">[</span>ICONV2]
-  frameDuration <span class="o">=</span> 2.04
-  frameLength <span class="o">=</span> 18
-  janus <span class="o">=</span> <span class="nb">false
-  </span>llr <span class="o">=</span> <span class="nb">false
-  </span>maxFrameLength <span class="o">=</span> 396
-  powerLevel <span class="o">=</span> <span class="nt">-10</span>.0
+[org.arl.yoda.FhbfskParam]
+  chiplen = 1
+  fmin = 9520.0
+  fstep = 160.0
+  hops = 13
+  scrambler = 0
+  sync = true
+  tukey = true
 
-<span class="o">[</span>org.arl.yoda.FhbfskParam]
-  chiplen <span class="o">=</span> 1
-  fmin <span class="o">=</span> 9520.0
-  fstep <span class="o">=</span> 160.0
-  hops <span class="o">=</span> 13
-  scrambler <span class="o">=</span> 0
-  <span class="nb">sync</span> <span class="o">=</span> <span class="nb">true
-  </span>tukey <span class="o">=</span> <span class="nb">true</span>
-
-<span class="o">[</span>org.arl.yoda.ModemChannelParam]
-  basebandExtra <span class="o">=</span> 0
-  basebandRx <span class="o">=</span> <span class="nb">false
-  </span>modulation <span class="o">=</span> fhbfsk
-  preamble <span class="o">=</span> <span class="o">(</span>480 samples<span class="o">)</span>
-  <span class="nb">test</span> <span class="o">=</span> <span class="nb">false
-  </span>threshold <span class="o">=</span> 0.25
-  valid <span class="o">=</span> <span class="nb">true</span></code></pre>
+[org.arl.yoda.ModemChannelParam]
+  basebandExtra = 0
+  basebandRx = false
+  modulation = fhbfsk
+  preamble = (480 samples)
+  test = false
+  threshold = 0.25
+  valid = true</span></code></pre>
 </div>
 </div>
 <div class="paragraph">

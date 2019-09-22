@@ -103,11 +103,11 @@ There are https://www.epochconverter.com[online calculators^] that'll help you c
 [source, console]
 ----
 > import java.time.Instant
-> Instant.now().epochSecond                           #<1>
+> Instant.now().epochSecond                           //<1>
 1569094526
-> Instant.ofEpochSecond(1569093616)                   #<2>
+> Instant.ofEpochSecond(1569093616)                   //<2>
 2019-09-21T19:20:16Z
-> Instant.parse("2019-09-21T19:20:16Z").epochSecond   #<3>
+> Instant.parse("2019-09-21T19:20:16Z").epochSecond   //<3>
 1569093616
 ----
 <1> Get current epoch time.

@@ -95,15 +95,15 @@ Now, let's see what the route discovery agent does when we ask it to discover ro
 ----
 > rreq 31
 OK
-> routes      #<1>
+> routes      //<1>
 1: to 31 via udplink/31 [reliable, hops: 1, metric: 1.0]
-> routes      #<2>
+> routes      //<2>
 1: to 29 via uwlink/29 [reliable, hops: 1, metric: 1.0]
 2: to 31 via uwlink/29 [reliable, hops: 2, metric: 0.85]
 3: to 22 via uwlink/22 [reliable, hops: 1, metric: 1.0]
 4: to 31 via udplink/31 [reliable, hops: 1, metric: 3.0]
 5: to 28 via uwlink/28 [reliable, hops: 1, metric: 2.0]
-> trace 31    #<3>
+> trace 31    //<3>
 [21, 31, 21]
 ----
 <1> Checking routes within a few seconds after the `rreq`, we see that the route via the `udplink` is discovered very quickly.
