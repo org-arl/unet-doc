@@ -42,6 +42,8 @@ modem.preambleDuration = 0                  // no overhead from preamble
 modem.txDelay = 0                           // don't simulate hardware delays
 ----
 
+TIP: You can read more about `modem` models in <<Modem models>>.
+
 A Poisson process (assumption 1) is easily simulated using the `PoissonBehavior` available in fjåge. Assumption 5 can also be easily met by placing all nodes at the same location.
 
 Now let's put a first version of our script together to simulate a 4-node ALOHA network:
@@ -186,7 +188,7 @@ TX Count        RX Count        Offered Load    Throughput
 15 simulations completed in 102.494 seconds
 ----
 
-As expected from the ALOHA protocol, the maximum throughput of about 0.18 is reached at an offered load of about 0.5. We plot this against the theoretical ALOHA performance curve (stem:[y = xe^{-2x}]) in <<fig_aloha>>.
+As expected from the ALOHA protocol, the maximum throughput of about 0.18 is reached at an offered load of about 0.5. We plot this against the theoretical ALOHA performance curve (`y = x exp(-2x)`) in <<fig_aloha>>.
 
 [[fig_aloha]]
 .Simulated and theoretical ALOHA performance.

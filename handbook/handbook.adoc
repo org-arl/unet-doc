@@ -1,6 +1,6 @@
 = Underwater Networks Handbook
 Mandar Chitre
-v0.1
+v0.9
 :imagesdir: images
 :title-logo-image: image::unet.png[Unet,150,150]
 :doctype: book
@@ -10,7 +10,6 @@ v0.1
 :toc: left
 :toclevels: 1
 :sectnums:
-:stem: latexmath
 :xrefstyle: short
 :source-highlighter: rouge
 :url-unetstack: https://www.unetstack.net

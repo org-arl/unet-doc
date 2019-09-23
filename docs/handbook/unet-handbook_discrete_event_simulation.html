@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
     </span>
     <br/>
     <span id="revnumber">
-     version 0.1
+     version 0.9
     </span>
    </div>
    <div class="toc2" id="toc">
@@ -824,6 +824,27 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <span class="n">modem</span><span class="o">.</span><span class="na">txDelay</span> <span class="o">=</span> <span class="mi">0</span>                           <span class="c1">// don't simulate hardware delays</span></code></pre>
        </div>
       </div>
+      <div class="admonitionblock tip">
+       <table>
+        <tr>
+         <td class="icon">
+          <i class="fa icon-tip" title="Tip">
+          </i>
+         </td>
+         <td class="content">
+          You can read more about
+          <code>
+           modem
+          </code>
+          models in
+          <a href="unet-handbook_modems_and_channel_models.html#_modem_models">
+           Section 31.1
+          </a>
+          .
+         </td>
+        </tr>
+       </table>
+      </div>
       <div class="paragraph">
        <p>
         A Poisson process (assumption 1) is easily simulated using the
@@ -1091,7 +1112,11 @@ TX Count        RX Count        Offered Load    Throughput
       </div>
       <div class="paragraph">
        <p>
-        As expected from the ALOHA protocol, the maximum throughput of about 0.18 is reached at an offered load of about 0.5. We plot this against the theoretical ALOHA performance curve (\(y = xe^{-2x}\)) in
+        As expected from the ALOHA protocol, the maximum throughput of about 0.18 is reached at an offered load of about 0.5. We plot this against the theoretical ALOHA performance curve (
+        <code>
+         y = x exp(-2x)
+        </code>
+        ) in
         <a href="#fig_aloha">
          Figure 10
         </a>
@@ -1343,9 +1368,9 @@ d -t 585.747000 -s 1 -d 3 -i 259068939 -p 0 -x {1.0 4.0 -1 ------- null} -y BAD_
   </div>
   <div id="footer">
    <div id="footer-text">
-    Version 0.1
+    Version 0.9
     <br/>
-    Last updated 2019-09-23 23:06:58 +0800
+    Last updated 2019-09-24 03:39:55 +0800
    </div>
   </div>
   <style>
@@ -1559,30 +1584,5 @@ pre.rouge {
   background-color: #f8f8f8;
 }
   </style>
-  <script type="text/x-mathjax-config">
-   MathJax.Hub.Config({
-  messageStyle: "none",
-  tex2jax: {
-    inlineMath: [["\\(", "\\)"]],
-    displayMath: [["\\[", "\\]"]],
-    ignoreClass: "nostem|nolatexmath"
-  },
-  asciimath2jax: {
-    delimiters: [["\\$", "\\$"]],
-    ignoreClass: "nostem|noasciimath"
-  },
-  TeX: { equationNumbers: { autoNumber: "none" } }
-})
-MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
-  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
-    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains('stemblock')) {
-      data.math.root.display = "block"
-    }
-    return data
-  })
-})
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_HTMLorMML">
-  </script>
  </body>
 </html>

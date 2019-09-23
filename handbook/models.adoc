@@ -1,6 +1,303 @@
 == Modems and channel models
 
-WARNING: Coming soon...
+In <<Writing simulation scripts>> and <<Discrete event simulation>>, we learned how to simulate Unets with many nodes, using a single computer. In fact, we have been using simulations throughout the handbook. In a simulated Unet, most agents are identical to the agents running in nodes on a real Unet. However, since the communication in a simulated Unet does not use a modem in water, we need a model for how a real modem behaves.
 
-// TODO: explain why channel.dataRate differs from phy[].dataRate
-// TODO: Developing your own channel models
+=== Modem models
+
+A modem usually provides the PHYSICAL service (and optionally, the BASEBAND service). In a simulation, we need a simulated modem to provide these services with behaviors as close to reality as possible. The agent that models the modem behavior is called a _modem model_. The Unet simulator comes with the {url-unet-javadoc}org/arl/unet/sim/HalfDuplexModem.html[`HalfDuplexModem`^] model that can be customized to emulate various underwater acoustic modems.
+
+Since the `HalfDuplexModem` is the default modem model, we don't need to explicitly specify it. But if we wanted to, we could do it in the simulation script:
+
+[source, groovy]
+----
+modem = [ model: org.arl.unet.sim.HalfDuplexModem ]
+----
+
+TIP: Some modem manufacturers may provide you with a modem model that more accurately matches the behaviors of their modem. This can be useful when simulating networks with modems from specific vendors.
+
+We can specify properties that control the behavior of the modem. You can either specify them while declaring the modem:
+
+[source, groovy]
+----
+modem = [
+  model:            org.arl.unet.sim.HalfDuplexModem,
+  dataRate:         [800.bps, 2400.bps],
+  frameLength:      [16.bytes, 64.bytes],
+  powerLevel:       [0.dB, -10.dB],
+  preambleDuration: 5.ms
+]
+----
+
+or later, by assigning the properties individually:
+
+[source, groovy]
+----
+modem.dataRate = [800.bps, 2400.bps]
+modem.frameLength = [16.bytes, 64.bytes]
+modem.powerLevel = [0.dB, -10.dB]
+modem.preambleDuration = 5.ms
+----
+
+Indexed properties `dataRate`, `frameLength`, `maxFrameLength`, `janus` and `powerLevel` are specified as 3-tuples, with the first entry corresponding to the CONTROL channel, the second for the DATA channel, and the third for the JANUS frame type. If JANUS support is not required, the properties may be specified as 2-tuples.
+
+TIP: If you run a realtime simulation with `modem.dataRate = [800.bps, 2400.bps]`, connect to a node's shell, and then type in `phy[CONTROL].dataRate`, you may be surpirsed to see a much lower data rate (436 bps in this example). The 800 bps is the signaling rate, and exludes overheads from preamble and headers. The 436 bps is the effective average data rate across the frame, and includes all overheads.
+
+Short descriptions and default values of these properties are shown below:
+
+`modem.dataRate = [256, 1024, 80]`:: Communication link data rate (bps).
+
+`modem.frameLength = [24, 64, 8]`:: Default frame length (bytes).
+
+`modem.maxFrameLength = [128, 512, 128]`:: Maximum frame length (bytes)
+
+`modem.janus = [false, false, true]`:: Support for JANUS frames.
+
+`modem.powerLevel = [-10, -10, -10]`:: Transmit power level (dB re `refPowerLevel`).
+
+In addition to the above indexed properties, several other properties control the modem behavior:
+
+`modem.signalPowerLevel = -10`:: Transmit power level (dB re `refPowerLevel`) for baseband signals.
+
+`modem.preambleDuration = 0.2`:: Frame detection preamble duration (s).
+
+`modem.headerLength = 8`:: Frame header length (bytes).
+
+`modem.timestampLength = 6`:: Timestamp length (bytes), for timestamped frames.
+
+`modem.txDelay = 0.05`:: Transmission delay when switching from receive to transmit mode (s).
+
+`modem.timestampedTxDelay = 1.0`:: Transmission delay when scheduling transmission of a timestamped packet (s).
+
+`modem.maxPowerLevel = 0`:: Maximum allowable transmit power level (dB re `refPowerLevel`).
+
+`modem.minPowerLevel = -96`:: Minimum allowable transmit power level (dB re `refPowerLevel`).
+
+`modem.refPowerLevel = 185`:: Reference transmit power level (dB re µPa @ 1m).
+
+`modem.rxSensitivity = -200`:: Reference receive sensitivity (dB re µPa).
+
+`modem.carrierFrequency = 12000`:: Carrier frequency (Hz).
+
+`modem.basebandRate = 12000`:: Baseband sampling rate (samples/second).
+
+`modem.basebandRxDuration = 1.0`:: Baseband reception duration (s).
+
+`modem.maxSignalLength = 65536`:: Maximum allowable baseband signal length.
+
+A modem model simulates the half-duplex nature of the modem, propagation delay, interference, packet detection and packet loss. In order to do this accurately, it uses a channel model.
+
+=== Channel models
+
+Channel models implement the {url-unet-javadoc}org/arl/unet/sim/ChannelModel.html[`ChannelModel`^] interface. The default channel model is the `BasicAcousticChannel`, but can be reconfigured in the simulation script. Again, channel models can use either syntax:
+
+[source, groovy]
+----
+channel = [
+  model:              org.arl.unet.sim.channels.ProtocolChannelModel,
+  communicationRange: 3000.m,
+  pDetection:         0.9,
+  pDecoding:          0.8
+]
+----
+
+or
+
+[source, groovy]
+----
+channel.model = org.arl.unet.sim.channels.ProtocolChannelModel
+channel.communicationRange = 1000.m
+channel.pDetection = 0.9
+channel.pDecoding = 0.8
+----
+
+The properties supported by a channel model depend on the specifics of that model. Let us next look at a few channel models that come with the Unet simulator.
+
+==== Protocol channel model
+
+The protocol channel model ({url-unet-javadoc}org/arl/unet/sim/channels/ProtocolChannelModel.html[`ProtocolChannelModel`^]) is the simplest of the channel models available in the Unet simulator. Although simple, it captures important first-order effects such as propagation delay, limited communication range, interference range, and collisions. It also captures the probabilistic nature of the channel. It therefore serves as a good first order approximation that is also amenable to mathematical analysis.
+
+The protocol channel model is parametrized by a sound speed `c`, communication range `Rc`, detection range `Rd`, an interference range `Ri`, probability of detection `pd`, and a probability of decoding `pc`. Successful communication is possible at a range `R ≤ Rc` with a probability `pd × pc`. At a range `Rc < R ≤ Rd`, a frame may be detected with probability `pd`, but not successfully decoded. At any range `R ≤ Ri`, a frame interferes with another frame that is being received at the same time, and causes a collision. Both frames are lost (not successfully decoded) during a collision. At a range `R > Ri`, a frame is not detected and does not interfere with other frames.
+
+To select the protocol model, the simulation script must explicitly set it as the channel.model. The parameters of the model can be configured in the simulation script. The configuration of the channel with default parameter values is shown below:
+
+[source, groovy]
+----
+import org.arl.unet.sim.channels.*
+
+channel.model = org.arl.unet.sim.channels.ProtocolChannelModel
+
+channel.soundSpeed = 1500.mps           // c
+channel.communicationRange = 2000.m     // Rc
+channel.detectionRange = 2500.m         // Rd
+channel.interferenceRange = 3000.m      // Ri
+channel.pDetection = 1                  // pd
+channel.pDecoding = 1                   // pc
+----
+
+==== Basic acoustic channel model
+
+The basic acoustic channel model ({url-unet-javadoc}org/arl/unet/sim/channels/BasicAcousticChannel.html[`BasicAcousticChannel`^]) is the default channel model in the simulator. It provides a good balance between accuracy, applicability and simulation speed. The model is composed of two parts: an acoustic model ({url-unet-javadoc}org/arl/unet/sim/channels/UrickAcousticModel.html[`UrickAcousticModel`^]) based on average transmission loss, and a communication model ({url-unet-javadoc}org/arl/unet/sim/channels/BPSKFadingModel.html[`BPSKFadingModel`^]) based on high time-bandwidth product detection preamble and binary phase shift keying (BPSK) communication in a Rician or Rayleigh fading channel.
+
+===== Urick acoustic model
+
+The acoustic model is parametrized by carrier frequency `f`, bandwidth `B`, spreading loss factor `α`, water temperature `T`°C, salinity `S` ppt, noise power spectral density level `N0` dB re µPa/√Hz and water depth `d`. The default values are shown below:
+
+[source, groovy]
+----
+import org.arl.unet.sim.channels.*
+
+channel.model = BasicAcousticChannel
+
+channel.carrierFrequency = 25.kHz       // f
+channel.bandwidth = 4096.Hz             // B
+channel.spreading = 2                   // α
+channel.temperature = 25.C              // T
+channel.salinity = 35.ppt               // S
+channel.noiseLevel = 60.dB              // N0
+channel.waterDepth = 20.m               // d
+----
+
+The acoustic model automatically computes the sound speed `c` [Mackenzie, JASA, 1981], transmission loss `TL` [Urick 3rd ed, p105-111] and total noise level `NL`. The total signal-to-noise ratio is then given by `SNR = SL - TL - NL`, where `SL` is the source level of the transmission in dB re μPa @ 1m.
+
+===== BPSK fading model
+
+The fading communication model uses the above `SNR` to simulate detection and successful decoding. The model is parametrized by the Rician fading parameter `K`, fast/slow fading, acceptable probability `pfa` of false alarm during detection, and a processing gain `G`. The default values are shown below:
+
+[source, groovy]
+----
+channel.ricianK = 10                    // K
+channel.fastFading = true               // fast/slow fading
+channel.pfa = 1e-6                      // pfa
+channel.processingGain = 0.dB           // G
+----
+
+For a detection preamble of duration `t` seconds and bandwidth `B`, we have an effective `SNR’ = SNR + 10 log(Bt)` after pulse compression. We assume Rician fading (or Rayleigh fading if `K` = 0) and Gaussian noise such that the average `SNR` is `SNR’` to simulate detection.
+
+For the BPSK communication signal with data rate `D` bits/second, we compute `Eb/N0 = SNR + 10 log(B/D) + G`. We then simulate bit errors assuiming Rician fading (or Rayleigh fading if `K` = 0) and Gaussian noise. If fast fading is enabled, each bit generates an independent realization for the Rician fading variate. If fast fading is disabled, the entire frame uses a single realization of the Rician fading variate. If all bits are successful, the frame is successfully decoded. If any bit is in error, the frame is deemed to have failed at decoding.
+
+==== MISSION 2012 and 2013 channel models
+
+Although channel modeling can provide useful approximations to an underwater channel, there is no real substitute to experimenting at sea. The https://arl.nus.edu.sg/twiki6/pub/ARL/BibEntries/ChitreOceans13.pdf[MISSION 2012^] and https://arl.nus.edu.sg/twiki6/pub/ARL/BibEntries/asilomar2014.pdf[MISSION 2013^] experiments were conducted over several weeks in October 2012 and November 2013 in Singapore waters. Extensive channel measurements were made between Unet nodes deployed during the experiment. These measurements allow us to estimate packet detection probabilities and packet error probabilities on various network links. Although these probabilities are generally time-varying, we can estimate instantaneous probabilities from measurements over a short interval during which the environmental conditions are relatively stable. These can be used to generate a protocol channel model that accurately models the channel between the nodes during the experiment. Any protocol simulations using this model then accurately predict what would have happened if the protocol was tested at sea during the experiment. This may be a great way to benchmark protocols in realistic deployment conditions.
+
+To use the {url-unet-javadoc}org/arl/unet/sim/channels/Mission2012a.html[`Mission2012a`^] model for simulation, set the appropriate channel model and node addresses/locations in the simulation script:
+
+[source, groovy]
+----
+import org.arl.unet.sim.channels.*
+
+channel.model = Mission2012a
+
+simulate {
+  Mission2012a.nodes.each { addr ->
+    node "P$addr", address: addr, location: Mission2012a.nodeLocation[addr]
+  }
+}
+----
+
+The {url-unet-javadoc}org/arl/unet/sim/channels/Mission2013a.html[`Mission2013a`^] and {url-unet-javadoc}org/arl/unet/sim/channels/Mission2013b.html[`Mission2013b`^] models are used in a similar way.
+
+TIP: We have already been using the `Mission2013a` channel model when using the `samples/mission2013-network.groovy` simulation in <<MISSION 2013 network>>. You may wish to take a look at the simulation script now, to understand how it works.
+
+==== Developing custom channel models
+
+While the above channel models meet the simulation needs for many applications, custom channel models may be developed to meet special research needs. Although developing and testing a model from scratch can be a daunting task, the {url-unet-javadoc}org/arl/unet/sim/channels/ProtocolChannelModel.html[`ProtocolChannelModel`^] and the {url-unet-javadoc}org/arl/unet/sim/channels/AbstractAcousticChannel.html[`AbstractAcousticChannel`^] classes provide excellent starting points to customize the channel models. In this section, we see how each of the classes can be used to create custom channels.
+
+===== Extending the ProtocolChannelModel
+
+The `ProtocolChannelModel` can be customized to provide per-link detection and decoding probabilities. The `Mission2012a` and `Mission2013a` models do exactly this. To illustrate how this is done, let us take a look at the following code sample:
+
+[source, groovy]
+----
+import org.arl.unet.sim.*
+import org.arl.unet.sim.channels.ProtocolChannelModel
+
+class Mission2012Channel extends ProtocolChannelModel {
+
+  static final def nodes = [21, 22, 27, 28, 29]
+  static final def nodeLocation = [
+    21: [   0,    0,  -5],
+    22: [ 398, -105, -18],
+    27: [-434, -499, -12],
+    28: [ -32,  279, -20],
+    29: [-199, -307, -12]
+  ]
+  static def pNoDetect = [
+    [    0, 0.047, 0.095, 0.026, 0.056],
+    [0.032,     0, 0.228, 0.139, 0.081],
+    [0.047, 0.174,     0, 0.025, 0.011],
+    [0.019, 0.060, 0.040,     0, 0.420],
+    [0.026, 0.018, 0.009, 0.048,     0]
+  ]
+  static def pNoDetectOrDecode = [
+    [    0, 0.157, 0.643, 0.197, 0.239],
+    [0.184,     0, 0.870, 0.639, 0.435],
+    [0.326, 0.826,     0, 0.975, 0.023],
+    [0.038, 0.160, 0.760,     0, 0.900],
+    [0.070, 0.070, 0.018, 0.871,     0]
+  ]
+
+  float getProbabilityDetection(Reception rx) {
+    int from = nodes.indexOf(rx.from)
+    int to = nodes.indexOf(rx.address)
+    if (from < 0 || to < 0) return 0
+    return 1-pNoDetect[from][to]
+  }
+
+  float getProbabilityDecoding(Reception rx) {
+    int from = nodes.indexOf(rx.from)
+    int to = nodes.indexOf(rx.address)
+    if (from < 0 || to < 0) return 0
+    return (1-pNoDetectOrDecode[from][to])/(1-pNoDetect[from][to])
+  }
+
+}
+----
+
+The nodes during the MISSION 2012 experiment have addresses 21, 22, 27, 28 and 29. The node locations and inter-node detection/decoding probabilities are measured and tabulated in the model. The model uses these measurements to simulate packet loss.
+
+===== Extending the AbstractAcousticChannel
+
+The `AbstractAcousticChannel` class provides a framework for acoustic simulation channels, including functionality for collision detection. The `BasicAcousticChannel` class extends the `AbstractAcousticChannel` class and provides implementation for an acoustic model (`UrickAcousticModel`) and a communication model (`BPSKFadingModel`):
+
+[source, groovy]
+----
+class BasicAcousticChannel extends AbstractAcousticChannel {
+  @Delegate UrickAcousticModel acoustics = new UrickAcousticModel(this)
+  @Delegate BPSKFadingModel comms = new BPSKFadingModel(this)
+}
+----
+
+To customize an acoustic channel model, one may extend or replace the acoustic or communication models. For example, if we wish to have a deep sea noise model where the noise power was a function of a new parameter `seaState`, we could extend the `UrickAcousticModel`:
+
+[source, groovy]
+----
+import org.arl.unet.sim.channels.UrickAcousticModel
+
+class MyAcousticModel extends UrickAcousticModel {
+
+  // map of sea state to noise power (dB re uPa^2/Hz)
+  private final def noiseLevel = [ 0: 20, 1: 30, 2: 35, 3: 40, 4: 42, 5: 44, 6: 46 ]
+
+  // sea state parameter
+  float seaState = 2
+
+  double getNoisePower() {
+    return Math.pow(10, noiseLevel[seaState]/10) * model.bandwidth
+  }
+
+}
+----
+
+and then replace the `BasicAcousticChannel` model with out own version:
+
+[source, groovy]
+----
+import org.arl.unet.sim.channels.*
+
+class MyAcousticChannel extends AbstractAcousticChannel {
+  @Delegate UrickAcousticModel acoustics = new MyAcousticModel(this)
+  @Delegate BPSKFadingModel comms = new BPSKFadingModel(this)
+}
+----
+
+Similarly, the communication model can be extended or replaced too.
