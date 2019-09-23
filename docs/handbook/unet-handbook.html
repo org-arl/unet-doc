@@ -7305,7 +7305,7 @@ Commands:
 </dd>
 <dt class="hdlist1"><code>reportProgress</code></dt>
 <dd>
-<p>Setting this parameter to <code>true</code> asks the <code>transport</code> agent to send out periodic <code>DatagramProgressNtf</code> messages to the requester (transmitting node) or on the agent&#8217;s topic (receiving node), when transferring large datagrams.</p>
+<p>Setting this parameter to <code>true</code> asks the <code>transport</code> agent to send out periodic <code>DatagramProgressNtf</code> messages to the requester (on the transmitting node) or on the agent&#8217;s topic (on the receiving node), when transferring large datagrams.</p>
 </dd>
 <dt class="hdlist1"><code>timeoutPerHop</code></dt>
 <dd>
@@ -9501,7 +9501,7 @@ Coming soon&#8230;&#8203;
 <h2 id="_writing_simulation_scripts">29. Writing simulation scripts</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>We have been using simulations throughout the handbook, to demonstrate and test commands, scripts and agents without having to set up a real Unet. But how exactly do we tell the simulator what we want to simulate? This is the main subject of our discussion in this chapter.</p>
+<p>We have been using simulations throughout the handbook, to demonstrate and test commands, scripts and agents without having to set up a real Unet. But how exactly do we tell the simulator what we want to simulate?</p>
 </div>
 <div class="sect2">
 <h3 id="_integrated_development_environment">29.1. Integrated development environment</h3>
@@ -9556,7 +9556,7 @@ Node B: tcp://localhost:1102, http://localhost:8082/</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>To access node A shell, either control-click the URL for node A shell (<code><a href="http://localhost:8081/" class="bare">http://localhost:8081/</a></code>) or select <code>Node A (232)</code> from the <code>Shells</code> dropdown menu. This will open the node A shell in a separate browser tab. Once you have access to the shells for your node, you are on familiar ground, as you have been working with numerous realtime simulation in previous chapters. Now, you can safely close the shell tab for now and go back to the IDE tab. The shell tab can be reopened anytime you want.</p>
+<p>To access node A shell, either control-click the URL for node A shell (displayed on the simulation shell) or select <code>Node A (232)</code> from the <code>Shells</code> dropdown menu. This will open the node A shell in a separate browser tab. Once you have access to the shells for your node, you are on familiar ground, as you have been working with numerous realtime simulation in previous chapters. Now, you can safely close the shell tab for now and go back to the IDE tab. The shell tab can be reopened anytime you want.</p>
 </div>
 <div class="paragraph">
 <p>Next, try out the <code>Map</code> button, and you&#8217;ll see the 2 nodes in our simulation on a map:</p>
@@ -9998,19 +9998,366 @@ MISSION 2013 network
 <h2 id="_discrete_event_simulation">30. Discrete event simulation</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Running simulations in realtime gives us an experience which is very similar to working with a real Unet, as we have seen in earlier chapters. This is very useful when you want to interact with the network manually, through a shell. However, as a network designer or protocol developer, you may sometimes need to run simulations to see how the network performs over days or months. Doing this with a real-time simulator is impractical, as a realtime simulation would take days or months to run. The Unet simulator can be run in a <em>discrete event</em> mode, where the waiting time between events is <em>fast-forwarded</em> to yield results worth hours or days of real time within minutes. We will also learn how to use the disrete event mode for large-scale simulation of protocol performance.</p>
+<p>Running simulations in realtime gives us an experience which is very similar to working with a real Unet, as we have seen in earlier chapters. This is very useful when you want to interact with the network manually, through a shell. However, as a network designer or protocol developer, you may sometimes need to run simulations to see how the network performs over days or months, and maybe run many such simulations, each with slightly different network settings or configuration. Doing this with a realtime simulator is impractical, as a realtime simulation would take days or months to run. The Unet simulator can be run in a <em>discrete event</em> mode, where the waiting time between events is <em>fast-forwarded</em> to yield results worth hours or days of real time within minutes. In this chapter, we explore how to use the disrete event mode for simulation of protocol performance.</p>
 </div>
-<div class="admonitionblock warning">
+<div class="sect2">
+<h3 id="_aloha_performance_analysis">30.1. ALOHA performance analysis</h3>
+<div class="paragraph">
+<p>The <em>hello world</em> of the networking world is the <a href="https://en.wikipedia.org/wiki/ALOHAnet" target="_blank" rel="noopener">ALOHA</a> MAC protocol. The protocol is very simple: transmit a frame as soon as data arrives, without worrying about whether any other node is transmitting. While this behavior is straightforward to describe, simulating it accurately requires some thought.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s say we want to simulate a network with ALOHA MAC. On each node, we expect data to arrive randomly, with a known average arrival rate. The total number of data "chunks" arriving per unit time across the network is termed as <em>offered load</em>. As soon as a data chunk arrives, the node transmits it to a randomly chosen destination node (other than itself). The number of successfully delivered data chunks per unit time, across the entire network, is called the <em>throughput</em>. We are interested to study how the throughput varies as a function of offered load.</p>
+</div>
+<div class="paragraph">
+<p>ALOHA has been extensively studied in literature, and its theoretical performance is well known. In order to simulate a network that can be compared against theory, we need to ensure that our simulation matches the assumptions made in the theoretical derivations:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The random arrival process follows a Poisson distribution.</p>
+</li>
+<li>
+<p>If two frames arrive at a receiver with some overlap in time, they collide and are lost. Neither frame can be successfully decoded.</p>
+</li>
+<li>
+<p>Each node is half-duplex, i.e., it cannot receive a frame while it is transmitting.</p>
+</li>
+<li>
+<p>No frames are lost due to noise or channel effects such as multipath.</p>
+</li>
+<li>
+<p>There is no propagation delay between nodes.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Assumptions 2 and 4 together form a model called the <em>protocol</em> channel model. We tell the simulator to adopt this model:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="groovy"><span class="n">channel</span><span class="o">.</span><span class="na">model</span> <span class="o">=</span> <span class="n">ProtocolChannelModel</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Underwater acoustic modems are usually half-duplex, and the default modem model in the simulator is the <code>HalfDuplexModem</code>, so we shouldn&#8217;t need to do anything special for assumption 3. However, the <code>HalfDuplexModem</code> is smart enough to delay a transmission if another frame is being transmitted or received by the node, to avoid losing the other frame. While this is usually a good thing to do, it will violate assumption 3 and give us results that don&#8217;t agree with theory. To match the theoretical behavior, we have to stop any ongoing transmission or reception, when new data arrives for transmission:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="groovy"><span class="n">phy</span> <span class="o">&lt;&lt;</span> <span class="k">new</span> <span class="n">ClearReq</span><span class="o">()</span>                       <span class="c1">// stop ongoing transmission/reception</span>
+<span class="n">phy</span> <span class="o">&lt;&lt;</span> <span class="k">new</span> <span class="n">TxFrameReq</span><span class="o">(</span><span class="nl">to:</span> <span class="n">dst</span><span class="o">,</span> <span class="nl">type:</span> <span class="n">DATA</span><span class="o">)</span>  <span class="c1">// transmit a data frame to dst</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The offered load and throughput are usually <em>normalized</em> by the number of frames that can be supported by the channel per unit time. By setting the frame duration to be one second, we ensure that the normalization factor is 1 (one packet can be transitted per second without collision). To do this, we set up the simulated modem to have no header/preamble overheads, and exactly 1 second worth of data that it can carry in a frame:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="groovy"><span class="n">modem</span><span class="o">.</span><span class="na">dataRate</span> <span class="o">=</span> <span class="o">[</span><span class="mi">2400</span><span class="o">,</span> <span class="mi">2400</span><span class="o">].</span><span class="na">bps</span>           <span class="c1">// arbitrary data rate</span>
+<span class="n">modem</span><span class="o">.</span><span class="na">frameLength</span> <span class="o">=</span> <span class="o">[</span><span class="mi">2400</span><span class="s">/8, 2400/</span><span class="mi">8</span><span class="o">].</span><span class="na">bytes</span>  <span class="c1">// 1 second worth of data per frame</span>
+<span class="n">modem</span><span class="o">.</span><span class="na">headerLength</span> <span class="o">=</span> <span class="mi">0</span>                      <span class="c1">// no overhead from header</span>
+<span class="n">modem</span><span class="o">.</span><span class="na">preambleDuration</span> <span class="o">=</span> <span class="mi">0</span>                  <span class="c1">// no overhead from preamble</span>
+<span class="n">modem</span><span class="o">.</span><span class="na">txDelay</span> <span class="o">=</span> <span class="mi">0</span>                           <span class="c1">// don't simulate hardware delays</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A Poisson process (assumption 1) is easily simulated using the <code>PoissonBehavior</code> available in fjåge. Assumption 5 can also be easily met by placing all nodes at the same location.</p>
+</div>
+<div class="paragraph">
+<p>Now let&#8217;s put a first version of our script together to simulate a 4-node ALOHA network:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="groovy"><span class="kn">import</span> <span class="nn">org.arl.fjage.*</span>
+<span class="kn">import</span> <span class="nn">org.arl.unet.*</span>
+<span class="kn">import</span> <span class="nn">org.arl.unet.phy.*</span>
+<span class="kn">import</span> <span class="nn">org.arl.unet.sim.*</span>
+<span class="kn">import</span> <span class="nn">org.arl.unet.sim.channels.*</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">Services</span><span class="o">.*</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">phy</span><span class="o">.</span><span class="na">Physical</span><span class="o">.*</span>
+
+<span class="n">channel</span><span class="o">.</span><span class="na">model</span> <span class="o">=</span> <span class="n">ProtocolChannelModel</span>        <span class="c1">// use the protocol channel model</span>
+<span class="n">modem</span><span class="o">.</span><span class="na">dataRate</span> <span class="o">=</span> <span class="o">[</span><span class="mi">2400</span><span class="o">,</span> <span class="mi">2400</span><span class="o">].</span><span class="na">bps</span>           <span class="c1">// arbitrary data rate</span>
+<span class="n">modem</span><span class="o">.</span><span class="na">frameLength</span> <span class="o">=</span> <span class="o">[</span><span class="mi">2400</span><span class="s">/8, 2400/</span><span class="mi">8</span><span class="o">].</span><span class="na">bytes</span>  <span class="c1">// 1 second worth of data per frame</span>
+<span class="n">modem</span><span class="o">.</span><span class="na">headerLength</span> <span class="o">=</span> <span class="mi">0</span>                      <span class="c1">// no overhead from header</span>
+<span class="n">modem</span><span class="o">.</span><span class="na">preambleDuration</span> <span class="o">=</span> <span class="mi">0</span>                  <span class="c1">// no overhead from preamble</span>
+<span class="n">modem</span><span class="o">.</span><span class="na">txDelay</span> <span class="o">=</span> <span class="mi">0</span>                           <span class="c1">// don't simulate hardware delays</span>
+
+<span class="kt">def</span> <span class="n">nodes</span> <span class="o">=</span> <span class="mi">1</span><span class="o">..</span><span class="mi">4</span>                            <span class="c1">// list with 4 nodes</span>
+<span class="kt">def</span> <span class="n">load</span> <span class="o">=</span> <span class="mf">0.2</span>                              <span class="c1">// offered load to simulate</span>
+
+<span class="n">simulate</span> <span class="mi">2</span><span class="o">.</span><span class="na">hours</span><span class="o">,</span> <span class="o">{</span>                         <span class="c1">// simulate 2 hours of elapsed time</span>
+  <span class="n">nodes</span><span class="o">.</span><span class="na">each</span> <span class="o">{</span> <span class="n">myAddr</span> <span class="o">-&gt;</span>
+    <span class="kt">def</span> <span class="n">myNode</span> <span class="o">=</span> <span class="n">node</span> <span class="s2">"${myAddr}"</span><span class="o">,</span> <span class="nl">address:</span> <span class="n">myAddr</span><span class="o">,</span> <span class="nl">location:</span> <span class="o">[</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">]</span>
+    <span class="n">myNode</span><span class="o">.</span><span class="na">startup</span> <span class="o">=</span> <span class="o">{</span>                      <span class="c1">// startup script to run on each node</span>
+      <span class="kt">def</span> <span class="n">phy</span> <span class="o">=</span> <span class="n">agentForService</span> <span class="n">PHYSICAL</span>
+      <span class="kt">def</span> <span class="n">arrivalRate</span> <span class="o">=</span> <span class="n">load</span><span class="s">/nodes.size()   /</span><span class="o">/</span> <span class="n">arrival</span> <span class="n">rate</span> <span class="n">per</span> <span class="n">node</span>
+      <span class="n">add</span> <span class="k">new</span> <span class="nf">PoissonBehavior</span><span class="o">(</span><span class="mi">1000</span><span class="s">/arrivalRate, {     /</span><span class="o">/</span> <span class="n">avg</span> <span class="n">time</span> <span class="n">between</span> <span class="n">events</span> <span class="k">in</span> <span class="n">ms</span>
+        <span class="kt">def</span> <span class="n">dst</span> <span class="o">=</span> <span class="n">rnditem</span><span class="o">(</span><span class="n">nodes</span><span class="o">-</span><span class="n">myAddr</span><span class="o">)</span>     <span class="c1">// choose destination randomly (excluding self)</span>
+        <span class="n">phy</span> <span class="o">&lt;&lt;</span> <span class="k">new</span> <span class="n">ClearReq</span><span class="o">()</span>
+        <span class="n">phy</span> <span class="o">&lt;&lt;</span> <span class="k">new</span> <span class="n">TxFrameReq</span><span class="o">(</span><span class="nl">to:</span> <span class="n">dst</span><span class="o">,</span> <span class="nl">type:</span> <span class="n">DATA</span><span class="o">)</span>
+      <span class="o">})</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// display collected statistics</span>
+<span class="n">println</span><span class="o">([</span><span class="n">trace</span><span class="o">.</span><span class="na">txCount</span><span class="o">,</span> <span class="n">trace</span><span class="o">.</span><span class="na">rxCount</span><span class="o">,</span> <span class="n">trace</span><span class="o">.</span><span class="na">offeredLoad</span><span class="o">,</span> <span class="n">trace</span><span class="o">.</span><span class="na">throughput</span><span class="o">])</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The script is easy to understand. In a 2-hour long simulation, we iterate over the list of nodes, and create each node at the origin. Each node adds a <code>PoissonBheavior</code> to generate random traffic at a rate corresponding to the offered <code>load</code> setting. The parameter of the Poisson behavior is the average time between events in milliseconds, which we compute based on the arrival rate. The destination for each transmission is randomly chosen from the list of nodes excluding the transmitting node. Once the simulation is completed, statistics are printed. The <code>trace</code> object is automatically defined by the simulator to collect typically required statistics.</p>
+</div>
+<div class="admonitionblock tip">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
+<i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-Coming soon&#8230;&#8203;
+The <code>rnditem(list)</code> function allows a random item to be chosen from a list. Other convenience functions related to random number generation include <code>rnd(min, max)</code> which generates a uniformly distributed random number between <code>min</code> and <code>max</code>, and <code>rndint(n)</code> which generates a uniformly distributed random number between <code>0</code> and <code>n-1</code>.
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>Open Unet IDE (<code>bin/unet sim</code>), create a new simulation script in the <code>scripts</code> folder, copy this code in, and run it. Within a few seconds, you should see the results:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="console"><span class="go">[1398, 1080, 0.13631, 0.105]
+1 simulation completed in 2.817 seconds</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Since this is a Monte-Carlo simulation driven by a random number generator, the statistics you see will be similar, but not identical. A total of 1398 frames were transmitted, and 1080 of them were successfully received. The measured offered load was 0.136, and the throughput was 0.105.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Wondering why the measured offered load of 0.136 is a little less than the 0.2 that we intended? When two transmissions arrive with a very small delay, the earlier transmission is dropped when the next transmission begins. Only fully completed transmissions are counted by the <code>trace</code> statistics collector, and hence it sees a slightly lower load.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Hang on a minute! The simulation was meant to run for 2 hours, but it finished in less than 3 seconds!!</p>
+</div>
+<div class="paragraph">
+<p>That&#8217;s because we ran the simulation in a discrete event simulation mode (it is the default mode, if we don&#8217;t set <code>platform = RealTimePlatform</code>). We could have explicitly set it (<code>platform = DiscreteEventSimulator</code>), if we wanted. Now that we can run hours worth of simulations in seconds, we can go ahead and measure ALOHA throughput at various load settings:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="groovy"><span class="kn">import</span> <span class="nn">org.arl.fjage.*</span>
+<span class="kn">import</span> <span class="nn">org.arl.unet.*</span>
+<span class="kn">import</span> <span class="nn">org.arl.unet.phy.*</span>
+<span class="kn">import</span> <span class="nn">org.arl.unet.sim.*</span>
+<span class="kn">import</span> <span class="nn">org.arl.unet.sim.channels.*</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">Services</span><span class="o">.*</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">phy</span><span class="o">.</span><span class="na">Physical</span><span class="o">.*</span>
+
+<span class="n">println</span> <span class="s1">'''
+Pure Aloha simulation
+=====================
+
+TX Count\tRX Count\tOffered Load\tThroughput
+--------\t--------\t------------\t----------'''</span>
+
+<span class="n">channel</span><span class="o">.</span><span class="na">model</span> <span class="o">=</span> <span class="n">ProtocolChannelModel</span>        <span class="c1">// use the protocol channel model</span>
+<span class="n">modem</span><span class="o">.</span><span class="na">dataRate</span> <span class="o">=</span> <span class="o">[</span><span class="mi">2400</span><span class="o">,</span> <span class="mi">2400</span><span class="o">].</span><span class="na">bps</span>           <span class="c1">// arbitrary data rate</span>
+<span class="n">modem</span><span class="o">.</span><span class="na">frameLength</span> <span class="o">=</span> <span class="o">[</span><span class="mi">2400</span><span class="s">/8, 2400/</span><span class="mi">8</span><span class="o">].</span><span class="na">bytes</span>  <span class="c1">// 1 second worth of data per frame</span>
+<span class="n">modem</span><span class="o">.</span><span class="na">headerLength</span> <span class="o">=</span> <span class="mi">0</span>                      <span class="c1">// no overhead from header</span>
+<span class="n">modem</span><span class="o">.</span><span class="na">preambleDuration</span> <span class="o">=</span> <span class="mi">0</span>                  <span class="c1">// no overhead from preamble</span>
+<span class="n">modem</span><span class="o">.</span><span class="na">txDelay</span> <span class="o">=</span> <span class="mi">0</span>                           <span class="c1">// don't simulate hardware delays</span>
+
+<span class="kt">def</span> <span class="n">nodes</span> <span class="o">=</span> <span class="mi">1</span><span class="o">..</span><span class="mi">4</span>                            <span class="c1">// list with 4 nodes</span>
+<span class="n">trace</span><span class="o">.</span><span class="na">warmup</span> <span class="o">=</span> <span class="mi">15</span><span class="o">.</span><span class="na">minutes</span>                   <span class="c1">// collect statistics after a while</span>
+
+<span class="k">for</span> <span class="o">(</span><span class="kt">def</span> <span class="n">load</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">;</span> <span class="n">load</span> <span class="o">&lt;=</span> <span class="mf">1.5</span><span class="o">;</span> <span class="n">load</span> <span class="o">+=</span> <span class="mf">0.1</span><span class="o">)</span> <span class="o">{</span>
+
+  <span class="n">simulate</span> <span class="mi">2</span><span class="o">.</span><span class="na">hours</span><span class="o">,</span> <span class="o">{</span>                       <span class="c1">// simulate 2 hours of elapsed time</span>
+    <span class="n">nodes</span><span class="o">.</span><span class="na">each</span> <span class="o">{</span> <span class="n">myAddr</span> <span class="o">-&gt;</span>
+      <span class="kt">def</span> <span class="n">myNode</span> <span class="o">=</span> <span class="n">node</span> <span class="s2">"${myAddr}"</span><span class="o">,</span> <span class="nl">address:</span> <span class="n">myAddr</span><span class="o">,</span> <span class="nl">location:</span> <span class="o">[</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">]</span>
+      <span class="n">myNode</span><span class="o">.</span><span class="na">startup</span> <span class="o">=</span> <span class="o">{</span>                    <span class="c1">// startup script to run on each node</span>
+        <span class="kt">def</span> <span class="n">phy</span> <span class="o">=</span> <span class="n">agentForService</span> <span class="n">PHYSICAL</span>
+        <span class="kt">def</span> <span class="n">arrivalRate</span> <span class="o">=</span> <span class="n">load</span><span class="s">/nodes.size() /</span><span class="o">/</span> <span class="n">arrival</span> <span class="n">rate</span> <span class="n">per</span> <span class="n">node</span>
+        <span class="n">add</span> <span class="k">new</span> <span class="nf">PoissonBehavior</span><span class="o">(</span><span class="mi">1000</span><span class="s">/arrivalRate, {   /</span><span class="o">/</span> <span class="n">avg</span> <span class="n">time</span> <span class="n">between</span> <span class="n">events</span> <span class="k">in</span> <span class="n">ms</span>
+          <span class="kt">def</span> <span class="n">dst</span> <span class="o">=</span> <span class="n">rnditem</span><span class="o">(</span><span class="n">nodes</span><span class="o">-</span><span class="n">myAddr</span><span class="o">)</span>   <span class="c1">// choose destination randomly (excluding self)</span>
+          <span class="n">phy</span> <span class="o">&lt;&lt;</span> <span class="k">new</span> <span class="n">ClearReq</span><span class="o">()</span>
+          <span class="n">phy</span> <span class="o">&lt;&lt;</span> <span class="k">new</span> <span class="n">TxFrameReq</span><span class="o">(</span><span class="nl">to:</span> <span class="n">dst</span><span class="o">,</span> <span class="nl">type:</span> <span class="n">DATA</span><span class="o">)</span>
+        <span class="o">})</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">}</span> <span class="c1">// simulate</span>
+
+  <span class="c1">// tabulate collected statistics</span>
+  <span class="n">println</span> <span class="nf">sprintf</span><span class="o">(</span><span class="s1">'%6d\t\t%6d\t\t%7.3f\t\t%7.3f'</span><span class="o">,</span>
+    <span class="o">[</span><span class="n">trace</span><span class="o">.</span><span class="na">txCount</span><span class="o">,</span> <span class="n">trace</span><span class="o">.</span><span class="na">rxCount</span><span class="o">,</span> <span class="n">trace</span><span class="o">.</span><span class="na">offeredLoad</span><span class="o">,</span> <span class="n">trace</span><span class="o">.</span><span class="na">throughput</span><span class="o">])</span>
+
+<span class="o">}</span> <span class="c1">// for</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Other than the pretty printing to tabulate the output, you&#8217;ll see that we have added a <code>trace.warmup</code> time. This is to ensure that we only collect statistics after the simulation has reached steady state (in this case, after 15 minutes of simulation time).</p>
+</div>
+<div class="paragraph">
+<p>A slightly beautified copy of the above code is available in the <code>samples/aloha.groovy</code> script. You can either run that, or run the above code. You should see something like this output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="console"><span class="go">Pure Aloha simulation
+=====================
+
+TX Count        RX Count        Offered Load    Throughput
+--------        --------        ------------    ----------
+   614             525            0.068           0.058
+  1228             962            0.137           0.107
+  1871            1249            0.209           0.139
+  2480            1407            0.277           0.156
+  3093            1535            0.347           0.171
+  3759            1616            0.421           0.180
+  4273            1665            0.479           0.183
+  4971            1599            0.558           0.178
+  5540            1605            0.622           0.178
+  6256            1532            0.702           0.170
+  6940            1375            0.783           0.153
+  7338            1407            0.826           0.156
+  7992            1338            0.904           0.149
+  8598            1282            0.972           0.142
+  9394            1048            1.062           0.116
+
+15 simulations completed in 102.494 seconds</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As expected from the ALOHA protocol, the maximum throughput of about 0.18 is reached at an offered load of about 0.5. We plot this against the theoretical ALOHA performance curve (\(y = xe^{-2x}\)) in <a href="#fig_aloha">Figure 10</a>.</p>
+</div>
+<div id="fig_aloha" class="imageblock">
+<div class="content">
+<img src="images/aloha.png" alt="aloha" width="600">
+</div>
+<div class="title">Figure 10. Simulated and theoretical ALOHA performance.</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_logs_traces_and_statistics">30.2. Logs, traces and statistics</h3>
+<div class="paragraph">
+<p>When a simulation is run, usually two files are produced.</p>
+</div>
+<div class="sect3">
+<h4 id="_log_file">30.2.1. Log file</h4>
+<div class="paragraph">
+<p>The <code>logs/log-0.txt</code> file contains detailed text logs from the Java logging framework. Your agents and simulation scripts may log additional information to this file using <code>log.info()</code> or <code>log.fine()</code> methods. This provides a flexible and customizable way to log events in your simulation for later analysis.</p>
+</div>
+<div class="paragraph">
+<p>A typical extract of the log file is shown below:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="text">1569242004546|INFO|org.arl.unet.nodeinfo.NodeInfo@558:setAddress|Node address changed to 1
+1569242004548|INFO|Script1@558:invoke|Created static node 1 (1) @ [0, 0, 0]
+1569242004552|INFO|org.arl.unet.nodeinfo.NodeInfo@558:setAddress|Node address changed to 2
+1569242004553|INFO|Script1@558:invoke|Created static node 2 (2) @ [0, 0, 0]
+1569242004553|INFO|org.arl.unet.nodeinfo.NodeInfo@558:setAddress|Node address changed to 3
+1569242004554|INFO|Script1@558:invoke|Created static node 3 (3) @ [0, 0, 0]
+1569242004554|INFO|org.arl.unet.nodeinfo.NodeInfo@558:setAddress|Node address changed to 4
+1569242004554|INFO|Script1@558:invoke|Created static node 4 (4) @ [0, 0, 0]
+1569242004555|INFO|Script1@558:invoke| --- BEGIN SIMULATION #1 ---
+0|INFO|org.arl.unet.sim.SimulationContainer@558:init|Initializing agents...
+0|INFO|org.arl.unet.sim.SimulationAgent/1@561:invoke|Loading simulator : SimulationAgent
+0|INFO|org.arl.unet.nodeinfo.NodeInfo/1@560:init|Loading agent node v3.0
+0|INFO|org.arl.unet.sim.HalfDuplexModem/1@559:init|Loading agent phy v3.0
+  :
+  :
+5673|INFO|org.arl.unet.sim.SimulationAgent/4@570:call|TxFrameNtf:INFORM[type:DATA txTime:2066947222]
+6511|INFO|org.arl.unet.sim.SimulationAgent/3@567:call|TxFrameNtf:INFORM[type:DATA txTime:1157370743]
+10919|INFO|org.arl.unet.sim.SimulationAgent/4@570:call|TxFrameNtf:INFORM[type:DATA txTime:2072193222</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that the timestamp (first column) changes from the clock time to discrete event time when the simulation starts, and switches back to clock time when the simulation ends.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_trace_file">30.3. Trace file</h3>
+<div class="paragraph">
+<p>A trace file contains information about all packet creation, transmission, reception and drop events. It also contains details of node motion.</p>
+</div>
+<div class="paragraph">
+<p>The default, the trace file format is similar to the NS2 NAM trace, and the trace filename is <code>logs/trace.nam</code>. The tracer also computes basic statistics including queued packet count, transmitted packet count, received packet count, dropped packet count, offered load, actual load, average packet latency and normalized throughput. An extract from the trace file is shown below:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="text"># BEGIN SIMULATION 1
+n -t 8.005000 -s 3 -x 0.000000 -y 0.000000 -Z 0.000000 -a 3
++ -t 8.005000 -s 3 -d 2 -i 40839989 -p 0 -x {3.0 2.0 -1 ------- null}
+- -t 8.005000 -s 3 -d 2 -i 40839989 -p 0 -x {3.0 2.0 -1 ------- null}
+n -t 8.005000 -s 1 -x 0.000000 -y 0.000000 -Z 0.000000 -a 1
+n -t 8.005000 -s 2 -x 0.000000 -y 0.000000 -Z 0.000000 -a 2
+n -t 8.005000 -s 4 -x 0.000000 -y 0.000000 -Z 0.000000 -a 4
+r -t 9.005000 -s 3 -d 2 -i 40839989 -p 0 -x {3.0 2.0 -1 ------- null}
+r -t 9.005000 -s 3 -d 1 -i 40839989 -p 0 -x {3.0 2.0 -1 ------- null}
+r -t 9.005000 -s 3 -d 4 -i 40839989 -p 0 -x {3.0 2.0 -1 ------- null}
++ -t 42.042000 -s 1 -d 2 -i 254433913 -p 0 -x {1.0 2.0 -1 ------- null}
+- -t 42.042000 -s 1 -d 2 -i 254433913 -p 0 -x {1.0 2.0 -1 ------- null}
+r -t 43.042000 -s 1 -d 2 -i 254433913 -p 0 -x {1.0 2.0 -1 ------- null}
+r -t 43.042000 -s 1 -d 4 -i 254433913 -p 0 -x {1.0 2.0 -1 ------- null}
+r -t 43.042000 -s 1 -d 3 -i 254433913 -p 0 -x {1.0 2.0 -1 ------- null}
+  :
+  :
+d -t 584.925000 -s 1 -d 4 -i 259068939 -p 0 -x {1.0 4.0 -1 ------- null} -y CLEAR
++ -t 584.925000 -s 4 -d 1 -i -2069119004 -p 0 -x {4.0 1.0 -1 ------- null}
+- -t 584.925000 -s 4 -d 1 -i -2069119004 -p 0 -x {4.0 1.0 -1 ------- null}
+d -t 584.925000 -s 4 -d 1 -i -2069119004 -p 0 -x {4.0 1.0 -1 ------- null} -y COLLISION
+d -t 584.925000 -s 4 -d 2 -i -2069119004 -p 0 -x {4.0 1.0 -1 ------- null} -y COLLISION
+d -t 584.925000 -s 4 -d 3 -i -2069119004 -p 0 -x {4.0 1.0 -1 ------- null} -y COLLISION
+d -t 585.747000 -s 1 -d 2 -i 259068939 -p 0 -x {1.0 4.0 -1 ------- null} -y BAD_FRAME
+d -t 585.747000 -s 1 -d 3 -i 259068939 -p 0 -x {1.0 4.0 -1 ------- null} -y BAD_FRAME
+  :
+  :
+# STATS: q=621, t=621, r=506, d=115, O=0.099, L=0.099, D=0.000, T=0.080
+# END SIMULATION 1</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Lines starting with <code>n</code> log node locations/motion. Lines starting with <code>+</code> denote packet arrival into the transmit queue. Lines starting with <code>-</code> log packet removal from the transmit queue, i.e., transmission. Lines starting with <code>r</code> denote packet reception (or overhearing). Lines starting with <code>d</code> log packet drops, and specify a reason for the drop. <code>CLEAR</code> indicates a packet transmission/reception abort due to a <code>ClearReq</code> request. <code>COLLISION</code> indicates that the packet was dropped because the node was busy receiving or transmitting another packet. <code>BAD_FRAME</code> indicates that the packet was corrupted (possibly due to interference from a colliding packet).</p>
+</div>
+<div class="paragraph">
+<p>For more details on the trace file format, see <a href="http://nsnam.sourceforge.net/wiki/index.php/NS-2_Trace_Formats" target="_blank" rel="noopener">NS2 NAM trace format</a>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+While the trace provides a simple file format and collects statistics for you, the events monitored by the trace are currently limited to PHYSICAL service events. If you need to monitor or log events from other agents, you would want to use log files.
+</td>
+</tr>
+</table>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Customizing your trace file</div>
+<div class="paragraph">
+<p>The trace can be configured in the simulation script. By default, the trace uses the <a href="https://unetstack.net/javadoc/index.html?org/arl/unet/sim/NamTracer.html" target="_blank" rel="noopener"><code>NamTracer</code></a> class to create a <code>logs/trace.nam</code> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="groovy"><span class="n">trace</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NamTracer</span><span class="o">()</span>
+<span class="n">trace</span><span class="o">.</span><span class="na">open</span><span class="o">(</span><span class="s1">'logs/trace.nam'</span><span class="o">)</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>An alternate class extending the <a href="https://unetstack.net/javadoc/index.html?org/arl/unet/sim/Tracer.html" target="_blank" rel="noopener"><code>Tracer</code></a> abstract class can be specified, if you wish to write your own advanced custom tracer.</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -10281,7 +10628,7 @@ Coming soon&#8230;&#8203;
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br>
-Last updated 2019-09-23 01:47:43 +0800
+Last updated 2019-09-23 23:06:58 +0800
 </div>
 </div>
 <style>
@@ -10495,5 +10842,29 @@ pre.rouge {
   background-color: #f8f8f8;
 }
 </style>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains('stemblock')) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
 </body>
 </html>

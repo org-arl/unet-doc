@@ -698,7 +698,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
     <div class="sectionbody">
      <div class="paragraph">
       <p>
-       We have been using simulations throughout the handbook, to demonstrate and test commands, scripts and agents without having to set up a real Unet. But how exactly do we tell the simulator what we want to simulate? This is the main subject of our discussion in this chapter.
+       We have been using simulations throughout the handbook, to demonstrate and test commands, scripts and agents without having to set up a real Unet. But how exactly do we tell the simulator what we want to simulate?
       </p>
      </div>
      <div class="sect2">
@@ -827,13 +827,7 @@ Node B: tcp://localhost:1102, http://localhost:8082/</span></code></pre>
       </div>
       <div class="paragraph">
        <p>
-        To access node A shell, either control-click the URL for node A shell (
-        <code>
-         <a class="bare" href="http://localhost:8081/">
-          http://localhost:8081/
-         </a>
-        </code>
-        ) or select
+        To access node A shell, either control-click the URL for node A shell (displayed on the simulation shell) or select
         <code>
          Node A (232)
         </code>
@@ -1668,7 +1662,7 @@ MISSION 2013 network
    <div id="footer-text">
     Version 0.1
     <br/>
-    Last updated 2019-09-23 01:47:43 +0800
+    Last updated 2019-09-23 23:06:58 +0800
    </div>
   </div>
   <style>
@@ -1882,5 +1876,30 @@ pre.rouge {
   background-color: #f8f8f8;
 }
   </style>
+  <script type="text/x-mathjax-config">
+   MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains('stemblock')) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_HTMLorMML">
+  </script>
  </body>
 </html>

@@ -10,6 +10,7 @@ v0.1
 :toc: left
 :toclevels: 1
 :sectnums:
+:stem: latexmath
 :xrefstyle: short
 :source-highlighter: rouge
 :url-unetstack: https://www.unetstack.net

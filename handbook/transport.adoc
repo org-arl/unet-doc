@@ -38,7 +38,7 @@ We briefly explain each parameter below:
 
 `maxRetries`:: Maximum number of end-to-end retries, if end-to-end acknowledgements are not received. We recommend that link level reliability be enabled to reduce end-to-end retries. This is easily done by setting the `reliability` parameter for a route, or by enabling `reliability` at the LINK service provider (if it offers such a parameter).
 
-`reportProgress`:: Setting this parameter to `true` asks the `transport` agent to send out periodic `DatagramProgressNtf` messages to the requester (transmitting node) or on the agent's topic (receiving node), when transferring large datagrams.
+`reportProgress`:: Setting this parameter to `true` asks the `transport` agent to send out periodic `DatagramProgressNtf` messages to the requester (on the transmitting node) or on the agent's topic (on the receiving node), when transferring large datagrams.
 
 `timeoutPerHop`:: Timeout (in seconds) per hop, for datagram transfer.
 

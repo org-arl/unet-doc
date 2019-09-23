@@ -1,5 +1,285 @@
 == Discrete event simulation
 
-Running simulations in realtime gives us an experience which is very similar to working with a real Unet, as we have seen in earlier chapters. This is very useful when you want to interact with the network manually, through a shell. However, as a network designer or protocol developer, you may sometimes need to run simulations to see how the network performs over days or months. Doing this with a real-time simulator is impractical, as a realtime simulation would take days or months to run. The Unet simulator can be run in a _discrete event_ mode, where the waiting time between events is _fast-forwarded_ to yield results worth hours or days of real time within minutes. We will also learn how to use the disrete event mode for large-scale simulation of protocol performance.
+Running simulations in realtime gives us an experience which is very similar to working with a real Unet, as we have seen in earlier chapters. This is very useful when you want to interact with the network manually, through a shell. However, as a network designer or protocol developer, you may sometimes need to run simulations to see how the network performs over days or months, and maybe run many such simulations, each with slightly different network settings or configuration. Doing this with a realtime simulator is impractical, as a realtime simulation would take days or months to run. The Unet simulator can be run in a _discrete event_ mode, where the waiting time between events is _fast-forwarded_ to yield results worth hours or days of real time within minutes. In this chapter, we explore how to use the disrete event mode for simulation of protocol performance.
 
-WARNING: Coming soon...
+=== ALOHA performance analysis
+
+The _hello world_ of the networking world is the https://en.wikipedia.org/wiki/ALOHAnet[ALOHA^] MAC protocol. The protocol is very simple: transmit a frame as soon as data arrives, without worrying about whether any other node is transmitting. While this behavior is straightforward to describe, simulating it accurately requires some thought.
+
+Let's say we want to simulate a network with ALOHA MAC. On each node, we expect data to arrive randomly, with a known average arrival rate. The total number of data "chunks" arriving per unit time across the network is termed as _offered load_. As soon as a data chunk arrives, the node transmits it to a randomly chosen destination node (other than itself). The number of successfully delivered data chunks per unit time, across the entire network, is called the _throughput_. We are interested to study how the throughput varies as a function of offered load.
+
+ALOHA has been extensively studied in literature, and its theoretical performance is well known. In order to simulate a network that can be compared against theory, we need to ensure that our simulation matches the assumptions made in the theoretical derivations:
+
+1. The random arrival process follows a Poisson distribution.
+2. If two frames arrive at a receiver with some overlap in time, they collide and are lost. Neither frame can be successfully decoded.
+3. Each node is half-duplex, i.e., it cannot receive a frame while it is transmitting.
+4. No frames are lost due to noise or channel effects such as multipath.
+5. There is no propagation delay between nodes.
+
+Assumptions 2 and 4 together form a model called the _protocol_ channel model. We tell the simulator to adopt this model:
+
+[source, groovy]
+----
+channel.model = ProtocolChannelModel
+----
+
+Underwater acoustic modems are usually half-duplex, and the default modem model in the simulator is the `HalfDuplexModem`, so we shouldn't need to do anything special for assumption 3. However, the `HalfDuplexModem` is smart enough to delay a transmission if another frame is being transmitted or received by the node, to avoid losing the other frame. While this is usually a good thing to do, it will violate assumption 3 and give us results that don't agree with theory. To match the theoretical behavior, we have to stop any ongoing transmission or reception, when new data arrives for transmission:
+
+[source, groovy]
+----
+phy << new ClearReq()                       // stop ongoing transmission/reception
+phy << new TxFrameReq(to: dst, type: DATA)  // transmit a data frame to dst
+----
+
+The offered load and throughput are usually _normalized_ by the number of frames that can be supported by the channel per unit time. By setting the frame duration to be one second, we ensure that the normalization factor is 1 (one packet can be transitted per second without collision). To do this, we set up the simulated modem to have no header/preamble overheads, and exactly 1 second worth of data that it can carry in a frame:
+
+[source, groovy]
+----
+modem.dataRate = [2400, 2400].bps           // arbitrary data rate
+modem.frameLength = [2400/8, 2400/8].bytes  // 1 second worth of data per frame
+modem.headerLength = 0                      // no overhead from header
+modem.preambleDuration = 0                  // no overhead from preamble
+modem.txDelay = 0                           // don't simulate hardware delays
+----
+
+A Poisson process (assumption 1) is easily simulated using the `PoissonBehavior` available in fjåge. Assumption 5 can also be easily met by placing all nodes at the same location.
+
+Now let's put a first version of our script together to simulate a 4-node ALOHA network:
+
+[source, groovy]
+----
+import org.arl.fjage.*
+import org.arl.unet.*
+import org.arl.unet.phy.*
+import org.arl.unet.sim.*
+import org.arl.unet.sim.channels.*
+import static org.arl.unet.Services.*
+import static org.arl.unet.phy.Physical.*
+
+channel.model = ProtocolChannelModel        // use the protocol channel model
+modem.dataRate = [2400, 2400].bps           // arbitrary data rate
+modem.frameLength = [2400/8, 2400/8].bytes  // 1 second worth of data per frame
+modem.headerLength = 0                      // no overhead from header
+modem.preambleDuration = 0                  // no overhead from preamble
+modem.txDelay = 0                           // don't simulate hardware delays
+
+def nodes = 1..4                            // list with 4 nodes
+def load = 0.2                              // offered load to simulate
+
+simulate 2.hours, {                         // simulate 2 hours of elapsed time
+  nodes.each { myAddr ->
+    def myNode = node "${myAddr}", address: myAddr, location: [0, 0, 0]
+    myNode.startup = {                      // startup script to run on each node
+      def phy = agentForService PHYSICAL
+      def arrivalRate = load/nodes.size()   // arrival rate per node
+      add new PoissonBehavior(1000/arrivalRate, {     // avg time between events in ms
+        def dst = rnditem(nodes-myAddr)     // choose destination randomly (excluding self)
+        phy << new ClearReq()
+        phy << new TxFrameReq(to: dst, type: DATA)
+      })
+    }
+  }
+}
+
+// display collected statistics
+println([trace.txCount, trace.rxCount, trace.offeredLoad, trace.throughput])
+----
+
+The script is easy to understand. In a 2-hour long simulation, we iterate over the list of nodes, and create each node at the origin. Each node adds a `PoissonBheavior` to generate random traffic at a rate corresponding to the offered `load` setting. The parameter of the Poisson behavior is the average time between events in milliseconds, which we compute based on the arrival rate. The destination for each transmission is randomly chosen from the list of nodes excluding the transmitting node. Once the simulation is completed, statistics are printed. The `trace` object is automatically defined by the simulator to collect typically required statistics.
+
+TIP: The `rnditem(list)` function allows a random item to be chosen from a list. Other convenience functions related to random number generation include `rnd(min, max)` which generates a uniformly distributed random number between `min` and `max`, and `rndint(n)` which generates a uniformly distributed random number between `0` and `n-1`.
+
+Open Unet IDE (`bin/unet sim`), create a new simulation script in the `scripts` folder, copy this code in, and run it. Within a few seconds, you should see the results:
+
+[source, console]
+----
+[1398, 1080, 0.13631, 0.105]
+1 simulation completed in 2.817 seconds
+----
+
+Since this is a Monte-Carlo simulation driven by a random number generator, the statistics you see will be similar, but not identical. A total of 1398 frames were transmitted, and 1080 of them were successfully received. The measured offered load was 0.136, and the throughput was 0.105.
+
+TIP: Wondering why the measured offered load of 0.136 is a little less than the 0.2 that we intended? When two transmissions arrive with a very small delay, the earlier transmission is dropped when the next transmission begins. Only fully completed transmissions are counted by the `trace` statistics collector, and hence it sees a slightly lower load.
+
+Hang on a minute! The simulation was meant to run for 2 hours, but it finished in less than 3 seconds!!
+
+That's because we ran the simulation in a discrete event simulation mode (it is the default mode, if we don't set `platform = RealTimePlatform`). We could have explicitly set it (`platform = DiscreteEventSimulator`), if we wanted. Now that we can run hours worth of simulations in seconds, we can go ahead and measure ALOHA throughput at various load settings:
+
+[source, groovy]
+----
+import org.arl.fjage.*
+import org.arl.unet.*
+import org.arl.unet.phy.*
+import org.arl.unet.sim.*
+import org.arl.unet.sim.channels.*
+import static org.arl.unet.Services.*
+import static org.arl.unet.phy.Physical.*
+
+println '''
+Pure Aloha simulation
+=====================
+
+TX Count\tRX Count\tOffered Load\tThroughput
+--------\t--------\t------------\t----------'''
+
+channel.model = ProtocolChannelModel        // use the protocol channel model
+modem.dataRate = [2400, 2400].bps           // arbitrary data rate
+modem.frameLength = [2400/8, 2400/8].bytes  // 1 second worth of data per frame
+modem.headerLength = 0                      // no overhead from header
+modem.preambleDuration = 0                  // no overhead from preamble
+modem.txDelay = 0                           // don't simulate hardware delays
+
+def nodes = 1..4                            // list with 4 nodes
+trace.warmup = 15.minutes                   // collect statistics after a while
+
+for (def load = 0.1; load <= 1.5; load += 0.1) {
+
+  simulate 2.hours, {                       // simulate 2 hours of elapsed time
+    nodes.each { myAddr ->
+      def myNode = node "${myAddr}", address: myAddr, location: [0, 0, 0]
+      myNode.startup = {                    // startup script to run on each node
+        def phy = agentForService PHYSICAL
+        def arrivalRate = load/nodes.size() // arrival rate per node
+        add new PoissonBehavior(1000/arrivalRate, {   // avg time between events in ms
+          def dst = rnditem(nodes-myAddr)   // choose destination randomly (excluding self)
+          phy << new ClearReq()
+          phy << new TxFrameReq(to: dst, type: DATA)
+        })
+      }
+    }
+  } // simulate
+
+  // tabulate collected statistics
+  println sprintf('%6d\t\t%6d\t\t%7.3f\t\t%7.3f',
+    [trace.txCount, trace.rxCount, trace.offeredLoad, trace.throughput])
+
+} // for
+----
+
+Other than the pretty printing to tabulate the output, you'll see that we have added a `trace.warmup` time. This is to ensure that we only collect statistics after the simulation has reached steady state (in this case, after 15 minutes of simulation time).
+
+A slightly beautified copy of the above code is available in the `samples/aloha.groovy` script. You can either run that, or run the above code. You should see something like this output:
+
+[source, console]
+----
+Pure Aloha simulation
+=====================
+
+TX Count        RX Count        Offered Load    Throughput
+--------        --------        ------------    ----------
+   614             525            0.068           0.058
+  1228             962            0.137           0.107
+  1871            1249            0.209           0.139
+  2480            1407            0.277           0.156
+  3093            1535            0.347           0.171
+  3759            1616            0.421           0.180
+  4273            1665            0.479           0.183
+  4971            1599            0.558           0.178
+  5540            1605            0.622           0.178
+  6256            1532            0.702           0.170
+  6940            1375            0.783           0.153
+  7338            1407            0.826           0.156
+  7992            1338            0.904           0.149
+  8598            1282            0.972           0.142
+  9394            1048            1.062           0.116
+
+15 simulations completed in 102.494 seconds
+----
+
+As expected from the ALOHA protocol, the maximum throughput of about 0.18 is reached at an offered load of about 0.5. We plot this against the theoretical ALOHA performance curve (stem:[y = xe^{-2x}]) in <<fig_aloha>>.
+
+[[fig_aloha]]
+.Simulated and theoretical ALOHA performance.
+image::aloha.png[width=600]
+
+=== Logs, traces and statistics
+
+When a simulation is run, usually two files are produced.
+
+==== Log file
+
+The `logs/log-0.txt` file contains detailed text logs from the Java logging framework. Your agents and simulation scripts may log additional information to this file using `log.info()` or `log.fine()` methods. This provides a flexible and customizable way to log events in your simulation for later analysis.
+
+A typical extract of the log file is shown below:
+
+[source, text]
+----
+1569242004546|INFO|org.arl.unet.nodeinfo.NodeInfo@558:setAddress|Node address changed to 1
+1569242004548|INFO|Script1@558:invoke|Created static node 1 (1) @ [0, 0, 0]
+1569242004552|INFO|org.arl.unet.nodeinfo.NodeInfo@558:setAddress|Node address changed to 2
+1569242004553|INFO|Script1@558:invoke|Created static node 2 (2) @ [0, 0, 0]
+1569242004553|INFO|org.arl.unet.nodeinfo.NodeInfo@558:setAddress|Node address changed to 3
+1569242004554|INFO|Script1@558:invoke|Created static node 3 (3) @ [0, 0, 0]
+1569242004554|INFO|org.arl.unet.nodeinfo.NodeInfo@558:setAddress|Node address changed to 4
+1569242004554|INFO|Script1@558:invoke|Created static node 4 (4) @ [0, 0, 0]
+1569242004555|INFO|Script1@558:invoke| --- BEGIN SIMULATION #1 ---
+0|INFO|org.arl.unet.sim.SimulationContainer@558:init|Initializing agents...
+0|INFO|org.arl.unet.sim.SimulationAgent/1@561:invoke|Loading simulator : SimulationAgent
+0|INFO|org.arl.unet.nodeinfo.NodeInfo/1@560:init|Loading agent node v3.0
+0|INFO|org.arl.unet.sim.HalfDuplexModem/1@559:init|Loading agent phy v3.0
+  :
+  :
+5673|INFO|org.arl.unet.sim.SimulationAgent/4@570:call|TxFrameNtf:INFORM[type:DATA txTime:2066947222]
+6511|INFO|org.arl.unet.sim.SimulationAgent/3@567:call|TxFrameNtf:INFORM[type:DATA txTime:1157370743]
+10919|INFO|org.arl.unet.sim.SimulationAgent/4@570:call|TxFrameNtf:INFORM[type:DATA txTime:2072193222
+----
+
+Note that the timestamp (first column) changes from the clock time to discrete event time when the simulation starts, and switches back to clock time when the simulation ends.
+
+=== Trace file
+
+A trace file contains information about all packet creation, transmission, reception and drop events. It also contains details of node motion.
+
+The default, the trace file format is similar to the NS2 NAM trace, and the trace filename is `logs/trace.nam`. The tracer also computes basic statistics including queued packet count, transmitted packet count, received packet count, dropped packet count, offered load, actual load, average packet latency and normalized throughput. An extract from the trace file is shown below:
+
+[source, text]
+----
+# BEGIN SIMULATION 1
+n -t 8.005000 -s 3 -x 0.000000 -y 0.000000 -Z 0.000000 -a 3
++ -t 8.005000 -s 3 -d 2 -i 40839989 -p 0 -x {3.0 2.0 -1 ------- null}
+- -t 8.005000 -s 3 -d 2 -i 40839989 -p 0 -x {3.0 2.0 -1 ------- null}
+n -t 8.005000 -s 1 -x 0.000000 -y 0.000000 -Z 0.000000 -a 1
+n -t 8.005000 -s 2 -x 0.000000 -y 0.000000 -Z 0.000000 -a 2
+n -t 8.005000 -s 4 -x 0.000000 -y 0.000000 -Z 0.000000 -a 4
+r -t 9.005000 -s 3 -d 2 -i 40839989 -p 0 -x {3.0 2.0 -1 ------- null}
+r -t 9.005000 -s 3 -d 1 -i 40839989 -p 0 -x {3.0 2.0 -1 ------- null}
+r -t 9.005000 -s 3 -d 4 -i 40839989 -p 0 -x {3.0 2.0 -1 ------- null}
++ -t 42.042000 -s 1 -d 2 -i 254433913 -p 0 -x {1.0 2.0 -1 ------- null}
+- -t 42.042000 -s 1 -d 2 -i 254433913 -p 0 -x {1.0 2.0 -1 ------- null}
+r -t 43.042000 -s 1 -d 2 -i 254433913 -p 0 -x {1.0 2.0 -1 ------- null}
+r -t 43.042000 -s 1 -d 4 -i 254433913 -p 0 -x {1.0 2.0 -1 ------- null}
+r -t 43.042000 -s 1 -d 3 -i 254433913 -p 0 -x {1.0 2.0 -1 ------- null}
+  :
+  :
+d -t 584.925000 -s 1 -d 4 -i 259068939 -p 0 -x {1.0 4.0 -1 ------- null} -y CLEAR
++ -t 584.925000 -s 4 -d 1 -i -2069119004 -p 0 -x {4.0 1.0 -1 ------- null}
+- -t 584.925000 -s 4 -d 1 -i -2069119004 -p 0 -x {4.0 1.0 -1 ------- null}
+d -t 584.925000 -s 4 -d 1 -i -2069119004 -p 0 -x {4.0 1.0 -1 ------- null} -y COLLISION
+d -t 584.925000 -s 4 -d 2 -i -2069119004 -p 0 -x {4.0 1.0 -1 ------- null} -y COLLISION
+d -t 584.925000 -s 4 -d 3 -i -2069119004 -p 0 -x {4.0 1.0 -1 ------- null} -y COLLISION
+d -t 585.747000 -s 1 -d 2 -i 259068939 -p 0 -x {1.0 4.0 -1 ------- null} -y BAD_FRAME
+d -t 585.747000 -s 1 -d 3 -i 259068939 -p 0 -x {1.0 4.0 -1 ------- null} -y BAD_FRAME
+  :
+  :
+# STATS: q=621, t=621, r=506, d=115, O=0.099, L=0.099, D=0.000, T=0.080
+# END SIMULATION 1
+----
+
+Lines starting with `n` log node locations/motion. Lines starting with `+` denote packet arrival into the transmit queue. Lines starting with `-` log packet removal from the transmit queue, i.e., transmission. Lines starting with `r` denote packet reception (or overhearing). Lines starting with `d` log packet drops, and specify a reason for the drop. `CLEAR` indicates a packet transmission/reception abort due to a `ClearReq` request. `COLLISION` indicates that the packet was dropped because the node was busy receiving or transmitting another packet. `BAD_FRAME` indicates that the packet was corrupted (possibly due to interference from a colliding packet).
+
+For more details on the trace file format, see http://nsnam.sourceforge.net/wiki/index.php/NS-2_Trace_Formats[NS2 NAM trace format^].
+
+TIP: While the trace provides a simple file format and collects statistics for you, the events monitored by the trace are currently limited to PHYSICAL service events. If you need to monitor or log events from other agents, you would want to use log files.
+
+.Customizing your trace file
+****
+The trace can be configured in the simulation script. By default, the trace uses the {url-unet-javadoc}org/arl/unet/sim/NamTracer.html[`NamTracer`^] class to create a `logs/trace.nam` file:
+
+[source, groovy]
+----
+trace = new NamTracer()
+trace.open('logs/trace.nam')
+----
+
+An alternate class extending the {url-unet-javadoc}org/arl/unet/sim/Tracer.html[`Tracer`^] abstract class can be specified, if you wish to write your own advanced custom tracer.
+****

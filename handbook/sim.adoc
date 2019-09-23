@@ -1,6 +1,6 @@
 == Writing simulation scripts
 
-We have been using simulations throughout the handbook, to demonstrate and test commands, scripts and agents without having to set up a real Unet. But how exactly do we tell the simulator what we want to simulate? This is the main subject of our discussion in this chapter.
+We have been using simulations throughout the handbook, to demonstrate and test commands, scripts and agents without having to set up a real Unet. But how exactly do we tell the simulator what we want to simulate?
 
 === Integrated development environment
 
@@ -35,7 +35,7 @@ Node A: tcp://localhost:1101, http://localhost:8081/
 Node B: tcp://localhost:1102, http://localhost:8082/
 ----
 
-To access node A shell, either control-click the URL for node A shell (`http://localhost:8081/`) or select `Node A (232)` from the `Shells` dropdown menu. This will open the node A shell in a separate browser tab. Once you have access to the shells for your node, you are on familiar ground, as you have been working with numerous realtime simulation in previous chapters. Now, you can safely close the shell tab for now and go back to the IDE tab. The shell tab can be reopened anytime you want.
+To access node A shell, either control-click the URL for node A shell (displayed on the simulation shell) or select `Node A (232)` from the `Shells` dropdown menu. This will open the node A shell in a separate browser tab. Once you have access to the shells for your node, you are on familiar ground, as you have been working with numerous realtime simulation in previous chapters. Now, you can safely close the shell tab for now and go back to the IDE tab. The shell tab can be reopened anytime you want.
 
 Next, try out the `Map` button, and you'll see the 2 nodes in our simulation on a map:
 
