@@ -19,7 +19,7 @@ The `SaveStateReq` message causes the agent state (changed parameters) to be per
 
 === Examples
 
-Fire up unet audio (`bin/unet audio`) to test out how state persistence works:
+Fire up Unet audio (`bin/unet audio`) to test out how state persistence works:
 
 [source, console]
 ----
@@ -34,7 +34,7 @@ OK
 > shutdown
 ----
 
-Now start unet audio again, and you'll find that the `plvl` state was not retained through reboots:
+Now start Unet audio again, and you'll find that the `plvl` state was not retained through reboots:
 
 [source, console]
 ----
@@ -62,7 +62,7 @@ saved-state.groovy [156 bytes]    //<2>
 <1> The `savestate` command just sends a `SaveStateReq` message to the STATE_MANAGER service provider.
 <2> The `saved-state.groovy` file is created with all the parameter changes to all agents.
 
-Start unet audio again, and you'll find that the state is retained:
+Start Unet audio again, and you'll find that the state is retained:
 
 [source, console]
 ----
@@ -88,7 +88,7 @@ phy[4].powerLevel = -40.0
 phy.signalPowerLevel = -40.0
 ----
 
-Delete this file and start unet audio again:
+Delete this file and start Unet audio again:
 
 [source, console]
 ----

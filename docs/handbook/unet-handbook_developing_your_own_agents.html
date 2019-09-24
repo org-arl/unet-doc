@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
     </span>
     <br/>
     <span id="revnumber">
-     version 0.9
+     version 3.0.0
     </span>
    </div>
    <div class="toc2" id="toc">
@@ -879,11 +879,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
         <code>
          USER
         </code>
-        onwards are available for your own applications to use). We do not want to use the response to use the same protocol, otherwise our daemon (running on the source node) could get confused and echo the response, which would in turn be echoed again by the destination node’s daemon, ad infinitum. So we use protocol
+        onwards are available for your own applications to use). We do not want the response to use the same protocol, otherwise our daemon (running on the source node) could get confused and echo the response, which would in turn be echoed again by the destination node’s daemon, ad infinitum. So we use protocol
         <code>
          DATA
         </code>
-        for the echo response datagram, as this protocol is intended by generic application data.
+        for the echo response datagram, as this protocol is intended for generic application data.
        </p>
       </div>
       <div class="paragraph">
@@ -1015,12 +1015,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
           </code>
           and
           <code>
-           recepient
+           recipient
           </code>
           <strong>
            always
           </strong>
-          refer to the agents that generate and consume the message. These are entities within a single Unet node. The
+          refer to the agents that generate and consume the message, respectively. These are entities within a single Unet node. The
           <code>
            from
           </code>
@@ -1053,7 +1053,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
         </div>
         <div class="paragraph">
          <p>
-          With the unet simulator or unet audio running on your machine, you can use your favorite text editor to directly create the
+          With the Unet simulator or Unet audio running on your machine, you can use your favorite text editor to directly create the
           <code>
            EchoDaemon.groovy
           </code>
@@ -1100,8 +1100,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> container.add <span class="s1">'echo'</span>, new EchoDaemon<span class="o">()</span><span class="p">;</span>             <i class="conum" data-value="1"></i><b>(1)</b>
-<span class="gp">&gt;</span> ps
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>container.add <span class="s1">'echo'</span>, new EchoDaemon<span class="o">()</span><span class="p">;</span>             <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="gp">&gt;</span><span class="w"> </span>ps
 <span class="go">remote: org.arl.unet.remote.RemoteControl - IDLE
 state: org.arl.unet.state.StateManager - IDLE
 rdp: org.arl.unet.net.RouteDiscoveryProtocol - IDLE
@@ -1205,13 +1205,13 @@ WebGW-5c9c1c68385a388f: REMOTE</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> subscribe phy                                       <i class="conum" data-value="1"></i><b>(1)</b>
-<span class="gp">&gt;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> DatagramReq(to: host('B'), protocol: Protocol.USER, data: [42]) <i class="conum" data-value="2"></i><b>(2)</b>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>subscribe phy                                       <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> DatagramReq(to: host('B'), protocol: Protocol.USER, data: [42]) <i class="conum" data-value="2"></i><b>(2)</b>
 </span><span class="go">AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[type:DATA txTime:2809812247]
 <span class="gp">phy &gt;</span><span class="o">&gt;</span> RxFrameStartNtf:INFORM[type:DATA rxTime:2811767943]
 <span class="gp">phy &gt;</span><span class="o">&gt;</span> RxFrameNtf:INFORM[type:DATA from:31 to:232 rxTime:2811767943 <span class="o">(</span>1 byte<span class="o">)]</span>
-<span class="gp">&gt;</span> ntf.data
+<span class="gp">&gt;</span><span class="w"> </span>ntf.data
 <span class="go">[42]                                                  <i class="conum" data-value="3"></i><b>(3)</b>
 </span></code></pre>
        </div>
@@ -1301,23 +1301,23 @@ WebGW-5c9c1c68385a388f: REMOTE</span></code></pre>
         <pre class="rouge highlight"><code data-lang="java"><span class="kn">import</span> <span class="nn">org.arl.fjage.*</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.arl.unet.*</span><span class="o">;</span>
 
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EchoDaemon</span> <span class="kd">extends</span> <span class="n">UnetAgent</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EchoDaemon</span> <span class="kd">extends</span> <span class="nc">UnetAgent</span> <span class="o">{</span>
 
   <span class="nd">@Override</span>
   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">startup</span><span class="o">()</span> <span class="o">{</span>
     <span class="c1">// subscribe to all agents that provide the datagram service</span>
-    <span class="n">subscribeForService</span><span class="o">(</span><span class="n">Services</span><span class="o">.</span><span class="na">DATAGRAM</span><span class="o">);</span>
+    <span class="n">subscribeForService</span><span class="o">(</span><span class="nc">Services</span><span class="o">.</span><span class="na">DATAGRAM</span><span class="o">);</span>
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">processMessage</span><span class="o">(</span><span class="n">Message</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">msg</span> <span class="k">instanceof</span> <span class="n">DatagramNtf</span> <span class="o">&amp;&amp;</span> <span class="o">((</span><span class="n">DatagramNtf</span><span class="o">)</span><span class="n">msg</span><span class="o">).</span><span class="na">getProtocol</span><span class="o">()</span> <span class="o">==</span> <span class="n">Protocol</span><span class="o">.</span><span class="na">USER</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">processMessage</span><span class="o">(</span><span class="nc">Message</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">msg</span> <span class="k">instanceof</span> <span class="nc">DatagramNtf</span> <span class="o">&amp;&amp;</span> <span class="o">((</span><span class="nc">DatagramNtf</span><span class="o">)</span><span class="n">msg</span><span class="o">).</span><span class="na">getProtocol</span><span class="o">()</span> <span class="o">==</span> <span class="nc">Protocol</span><span class="o">.</span><span class="na">USER</span><span class="o">)</span> <span class="o">{</span>
       <span class="c1">// we got an echo request!</span>
       <span class="c1">// respond with a protocol DATA datagram</span>
-      <span class="n">DatagramNtf</span> <span class="n">ntf</span> <span class="o">=</span> <span class="o">(</span><span class="n">DatagramNtf</span><span class="o">)</span><span class="n">msg</span><span class="o">;</span>
-      <span class="n">DatagramReq</span> <span class="n">req</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DatagramReq</span><span class="o">(</span><span class="n">ntf</span><span class="o">.</span><span class="na">getSender</span><span class="o">());</span>
+      <span class="nc">DatagramNtf</span> <span class="n">ntf</span> <span class="o">=</span> <span class="o">(</span><span class="nc">DatagramNtf</span><span class="o">)</span><span class="n">msg</span><span class="o">;</span>
+      <span class="nc">DatagramReq</span> <span class="n">req</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DatagramReq</span><span class="o">(</span><span class="n">ntf</span><span class="o">.</span><span class="na">getSender</span><span class="o">());</span>
       <span class="n">req</span><span class="o">.</span><span class="na">setTo</span><span class="o">(</span><span class="n">ntf</span><span class="o">.</span><span class="na">getFrom</span><span class="o">());</span>
-      <span class="n">req</span><span class="o">.</span><span class="na">setProtocol</span><span class="o">(</span><span class="n">Protocol</span><span class="o">.</span><span class="na">DATA</span><span class="o">);</span>
+      <span class="n">req</span><span class="o">.</span><span class="na">setProtocol</span><span class="o">(</span><span class="nc">Protocol</span><span class="o">.</span><span class="na">DATA</span><span class="o">);</span>
       <span class="n">req</span><span class="o">.</span><span class="na">setData</span><span class="o">(</span><span class="n">ntf</span><span class="o">.</span><span class="na">getData</span><span class="o">());</span>
       <span class="n">send</span><span class="o">(</span><span class="n">req</span><span class="o">);</span>
     <span class="o">}</span>
@@ -1337,7 +1337,7 @@ WebGW-5c9c1c68385a388f: REMOTE</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="shell"><span class="nv">$ </span>javac <span class="nt">-cp</span> lib/fjage-1.6.jar:lib/unet-framework-3.0-beta.jar EchoDaemon.java</code></pre>
+        <pre class="rouge highlight"><code data-lang="shell"><span class="nv">$ </span>javac <span class="nt">-cp</span> lib/fjage-1.6.jar:lib/unet-framework-3.0.0.jar EchoDaemon.java</code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -1384,7 +1384,7 @@ WebGW-5c9c1c68385a388f: REMOTE</span></code></pre>
           <a href="https://fjage.readthedocs.io/en/latest/introduction.html" rel="noopener" target="_blank">
            fjåge
           </a>
-          agent framework. fjåge provides a set of standard behaviors for agents to extend. We will explore some of these behaviors in this section, but encourage you to read the
+          agent framework. fjåge provides a set of standard behaviors for agents to extend. We will explore some of these behaviors in this section, but you are encouraged to read the
           <a href="https://fjage.readthedocs.io/en/latest/index.html">
            fjåge documentation
           </a>
@@ -1419,7 +1419,7 @@ WebGW-5c9c1c68385a388f: REMOTE</span></code></pre>
         <code>
          UnetAgent
         </code>
-        base class does this for you, because almost all unet agents require this.
+        base class does this for you, because almost all Unet agents require this.
        </p>
       </div>
       <div class="paragraph">
@@ -1507,9 +1507,9 @@ WebGW-5c9c1c68385a388f: REMOTE</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> container.kill <span class="nb">echo</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>container.kill <span class="nb">echo</span>
 <span class="go">true
-</span><span class="gp">&gt;</span> container.add <span class="s1">'echo'</span>, new EchoDaemon<span class="o">()</span><span class="p">;</span></code></pre>
+</span><span class="gp">&gt;</span><span class="w"> </span>container.add <span class="s1">'echo'</span>, new EchoDaemon<span class="o">()</span><span class="p">;</span></code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -1529,7 +1529,7 @@ WebGW-5c9c1c68385a388f: REMOTE</span></code></pre>
         </div>
         <div class="paragraph">
          <p>
-          fjåge provides several behaviors that are commonly used in unet agents:
+          fjåge provides several behaviors that are commonly used in Unet agents:
          </p>
         </div>
         <div class="dlist">
@@ -1587,7 +1587,7 @@ WebGW-5c9c1c68385a388f: REMOTE</span></code></pre>
           </dt>
           <dd>
            <p>
-            Finite state machines are commonly used to implement network protocols. They can easily be implemented using this behavior. These machines are composed out of multiple states, each of which is like a cyclic behavior, with state transitions that can be triggered by the component behaviors.
+            Finite state machines are commonly used to implement network protocols. They can easily be implemented using this behavior. These machines are composed of multiple states, each of which is like a cyclic behavior, with state transitions that can be triggered by the component behaviors.
            </p>
           </dd>
          </dl>
@@ -1620,7 +1620,7 @@ WebGW-5c9c1c68385a388f: REMOTE</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> <span class="nb">echo</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span><span class="nb">echo</span>
 <span class="gp">&lt;&lt;&lt; EchoDaemon &gt;</span><span class="o">&gt;&gt;</span></code></pre>
        </div>
       </div>
@@ -1749,7 +1749,7 @@ WebGW-5c9c1c68385a388f: REMOTE</span></code></pre>
           </i>
          </td>
          <td class="content">
-          Note that we had to take 3 steps to add a parameter: declare a list of parameters, declare the parameter, and advertise the parameter. While this might seem like a lot, bear in mind that parameters are much more than just agent’s class attributes. Parameters can be get/set remotely, even from a different Java VM, different computer, or through a UnetSocket gateway API.
+          Note that we had to take 3 steps to add a parameter: declare a list of parameters, declare the parameter, and advertise the parameter. While this might seem like a lot, bear in mind that parameters are much more than just an agent’s class attributes. Parameters can be get/set remotely, even from a different Java VM, different computer, or through a UnetSocket gateway API.
          </td>
         </tr>
        </table>
@@ -1762,7 +1762,7 @@ WebGW-5c9c1c68385a388f: REMOTE</span></code></pre>
           </i>
          </td>
          <td class="content">
-          If you were writing the agent in Java instead of Groovy, you’d need to getters and setters for parameter
+          If you were writing the agent in Java instead of Groovy, you’d need to implement getters and setters for parameter
           <code>
            delay
           </code>
@@ -1778,10 +1778,10 @@ WebGW-5c9c1c68385a388f: REMOTE</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> container.kill agent<span class="o">(</span><span class="s1">'echo'</span><span class="o">)</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>container.kill agent<span class="o">(</span><span class="s1">'echo'</span><span class="o">)</span>
 <span class="go">true
-</span><span class="gp">&gt;</span> container.add <span class="s1">'echo'</span>, new EchoDaemon<span class="o">()</span><span class="p">;</span>
-<span class="gp">&gt;</span> <span class="nb">echo</span>
+</span><span class="gp">&gt;</span><span class="w"> </span>container.add <span class="s1">'echo'</span>, new EchoDaemon<span class="o">()</span><span class="p">;</span>
+<span class="gp">&gt;</span><span class="w"> </span><span class="nb">echo</span>
 <span class="gp">&lt;&lt;&lt; Echo Daemon &gt;</span><span class="o">&gt;&gt;</span>                      <i class="conum" data-value="1"></i><b>(1)</b>
 <span class="go">
 Echoes any USER datagrams back as DATA   <i class="conum" data-value="2"></i><b>(2)</b>
@@ -1789,11 +1789,11 @@ Echoes any USER datagrams back as DATA   <i class="conum" data-value="2"></i><b>
 [EchoDaemon.Params]
   delay = 7000
 
-</span><span class="gp">&gt;</span> echo.delay
+</span><span class="gp">&gt;</span><span class="w"> </span>echo.delay
 <span class="go">7000
-</span><span class="gp">&gt;</span> echo.delay <span class="o">=</span> 5000
+</span><span class="gp">&gt;</span><span class="w"> </span>echo.delay <span class="o">=</span> 5000
 <span class="go">5000
-</span><span class="gp">&gt;</span> echo.delay
+</span><span class="gp">&gt;</span><span class="w"> </span>echo.delay
 <span class="go">5000</span></code></pre>
        </div>
       </div>
@@ -1875,11 +1875,11 @@ Echoes any USER datagrams back as DATA   <i class="conum" data-value="2"></i><b>
      </div>
      <div class="sect2">
       <h3 id="_services_capabilities_and_notifications">
-       27.6. Services, capabilities and notifications
+       27.6. Services, capabilities, and notifications
       </h3>
       <div class="paragraph">
        <p>
-        Most of the agents we have been interacting with advertised services, and sometimes optional capabilities. They also honor requests and publish unsolicited notifications. All of these are quite straightforward to implement, and you can explore some of these features in this
+        Most of the agents we have been interacting with, have advertised services, and sometimes, optional capabilities. They also honor requests and publish unsolicited notifications. All of these are quite straightforward to implement, and you can explore some of these features in this
         <a href="https://blog.unetstack.net/developing-modem-drivers-for-unetstack" rel="noopener" target="_blank">
          blog article
         </a>
@@ -1905,9 +1905,9 @@ Echoes any USER datagrams back as DATA   <i class="conum" data-value="2"></i><b>
   </div>
   <div id="footer">
    <div id="footer-text">
-    Version 0.9
+    Version 3.0.0
     <br/>
-    Last updated 2019-09-24 03:39:55 +0800
+    Last updated 2019-09-24 18:33:08 +0800
    </div>
   </div>
   <style>
@@ -1930,7 +1930,7 @@ pre.rouge .cs {
   font-weight: bold;
   font-style: italic;
 }
-pre.rouge .c, pre.rouge .cd {
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cpf {
   color: #999988;
   font-style: italic;
 }
@@ -2050,7 +2050,7 @@ pre.rouge .s1 {
 pre.rouge .ss {
   color: #990073;
 }
-pre.rouge .s {
+pre.rouge .s, pre.rouge .sa, pre.rouge .dl {
   color: #d14;
 }
 pre.rouge .na {
@@ -2080,7 +2080,7 @@ pre.rouge .ne {
   color: #990000;
   font-weight: bold;
 }
-pre.rouge .nf {
+pre.rouge .nf, pre.rouge .fm {
   color: #990000;
   font-weight: bold;
 }
@@ -2103,7 +2103,7 @@ pre.rouge .vg {
 pre.rouge .vi {
   color: #008080;
 }
-pre.rouge .nv {
+pre.rouge .nv, pre.rouge .vm {
   color: #008080;
 }
 pre.rouge .ow {

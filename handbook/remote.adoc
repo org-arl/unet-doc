@@ -75,4 +75,4 @@ We should see the text message delivered on node B:
 [232]: hello!
 ----
 
-We encourage you to re-read <<File transfer and remote access>> and explore the help (`help remote`) to fully appreciate the use of this service.
+We encourage you to re-read <<File transfer and remote access>> and explore the command's help documentation (`help remote`) to fully appreciate the use of this service.

@@ -65,7 +65,7 @@ Note a number of interesting features of the code above:
 
 1. The `setup()` method is used to advertise the service provided by this agent.
 2. We provide basic error checking, and refuse a request that is invalid, providing a descriptive reason.
-3. We prepare the AGREE response as well as the START and END status notification messages, all at once. We send out the START notification immediately (using a `OneShotBehavior`), use a `WakerBehavior` to schedule the END notification to be sent out at an appropriate time, and then simply return the AGREE response. The use of the `OneShotBehavior` ensures that the START notificaion is sent after the AGREE response, and not before.
+3. We prepare the AGREE response as well as the START and END status notification messages, all at once. We send out the START notification immediately (using a `OneShotBehavior`), use a `WakerBehavior` to schedule the END notification to be sent out at an appropriate time, and then simply return the AGREE response. The use of the `OneShotBehavior` ensures that the START notification is sent after the AGREE response, and not before.
 4. We return a `null` if we don't understand the request, allowing the superclass to respond with a NOT_UNDERSTOOD message.
 
 While the above code implements a fully functional MAC agent, it needs to respond to `ReservationCancelReq`, `ReservationAcceptReq` and `TxAckReq` messages, and provide `channelBusy`, `reservationPayloadSize`, `ackPayloadSize`, `maxReservationDuration` and `recommendedReservationDuration` parameters in order to comply with the MAC service specification (<<Medium access control>>). We add this functionality trivially, by responding to the messages with `RefuseRsp` (message with a `REFUSE` performative and a descriptive reason), and returning default values for all the parameters. The resulting complete source code is shown below:
@@ -133,7 +133,7 @@ Now we have a fully-compliant, but very simple, MAC agent!
 
 === Testing our simple MAC
 
-The `MySimplestMac` agent from the previous section is available in the `samples` folder of your unet simulator. To test it, fire up the 2-node network simulator and connect to node A:
+The `MySimplestMac` agent from the previous section is available in the `samples` folder of your Unet simulator. To test it, fire up the 2-node network simulator and connect to node A:
 
 [source, console]
 ----
@@ -154,7 +154,7 @@ router: org.arl.unet.net.Router - IDLE
 mac: org.arl.unet.mac.CSMA - IDLE
 ----
 
-We see that the `org.arl.unet.mac.CSMA` agent is running as the current `mac`. To use our `MySimplestMac` agent, you first need to kill the `org.arl.unet.mac.CSMA` agent, and then load the `MySimplestMac` agent:
+We see that the `org.arl.unet.mac.CSMA` agent is the current `mac`. To use our `MySimplestMac` agent, you first need to kill the `org.arl.unet.mac.CSMA` agent, and then load the `MySimplestMac` agent:
 
 [source, console]
 ----
@@ -212,7 +212,7 @@ When testing agents, you'll often feel the need to log debug information. Every 
 log.fine 'Some debugging information'
 ----
 
-The log level can be controlled on a per-class or per-package basis using the `logLevel` command on the unet shell (type `help logLevel` for details). To set the current log level to include fine level logs:
+The log level can be controlled on a per-class or per-package basis using the `logLevel` command on the Unet shell (type `help logLevel` for details). To set the current log level to include fine level logs:
 
 [source, console]
 ----
@@ -240,7 +240,7 @@ You can access the logs from the web interface "Logs" tab, or on your disk in th
 
 === Simple MAC with throttling
 
-While the above simple MAC would work well when the traffic offered to it is random, it will perform poorly if the network is fully loaded. All nodes would constantly try to access the channel, collide and the throughput would plummet. To address this concern, one may add an exponentially distributed random backoff (Poisson arrival to match the assumption of Aloha) for every request to introduce randomness. The backoff could be chosen to offer a normalized network load of approximately 0.5, since this generates the highest throughput for Aloha.
+While the above simple MAC would work well when the traffic offered to it is random, it will perform poorly if the network is fully loaded. All nodes would constantly try to access the channel, collide and the throughput would plummet. To address this concern, one may add an exponentially distributed random backoff (Poisson arrival to match the assumption of Aloha) for every request, to introduce randomness. The backoff could be chosen to offer a normalized network load of approximately 0.5, since this generates the highest throughput for Aloha.
 
 Here's the updated code with some bells and whistles:
 
@@ -270,7 +270,7 @@ class MySimpleThrottledMac extends UnetAgent {
 
   @Override
   void startup() {
-    phy = agentForService Services.PHYSICAL      //<2>
+    phy = agentForService(Services.PHYSICAL)     //<2>
   }
 
   @Override
@@ -355,23 +355,23 @@ class MySimpleThrottledMac extends UnetAgent {
 <7> Note that we no longer send the START notification immediately. Instead we schedule it after a backoff, and then schedule the END notification after the reservation duration from the START.
 <8> We implement one user configurable parameter `nodes`, and advertise it.
 <9> Parameter `busy` is no longer always false, since we now keep track of reservations. We return `busy` to be true only during the time between a reservation START and END.
-<10> Parameter `recommendedReservationDuration` is now determined based on the frame duration of the PHYSICAL service, assuming that most reservations are for transmitting one frame. A client is free to choose a longer reservation time, if he wishes to transmit many frames in one go (as he should for efficient use of the channel).
+<10> Parameter `recommendedReservationDuration` is now determined based on the frame duration of the PHYSICAL service, assuming that most reservations are for transmitting one frame. A client is free to choose a longer reservation time, if it wishes to transmit many frames in one go (as it should for efficient use of the channel).
 
-A copy of this code is available in the `samples` folder of your unet simulator. We encourage you to test it out, in the same way as we tested `MySimplestMac` in <<Testing our simple MAC>>. You'll find that the START notification no longer arrives immediately after the AGREE response, but arrives a few seconds later, after a random backoff.
+A copy of this code is available in the `samples` folder of your Unet simulator. We encourage you to test it out, in the same way as we tested `MySimplestMac` in <<Testing our simple MAC>>. You'll find that the START notification no longer arrives immediately after the AGREE response, but arrives a few seconds later, after a random backoff.
 
 === Simple MAC with handshake
 
 While the MAC agents we have developed so far are fully functional, they are simple, and do not involve any signaling for channel reservation. Many MAC protocols such as MACA and FAMA involve a handshake using RTS and CTS PDUs. To illustrate how more complex protocols are developed using UnetStack, we implement a simple RTS-CTS 2-way handshake-based MAC agent next.
 
-Many communication protocols are best described using a FSM. We illustrate the FSM for our simple handshake-based MAC agent in <<fig_fsm>>.
+Many communication protocols are best described using an FSM. We illustrate the FSM for our simple handshake-based MAC agent in <<fig_fsm>>.
 
 [[fig_fsm]]
 .Finite state machine (FSM) for the simple handshake-based MAC protocol.
 image::fsm.png[]
 
-When the channel is free, the agent is in an IDLE state. If the agent receives a `ReservationReq`, it switches to the RTS state and sends a RTS PDU to the intended destination node. If it receives a CTS PDU back, then it switches to a TX state and urges the client to transmit data via a `ReservationStatusNtf` with a START status. After the reservation period is over, the agent switches back to the IDLE state. If no CTS PDU is received in the RTS state for a while, the agent times out and returns to the IDLE state while informing the client of a reservation FAILURE.
+When the channel is free, the agent is in an IDLE state. If the agent receives a `ReservationReq`, it switches to the RTS state and sends an RTS PDU to the intended destination node. If it receives a CTS PDU back, then it switches to a TX state and urges the client to transmit data via a `ReservationStatusNtf` with a START status. After the reservation period is over, the agent switches back to the IDLE state. If no CTS PDU is received in the RTS state for a while, the agent times out and returns to the IDLE state after informing the client of a reservation FAILURE.
 
-If the agent receives a RTS PDU in the IDLE state, it switches to the RX state and responds with a CTS PDU. The node initiating the handshake may then transmit data for the reservation duration. After the duration (plus some allowance for 2-way propagation delay), the agent switches back to the IDLE state. If the agent overhears (aka snoops) RTS or CTS PDUs destined for other nodes, it switches to a BACKOFF state for a while. During the state, it does not initiate or respond to RTS PDUs. After the backoff period, it switches back to the IDLE state.
+If the agent receives an RTS PDU in the IDLE state, it switches to the RX state and responds with a CTS PDU. The node initiating the handshake may then transmit data for the reservation duration. After the duration (plus some allowance for 2-way propagation delay), the agent switches back to the IDLE state. If the agent overhears (aka snoops) RTS or CTS PDUs destined for other nodes, it switches to a BACKOFF state for a while. During the state, it does not initiate or respond to RTS PDUs. After the backoff period, it switches back to the IDLE state.
 
 Our RTS and CTS PDUs are identified by a protocol number. Since we are implementing a MAC protocol, we choose to tag our PDUs using the protocol number reserved for MAC agents (`Protocol.MAC`). We also define some timeouts and delays that we will need to use:
 
@@ -398,7 +398,7 @@ PDU pdu = PDU.withFormat {
 }
 ----
 
-Here we have defined a PDU with two fields – type (8 bit) and duration (16 bit). The type may be either of RTS_PDU or CTS_PDU, while the duration will specify the reservation duration in milliseconds. We will later use this `pdu` object to encode and decode these PDUs.
+Here we have defined a PDU with two fields -- type (8 bit) and duration (16 bit). The type may be either of RTS_PDU or CTS_PDU, while the duration will specify the reservation duration in milliseconds. We will later use this `pdu` object to encode and decode these PDUs.
 
 .Encoding and decoding PDUs
 ****
@@ -597,11 +597,11 @@ void setup() {
 }
 
 void startup() {
-  phy = agentForService Services.PHYSICAL
+  phy = agentForService(Services.PHYSICAL)
   subscribe(phy)
   subscribe(topic(phy, Physical.SNOOP))
   add new OneShotBehavior({
-    def nodeInfo = agentForService Services.NODE_INFO
+    def nodeInfo = agentForService(Services.NODE_INFO)
     addr = get(nodeInfo, NodeInfoParam.address)
   })
   add(fsm)
@@ -674,7 +674,7 @@ float getRecommendedReservationDuration() {   // recommended duration: one DATA 
 }
 ----
 
-We are done! You can find the full listing of the `MySimpleHandshakeMac` agent in <<MySimpleHandshakeMac>> (and also in the `samples` folder of your unet simulator).
+We are done! You can find the full listing of the `MySimpleHandshakeMac` agent in <<MySimpleHandshakeMac>> (and also in the `samples` folder of your Unet simulator).
 
 === Testing our simple MAC with handshake
 

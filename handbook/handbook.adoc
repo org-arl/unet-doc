@@ -1,6 +1,6 @@
 = Underwater Networks Handbook
 Mandar Chitre
-v0.9
+v3.0.0
 :imagesdir: images
 :title-logo-image: image::unet.png[Unet,150,150]
 :doctype: book
@@ -17,19 +17,18 @@ v0.9
 :url-downloads: https://www.unetstack.net/downloads.html
 :url-groovy: https://groovy-lang.org
 :url-pdf: https://org-arl.github.io/unet-doc/handbook/unet-handbook.pdf
+:url-html-1: https://org-arl.github.io/unet-doc/handbook/unet-handbook.html
 :url-unet-javadoc: https://unetstack.net/javadoc/index.html?
 :url-fjage-javadoc: https://org-arl.github.io/fjage/javadoc/index.html?
 :url-fjage-doc: https://fjage.readthedocs.io/en/latest
-
-// This book is written using AsciiDoc format and is meant to be compiled using
-// asciidoctor (https://asciidoctor.org/docs/user-manual)
 
 [preface]
 = Preface
 
 ifdef::backend-html5[]
 ****
-TIP: You can download a {url-pdf}[PDF version] of this handbook for offline reading, if you prefer.
+TIP: You can download a {url-pdf}[PDF version] of this handbook for offline reading, if you prefer. +
+The handbook is also available as a {url-html-1}[single page HTML version].
 ****
 endif::backend-html5[]
 

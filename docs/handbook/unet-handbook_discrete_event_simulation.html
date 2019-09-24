@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
     </span>
     <br/>
     <span id="revnumber">
-     version 0.9
+     version 3.0.0
     </span>
    </div>
    <div class="toc2" id="toc">
@@ -866,8 +866,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <span class="kn">import</span> <span class="nn">org.arl.unet.phy.*</span>
 <span class="kn">import</span> <span class="nn">org.arl.unet.sim.*</span>
 <span class="kn">import</span> <span class="nn">org.arl.unet.sim.channels.*</span>
-<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">Services</span><span class="o">.*</span>
-<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">phy</span><span class="o">.</span><span class="na">Physical</span><span class="o">.*</span>
 
 <span class="n">channel</span><span class="o">.</span><span class="na">model</span> <span class="o">=</span> <span class="n">ProtocolChannelModel</span>        <span class="c1">// use the protocol channel model</span>
 <span class="n">modem</span><span class="o">.</span><span class="na">dataRate</span> <span class="o">=</span> <span class="o">[</span><span class="mi">2400</span><span class="o">,</span> <span class="mi">2400</span><span class="o">].</span><span class="na">bps</span>           <span class="c1">// arbitrary data rate</span>
@@ -883,12 +881,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
   <span class="n">nodes</span><span class="o">.</span><span class="na">each</span> <span class="o">{</span> <span class="n">myAddr</span> <span class="o">-&gt;</span>
     <span class="kt">def</span> <span class="n">myNode</span> <span class="o">=</span> <span class="n">node</span> <span class="s2">"${myAddr}"</span><span class="o">,</span> <span class="nl">address:</span> <span class="n">myAddr</span><span class="o">,</span> <span class="nl">location:</span> <span class="o">[</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">]</span>
     <span class="n">myNode</span><span class="o">.</span><span class="na">startup</span> <span class="o">=</span> <span class="o">{</span>                      <span class="c1">// startup script to run on each node</span>
-      <span class="kt">def</span> <span class="n">phy</span> <span class="o">=</span> <span class="n">agentForService</span> <span class="n">PHYSICAL</span>
+      <span class="kt">def</span> <span class="n">phy</span> <span class="o">=</span> <span class="n">agentForService</span><span class="o">(</span><span class="n">Services</span><span class="o">.</span><span class="na">PHYSICAL</span><span class="o">)</span>
       <span class="kt">def</span> <span class="n">arrivalRate</span> <span class="o">=</span> <span class="n">load</span><span class="s">/nodes.size()   /</span><span class="o">/</span> <span class="n">arrival</span> <span class="n">rate</span> <span class="n">per</span> <span class="n">node</span>
       <span class="n">add</span> <span class="k">new</span> <span class="nf">PoissonBehavior</span><span class="o">(</span><span class="mi">1000</span><span class="s">/arrivalRate, {     /</span><span class="o">/</span> <span class="n">avg</span> <span class="n">time</span> <span class="n">between</span> <span class="n">events</span> <span class="k">in</span> <span class="n">ms</span>
         <span class="kt">def</span> <span class="n">dst</span> <span class="o">=</span> <span class="n">rnditem</span><span class="o">(</span><span class="n">nodes</span><span class="o">-</span><span class="n">myAddr</span><span class="o">)</span>     <span class="c1">// choose destination randomly (excluding self)</span>
         <span class="n">phy</span> <span class="o">&lt;&lt;</span> <span class="k">new</span> <span class="n">ClearReq</span><span class="o">()</span>
-        <span class="n">phy</span> <span class="o">&lt;&lt;</span> <span class="k">new</span> <span class="n">TxFrameReq</span><span class="o">(</span><span class="nl">to:</span> <span class="n">dst</span><span class="o">,</span> <span class="nl">type:</span> <span class="n">DATA</span><span class="o">)</span>
+        <span class="n">phy</span> <span class="o">&lt;&lt;</span> <span class="k">new</span> <span class="n">TxFrameReq</span><span class="o">(</span><span class="nl">to:</span> <span class="n">dst</span><span class="o">,</span> <span class="nl">type:</span> <span class="n">Physical</span><span class="o">.</span><span class="na">DATA</span><span class="o">)</span>
       <span class="o">})</span>
     <span class="o">}</span>
   <span class="o">}</span>
@@ -1022,11 +1020,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <span class="kn">import</span> <span class="nn">org.arl.unet.phy.*</span>
 <span class="kn">import</span> <span class="nn">org.arl.unet.sim.*</span>
 <span class="kn">import</span> <span class="nn">org.arl.unet.sim.channels.*</span>
-<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">Services</span><span class="o">.*</span>
-<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">phy</span><span class="o">.</span><span class="na">Physical</span><span class="o">.*</span>
 
 <span class="n">println</span> <span class="s1">'''
-Pure Aloha simulation
+Pure ALOHA simulation
 =====================
 
 TX Count\tRX Count\tOffered Load\tThroughput
@@ -1048,12 +1044,12 @@ TX Count\tRX Count\tOffered Load\tThroughput
     <span class="n">nodes</span><span class="o">.</span><span class="na">each</span> <span class="o">{</span> <span class="n">myAddr</span> <span class="o">-&gt;</span>
       <span class="kt">def</span> <span class="n">myNode</span> <span class="o">=</span> <span class="n">node</span> <span class="s2">"${myAddr}"</span><span class="o">,</span> <span class="nl">address:</span> <span class="n">myAddr</span><span class="o">,</span> <span class="nl">location:</span> <span class="o">[</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">]</span>
       <span class="n">myNode</span><span class="o">.</span><span class="na">startup</span> <span class="o">=</span> <span class="o">{</span>                    <span class="c1">// startup script to run on each node</span>
-        <span class="kt">def</span> <span class="n">phy</span> <span class="o">=</span> <span class="n">agentForService</span> <span class="n">PHYSICAL</span>
+        <span class="kt">def</span> <span class="n">phy</span> <span class="o">=</span> <span class="n">agentForService</span><span class="o">(</span><span class="n">Services</span><span class="o">.</span><span class="na">PHYSICAL</span><span class="o">)</span>
         <span class="kt">def</span> <span class="n">arrivalRate</span> <span class="o">=</span> <span class="n">load</span><span class="s">/nodes.size() /</span><span class="o">/</span> <span class="n">arrival</span> <span class="n">rate</span> <span class="n">per</span> <span class="n">node</span>
         <span class="n">add</span> <span class="k">new</span> <span class="nf">PoissonBehavior</span><span class="o">(</span><span class="mi">1000</span><span class="s">/arrivalRate, {   /</span><span class="o">/</span> <span class="n">avg</span> <span class="n">time</span> <span class="n">between</span> <span class="n">events</span> <span class="k">in</span> <span class="n">ms</span>
           <span class="kt">def</span> <span class="n">dst</span> <span class="o">=</span> <span class="n">rnditem</span><span class="o">(</span><span class="n">nodes</span><span class="o">-</span><span class="n">myAddr</span><span class="o">)</span>   <span class="c1">// choose destination randomly (excluding self)</span>
           <span class="n">phy</span> <span class="o">&lt;&lt;</span> <span class="k">new</span> <span class="n">ClearReq</span><span class="o">()</span>
-          <span class="n">phy</span> <span class="o">&lt;&lt;</span> <span class="k">new</span> <span class="n">TxFrameReq</span><span class="o">(</span><span class="nl">to:</span> <span class="n">dst</span><span class="o">,</span> <span class="nl">type:</span> <span class="n">DATA</span><span class="o">)</span>
+          <span class="n">phy</span> <span class="o">&lt;&lt;</span> <span class="k">new</span> <span class="n">TxFrameReq</span><span class="o">(</span><span class="nl">to:</span> <span class="n">dst</span><span class="o">,</span> <span class="nl">type:</span> <span class="n">Phyiscal</span><span class="o">.</span><span class="na">DATA</span><span class="o">)</span>
         <span class="o">})</span>
       <span class="o">}</span>
     <span class="o">}</span>
@@ -1086,7 +1082,7 @@ TX Count\tRX Count\tOffered Load\tThroughput
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="go">Pure Aloha simulation
+        <pre class="rouge highlight"><code data-lang="console"><span class="go">Pure ALOHA simulation
 =====================
 
 TX Count        RX Count        Offered Load    Throughput
@@ -1368,9 +1364,9 @@ d -t 585.747000 -s 1 -d 3 -i 259068939 -p 0 -x {1.0 4.0 -1 ------- null} -y BAD_
   </div>
   <div id="footer">
    <div id="footer-text">
-    Version 0.9
+    Version 3.0.0
     <br/>
-    Last updated 2019-09-24 03:39:55 +0800
+    Last updated 2019-09-24 18:33:08 +0800
    </div>
   </div>
   <style>
@@ -1393,7 +1389,7 @@ pre.rouge .cs {
   font-weight: bold;
   font-style: italic;
 }
-pre.rouge .c, pre.rouge .cd {
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cpf {
   color: #999988;
   font-style: italic;
 }
@@ -1513,7 +1509,7 @@ pre.rouge .s1 {
 pre.rouge .ss {
   color: #990073;
 }
-pre.rouge .s {
+pre.rouge .s, pre.rouge .sa, pre.rouge .dl {
   color: #d14;
 }
 pre.rouge .na {
@@ -1543,7 +1539,7 @@ pre.rouge .ne {
   color: #990000;
   font-weight: bold;
 }
-pre.rouge .nf {
+pre.rouge .nf, pre.rouge .fm {
   color: #990000;
   font-weight: bold;
 }
@@ -1566,7 +1562,7 @@ pre.rouge .vg {
 pre.rouge .vi {
   color: #008080;
 }
-pre.rouge .nv {
+pre.rouge .nv, pre.rouge .vm {
   color: #008080;
 }
 pre.rouge .ow {

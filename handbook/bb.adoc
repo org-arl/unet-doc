@@ -58,7 +58,7 @@ If all this seems to be confusing, don't worry, it'll become clear as we go thro
 
 In <<Transmitting and recording arbitrary acoustic waveforms>>, you already saw how to transmit and record arbitrary signals. We then used the convenience functions `bbtx` and `bbrec` for simplicity. In this chapter, we will do the same thing by sending the `TxBasebandSignalReq` and `RecordBasebandSignalReq` messages instead. As you'll see, these messages provide you greater control, and can also be sent via the UnetSocket API or a fjåge gateway from external applications.
 
-Fire up unet audio to try out the examples here:
+Fire up Unet audio to try out the examples here:
 
 [source, shell]
 ----
@@ -66,7 +66,7 @@ $ bin/unet audio
 Modem web: http://localhost:8080/
 ----
 
-On the shell for the unet audio SDOAM, check which agents provide the baseband service:
+On the shell for the Unet audio SDOAM, check which agents provide the baseband service:
 
 [source, console]
 ----
@@ -89,7 +89,7 @@ We can now direct all our requests to the `phy` agent. Let's check the baseband 
   signalPowerLevel = -10.0
 ----
 
-We see that the unet audio SDOAM operates at a carrier frequency of 12 kHz and a bandband sampling rate of 12 kSa/s. Let's create a DC signal of length 12000 complex baseband samples (24000 floats) and transmit it. A DC signal of length 12000 complex samples with a carrier frequency of 12 kHz is a sinusoidal 12 kHz signal for 1 second.
+We see that the Unet audio SDOAM operates at a carrier frequency of 12 kHz and a bandband sampling rate of 12 kSa/s. Let's create a DC signal of length 12000 complex baseband samples (24000 floats) and transmit it. A DC signal of length 12000 complex samples with a carrier frequency of 12 kHz is a sinusoidal 12 kHz signal for 1 second.
 
 [source, console]
 ----
@@ -183,9 +183,9 @@ phy >> TxFrameNtf:INFORM[txTime:5470777099]
 
 Here, we did not specify a signal to transmit, so only the preamble was transmitted. You should have heard the preamble as a short chirp from your computer speaker. If we had specified a signal, the preamble would have been followed by the signal.
 
-If you had another unet audio SDOAM running nearby, it would have heard the preamble and detected a CONTROL frame. It would have tried to decode the frame, but failed, as we didn't actually transmit anything after the preamble. So you'd have seen a `RxFrameStartNtf` followed by a `BadFrameNtf` if you had subscribed to `phy` topic on that modem.
+If you had another Unet audio SDOAM running nearby, it would have heard the preamble and detected a CONTROL frame. It would have tried to decode the frame, but failed, as we didn't actually transmit anything after the preamble. So you'd have seen a `RxFrameStartNtf` followed by a `BadFrameNtf` if you had subscribed to `phy` topic on that modem.
 
-If you don't have access to another computer to run unet audio on, we can easily demonstrate the above behavior with a single unet audio SDOAM by simply enabling the full-duplex mode (and hence using the same computer for transmission and reception simultaneously), as we did in <<Physical service>>:
+If you don't have access to another computer to run Unet audio on, we can easily demonstrate the above behavior with a single Unet audio SDOAM by simply enabling the full-duplex mode (and hence using the same computer for transmission and reception simultaneously), as we did in <<Physical service>>:
 
 [source, console]
 ----
@@ -200,7 +200,7 @@ phy >> RxFrameStartNtf:INFORM[type:CONTROL rxTime:5809825603 rxDuration:2740000 
 phy >> BadFrameNtf:INFORM[type:CONTROL rxTime:5809825603 rssi:-55.6 (18 bytes)]
 ----
 
-Preambles 1 and 2 are used by the CONTROL and DATA channel respectively. It's better not to mess with these, but instead use preamble 3, which is left for the user to configure in unet audio. By default, detection of preamble 3 is disabled. You can enable it by setting the detection threshold `phy[3].threshold` parameter. Let's try it:
+Preambles 1 and 2 are used by the CONTROL and DATA channel respectively. It's better not to mess with these, but instead use preamble 3, which is left for the user to configure in Unet audio. By default, detection of preamble 3 is disabled. You can enable it by setting the detection threshold `phy[3].threshold` parameter. Let's try it:
 
 [source, console]
 ----
@@ -215,11 +215,11 @@ phy >> RxFrameStartNtf:INFORM[type:#3 rxTime:6011700270 rxDuration:170500 detect
 
 We see the `RxFrameStartNtf` of type #3 indicating that preamble 3 was detected. Since `phy[3]` is not associated with any modulation scheme, the modem did not generate a `BadFrameNtf` as it did with preamble 1.
 
-TIP: Preambles 1, 2 and 3 are preconfigured on the unet audio SDOAM to be short signals with good autocorrelation properties. You can change these, if you wish, by setting the `preamble` indexed parameter (type `help phy[].preamble` for details).
+TIP: Preambles 1, 2 and 3 are preconfigured on the Unet audio SDOAM to be short signals with good autocorrelation properties. You can change these, if you wish, by setting the `preamble` indexed parameter (type `help phy[].preamble` for details).
 
-In applications such as sonar or ranging, we may only be interested in the detecting the timing of a known signal. In that case, the `RxFrameStartNtf` is sufficient for us. But in some applications, we may wish to capture the signal once detected. That can be easily achieved in unet audio by setting the `basebandRx` parameter.
+In applications such as sonar or ranging, we may only be interested in the detecting the timing of a known signal. In that case, the `RxFrameStartNtf` is sufficient for us. But in some applications, we may wish to capture the signal once detected. That can be easily achieved in Unet audio by setting the `basebandRx` parameter.
 
-NOTE: The `basebandRx` and `basebandExtra` parameters are provided by the unet audio SDOAM, and work closely with the baseband service. These are not currently part of the baseband service specifications, but are under consideration for adoption as part of the service. Most modems that currently support the baseband service also support these parameters.
+NOTE: The `basebandRx` and `basebandExtra` parameters are provided by the Unet audio SDOAM, and work closely with the baseband service. These are not currently part of the baseband service specifications, but are under consideration for adoption as part of the service. Most modems that currently support the baseband service also support these parameters.
 
 If you enable `basebandRx`, a recording will be triggered every time the preamble is detected:
 
@@ -258,7 +258,7 @@ TIP: If you cross-correlate this recording with the preamble you transmitted, yo
 
 During the development of signal processing algorithms, one often wants to simply record received signals in the modem for postprocessing. For this, you could write a script to listen for `RxBasebandSignalNtf` messages from `phy` agent's topic, and store them in a file. Since this requirement is common, UnetStack already provides an agent which does exactly this. The agent is called `BasebandSignalMonitor` or `bbmon` for short.
 
-The `bbmon` agent is already loaded when you run unet audio. However, by default, it is disabled. It's easy to enable it:
+The `bbmon` agent is already loaded when you run Unet audio. However, by default, it is disabled. It's easy to enable it:
 
 [source, console]
 ----
@@ -292,9 +292,9 @@ log-0.txt [5 kB]
 <3> Transmit preamble #3. This will trigger a recording, based on the `phy[3]` configuration from the previous section.
 <4> Now the `signals-0.txt` file has grown to 34 kB. It contains the signal that was just recorded.
 
-As you record more signals, they are appended to the same file (with delineating metadata for each signal). If you restart unet audio, this file will be renumbered to `signals-1.txt`, as the logs are rotated.
+As you record more signals, they are appended to the same file (with delineating metadata for each signal). If you restart Unet audio, this file will be renumbered to `signals-1.txt`, as the logs are rotated.
 
-TIP: The name of the signals file and number of files kept through log rotation is configured when the `bbmon` agent is loaded. This happens in the `etc/setup.groovy` file in your unet audio installation, and you can change it, if you like.
+TIP: The name of the signals file and number of files kept through log rotation is configured when the `bbmon` agent is loaded. This happens in the `etc/setup.groovy` file in your Unet audio installation, and you can change it, if you like.
 
 The signals file stores the signals in a base64 encoded format. The Python package `arlpy.unet` allows you to read this file and work with the signals in it:
 
@@ -335,14 +335,14 @@ In the previous section, we showed you how to record signals for postprocessing.
 
 Let's try it!
 
-You had already installed the Python package `unetpy` in <<Sending & receiving from a Python application>>. We'll be using it now, so in case you don't have it installed, now is a good time to install it. Start a Jupyter new notebook with Python 3 and connect to your unet audio instance:
+You had already installed the Python package `unetpy` in <<Sending & receiving from a Python application>>. We'll be using it now, so in case you don't have it installed, now is a good time to install it. Start a Jupyter new notebook with Python 3 and connect to your Unet audio instance:
 
 [source, python]
 ----
 In[1]:   from unetpy import *
          import arlpy.plot as plt
 
-In[2]:   # connect to the unet audio SDOAM
+In[2]:   # connect to the Unet audio SDOAM
          sock = UnetSocket('localhost', 1100)
          gw = sock.getGateway()
 

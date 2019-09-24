@@ -160,11 +160,11 @@ class MySimpleHandshakeMac extends UnetAgent {
 
   @Override
   void startup() {
-    phy = agentForService Services.PHYSICAL
+    phy = agentForService(Services.PHYSICAL)
     subscribe(phy)
     subscribe(topic(phy, Physical.SNOOP))
     add new OneShotBehavior({
-      def nodeInfo = agentForService Services.NODE_INFO
+      def nodeInfo = agentForService(Services.NODE_INFO)
       addr = get(nodeInfo, NodeInfoParam.address)
     })
     add(fsm)

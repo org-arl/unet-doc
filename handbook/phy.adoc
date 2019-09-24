@@ -189,7 +189,7 @@ Here are a few important parameters to take note of:
 
 === Modem physical layer
 
-In the previous section, we explored several parameters from a simplified simulated physical layer. Next let's look at a real modem. If you are lucky enough to own one with UnetStack on it, you can connect to it's shell now. Otherwise, we can use unet audio SDOAM as our test modem:
+In the previous section, we explored several parameters from a simplified simulated physical layer. Next let's look at a real modem. If you are lucky enough to own one with UnetStack on it, you can connect to it's shell now. Otherwise, we can use Unet audio SDOAM as our test modem:
 
 [source, shell]
 ----
@@ -305,11 +305,11 @@ If the `test` flag is set on the transmission and reception modems, each transmi
 
 === Transmitting & receiving using Unet audio
 
-If you have two computers with speakers and microphones, you could run unet audio on both, and communicate between the two. If you happen to have only one computer handy, do not worry -- we can get one unet audio instance to transmit and receive at the same time. This is full-duplex communication!
+If you have two computers with speakers and microphones, you could run Unet audio on both, and communicate between the two. If you happen to have only one computer handy, do not worry -- we can get one Unet audio instance to transmit and receive at the same time. This is full-duplex communication!
 
-CAUTION: Real modems typically cannot do full-duplex communication because the weak incoming signals are masked by clutter from the strong outgoing signal. However, by adjusting the volume of your computer carefully, you can easily do full-duplex communication on your unet audio SDOAM.
+CAUTION: Real modems typically cannot do full-duplex communication because the weak incoming signals are masked by clutter from the strong outgoing signal. However, by adjusting the volume of your computer carefully, you can easily do full-duplex communication on your Unet audio SDOAM.
 
-On unet audio shell, enable full-duplex operation and try a transmission (you should be able to hear it from your computer speaker!). Your output might not look exactly the same, but let's go over all the notifications we got and see if we can understand all of them:
+On Unet audio shell, enable full-duplex operation and try a transmission (you should be able to hear it from your computer speaker!). Your output might not look exactly the same, but let's go over all the notifications we got and see if we can understand all of them:
 
 [source, console]
 ----

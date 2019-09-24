@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
     </span>
     <br/>
     <span id="revnumber">
-     version 0.9
+     version 3.0.0
     </span>
    </div>
    <div class="toc2" id="toc">
@@ -776,7 +776,7 @@ Node C: tcp://localhost:1103, http://localhost:8083/</code></pre>
         </code>
        </div>
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> node
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>node
 <span class="gp">&lt;&lt;&lt; NodeInfo &gt;</span><span class="o">&gt;&gt;</span>
 <span class="go">
 [org.arl.unet.nodeinfo.NodeInfoParam]
@@ -795,7 +795,7 @@ Node C: tcp://localhost:1103, http://localhost:8083/</code></pre>
         </code>
        </div>
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> node
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>node
 <span class="gp">&lt;&lt;&lt; NodeInfo &gt;</span><span class="o">&gt;&gt;</span>
 <span class="go">
 [org.arl.unet.nodeinfo.NodeInfoParam]
@@ -814,7 +814,7 @@ Node C: tcp://localhost:1103, http://localhost:8083/</code></pre>
         </code>
        </div>
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> node
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>node
 <span class="gp">&lt;&lt;&lt; NodeInfo &gt;</span><span class="o">&gt;&gt;</span>
 <span class="go">
 [org.arl.unet.nodeinfo.NodeInfoParam]
@@ -889,13 +889,13 @@ Node C: tcp://localhost:1103, http://localhost:8083/</code></pre>
         </code>
        </div>
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> ping host<span class="o">(</span><span class="s1">'B'</span><span class="o">)</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>ping host<span class="o">(</span><span class="s1">'B'</span><span class="o">)</span>
 <span class="go">PING 31
 Response from 31: seq=0 rthops=2 time=2507 ms
 Response from 31: seq=1 rthops=2 time=2852 ms
 Response from 31: seq=2 rthops=2 time=2852 ms
 3 packets transmitted, 3 packets received, 0% packet loss
-</span><span class="gp">&gt;</span> ping host<span class="o">(</span><span class="s1">'C'</span><span class="o">)</span>
+</span><span class="gp">&gt;</span><span class="w"> </span>ping host<span class="o">(</span><span class="s1">'C'</span><span class="o">)</span>
 <span class="go">PING 74
 Response from 74: seq=0 rthops=2 time=2600 ms
 Response from 74: seq=1 rthops=2 time=2634 ms
@@ -915,7 +915,7 @@ Response from 74: seq=2 rthops=2 time=2737 ms
         </code>
        </div>
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> ping host<span class="o">(</span><span class="s1">'C'</span><span class="o">)</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>ping host<span class="o">(</span><span class="s1">'C'</span><span class="o">)</span>
 <span class="go">PING 74
 Response from 74: seq=0 rthops=2 time=2810 ms
 Response from 74: seq=1 rthops=2 time=2666 ms
@@ -953,9 +953,9 @@ Response from 74: seq=2 rthops=2 time=2742 ms
         </code>
        </div>
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> trace host<span class="o">(</span><span class="s1">'B'</span><span class="o">)</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>trace host<span class="o">(</span><span class="s1">'B'</span><span class="o">)</span>
 <span class="go">[232, 31, 232]
-</span><span class="gp">&gt;</span> trace host<span class="o">(</span><span class="s1">'C'</span><span class="o">)</span>
+</span><span class="gp">&gt;</span><span class="w"> </span>trace host<span class="o">(</span><span class="s1">'C'</span><span class="o">)</span>
 <span class="go">[232, 74, 232]</span></code></pre>
        </div>
       </div>
@@ -976,11 +976,11 @@ Response from 74: seq=2 rthops=2 time=2742 ms
         </code>
        </div>
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> range host<span class="o">(</span><span class="s1">'A'</span><span class="o">)</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>range host<span class="o">(</span><span class="s1">'A'</span><span class="o">)</span>
 <span class="go">0.0
-</span><span class="gp">&gt;</span> range host<span class="o">(</span><span class="s1">'B'</span><span class="o">)</span>
+</span><span class="gp">&gt;</span><span class="w"> </span>range host<span class="o">(</span><span class="s1">'B'</span><span class="o">)</span>
 <span class="go">370.98
-</span><span class="gp">&gt;</span> range host<span class="o">(</span><span class="s1">'C'</span><span class="o">)</span>
+</span><span class="gp">&gt;</span><span class="w"> </span>range host<span class="o">(</span><span class="s1">'C'</span><span class="o">)</span>
 <span class="go">529.87</span></code></pre>
        </div>
       </div>
@@ -991,11 +991,11 @@ Response from 74: seq=2 rthops=2 time=2742 ms
         </code>
        </div>
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> range host<span class="o">(</span><span class="s1">'A'</span><span class="o">)</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>range host<span class="o">(</span><span class="s1">'A'</span><span class="o">)</span>
 <span class="go">370.98
-</span><span class="gp">&gt;</span> range host<span class="o">(</span><span class="s1">'B'</span><span class="o">)</span>
+</span><span class="gp">&gt;</span><span class="w"> </span>range host<span class="o">(</span><span class="s1">'B'</span><span class="o">)</span>
 <span class="go">0.0
-</span><span class="gp">&gt;</span> range host<span class="o">(</span><span class="s1">'C'</span><span class="o">)</span>
+</span><span class="gp">&gt;</span><span class="w"> </span>range host<span class="o">(</span><span class="s1">'C'</span><span class="o">)</span>
 <span class="go">615.9</span></code></pre>
        </div>
       </div>
@@ -1016,7 +1016,7 @@ Response from 74: seq=2 rthops=2 time=2742 ms
         </code>
        </div>
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> tell host<span class="o">(</span><span class="s1">'B'</span><span class="o">)</span>, <span class="s1">'hello!'</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>tell host<span class="o">(</span><span class="s1">'B'</span><span class="o">)</span>, <span class="s1">'hello!'</span>
 <span class="go">AGREE</span></code></pre>
        </div>
       </div>
@@ -1065,7 +1065,7 @@ Response from 74: seq=2 rthops=2 time=2742 ms
         </code>
        </div>
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> remote
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>remote
 <span class="gp">&lt;&lt;&lt; RemoteControl &gt;</span><span class="o">&gt;&gt;</span>
 <span class="go">
 [org.arl.unet.remote.RemoteControlParam]
@@ -1076,7 +1076,7 @@ Response from 74: seq=2 rthops=2 time=2742 ms
   shell = websh
   groovy = true
 
-</span><span class="gp">&gt;</span> remote.enable <span class="o">=</span> <span class="nb">true</span>
+</span><span class="gp">&gt;</span><span class="w"> </span>remote.enable <span class="o">=</span> <span class="nb">true</span>
 <span class="go">true</span></code></pre>
        </div>
       </div>
@@ -1092,16 +1092,16 @@ Response from 74: seq=2 rthops=2 time=2742 ms
         </code>
        </div>
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> B <span class="o">=</span> host<span class="o">(</span><span class="s1">'B'</span><span class="o">)</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>B <span class="o">=</span> host<span class="o">(</span><span class="s1">'B'</span><span class="o">)</span>
 <span class="go">31
-</span><span class="gp">&gt;</span> rsh B, <span class="s1">'tell me,"hi!"'</span>             <i class="conum" data-value="1"></i><b>(1)</b>
+</span><span class="gp">&gt;</span><span class="w"> </span>rsh B, <span class="s1">'tell me,"hi!"'</span>             <i class="conum" data-value="1"></i><b>(1)</b>
 <span class="go">AGREE
 [31]: hi!                            <i class="conum" data-value="2"></i><b>(2)</b>
-</span><span class="gp">&gt;</span> file<span class="o">(</span><span class="s1">'abc.txt'</span><span class="o">)</span>.text <span class="o">=</span> <span class="s1">'demo'</span><span class="p">;</span>     <i class="conum" data-value="3"></i><b>(3)</b>
-<span class="gp">&gt;</span> <span class="nb">ls</span>                                 <i class="conum" data-value="4"></i><b>(4)</b>
+</span><span class="gp">&gt;</span><span class="w"> </span>file<span class="o">(</span><span class="s1">'abc.txt'</span><span class="o">)</span>.text <span class="o">=</span> <span class="s1">'demo'</span><span class="p">;</span>     <i class="conum" data-value="3"></i><b>(3)</b>
+<span class="gp">&gt;</span><span class="w"> </span><span class="nb">ls</span>                                 <i class="conum" data-value="4"></i><b>(4)</b>
 <span class="go">abc.txt [4 bytes]
 README.md [96 bytes]
-</span><span class="gp">&gt;</span> fput B, <span class="s1">'abc.txt'</span>                  <i class="conum" data-value="5"></i><b>(5)</b>
+</span><span class="gp">&gt;</span><span class="w"> </span>fput B, <span class="s1">'abc.txt'</span>                  <i class="conum" data-value="5"></i><b>(5)</b>
 <span class="go">AGREE</span></code></pre>
        </div>
       </div>
@@ -1249,12 +1249,12 @@ README.md [96 bytes]
         </code>
        </div>
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> remote.enable <span class="o">=</span> <span class="nb">true</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>remote.enable <span class="o">=</span> <span class="nb">true</span>
 <span class="go">true
-</span><span class="gp">&gt;</span> fget B, <span class="s1">'abc.txt'</span>
+</span><span class="gp">&gt;</span><span class="w"> </span>fget B, <span class="s1">'abc.txt'</span>
 <span class="go">AGREE
 </span><span class="gp">remote &gt;</span><span class="o">&gt;</span> RemoteFileNtf:INFORM[from:31 filename:abc.txt <span class="o">(</span>4 bytes<span class="o">)]</span>
-<span class="gp">&gt;</span> fget B, <span class="s1">'def.txt'</span>
+<span class="gp">&gt;</span><span class="w"> </span>fget B, <span class="s1">'def.txt'</span>
 <span class="go">AGREE
 </span><span class="gp">remote &gt;</span><span class="o">&gt;</span> RemoteFailureNtf:INFORM[RemoteFileGetReq:REQUEST[to:31 filename:def.txt] reason:no-file]</code></pre>
        </div>
@@ -1288,23 +1288,23 @@ README.md [96 bytes]
         </code>
        </div>
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> rsh B, <span class="s1">'tell me,node.nodeName'</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>rsh B, <span class="s1">'tell me,node.nodeName'</span>
 <span class="go">AGREE
 [31]: B
-</span><span class="gp">&gt;</span> rsh B, <span class="s1">'?node.nodeName'</span>
+</span><span class="gp">&gt;</span><span class="w"> </span>rsh B, <span class="s1">'?node.nodeName'</span>
 <span class="go">AGREE
 [31]: B
-</span><span class="gp">&gt;</span> rsh B, <span class="s1">'?ls'</span>
+</span><span class="gp">&gt;</span><span class="w"> </span>rsh B, <span class="s1">'?ls'</span>
 <span class="go">AGREE
 [31]: abc.txt [4 bytes]
 README.md [96 bytes]
-</span><span class="gp">&gt;</span> rsh B, <span class="s1">'?1+2'</span>
+</span><span class="gp">&gt;</span><span class="w"> </span>rsh B, <span class="s1">'?1+2'</span>
 <span class="go">AGREE
 [31]: 3
-</span><span class="gp">&gt;</span> rsh B, <span class="s1">'?"You are ${me}, I am ${node.address}"'</span>
+</span><span class="gp">&gt;</span><span class="w"> </span>rsh B, <span class="s1">'?"You are ${me}, I am ${node.address}"'</span>
 <span class="go">AGREE
 [31]: You are 232, I am 31
-</span><span class="gp">&gt;</span> rsh B, <span class="s1">'?range '</span>+host<span class="o">(</span><span class="s1">'C'</span><span class="o">)</span>
+</span><span class="gp">&gt;</span><span class="w"> </span>rsh B, <span class="s1">'?range '</span>+host<span class="o">(</span><span class="s1">'C'</span><span class="o">)</span>
 <span class="go">AGREE
 [31]: 615.9</span></code></pre>
        </div>
@@ -1325,11 +1325,11 @@ README.md [96 bytes]
         </code>
        </div>
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> ack on
-<span class="gp">&gt;</span> rsh B, <span class="s1">'plvl -6'</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>ack on
+<span class="gp">&gt;</span><span class="w"> </span>rsh B, <span class="s1">'plvl -6'</span>
 <span class="go">AGREE
 </span><span class="gp">remote &gt;</span><span class="o">&gt;</span> RemoteSuccessNtf:INFORM[RemoteExecReq:REQUEST[to:31 <span class="nb">command</span>:plvl <span class="nt">-6</span> ack:true]]
-<span class="gp">&gt;</span> ack off</code></pre>
+<span class="gp">&gt;</span><span class="w"> </span>ack off</code></pre>
        </div>
       </div>
      </div>
@@ -1513,7 +1513,7 @@ README.md [96 bytes]
         </code>
        </div>
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> node.location
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>node.location
 <span class="go">[121.0, 137.0, -10.0]</span></code></pre>
        </div>
       </div>
@@ -1529,7 +1529,7 @@ README.md [96 bytes]
         </code>
        </div>
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> distance<span class="o">(</span>node.location, <span class="o">[</span>121.0, 137.0, <span class="nt">-10</span>.0]<span class="o">)</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>distance<span class="o">(</span>node.location, <span class="o">[</span>121.0, 137.0, <span class="nt">-10</span>.0]<span class="o">)</span>
 <span class="go">371.09</span></code></pre>
        </div>
       </div>
@@ -1550,12 +1550,12 @@ README.md [96 bytes]
         </code>
        </div>
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> gps <span class="o">=</span> new org.arl.unet.utils.GpsLocalFrame<span class="o">(</span>node.origin<span class="o">)</span><span class="p">;</span>   // <span class="nb">set </span>origin GPS coordinates
-<span class="gp">&gt;</span> gps.toGps<span class="o">(</span>node.location[0..1]<span class="o">)</span>                             // <span class="nb">local </span>to GPS
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>gps <span class="o">=</span> new org.arl.unet.utils.GpsLocalFrame<span class="o">(</span>node.origin<span class="o">)</span><span class="p">;</span>   // <span class="nb">set </span>origin GPS coordinates
+<span class="gp">&gt;</span><span class="w"> </span>gps.toGps<span class="o">(</span>node.location[0..1]<span class="o">)</span>                             // <span class="nb">local </span>to GPS
 <span class="go">[1.217238981, 103.8520872]                                   // GPS coordinates of node A
-</span><span class="gp">&gt;</span> gps.toLocal<span class="o">(</span>1.21723898, 103.8520872<span class="o">)</span>                       // GPS to <span class="nb">local</span>
+</span><span class="gp">&gt;</span><span class="w"> </span>gps.toLocal<span class="o">(</span>1.21723898, 103.8520872<span class="o">)</span>                       // GPS to <span class="nb">local</span>
 <span class="go">[120.9994, 136.9999]
-</span><span class="gp">&gt;</span> node.location
+</span><span class="gp">&gt;</span><span class="w"> </span>node.location
 <span class="go">[121.0, 137.0, -10.0]</span></code></pre>
        </div>
       </div>
@@ -1587,9 +1587,9 @@ README.md [96 bytes]
   </div>
   <div id="footer">
    <div id="footer-text">
-    Version 0.9
+    Version 3.0.0
     <br/>
-    Last updated 2019-09-24 03:39:55 +0800
+    Last updated 2019-09-24 18:33:08 +0800
    </div>
   </div>
   <style>
@@ -1612,7 +1612,7 @@ pre.rouge .cs {
   font-weight: bold;
   font-style: italic;
 }
-pre.rouge .c, pre.rouge .cd {
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cpf {
   color: #999988;
   font-style: italic;
 }
@@ -1732,7 +1732,7 @@ pre.rouge .s1 {
 pre.rouge .ss {
   color: #990073;
 }
-pre.rouge .s {
+pre.rouge .s, pre.rouge .sa, pre.rouge .dl {
   color: #d14;
 }
 pre.rouge .na {
@@ -1762,7 +1762,7 @@ pre.rouge .ne {
   color: #990000;
   font-weight: bold;
 }
-pre.rouge .nf {
+pre.rouge .nf, pre.rouge .fm {
   color: #990000;
   font-weight: bold;
 }
@@ -1785,7 +1785,7 @@ pre.rouge .vg {
 pre.rouge .vi {
   color: #008080;
 }
-pre.rouge .nv {
+pre.rouge .nv, pre.rouge .vm {
   color: #008080;
 }
 pre.rouge .ow {

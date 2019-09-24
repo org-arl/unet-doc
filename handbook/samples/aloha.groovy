@@ -14,7 +14,7 @@ import static org.arl.unet.Services.*
 import static org.arl.unet.phy.Physical.*
 
 println '''
-Pure Aloha simulation
+Pure ALOHA simulation
 =====================
 
 TX Count\tRX Count\tOffered Load\tThroughput

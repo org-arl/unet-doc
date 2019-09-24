@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
     </span>
     <br/>
     <span id="revnumber">
-     version 0.9
+     version 3.0.0
     </span>
    </div>
    <div class="toc2" id="toc">
@@ -1041,7 +1041,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="paragraph">
        <p>
-        Fire up unet audio to try out the examples here:
+        Fire up Unet audio to try out the examples here:
        </p>
       </div>
       <div class="listingblock">
@@ -1052,12 +1052,12 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="paragraph">
        <p>
-        On the shell for the unet audio SDOAM, check which agents provide the baseband service:
+        On the shell for the Unet audio SDOAM, check which agents provide the baseband service:
        </p>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> agentsForService<span class="o">(</span>org.arl.unet.Services.BASEBAND<span class="o">)</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>agentsForService<span class="o">(</span>org.arl.unet.Services.BASEBAND<span class="o">)</span>
 <span class="go">[phy]</span></code></pre>
        </div>
       </div>
@@ -1076,7 +1076,7 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> phy
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy
 <span class="gp">&lt;&lt;&lt; Physical &gt;</span><span class="o">&gt;&gt;</span>
 <span class="go">
 [org.arl.unet.bb.BasebandParam]
@@ -1089,16 +1089,16 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="paragraph">
        <p>
-        We see that the unet audio SDOAM operates at a carrier frequency of 12 kHz and a bandband sampling rate of 12 kSa/s. Let’s create a DC signal of length 12000 complex baseband samples (24000 floats) and transmit it. A DC signal of length 12000 complex samples with a carrier frequency of 12 kHz is a sinusoidal 12 kHz signal for 1 second.
+        We see that the Unet audio SDOAM operates at a carrier frequency of 12 kHz and a bandband sampling rate of 12 kSa/s. Let’s create a DC signal of length 12000 complex baseband samples (24000 floats) and transmit it. A DC signal of length 12000 complex samples with a carrier frequency of 12 kHz is a sinusoidal 12 kHz signal for 1 second.
        </p>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> s <span class="o">=</span> <span class="o">[</span>1,0]<span class="k">*</span>12000                 <i class="conum" data-value="1"></i><b>(1)</b>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>s <span class="o">=</span> <span class="o">[</span>1,0]<span class="k">*</span>12000                 <i class="conum" data-value="1"></i><b>(1)</b>
 <span class="gp">[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 &lt;&lt;snip&gt;</span><span class="o">&gt;</span> 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0]
-<span class="gp">&gt;</span> s.size<span class="o">()</span>
+<span class="gp">&gt;</span><span class="w"> </span>s.size<span class="o">()</span>
 <span class="go">24000
-</span><span class="gp">&gt;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(signal: s)
+</span><span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(signal: s)
 </span><span class="go">AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[txTime:11401231]</code></pre>
        </div>
@@ -1168,10 +1168,10 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> s <span class="o">=</span> cw<span class="o">(</span>2000, 0.5, 0<span class="o">)</span>                             <i class="conum" data-value="1"></i><b>(1)</b>
-<span class="gp">&gt;</span> s.size<span class="o">()</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>s <span class="o">=</span> cw<span class="o">(</span>2000, 0.5, 0<span class="o">)</span>                             <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="gp">&gt;</span><span class="w"> </span>s.size<span class="o">()</span>
 <span class="go">48000                                              <i class="conum" data-value="2"></i><b>(2)</b>
-</span><span class="gp">&gt;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(signal: s, fc: 0) <i class="conum" data-value="3"></i><b>(3)</b>
+</span><span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(signal: s, fc: 0) <i class="conum" data-value="3"></i><b>(3)</b>
 </span><span class="go">AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[txTime:414013271]</code></pre>
        </div>
@@ -1239,10 +1239,10 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RecordBasebandSignalReq(recLength: 12000)
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RecordBasebandSignalReq(recLength: 12000)
 </span><span class="go">AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> RxBasebandSignalNtf:INFORM[adc:1 rxTime:11780353 rssi:-79.1 <span class="nb">fc</span>:12000.0 fs:12000.0 <span class="o">(</span>12000 baseband samples<span class="o">)]</span>
-<span class="gp">&gt;</span> ntf.signal                      <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="gp">&gt;</span><span class="w"> </span>ntf.signal                      <i class="conum" data-value="1"></i><b>(1)</b>
 <span class="gp">[8.611694E-5, 5.8899976E-5, 1.01 &lt;&lt;snip&gt;</span><span class="o">&gt;</span> E-6, <span class="nt">-9</span>.148392E-6, 3.5340495E-6]</code></pre>
        </div>
       </div>
@@ -1281,7 +1281,7 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> t <span class="o">=</span> phy.time + 5000000<span class="p">;</span> println<span class="o">(</span>t<span class="o">)</span><span class="p">;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RecordBasebandSignalReq(recLength: 12000, recTime: t)
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>t <span class="o">=</span> phy.time + 5000000<span class="p">;</span> println<span class="o">(</span>t<span class="o">)</span><span class="p">;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RecordBasebandSignalReq(recLength: 12000, recTime: t)
 </span><span class="go">855949105
 AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> RxBasebandSignalNtf:INFORM[adc:1 rxTime:855949105 rssi:-90.3 <span class="nb">fc</span>:12000.0 fs:12000.0 <span class="o">(</span>12000 baseband samples<span class="o">)]</span></code></pre>
@@ -1299,11 +1299,11 @@ AGREE
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> t <span class="o">=</span> phy.time - 5000000<span class="p">;</span> println<span class="o">(</span>t<span class="o">)</span><span class="p">;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RecordBasebandSignalReq(recLength: 12000, recTime: t)
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>t <span class="o">=</span> phy.time - 5000000<span class="p">;</span> println<span class="o">(</span>t<span class="o">)</span><span class="p">;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RecordBasebandSignalReq(recLength: 12000, recTime: t)
 </span><span class="go">1186471772
 AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> RxBasebandSignalNtf:INFORM[adc:1 rxTime:1186471772 rssi:-74.6 <span class="nb">fc</span>:12000.0 fs:12000.0 <span class="o">(</span>12000 baseband samples<span class="o">)]</span>
-<span class="gp">&gt;</span> t <span class="o">=</span> phy.time - 60000000<span class="p">;</span> println<span class="o">(</span>t<span class="o">)</span><span class="p">;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RecordBasebandSignalReq(recLength: 12000, recTime: t)
+<span class="gp">&gt;</span><span class="w"> </span>t <span class="o">=</span> phy.time - 60000000<span class="p">;</span> println<span class="o">(</span>t<span class="o">)</span><span class="p">;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RecordBasebandSignalReq(recLength: 12000, recTime: t)
 </span><span class="go">1204946438
 REFUSE: Bad start time</span></code></pre>
        </div>
@@ -1319,7 +1319,7 @@ REFUSE: Bad start time</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RecordBasebandSignalReq(recLength: 12000, recTime: -5000000)
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RecordBasebandSignalReq(recLength: 12000, recTime: -5000000)
 </span><span class="go">AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> RxBasebandSignalNtf:INFORM[adc:1 rxTime:1361359020 rssi:-72.9 <span class="nb">fc</span>:12000.0 fs:12000.0 <span class="o">(</span>12000 baseband samples<span class="o">)]</span></code></pre>
        </div>
@@ -1341,7 +1341,7 @@ REFUSE: Bad start time</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(preamble: 1)
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(preamble: 1)
 </span><span class="go">AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[txTime:5470777099]</code></pre>
        </div>
@@ -1353,7 +1353,7 @@ REFUSE: Bad start time</span></code></pre>
       </div>
       <div class="paragraph">
        <p>
-        If you had another unet audio SDOAM running nearby, it would have heard the preamble and detected a CONTROL frame. It would have tried to decode the frame, but failed, as we didn’t actually transmit anything after the preamble. So you’d have seen a
+        If you had another Unet audio SDOAM running nearby, it would have heard the preamble and detected a CONTROL frame. It would have tried to decode the frame, but failed, as we didn’t actually transmit anything after the preamble. So you’d have seen a
         <code>
          RxFrameStartNtf
         </code>
@@ -1370,7 +1370,7 @@ REFUSE: Bad start time</span></code></pre>
       </div>
       <div class="paragraph">
        <p>
-        If you don’t have access to another computer to run unet audio on, we can easily demonstrate the above behavior with a single unet audio SDOAM by simply enabling the full-duplex mode (and hence using the same computer for transmission and reception simultaneously), as we did in
+        If you don’t have access to another computer to run Unet audio on, we can easily demonstrate the above behavior with a single Unet audio SDOAM by simply enabling the full-duplex mode (and hence using the same computer for transmission and reception simultaneously), as we did in
         <a href="unet-handbook_physical_service.html">
          Chapter 14
         </a>
@@ -1379,10 +1379,10 @@ REFUSE: Bad start time</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> subscribe phy
-<span class="gp">&gt;</span> phy.fullduplex <span class="o">=</span> <span class="nb">true</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>subscribe phy
+<span class="gp">&gt;</span><span class="w"> </span>phy.fullduplex <span class="o">=</span> <span class="nb">true</span>
 <span class="go">true
-</span><span class="gp">&gt;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(preamble:1)
+</span><span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(preamble:1)
 </span><span class="go">AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameStartNtf:INFORM[txTime:5809832016 txDuration:40416]
 <span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[txTime:5809859766]
@@ -1392,7 +1392,7 @@ REFUSE: Bad start time</span></code></pre>
       </div>
       <div class="paragraph">
        <p>
-        Preambles 1 and 2 are used by the CONTROL and DATA channel respectively. It’s better not to mess with these, but instead use preamble 3, which is left for the user to configure in unet audio. By default, detection of preamble 3 is disabled. You can enable it by setting the detection threshold
+        Preambles 1 and 2 are used by the CONTROL and DATA channel respectively. It’s better not to mess with these, but instead use preamble 3, which is left for the user to configure in Unet audio. By default, detection of preamble 3 is disabled. You can enable it by setting the detection threshold
         <code>
          phy[3].threshold
         </code>
@@ -1401,9 +1401,9 @@ REFUSE: Bad start time</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> phy[3].threshold <span class="o">=</span> 0.25
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy[3].threshold <span class="o">=</span> 0.25
 <span class="go">0.25
-</span><span class="gp">&gt;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(preamble: 3)
+</span><span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(preamble: 3)
 </span><span class="go">AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameStartNtf:INFORM[txTime:6011688016 txDuration:170916]
 <span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[txTime:6011686599]
@@ -1435,7 +1435,7 @@ REFUSE: Bad start time</span></code></pre>
           </i>
          </td>
          <td class="content">
-          Preambles 1, 2 and 3 are preconfigured on the unet audio SDOAM to be short signals with good autocorrelation properties. You can change these, if you wish, by setting the
+          Preambles 1, 2 and 3 are preconfigured on the Unet audio SDOAM to be short signals with good autocorrelation properties. You can change these, if you wish, by setting the
           <code>
            preamble
           </code>
@@ -1454,7 +1454,7 @@ REFUSE: Bad start time</span></code></pre>
         <code>
          RxFrameStartNtf
         </code>
-        is sufficient for us. But in some applications, we may wish to capture the signal once detected. That can be easily achieved in unet audio by setting the
+        is sufficient for us. But in some applications, we may wish to capture the signal once detected. That can be easily achieved in Unet audio by setting the
         <code>
          basebandRx
         </code>
@@ -1477,7 +1477,7 @@ REFUSE: Bad start time</span></code></pre>
           <code>
            basebandExtra
           </code>
-          parameters are provided by the unet audio SDOAM, and work closely with the baseband service. These are not currently part of the baseband service specifications, but are under consideration for adoption as part of the service. Most modems that currently support the baseband service also support these parameters.
+          parameters are provided by the Unet audio SDOAM, and work closely with the baseband service. These are not currently part of the baseband service specifications, but are under consideration for adoption as part of the service. Most modems that currently support the baseband service also support these parameters.
          </td>
         </tr>
        </table>
@@ -1493,9 +1493,9 @@ REFUSE: Bad start time</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> phy[3].basebandRx <span class="o">=</span> <span class="nb">true</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy[3].basebandRx <span class="o">=</span> <span class="nb">true</span>
 <span class="go">true
-</span><span class="gp">&gt;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(preamble: 3)
+</span><span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(preamble: 3)
 </span><span class="go">AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameStartNtf:INFORM[txTime:6992613349 txDuration:170916]
 <span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[txTime:6992598599]
@@ -1518,9 +1518,9 @@ REFUSE: Bad start time</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> phy[3].basebandExtra <span class="o">=</span> 1200     <i class="conum" data-value="1"></i><b>(1)</b>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy[3].basebandExtra <span class="o">=</span> 1200     <i class="conum" data-value="1"></i><b>(1)</b>
 <span class="go">1200
-</span><span class="gp">&gt;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(preamble: 3)
+</span><span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(preamble: 3)
 </span><span class="go">AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameStartNtf:INFORM[txTime:7143093349 txDuration:170916]
 <span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[txTime:7143062599]
@@ -1598,12 +1598,12 @@ REFUSE: Bad start time</span></code></pre>
         <code>
          bbmon
         </code>
-        agent is already loaded when you run unet audio. However, by default, it is disabled. It’s easy to enable it:
+        agent is already loaded when you run Unet audio. However, by default, it is disabled. It’s easy to enable it:
        </p>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> bbmon.enable <span class="o">=</span> <span class="nb">true</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>bbmon.enable <span class="o">=</span> <span class="nb">true</span>
 <span class="go">true</span></code></pre>
        </div>
       </div>
@@ -1630,18 +1630,18 @@ REFUSE: Bad start time</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> logs                                           <i class="conum" data-value="1"></i><b>(1)</b>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>logs                                           <i class="conum" data-value="1"></i><b>(1)</b>
 <span class="go">signals-0.txt [0 bytes]                          <i class="conum" data-value="2"></i><b>(2)</b>
 results.txt [39 bytes]
 phy-log-0.txt [687 bytes]
 log-0.txt [4 kB]
-</span><span class="gp">&gt;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(preamble: 3)    <i class="conum" data-value="3"></i><b>(3)</b>
+</span><span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(preamble: 3)    <i class="conum" data-value="3"></i><b>(3)</b>
 </span><span class="go">AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameStartNtf:INFORM[txTime:102528016 txDuration:170916]
 <span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[txTime:102513266]
 <span class="gp">phy &gt;</span><span class="o">&gt;</span> RxFrameStartNtf:INFORM[type:#3 rxTime:102531520 rxDuration:270500 detector:0.74]
 <span class="gp">phy &gt;</span><span class="o">&gt;</span> RxBasebandSignalNtf:INFORM[adc:1 rxTime:102531520 rssi:-23.6 preamble:3 <span class="nb">fc</span>:12000.0 fs:12000.0 <span class="o">(</span>3246 baseband samples<span class="o">)]</span>
-<span class="gp">&gt;</span> logs
+<span class="gp">&gt;</span><span class="w"> </span>logs
 <span class="go">signals-0.txt [34 kB]                            <i class="conum" data-value="4"></i><b>(4)</b>
 results.txt [39 bytes]
 phy-log-0.txt [687 bytes]
@@ -1714,7 +1714,7 @@ log-0.txt [5 kB]</span></code></pre>
       </div>
       <div class="paragraph">
        <p>
-        As you record more signals, they are appended to the same file (with delineating metadata for each signal). If you restart unet audio, this file will be renumbered to
+        As you record more signals, they are appended to the same file (with delineating metadata for each signal). If you restart Unet audio, this file will be renumbered to
         <code>
          signals-1.txt
         </code>
@@ -1737,7 +1737,7 @@ log-0.txt [5 kB]</span></code></pre>
           <code>
            etc/setup.groovy
           </code>
-          file in your unet audio installation, and you can change it, if you like.
+          file in your Unet audio installation, and you can change it, if you like.
          </td>
         </tr>
        </table>
@@ -1878,7 +1878,7 @@ log-0.txt [5 kB]</span></code></pre>
         <a href="unet-handbook_getting_started.html#_sending_receiving_from_a_python_application">
          Section 2.5
         </a>
-        . We’ll be using it now, so in case you don’t have it installed, now is a good time to install it. Start a Jupyter new notebook with Python 3 and connect to your unet audio instance:
+        . We’ll be using it now, so in case you don’t have it installed, now is a good time to install it. Start a Jupyter new notebook with Python 3 and connect to your Unet audio instance:
        </p>
       </div>
       <div class="listingblock">
@@ -1886,7 +1886,7 @@ log-0.txt [5 kB]</span></code></pre>
         <pre class="rouge highlight"><code data-lang="python"><span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>   <span class="kn">from</span> <span class="nn">unetpy</span> <span class="kn">import</span> <span class="o">*</span>
          <span class="kn">import</span> <span class="nn">arlpy.plot</span> <span class="k">as</span> <span class="n">plt</span>
 
-<span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>   <span class="c1"># connect to the unet audio SDOAM
+<span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>   <span class="c1"># connect to the Unet audio SDOAM
 </span>         <span class="n">sock</span> <span class="o">=</span> <span class="n">UnetSocket</span><span class="p">(</span><span class="s">'localhost'</span><span class="p">,</span> <span class="mi">1100</span><span class="p">)</span>
          <span class="n">gw</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">getGateway</span><span class="p">()</span>
 
@@ -1951,9 +1951,9 @@ log-0.txt [5 kB]</span></code></pre>
   </div>
   <div id="footer">
    <div id="footer-text">
-    Version 0.9
+    Version 3.0.0
     <br/>
-    Last updated 2019-09-24 03:39:55 +0800
+    Last updated 2019-09-24 18:33:08 +0800
    </div>
   </div>
   <style>
@@ -1976,7 +1976,7 @@ pre.rouge .cs {
   font-weight: bold;
   font-style: italic;
 }
-pre.rouge .c, pre.rouge .cd {
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cpf {
   color: #999988;
   font-style: italic;
 }
@@ -2096,7 +2096,7 @@ pre.rouge .s1 {
 pre.rouge .ss {
   color: #990073;
 }
-pre.rouge .s {
+pre.rouge .s, pre.rouge .sa, pre.rouge .dl {
   color: #d14;
 }
 pre.rouge .na {
@@ -2126,7 +2126,7 @@ pre.rouge .ne {
   color: #990000;
   font-weight: bold;
 }
-pre.rouge .nf {
+pre.rouge .nf, pre.rouge .fm {
   color: #990000;
   font-weight: bold;
 }
@@ -2149,7 +2149,7 @@ pre.rouge .vg {
 pre.rouge .vi {
   color: #008080;
 }
-pre.rouge .nv {
+pre.rouge .nv, pre.rouge .vm {
   color: #008080;
 }
 pre.rouge .ow {

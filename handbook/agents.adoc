@@ -63,7 +63,7 @@ TIP: If you happen to be already familiar with the {url-fjage-doc}/behaviors.htm
 
 It's best to illustrate with a simple example.
 
-Let's develop an _echo daemon_ that will respond to each incoming _echo request_ datagram with an _echo response_ datagram containing the same data as the echo-request. We need a way to identify which datagram is an echo request, as we don't want to be echoing datagrams intended for other agents or for the user. We do this by defining an echo request datagram as any datagram with protocol `USER` (recall that protocol numbers from `USER` onwards are available for your own applications to use). We do not want to use the response to use the same protocol, otherwise our daemon (running on the source node) could get confused and echo the response, which would in turn be echoed again by the destination node's daemon, ad infinitum. So we use protocol `DATA` for the echo response datagram, as this protocol is intended by generic application data.
+Let's develop an _echo daemon_ that will respond to each incoming _echo request_ datagram with an _echo response_ datagram containing the same data as the echo-request. We need a way to identify which datagram is an echo request, as we don't want to be echoing datagrams intended for other agents or for the user. We do this by defining an echo request datagram as any datagram with protocol `USER` (recall that protocol numbers from `USER` onwards are available for your own applications to use). We do not want the response to use the same protocol, otherwise our daemon (running on the source node) could get confused and echo the response, which would in turn be echoed again by the destination node's daemon, ad infinitum. So we use protocol `DATA` for the echo response datagram, as this protocol is intended for generic application data.
 
 Here's our daemon:
 
@@ -104,13 +104,13 @@ Let's walk through the above code:
 
 That's it!
 
-TIP: Do not get confused between `sender` and `from`, and `recipient` and `to` fields in datagram messages. The `sender` and `recepient` *always* refer to the agents that generate and consume the message. These are entities within a single Unet node. The `from` and `to` are node addresses that tell us which node is transmitting the datagram, and which node is the intended destination.
+TIP: Do not get confused between `sender` and `from`, and `recipient` and `to` fields in datagram messages. The `sender` and `recipient` *always* refer to the agents that generate and consume the message, respectively. These are entities within a single Unet node. The `from` and `to` are node addresses that tell us which node is transmitting the datagram, and which node is the intended destination.
 
 It's time for us to test this agent. Create a file called `EchoDaemon.groovy` in the `classes` folder and copy the above daemon code into it.
 
 .Editing scripts and classes
 ****
-With the unet simulator or unet audio running on your machine, you can use your favorite text editor to directly create the `EchoDaemon.groovy` in the `classes` folder. However, a more generic way (that works on modems as well) is to open node A's shell, select `Script editor`, and use the new file button (icon:file[]) in the `/classes/` section to create the file:
+With the Unet simulator or Unet audio running on your machine, you can use your favorite text editor to directly create the `EchoDaemon.groovy` in the `classes` folder. However, a more generic way (that works on modems as well) is to open node A's shell, select `Script editor`, and use the new file button (icon:file[]) in the `/classes/` section to create the file:
 
 image::script-editor-1.png[width=80%,align="center"]
 
@@ -211,7 +211,7 @@ In Java, you'll first need to compile the Java code. Create a `EchoDaemon.java` 
 
 [source, shell]
 ----
-$ javac -cp lib/fjage-1.6.jar:lib/unet-framework-3.0-beta.jar EchoDaemon.java
+$ javac -cp lib/fjage-1.6.jar:lib/unet-framework-3.0.0.jar EchoDaemon.java
 ----
 
 You should now have a `EchoDaemon.class` file which you copy to the `classes` folder. To avoid duplicate classes, remember to first delete the `EchoDaemon.groovy` file!
@@ -222,9 +222,9 @@ Finally, you can run the 2-node network simulator and test the agent, just as yo
 
 Agents implement most of their functionality with behaviors.
 
-TIP: UnetStack is implemented on top of the {url-fjage-doc}/introduction.html[fjåge^] agent framework. fjåge provides a set of standard behaviors for agents to extend. We will explore some of these behaviors in this section, but encourage you to read the {url-fjage-doc}/index.html[fjåge documentation] at your leisure to learn more.
+TIP: UnetStack is implemented on top of the {url-fjage-doc}/introduction.html[fjåge^] agent framework. fjåge provides a set of standard behaviors for agents to extend. We will explore some of these behaviors in this section, but you are encouraged to read the {url-fjage-doc}/index.html[fjåge documentation] at your leisure to learn more.
 
-We have been implicitly using two behaviors so far. The `startup()` method is called by the `UnetAgent` base class using a `OneShotBehavior`, and the `processMessage()` method is called from a `MessageBehavior`. While you could have manually added these behaviors, the `UnetAgent` base class does this for you, because almost all unet agents require this.
+We have been implicitly using two behaviors so far. The `startup()` method is called by the `UnetAgent` base class using a `OneShotBehavior`, and the `processMessage()` method is called from a `MessageBehavior`. While you could have manually added these behaviors, the `UnetAgent` base class does this for you, because almost all Unet agents require this.
 
 Let's next look at a use case for explicitly adding other behaviors. Say we wanted our echo daemon to not respond immediately, but after 7 seconds. How would we do that?
 
@@ -267,7 +267,7 @@ You could also send a second request during those 7 seconds, and the echo daemon
 
 .fjåge behaviors
 ****
-fjåge provides several behaviors that are commonly used in unet agents:
+fjåge provides several behaviors that are commonly used in Unet agents:
 
 One-shot behavior:: A behavior that is run only once at the earliest opportunity.
 Cyclic behavior:: A cyclic behavior is run repeatedly as long as it is active. The behavior may be blocked and restarted as necessary.
@@ -275,7 +275,7 @@ Waker behavior:: A behavior that is run after a specified delay in milliseconds.
 Ticker behavior:: A behavior that runs repeatedly with a specified delay between invocations.
 Backoff behavior:: A behavior that is similar to the waker behavior, but allows the wakeup time to be extended dynamically. This is typically useful to implement backoff or retry timeouts.
 Poisson behavior:: A behavior that is similar to a ticker behavior, but the interval between invocations is an exponentially distributed random variable. This simulates a Poisson arrival process, commonly used to model network data sources.
-Finite state machine behavior:: Finite state machines are commonly used to implement network protocols. They can easily be implemented using this behavior. These machines are composed out of multiple states, each of which is like a cyclic behavior, with state transitions that can be triggered by the component behaviors.
+Finite state machine behavior:: Finite state machines are commonly used to implement network protocols. They can easily be implemented using this behavior. These machines are composed of multiple states, each of which is like a cyclic behavior, with state transitions that can be triggered by the component behaviors.
 
 You can read more about these behaviors in the fjåge documentation on {url-fjage-doc}/behaviors.html[Agents & Behaviors^].
 ****
@@ -343,9 +343,9 @@ class EchoDaemon extends UnetAgent {
 <4> Declare the parameter.
 <5> Advertise the list of parameters.
 
-TIP: Note that we had to take 3 steps to add a parameter: declare a list of parameters, declare the parameter, and advertise the parameter. While this might seem like a lot, bear in mind that parameters are much more than just agent's class attributes. Parameters can be get/set remotely, even from a different Java VM, different computer, or through a UnetSocket gateway API.
+TIP: Note that we had to take 3 steps to add a parameter: declare a list of parameters, declare the parameter, and advertise the parameter. While this might seem like a lot, bear in mind that parameters are much more than just an agent's class attributes. Parameters can be get/set remotely, even from a different Java VM, different computer, or through a UnetSocket gateway API.
 
-TIP: If you were writing the agent in Java instead of Groovy, you'd need to getters and setters for parameter `delay`, rather than simply declare the attribute. This is because Groovy automatically creates the getters and setters for you.
+TIP: If you were writing the agent in Java instead of Groovy, you'd need to implement getters and setters for parameter `delay`, rather than simply declare the attribute. This is because Groovy automatically creates the getters and setters for you.
 
 Let's see how the agent looks with parameters. Reload the agent on node B and check its parameters:
 
@@ -378,6 +378,6 @@ TIP: If you want to compute parameter values on demand or validate parameters, y
 
 TIP: While our example above uses a static description, the description can also be dynamic. This can be useful if you want to display agent's status information in the description. To implement dynamic descriptions, simply replace the `description` attribute by a getter `getDescription()` that returns a `String` description when called.
 
-=== Services, capabilities and notifications
+=== Services, capabilities, and notifications
 
-Most of the agents we have been interacting with advertised services, and sometimes optional capabilities. They also honor requests and publish unsolicited notifications. All of these are quite straightforward to implement, and you can explore some of these features in this https://blog.unetstack.net/developing-modem-drivers-for-unetstack[blog article^] on how to implement a simple PHYSICAL service agent (modem driver). We will explore some of these in the next chapter, along with other cool features like finite state machine behaviors and protocol data unit (PDU) codecs.
+Most of the agents we have been interacting with, have advertised services, and sometimes, optional capabilities. They also honor requests and publish unsolicited notifications. All of these are quite straightforward to implement, and you can explore some of these features in this https://blog.unetstack.net/developing-modem-drivers-for-unetstack[blog article^] on how to implement a simple PHYSICAL service agent (modem driver). We will explore some of these in the next chapter, along with other cool features like finite state machine behaviors and protocol data unit (PDU) codecs.

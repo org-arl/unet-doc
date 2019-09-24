@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
     </span>
     <br/>
     <span id="revnumber">
-     version 0.9
+     version 3.0.0
     </span>
    </div>
    <div class="toc2" id="toc">
@@ -865,11 +865,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 
   <span class="nd">@Override</span>
   <span class="kt">void</span> <span class="nf">startup</span><span class="o">()</span> <span class="o">{</span>
-    <span class="n">phy</span> <span class="o">=</span> <span class="n">agentForService</span> <span class="n">Services</span><span class="o">.</span><span class="na">PHYSICAL</span>
+    <span class="n">phy</span> <span class="o">=</span> <span class="n">agentForService</span><span class="o">(</span><span class="n">Services</span><span class="o">.</span><span class="na">PHYSICAL</span><span class="o">)</span>
     <span class="n">subscribe</span><span class="o">(</span><span class="n">phy</span><span class="o">)</span>
     <span class="n">subscribe</span><span class="o">(</span><span class="n">topic</span><span class="o">(</span><span class="n">phy</span><span class="o">,</span> <span class="n">Physical</span><span class="o">.</span><span class="na">SNOOP</span><span class="o">))</span>
     <span class="n">add</span> <span class="k">new</span> <span class="nf">OneShotBehavior</span><span class="o">({</span>
-      <span class="kt">def</span> <span class="n">nodeInfo</span> <span class="o">=</span> <span class="n">agentForService</span> <span class="n">Services</span><span class="o">.</span><span class="na">NODE_INFO</span>
+      <span class="kt">def</span> <span class="n">nodeInfo</span> <span class="o">=</span> <span class="n">agentForService</span><span class="o">(</span><span class="n">Services</span><span class="o">.</span><span class="na">NODE_INFO</span><span class="o">)</span>
       <span class="n">addr</span> <span class="o">=</span> <span class="n">get</span><span class="o">(</span><span class="n">nodeInfo</span><span class="o">,</span> <span class="n">NodeInfoParam</span><span class="o">.</span><span class="na">address</span><span class="o">)</span>
     <span class="o">})</span>
     <span class="n">add</span><span class="o">(</span><span class="n">fsm</span><span class="o">)</span>
@@ -960,9 +960,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
   </div>
   <div id="footer">
    <div id="footer-text">
-    Version 0.9
+    Version 3.0.0
     <br/>
-    Last updated 2019-09-24 03:39:55 +0800
+    Last updated 2019-09-24 18:33:08 +0800
    </div>
   </div>
   <style>
@@ -985,7 +985,7 @@ pre.rouge .cs {
   font-weight: bold;
   font-style: italic;
 }
-pre.rouge .c, pre.rouge .cd {
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cpf {
   color: #999988;
   font-style: italic;
 }
@@ -1105,7 +1105,7 @@ pre.rouge .s1 {
 pre.rouge .ss {
   color: #990073;
 }
-pre.rouge .s {
+pre.rouge .s, pre.rouge .sa, pre.rouge .dl {
   color: #d14;
 }
 pre.rouge .na {
@@ -1135,7 +1135,7 @@ pre.rouge .ne {
   color: #990000;
   font-weight: bold;
 }
-pre.rouge .nf {
+pre.rouge .nf, pre.rouge .fm {
   color: #990000;
   font-weight: bold;
 }
@@ -1158,7 +1158,7 @@ pre.rouge .vg {
 pre.rouge .vi {
   color: #008080;
 }
-pre.rouge .nv {
+pre.rouge .nv, pre.rouge .vm {
   color: #008080;
 }
 pre.rouge .ow {

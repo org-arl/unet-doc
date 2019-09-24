@@ -243,7 +243,7 @@ AGREE
 
 You should hear the transmission from your computer speaker! If you don't, check your speaker volume and try again.
 
-TIP: If you have 2 computers running the unet audio SDOAM, you can receive the transmitted signal on the second computer and see the received message: `[1]: hello!`.
+TIP: If you have 2 computers running the Unet audio SDOAM, you can receive the transmitted signal on the second computer and see the received message: `[1]: hello!`.
 
 Next, try sending a simple 10 kHz tonal signal:
 
@@ -268,7 +268,7 @@ To generate the baseband representation of the signal you wish to transmit, you 
 12000.0
 ----
 
-For the unet audio SDOAM, the carrier frequency is 12 kHz and the baseband sampling rate is 12 kSa/s.
+For the Unet audio SDOAM, the carrier frequency is 12 kHz and the baseband sampling rate is 12 kSa/s.
 
 TIP: The baseband signal is represented as a floating point array with alternate real and imaginary components in Java/Groovy. For languages that support complex numbers (e.g. Python, Julia), the signal is simply an array of complex numbers.
 

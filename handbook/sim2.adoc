@@ -55,8 +55,6 @@ import org.arl.unet.*
 import org.arl.unet.phy.*
 import org.arl.unet.sim.*
 import org.arl.unet.sim.channels.*
-import static org.arl.unet.Services.*
-import static org.arl.unet.phy.Physical.*
 
 channel.model = ProtocolChannelModel        // use the protocol channel model
 modem.dataRate = [2400, 2400].bps           // arbitrary data rate
@@ -72,12 +70,12 @@ simulate 2.hours, {                         // simulate 2 hours of elapsed time
   nodes.each { myAddr ->
     def myNode = node "${myAddr}", address: myAddr, location: [0, 0, 0]
     myNode.startup = {                      // startup script to run on each node
-      def phy = agentForService PHYSICAL
+      def phy = agentForService(Services.PHYSICAL)
       def arrivalRate = load/nodes.size()   // arrival rate per node
       add new PoissonBehavior(1000/arrivalRate, {     // avg time between events in ms
         def dst = rnditem(nodes-myAddr)     // choose destination randomly (excluding self)
         phy << new ClearReq()
-        phy << new TxFrameReq(to: dst, type: DATA)
+        phy << new TxFrameReq(to: dst, type: Physical.DATA)
       })
     }
   }
@@ -114,11 +112,9 @@ import org.arl.unet.*
 import org.arl.unet.phy.*
 import org.arl.unet.sim.*
 import org.arl.unet.sim.channels.*
-import static org.arl.unet.Services.*
-import static org.arl.unet.phy.Physical.*
 
 println '''
-Pure Aloha simulation
+Pure ALOHA simulation
 =====================
 
 TX Count\tRX Count\tOffered Load\tThroughput
@@ -140,12 +136,12 @@ for (def load = 0.1; load <= 1.5; load += 0.1) {
     nodes.each { myAddr ->
       def myNode = node "${myAddr}", address: myAddr, location: [0, 0, 0]
       myNode.startup = {                    // startup script to run on each node
-        def phy = agentForService PHYSICAL
+        def phy = agentForService(Services.PHYSICAL)
         def arrivalRate = load/nodes.size() // arrival rate per node
         add new PoissonBehavior(1000/arrivalRate, {   // avg time between events in ms
           def dst = rnditem(nodes-myAddr)   // choose destination randomly (excluding self)
           phy << new ClearReq()
-          phy << new TxFrameReq(to: dst, type: DATA)
+          phy << new TxFrameReq(to: dst, type: Phyiscal.DATA)
         })
       }
     }
@@ -164,7 +160,7 @@ A slightly beautified copy of the above code is available in the `samples/aloha.
 
 [source, console]
 ----
-Pure Aloha simulation
+Pure ALOHA simulation
 =====================
 
 TX Count        RX Count        Offered Load    Throughput
