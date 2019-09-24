@@ -1,4 +1,4 @@
-     <!-- Terms of use -->
+    <!-- Terms of use -->
     <div class="portfolio-modal modal fade" id="modal-terms" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
@@ -39,7 +39,57 @@
         </div>
     </div>
 
-     <!-- Editions -->
+    <!-- Downloads -->
+    <div class="portfolio-modal modal fade" id="modal-download" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body" align="left">
+                            <h2>Terms of Use</h2>
+                            <hr class="star-primary">
+                            <p>Copyright &copy; {{ 'now' | date: "%Y" }}, Acoustic Research Laboratory, National University of Singapore, and Subnero Pte Ltd.
+                            </p><p>
+                            All rights reserved.
+                            </p><p>
+                            The UnetStack community edition software may be freely used for academic teaching and research purposes only. The software may NOT be used for any commercial activity, such as (but not limited to):
+                            </p><p>
+                            <ul>
+                              <li>Commercial deployment of underwater networks.
+                              <li>Commercial demonstrations.
+                              <li>Commercial research.
+                              <li>Consulting work performed by academic students, faculty or research staff.
+                              <li>Training of commercial company employees.
+                            </ul>
+                            </p><p>
+                            This software is provided by the copyright holders and contributors “as is” and any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall the copyright holder or contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this software, even if advised of the possibility of such damage.</p>
+                            <p>
+                            For commercial licensing, please contact: <a href="mailto:info@subnero.com">info@subnero.com</a>
+                            </p>
+                            <iframe id="my_iframe" style="display:none;"></iframe>
+                            <script>
+                            function download() {
+                                var url = `downloads/unet-community-{% include_relative version.txt %}.tgz`.replace(/[\n\r]/g, '');
+                                document.getElementById('my_iframe').src = url;
+                                $('#modal-download').modal('hide');
+                            };
+                            </script>
+                            <button type="button" class="btn btn-default" style="background-color: #47c0f7;" onclick="download();"><i class="fa fa-check"></i> Accept</button>
+                            <button type="button" class="btn btn-default" style="background-color: #c7c0c7;" data-dismiss="modal"><i class="fa fa-times"></i> Decline</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Editions -->
     <div class="portfolio-modal modal fade" id="modal-editions" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
@@ -82,7 +132,142 @@
         </div>
     </div>
 
-     <!-- Components -->
+    <!-- Community edition -->
+    <div class="portfolio-modal modal fade" id="modal-community" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body" align="left">
+                            <h2>Community edition</h2>
+                            <hr class="star-primary">
+                            <p>The components are packaged into various editions:</p>
+                            <table class="table table-bordered">
+                            <colgroup>
+                            <col span="1"><col style="background-color:#dfdfff">
+                            </colgroup>
+                            <thead>
+                            <tr><th scope="col"><b>Component</b></th><th scope="col"><b>Community edition</b></th><th scope="col"><b>Commercial edition</b></th><th scope="col"><b>OEM edition</b></th></tr>
+                            </thead><tbody>
+                            <tr><td>Unet framework</td><td align="center">✔︎</td><td align="center">✔︎</td><td align="center">✔︎</td></tr>
+                            <tr><td>Unet basic stack</td><td align="center">✔︎</td><td align="center">✔︎</td><td align="center">✔︎</td></tr>
+                            <tr><td>Unet premium stack</td><td align="center">✘</td><td align="center">optional</td><td align="center">optional</td></tr>
+                            <tr><td>Unet simulator</td><td align="center">✔︎</td><td align="center">✔︎</td><td align="center">✘</td></tr>
+                            <tr><td>Unet IDE</td><td align="center">✔︎</td><td align="center">✔︎</td><td align="center">✔︎</td></tr>
+                            <tr><td>Unet audio</td><td align="center">basic</td><td align="center">✔︎</td><td align="center">optional</td></tr>
+                            </tbody>
+                            </table>
+                            <p>
+                            The <i>community edition</i> is downloadable free of charge for educational and research purposes. It has all the components required to develop, simulate, test and deploy Unets. Commercial use of UnetStack requires purchase of the <i>commercial edition</i>.
+                            </p><p>
+                            The Unet audio functionality in the community edition is limited to FH-BFSK modulation, basic recevier algorithms, and convolution error control codes only. Although the community edition only ships with the Unet audio modem, modem drivers can be developed for 3rd party modems for research and educational purposes.
+                            </p>
+                            <a type="button" class="btn btn-default page-scroll" style="background-color: #47c0f7;" onclick="$('#modal-community').modal('hide');" href="#downloads"><i class="fa fa-download"></i> Download now!</a>
+                            <button type="button" class="btn btn-default" style="background-color: #c7c0c7;" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Commercial edition -->
+    <div class="portfolio-modal modal fade" id="modal-commercial" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body" align="left">
+                            <h2>Commercial edition</h2>
+                            <hr class="star-primary">
+                            <p>The components are packaged into various editions:</p>
+                            <table class="table table-bordered">
+                            <colgroup>
+                            <col span="2"><col style="background-color:#dfdfff">
+                            </colgroup>
+                            <thead>
+                            <tr><th scope="col"><b>Component</b></th><th scope="col"><b>Community edition</b></th><th scope="col"><b>Commercial edition</b></th><th scope="col"><b>OEM edition</b></th></tr>
+                            </thead><tbody>
+                            <tr><td>Unet framework</td><td align="center">✔︎</td><td align="center">✔︎</td><td align="center">✔︎</td></tr>
+                            <tr><td>Unet basic stack</td><td align="center">✔︎</td><td align="center">✔︎</td><td align="center">✔︎</td></tr>
+                            <tr><td>Unet premium stack</td><td align="center">✘</td><td align="center">optional</td><td align="center">optional</td></tr>
+                            <tr><td>Unet simulator</td><td align="center">✔︎</td><td align="center">✔︎</td><td align="center">✘</td></tr>
+                            <tr><td>Unet IDE</td><td align="center">✔︎</td><td align="center">✔︎</td><td align="center">✔︎</td></tr>
+                            <tr><td>Unet audio</td><td align="center">basic</td><td align="center">✔︎</td><td align="center">optional</td></tr>
+                            </tbody>
+                            </table>
+                            <p>
+                            Commercial use of UnetStack requires purchase of the <i>commercial edition</i>.<br>For commercial licensing, please contact: <a href="mailto:info@subnero.com">info@subnero.com</a>
+                            </p><p>
+                            The Unet premium stack is optionally available in the commercial edition, providing advanced functionality and/or performance based on the application.
+                            </p>
+                            <button type="button" class="btn btn-default" style="background-color: #47c0f7;" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- OEM edition -->
+    <div class="portfolio-modal modal fade" id="modal-oem" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body" align="left">
+                            <h2>OEM edition</h2>
+                            <hr class="star-primary">
+                            <p>The components are packaged into various editions:</p>
+                            <table class="table table-bordered">
+                            <colgroup>
+                            <col span="3"><col style="background-color:#dfdfff">
+                            </colgroup>
+                            <thead>
+                            <tr><th scope="col"><b>Component</b></th><th scope="col"><b>Community edition</b></th><th scope="col"><b>Commercial edition</b></th><th scope="col"><b>OEM edition</b></th></tr>
+                            </thead><tbody>
+                            <tr><td>Unet framework</td><td align="center">✔︎</td><td align="center">✔︎</td><td align="center">✔︎</td></tr>
+                            <tr><td>Unet basic stack</td><td align="center">✔︎</td><td align="center">✔︎</td><td align="center">✔︎</td></tr>
+                            <tr><td>Unet premium stack</td><td align="center">✘</td><td align="center">optional</td><td align="center">optional</td></tr>
+                            <tr><td>Unet simulator</td><td align="center">✔︎</td><td align="center">✔︎</td><td align="center">✘</td></tr>
+                            <tr><td>Unet IDE</td><td align="center">✔︎</td><td align="center">✔︎</td><td align="center">✔︎</td></tr>
+                            <tr><td>Unet audio</td><td align="center">basic</td><td align="center">✔︎</td><td align="center">optional</td></tr>
+                            </tbody>
+                            </table>
+                            <p>
+                            The <i>OEM edition</i> is intended for modem manufacturers who bundle it as part of their modems.
+                            </p><p>
+                            The Unet premium stack is optionally available in the OEM edition, providing advanced functionality and/or performance based on the application. For the OEM edition, the Unet audio functionality includes advanced modulation schemes (e.g. OFDM), powerful receiver algorithms, and strong error control codes (e.g. LDPC). Unet audio can also be customized to use specific modem hardware instead of a generic sound card.
+                            </p><p>
+                            For OEM licensing, please contact: <a href="mailto:info@subnero.com">info@subnero.com</a>
+                            </p>
+                            <button type="button" class="btn btn-default" style="background-color: #47c0f7;" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Components -->
     <div class="portfolio-modal modal fade" id="modal-components" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
@@ -119,8 +304,8 @@
         </div>
     </div>
 
-     <!-- Licensing -->
-    <div class="portfolio-modal modal fade" id="modal-license" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Language APIs -->
+    <div class="portfolio-modal modal fade" id="modal-languages" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
                 <div class="lr">
@@ -132,11 +317,20 @@
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2">
                         <div class="modal-body" align="left">
-                            <h2>Licensing</h2>
+                            <h2>Language API</h2>
                             <hr class="star-primary">
-                            <p>
-                            For commercial licensing, please contact: <a href="mailto:info@subnero.com">info@subnero.com</a>
-                            </p>
+                            <table class="table table-bordered">
+                            <thead>
+                            <tr><th scope="col"><b>Language</b></th><th scope="col"><b>Support for</b></th><th scope="col"><b>Status</b></th><th scope="col"><b>Download</b></th></tr>
+                            </thead><tbody>
+                            <tr><td>Java</td><td><a href="handbook/unet-handbook_unetsocket_api.html" target="_unet_handbook">UnetSocket</a>, <a href="handbook/unet-handbook_developing_your_own_agents.html" target="_blank">Agent development</a></td><td>Stable</td><td><a onclick="$('#modal-languages').modal('hide');" href="#downloads">download</a></td></tr>
+                            <tr><td>Groovy</td><td><a href="handbook/unet-handbook_unetsocket_api.html" target="_unet_handbook">UnetSocket</a>, <a href="handbook/unet-handbook_developing_your_own_agents.html" target="_blank">Agent development</a></td><td>Stable</td><td><a onclick="$('#modal-languages').modal('hide');" href="#downloads">download</a></td></tr>
+                            <tr><td>Python 3</td><td><a href="handbook/unet-handbook_unetsocket_api.html" target="_unet_handbook">UnetSocket</a></td><td>Stable</td><td><a href="https://pypi.org/project/unetpy/" target="_blank">unetpy</a></td></tr>
+                            <tr><td>Javascript</td><td><a href="https://fjage.readthedocs.io/en/latest/jsgw.html" target="_blank">Gateway</a></td><td>Stable</td><td><a href="https://fjage.readthedocs.io/en/latest/jsgw.html" target="_blank">fjage.js</a></td></tr>
+                            <tr><td>Julia</td><td><a href="https://github.com/org-arl/fjage/tree/master/gateways/julia/Fjage" target="_blank">Gateway</a></td><td>Beta</td><td><a href="https://github.com/org-arl/fjage/tree/master/gateways/julia/Fjage" target="_blank">Fjage.jl</a></td></tr>
+                            <tr><td>C</td><td><a href="https://fjage.readthedocs.io/en/latest/cgw.html" target="_blank">Gateway</a></td><td>Stable</td><td><a href="https://fjage.readthedocs.io/en/latest/cgw.html" target="_blank">fjage.c</a></tr>
+                            </tbody>
+                            </table>
                             <button type="button" class="btn btn-default" style="background-color: #47c0f7;" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                         </div>
                     </div>

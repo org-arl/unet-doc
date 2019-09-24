@@ -117,8 +117,6 @@ include::agents2.adoc[]
 //== Integrating with sensors
 //== UnetStack shell extensions
 
-WARNING: Coming soon...
-
 = *Part VI: Simulating underwater networks*
 
 include::sim.adoc[]
