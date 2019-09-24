@@ -72,11 +72,19 @@
                             <p>
                             For commercial licensing, please contact: <a href="mailto:info@subnero.com">info@subnero.com</a>
                             </p>
-                            <iframe id="my_iframe" style="display:none;"></iframe>
+                            <a id="download" href="" target="_blank" style="display:none;"></a>
                             <script>
                             function download() {
                                 var url = `downloads/unet-community-{% include_relative version.txt %}.tgz`.replace(/[\n\r]/g, '');
-                                document.getElementById('my_iframe').src = url;
+                                const d = document.getElementById('download');
+                                d.href = url;
+                                d.click();
+                                ga('send', {
+                                  hitType: 'event',
+                                  eventCategory: 'Downloads',
+                                  eventAction: 'download',
+                                  eventLabel: `unet-community-{% include_relative version.txt %}.tgz`
+                                });
                                 $('#modal-download').modal('hide');
                             };
                             </script>
@@ -119,9 +127,9 @@
                             </table>
                             <p>
                             The <i>community edition</i> is downloadable free of charge for educational and research purposes. It has all the components required to develop, simulate, test and deploy Unets. Commercial use of UnetStack requires purchase of the <i>commercial edition</i>. The <i>OEM edition</i> is used by modem manufacturers who bundle it as part of their modems.
-                            </p><p>
+                            </p>
                             Although the community edition only ships with the Unet audio modem, modem drivers can be developed for 3rd party modems for research and educational purposes.
-                            </p><p>
+                            </p>
                             The Unet premium stack is optionally available in the commercial and OEM editions, providing advanced functionality and/or performance based on the application. The Unet audio functionlity in the community edition is limited to FH-BFSK modulation, basic recevier algorithms, and convolution error control codes only. For the OEM edition, the Unet audio functionality includes advanced modulation schemes (e.g. OFDM), more powerful receiver algorithms, and stronger error control codes (e.g. LDPC). Unet audio can also be customized to use the modem hardware instead of a generic sound card.
                             </p>
                             <button type="button" class="btn btn-default" style="background-color: #47c0f7;" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
