@@ -170,7 +170,7 @@ First run `python rx.py` to start reception. Then, on a separate terminal window
 [source, console]
 ----
 $ python rx.py
-from node 1 : Hello!
+from node 1 : hello!
 ----
 
 TIP: Once you are done with your testing, it is time to shutdown the simulation. You can do that by pressing `Ctrl-C` on the terminal where you started the simulator. Alternatively, you can go to the shell of one of the nodes, and type: `shutdown`.
