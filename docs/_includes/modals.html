@@ -75,7 +75,8 @@
                             <a id="download" href="" target="_blank" style="display:none;"></a>
                             <script>
                             function download() {
-                                var url = `downloads/unet-community-{% include_relative version.txt %}.tgz`.replace(/[\n\r]/g, '');
+                                {% capture version %}{% include_relative version.txt %}{% endcapture %}
+                                var url = 'downloads/unet-community-{{ version | strip_newlines }}.tgz';
                                 const d = document.getElementById('download');
                                 d.href = url;
                                 d.click();
@@ -83,7 +84,7 @@
                                   hitType: 'event',
                                   eventCategory: 'Downloads',
                                   eventAction: 'download',
-                                  eventLabel: `unet-community-{% include_relative version.txt %}.tgz`
+                                  eventLabel: 'unet-community-{{ version | strip_newlines }}.tgz'
                                 });
                                 $('#modal-download').modal('hide');
                             };
