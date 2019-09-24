@@ -16,6 +16,7 @@
 title: Unet
 description: >- # this means to ignore newlines until "baseurl:"
   UnetStack3 is a collection of technologies that allows us to extend communication networks underwater.
+baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://org-arl.github.io/unet-doc" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Build settings

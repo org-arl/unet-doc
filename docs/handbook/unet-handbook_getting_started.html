@@ -762,7 +762,7 @@ Node B: tcp://localhost:1102, http://localhost:8082/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>tell 0, <span class="s1">'hello!'</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> tell 0, <span class="s1">'hello!'</span>
 <span class="go">AGREE</span></code></pre>
        </div>
       </div>
@@ -798,9 +798,9 @@ Node B: tcp://localhost:1102, http://localhost:8082/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>host<span class="o">(</span><span class="s1">'A'</span><span class="o">)</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> host<span class="o">(</span><span class="s1">'A'</span><span class="o">)</span>
 <span class="go">232
-</span><span class="gp">&gt;</span><span class="w"> </span>host<span class="o">(</span><span class="s1">'B'</span><span class="o">)</span>
+</span><span class="gp">&gt;</span> host<span class="o">(</span><span class="s1">'B'</span><span class="o">)</span>
 <span class="go">31</span></code></pre>
        </div>
       </div>
@@ -811,7 +811,7 @@ Node B: tcp://localhost:1102, http://localhost:8082/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>tell 232, <span class="s1">'hi!'</span></code></pre>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> tell 232, <span class="s1">'hi!'</span></code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -858,7 +858,7 @@ Node B: tcp://localhost:1102, http://localhost:8082/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>range host<span class="o">(</span><span class="s1">'B'</span><span class="o">)</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> range host<span class="o">(</span><span class="s1">'B'</span><span class="o">)</span>
 <span class="go">999.7</span></code></pre>
        </div>
       </div>
@@ -896,8 +896,8 @@ Node B: tcp://localhost:1102, http://localhost:8082/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>s <span class="o">=</span> new UnetSocket<span class="o">(</span>this<span class="o">)</span><span class="p">;</span>              <i class="conum" data-value="1"></i><b>(1)</b>
-<span class="gp">&gt;</span><span class="w"> </span>rx <span class="o">=</span> s.receive<span class="o">()</span>                       <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> s <span class="o">=</span> new UnetSocket<span class="o">(</span>this<span class="o">)</span><span class="p">;</span>              <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="gp">&gt;</span> rx <span class="o">=</span> s.receive<span class="o">()</span>                       <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
        </div>
       </div>
       <div class="colist arabic">
@@ -939,10 +939,10 @@ Node B: tcp://localhost:1102, http://localhost:8082/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>s <span class="o">=</span> new UnetSocket<span class="o">(</span>this<span class="o">)</span><span class="p">;</span>
-<span class="gp">&gt;</span><span class="w"> </span>s.send<span class="o">(</span><span class="s1">'hello!'</span> as byte[], 0<span class="o">)</span>          <i class="conum" data-value="1"></i><b>(1)</b>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> s <span class="o">=</span> new UnetSocket<span class="o">(</span>this<span class="o">)</span><span class="p">;</span>
+<span class="gp">&gt;</span> s.send<span class="o">(</span><span class="s1">'hello!'</span> as byte[], 0<span class="o">)</span>          <i class="conum" data-value="1"></i><b>(1)</b>
 <span class="go">true
-</span><span class="gp">&gt;</span><span class="w"> </span>s.close<span class="o">()</span></code></pre>
+</span><span class="gp">&gt;</span> s.close<span class="o">()</span></code></pre>
        </div>
       </div>
       <div class="colist arabic">
@@ -981,11 +981,11 @@ Node B: tcp://localhost:1102, http://localhost:8082/</code></pre>
       <div class="listingblock">
        <div class="content">
         <pre class="rouge highlight"><code data-lang="console"><span class="go">RxFrameNtf:INFORM[type:DATA from:232 rxTime:4134355059 (6 bytes)]
-</span><span class="gp">&gt;</span><span class="w"> </span>rx.data
+</span><span class="gp">&gt;</span> rx.data
 <span class="go">[104, 101, 108, 108, 111, 33]            <i class="conum" data-value="1"></i><b>(1)</b>
-</span><span class="gp">&gt;</span><span class="w"> </span>new String<span class="o">(</span>rx.data<span class="o">)</span>                    <i class="conum" data-value="2"></i><b>(2)</b>
+</span><span class="gp">&gt;</span> new String<span class="o">(</span>rx.data<span class="o">)</span>                    <i class="conum" data-value="2"></i><b>(2)</b>
 <span class="go">hello!
-</span><span class="gp">&gt;</span><span class="w"> </span>s.close<span class="o">()</span></code></pre>
+</span><span class="gp">&gt;</span> s.close<span class="o">()</span></code></pre>
        </div>
       </div>
       <div class="colist arabic">
@@ -1057,7 +1057,7 @@ Node B: tcp://localhost:1102, http://localhost:8082/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">$</span><span class="w"> </span>pip <span class="nb">install </span>unetpy
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">$</span> pip <span class="nb">install </span>unetpy
 <span class="go">Collecting unetpy
   Using cached https://files.pythonhosted.org/packages/eb/f1/0efa3cff9c25322169041d3d804691ad24ccd732d6e284e209d20a89336f/unetpy-3.0.2-py3-none-any.whl
 </span><span class="gp">Collecting fjagepy&gt;</span><span class="o">=</span>1.6 <span class="o">(</span>from unetpy<span class="o">)</span>
@@ -1228,7 +1228,7 @@ Successfully installed fjagepy-1.6 unetpy-3.0.2</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">$</span><span class="w"> </span>python rx.py
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">$</span> python rx.py
 <span class="go">from node 1 : hello!</span></code></pre>
        </div>
       </div>
@@ -1304,7 +1304,7 @@ Successfully installed fjagepy-1.6 unetpy-3.0.2</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span><span class="nb">help </span>plvl
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> <span class="nb">help </span>plvl
 <span class="go">plvl - get/set TX power level for all PHY channel types
 
 Examples:
@@ -1346,9 +1346,9 @@ Examples:
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>plvl <span class="nt">-50</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> plvl <span class="nt">-50</span>
 <span class="go">OK
-</span><span class="gp">&gt;</span><span class="w"> </span>tell 0, <span class="s1">'hello!'</span>
+</span><span class="gp">&gt;</span> tell 0, <span class="s1">'hello!'</span>
 <span class="go">AGREE</span></code></pre>
        </div>
       </div>
@@ -1407,7 +1407,7 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>tell 0, <span class="s1">'hello!'</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> tell 0, <span class="s1">'hello!'</span>
 <span class="go">AGREE</span></code></pre>
        </div>
       </div>
@@ -1440,7 +1440,7 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>bbtx cw<span class="o">(</span>10000, 0.5<span class="o">)</span>                    <i class="conum" data-value="1"></i><b>(1)</b>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> bbtx cw<span class="o">(</span>10000, 0.5<span class="o">)</span>                    <i class="conum" data-value="1"></i><b>(1)</b>
 <span class="go">AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[txTime:4104441] <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
        </div>
@@ -1493,9 +1493,9 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy.basebandRate
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> phy.basebandRate
 <span class="go">12000.0
-</span><span class="gp">&gt;</span><span class="w"> </span>phy.carrierFrequency
+</span><span class="gp">&gt;</span> phy.carrierFrequency
 <span class="go">12000.0</span></code></pre>
        </div>
       </div>
@@ -1524,7 +1524,7 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>bbrec 12000                            <i class="conum" data-value="1"></i><b>(1)</b>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> bbrec 12000                            <i class="conum" data-value="1"></i><b>(1)</b>
 <span class="go">AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> RxBasebandSignalNtf:INFORM[adc:1 rxTime:1911353 rssi:-61.2 <span class="nb">fc</span>:12000.0 fs:12000.0 <span class="o">(</span>12000 baseband samples<span class="o">)]</span></code></pre>
        </div>
@@ -1560,7 +1560,7 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>ntf.signal[0..31]
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> ntf.signal[0..31]
 <span class="go">[-3.735939E-4, 6.7323225E-4, 7.94507E-4, 5.0331384E-4, 0.0012656008, -0.0010853912, -2.0923217E-4, -8.322359E-4, 1.5215082E-4, 2.417963E-4, -3.0220395E-5, -5.190366E-4, -6.904016E-4, -7.3395047E-4, 3.9846844E-5, 5.161132E-4, 0.0013477469, 6.2060537E-4, 1.00925405E-4, -3.974573E-4, -8.8431453E-4, -5.807383E-4, -5.730035E-4, -8.5867435E-4, -9.026667E-4, 2.2320295E-5, -1.7575005E-5, 0.0010946163, 7.7881676E-4, -3.7582265E-4, -9.449492E-4, -1.7722705E-4]</span></code></pre>
        </div>
       </div>
@@ -1623,7 +1623,7 @@ Modem web: http://localhost:8080/</code></pre>
    <div id="footer-text">
     Version 3.0.0
     <br/>
-    Last updated 2019-09-24 22:36:52 +0800
+    Last updated 2019-09-25 00:53:36 +0800
    </div>
   </div>
   <style>
@@ -1646,7 +1646,7 @@ pre.rouge .cs {
   font-weight: bold;
   font-style: italic;
 }
-pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cpf {
+pre.rouge .c, pre.rouge .cd {
   color: #999988;
   font-style: italic;
 }
@@ -1766,7 +1766,7 @@ pre.rouge .s1 {
 pre.rouge .ss {
   color: #990073;
 }
-pre.rouge .s, pre.rouge .sa, pre.rouge .dl {
+pre.rouge .s {
   color: #d14;
 }
 pre.rouge .na {
@@ -1796,7 +1796,7 @@ pre.rouge .ne {
   color: #990000;
   font-weight: bold;
 }
-pre.rouge .nf, pre.rouge .fm {
+pre.rouge .nf {
   color: #990000;
   font-weight: bold;
 }
@@ -1819,7 +1819,7 @@ pre.rouge .vg {
 pre.rouge .vi {
   color: #008080;
 }
-pre.rouge .nv, pre.rouge .vm {
+pre.rouge .nv {
   color: #008080;
 }
 pre.rouge .ow {

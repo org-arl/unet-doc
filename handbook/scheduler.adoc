@@ -23,7 +23,7 @@ Only parameter is required by the SCHEDULER service:
 
 === Sleep/wake scheduling
 
-The unet simulator currently does not support sleep/wake scheduling. While unet audio supports the SCHEDULER service, it does not actually put your computer to sleep. Therefore you can experiment with creating and managing schedules on unet audio, without worrying about your computer going to sleep. Start up unet audio (`bin/unet audio`) and connect to its shell:
+The Unet simulator currently does not support sleep/wake scheduling. While Unet audio supports the SCHEDULER service, it does not actually put your computer to sleep. Therefore you can experiment with creating and managing schedules on Unet audio, without worrying about your computer going to sleep. Start up Unet audio (`bin/unet audio`) and connect to its shell:
 
 [source, console]
 ----
@@ -67,7 +67,7 @@ AGREE
 87de2dec-db29-4b34-a93c-775bfe8c68c5: Sun Sep 22 04:02:36 SGT 2019 to Sun Sep 22 05:02:36 SGT 2019
 ----
 
-We see that the `phy` agent provides the SCHEDULER service in unet audio. We add a sleep schedule, check that it shows up, remove it, and check that it is deleted. We then add another schedule.
+We see that the `phy` agent provides the SCHEDULER service in Unet audio. We add a sleep schedule, check that it shows up, remove it, and check that it is deleted. We then add another schedule.
 
 The `addsleep`, `showsleep`, and `rmsleep` commands use the `AddScheduledSleepReq`, `GetSleepScheduleReq`, and `RemoveScheduledSleepReq` messages to achieve their functionality. We can manually send this messages to confirm this, if we like:
 
@@ -87,7 +87,7 @@ A big advantage of working with the web interface for sleep scheduling is that t
 
 === Epoch time
 
-The Unix epoch is the number of seconds that have elapsed since January 1, 1970 (midnight UTC), not counting leap seconds. While computers find it easy to work with epoch time, we find it hard to interpret. So UnetStack introduces syntactic sugar such as "1.hour.later" that computer the Unix epoch time 1 hour from now:
+The Unix epoch is the number of seconds that have elapsed since January 1, 1970 (midnight UTC), not counting leap seconds. While computers find it easy to work with epoch time, we find it hard to interpret. So UnetStack introduces syntactic sugar such as "1.hour.later" that computes the Unix epoch time 1 hour from now:
 
 [source, console]
 ----
