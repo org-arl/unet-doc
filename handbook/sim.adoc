@@ -18,7 +18,7 @@ This should open the IDE in your default browser:
 
 image::ide.png[width=80%,align="center"]
 
-The IDE provides you with a fairly common 3-panel layout, with a file browser in the left panel, a simulation shell at the bottom, and a file editor occupying most of the window. On the top, you see several buttons. The key buttons to node are the `icon:play[]` button that starts/stops simulations, the `Map` button that shows the current simulated nodes on a map, the 'Logs' button that allows you to view simulation logs, and a `Shells` dropdown that lists all the simulated nodes with shells. You can select any of the nodes from the list to connect to the shell of that node. The `Map` and `Shells` buttons are activated only once a simulation is running.
+The IDE provides you with a fairly common 3-panel layout, with a file browser in the left panel, a simulation shell at the bottom, and a file editor occupying most of the window. At the top, you see several buttons. The key buttons to note are the `icon:play[]` button that starts/stops simulations, the `Map` button that shows the current simulated nodes on a map, the 'Logs' button that allows you to view simulation logs, and a `Shells` dropdown that lists all the shells of simulated nodes. You can select any of the nodes from the list to connect to the shell of that node. The `Map` and `Shells` buttons are activated only once a simulation is running.
 
 Load the `2-node-network.groovy` simulation script from the `samples` folder in the file editor. Then press `icon:play[]` to run it.
 
@@ -35,7 +35,7 @@ Node A: tcp://localhost:1101, http://localhost:8081/
 Node B: tcp://localhost:1102, http://localhost:8082/
 ----
 
-To access node A shell, either control-click the URL for node A shell (displayed on the simulation shell) or select `Node A (232)` from the `Shells` dropdown menu. This will open the node A shell in a separate browser tab. Once you have access to the shells for your node, you are on familiar ground, as you have been working with numerous realtime simulation in previous chapters. Now, you can safely close the shell tab for now and go back to the IDE tab. The shell tab can be reopened anytime you want.
+To access node A shell, either control-click the URL for node A shell (displayed on the simulation shell) or select `Node A (232)` from the `Shells` dropdown menu. This will open the node A shell in a separate browser tab. Once you have access to the shells for your node, you are on familiar ground, as you have been working with numerous realtime simulations in previous chapters. Now, you can safely close the shell tab for now and go back to the IDE tab. The shell tab can be reopened anytime you want.
 
 Next, try out the `Map` button, and you'll see the 2 nodes in our simulation on a map:
 
@@ -49,7 +49,7 @@ Now open the `Map`, and you'll get a much nicer map of the network deployed in s
 
 image::ide-map2.png[width=80%,align="center"]
 
-Clicking on each individual node shows some information about that node, and provides a link to opening that node's shell (if it has a shell agent running). In case of mobile nodes (<<Node mobility>>), you'll see the nodes moving on the map.
+Clicking on each node shows some information about that node, and provides a link to opening that node's shell (if it has a shell agent running). In case of mobile nodes (<<Node mobility>>), you'll see the nodes moving on the map.
 
 === 2-node network
 
@@ -74,7 +74,7 @@ Node B: tcp://localhost:1102, http://localhost:8082/
 ///////////////////////////////////////////////////////////////////////////////
 // simulator configuration
 
-platform = RealTimePlatform   // use real-time mode        //<3>
+platform = RealTimePlatform                                //<3>
 
 // run the simulation forever
 simulate {                                                 //<4>
@@ -96,7 +96,7 @@ Let's next take a look at the `setup.groovy` script that describes the stack to 
 ----
 import org.arl.fjage.Agent
 
-boolean loadAgentByClass(String name, String clazz) {
+boolean loadAgentByClass(String name, String clazz) {        //<1>
   try {
     container.add name, Class.forName(clazz).newInstance()
     return true
@@ -105,7 +105,7 @@ boolean loadAgentByClass(String name, String clazz) {
   }
 }
 
-boolean loadAgentByClass(String name, String... clazzes) {
+boolean loadAgentByClass(String name, String... clazzes) {   //<2>
   for (String clazz: clazzes) {
     if (loadAgentByClass(name, clazz)) return true
   }
@@ -115,7 +115,7 @@ boolean loadAgentByClass(String name, String... clazzes) {
 loadAgentByClass 'arp',       'org.arl.unet.addr.AddressResolution'
 loadAgentByClass 'ranging',   'org.arl.unet.phy.Ranging'
 loadAgentByClass 'mac',       'org.arl.unet.mac.CSMA'
-loadAgentByClass 'uwlink',    'org.arl.unet.link.ECLink', 'org.arl.unet.link.ReliableLink'
+loadAgentByClass 'uwlink',    'org.arl.unet.link.ECLink', 'org.arl.unet.link.ReliableLink' //<3>
 loadAgentByClass 'transport', 'org.arl.unet.transport.SWTransport'
 loadAgentByClass 'router',    'org.arl.unet.net.Router'
 loadAgentByClass 'rdp',       'org.arl.unet.net.RouteDiscoveryProtocol'
@@ -124,6 +124,9 @@ loadAgentByClass 'state',     'org.arl.unet.state.StateManager'
 container.add 'remote',       new org.arl.unet.remote.RemoteControl(cwd: new File(home, 'scripts'), enable: false)
 container.add 'bbmon',        new org.arl.unet.bb.BasebandSignalMonitor(new File(home, 'logs/signals-0.txt').path, 64)
 ----
+<1> Helper function to load an agent given it's class name.
+<2> Helper function to load an agent from a list of class names, picking the first available class.
+<3> We use the second helper function to load `ECLink` if available (only premium stack), or `ReliableLink` as a fallback (available in basic stack).
 
 While this script might look complicated, what it does is quite simple. It loads the standard agents in the network stack. The complicated bits in the script are mostly to handle errors, if certain agents are unavailable (e.g. agents from the premium stack). We could use a much simpler script to load the stack, if we wanted to avoid this complexity:
 
@@ -266,7 +269,7 @@ The `Mission2013a` class contains information about the MISSION 2013 experiment.
 
 === Node mobility
 
-Nodes in a simulation may be mobile (e.g. autonomous underwater vehicles). Such nodes are motion models associated with them, to provide appropriate mobility during the simulation:
+Nodes in a simulation may be mobile (e.g. autonomous underwater vehicles). Such nodes have motion models associated with them, to provide appropriate mobility during the simulation:
 
 [source, groovy]
 ----
