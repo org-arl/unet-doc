@@ -681,8 +681,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </a>
       <ul class="sectlevel1">
        <li>
+        <a href="#_command_reference">
+         Appendix A: Command reference
+        </a>
+       </li>
+       <li>
         <a href="#_mysimplehandshakemac">
-         Appendix A: MySimpleHandshakeMac
+         Appendix B: MySimpleHandshakeMac
         </a>
        </li>
       </ul>
@@ -19328,7 +19333,7 @@ mac: MySimplestMac - IDLE
         </code>
         agent in
         <a href="#_mysimplehandshakemac">
-         Appendix A
+         Appendix B
         </a>
         (and also in the
         <code>
@@ -22048,8 +22053,2886 @@ d -t 585.747000 -s 1 -d 3 -i 259068939 -p 0 -x {1.0 4.0 -1 ------- null} -y BAD_
     </strong>
    </h1>
    <div class="sect1">
+    <h2 id="_command_reference">
+     Appendix A: Command reference
+    </h2>
+    <div class="sectionbody">
+     <div class="sect2">
+      <h3 id="_fjåge_commands">
+       A.1. fjåge commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          shell
+         </code>
+         — basic shell commands
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           help
+          </code>
+          — provide help on a specified topic
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Usage:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>help [topic]</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>help                            // get help index
+help shell                      // get help on 'shell'
+help('shell')                   // alternative syntax</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           ps
+          </code>
+          — list all the agents
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           services
+          </code>
+          — list all services provided by agents
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           who
+          </code>
+          — display list of variables in workspace
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           shutdown
+          </code>
+          — shutdown the local platform
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           run
+          </code>
+          — run a Groovy script
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Scripts are stored in a folder defined by the 'scripts' variable in the
+workspace. If no such variable is defined, they are in the current folder.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>run 'myscript'                   // run a script called myscript.groovy
+myscript                         // alternative syntax for running myscript
+run 'res://myscript.groovy'      // run a script from resources (in jar)
+run 'cls://myscript'             // run a precompiled script from class</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           println
+          </code>
+          — display message on console
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Usage:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>println output, [type]</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>println 'hello there!'
+println 'that failed!', org.arl.fjage.shell.OutputType.ERROR</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           href
+          </code>
+          — make a clickable URL (on terminals that support URLs)
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Usage:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>href(url)
+href(url, text)</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>println href('http://www.google.com')
+println href('http://www.google.com', 'Search...')</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           delay
+          </code>
+          — delay execution by the specified number of milliseconds
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>delay 1000                      // delay for 1000 ms</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           logLevel
+          </code>
+          — set loglevel (optionally for a named logger)
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Usage:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>logLevel [name],level</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>logLevel INFO                  // set loglevel to INFO
+logLevel 'org.arl', ALL        // set loglevel for logger org.arl to ALL</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           subscribe
+          </code>
+          — subscribe to notifications from a named topic
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>subscribe topic('MyTopic')     // subscribe to notifications from MyTopic
+subscribe agent('abc')         // subscribe to notifications from agent abc</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           unsubscribe
+          </code>
+          — unsubscribe from notifications for a named topic
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>unsubscribe topic('MyTopic')   // unsubscribe notifications from MyTopic
+unsubscribe agent('abc')       // unsubscribe notifications from agent abc</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           export
+          </code>
+          — add specified package/classes to list of default imports
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>export 'org.arl.fjage.*'            // import package org.arl.fjage
+export 'mypackage.MyClass'          // import class mypackage.MyClass</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        At the shell prompt (but not in a script), export can be abbreviated
+to import. For example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>import org.arl.fjage.*             // import package org.arl.fjage</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           agent
+          </code>
+          — return an agent id for the named agent
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Usage:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>agent(name)</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>a = agent('shell')</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           agentForService
+          </code>
+          — find an agent id providing the specified service
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>a = agentForService Services.SHELL  // find agents providing shell service</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           agentsForService
+          </code>
+          — get a list of all agent ids providing a service
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>a = agentsForService Services.SHELL // list all agents providing a service</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           send
+          </code>
+          — send the given message
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>send new Message(agent('shell'))    // send a message to agent shell</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           request
+          </code>
+          — send the given request and wait for a response
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Usage:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>request req,[timeout]</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>rsp = request req     // send req and wait for response for default timeout
+rsp = request req,100 // send req and wait for response for 100 ms</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           receive
+          </code>
+          — wait for a message
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Usage:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>receive [filter], [timeout]
+receive [msg], [timeout]</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>msg = receive                     // get any message with default timeout
+msg = receive 100                 // get any message within 100 ms
+msg = receive req                 // get a response message for request req
+msg = receive A                   // get message that of class A
+msg = receive { it instanceof A } // get message that of class A
+msg = receive req                 // get message response to req</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           input
+          </code>
+          — get user input
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Usage:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>input [prompt], [hide]</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>name = input('What is your name?')  // prompt user and get input
+secret = input('Secret?', true)     // hide input after entering</pre>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_transport_commands">
+       A.2. Transport commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          transport
+         </code>
+         — access to transport service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>transport                       // access parameters
+transport.maxRetries = 5        // set maximum retries for reliable delivery
+transport &lt;&lt; new DatagramReq(to: 2, data: [1,2,3], reliability: true)
+                                // send reliable datagram</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           transport.MTU
+          </code>
+          — maximum data transfer size
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           abort
+          </code>
+          — abort all transport datagram transfers
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>abort                           // abort ongoing transfers</pre>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_baseband_commands">
+       A.3. Baseband commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          bb
+         </code>
+         — access to baseband service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>bbrec 1000               // record 1000 baseband signals
+bbtx sig                 // transmit baseband signal "sig"
+bb.carrierFrequency      // check carrier frequency
+bb.maxSignalLength       // check max signal length (samples)</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           bb.carrierFrequency
+          </code>
+          — carrier frequency (Hz)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           bb.basebandRate
+          </code>
+          — baseband sampling rate (Hz)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           bb.maxPreambleID
+          </code>
+          — maximum preamble ID
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           bb.preambleDuration
+          </code>
+          — preamble duration in seconds
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           bb.maxSignalLength
+          </code>
+          — baseband signal length (samples)
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           bbrec
+          </code>
+          — make a baseband recording
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>bbrec 1000                 // record 1000 baseband signals
+bbrec 1000, 87897287       // schedule a recording at given PHY time</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           bbtx
+          </code>
+          — transmit a baseband signal
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>bbtx sig                 // transmit complex baseband signal
+bbtx sig, 87897287       // schedule a transmission at given PHY time</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           pbtx
+          </code>
+          — transmit a passband signal sampled at 8 x basebandRate
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>pbtx sig                 // transmit real passband signal
+pbtx sig, 87897287       // schedule a transmission at given PHY time</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           cw
+          </code>
+          — create a tonal signal with unit amplitude
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>cw(10000, 0.5)           // 0.5 second 10 kHz baseband tonal
+cw(15000, 0.2, 0)        // 0.2 second 15 kHz passband tonal</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           sweep
+          </code>
+          — create a linear sweep with unit amplitude
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>sweep(10000, 12000, 0.5)     // 0.5 second baseband sweep from 10-12 kHz
+sweep(10000, 12000, 0.5, 0)  // 0.5 second passband sweep from 10-12 kHz</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           save
+          </code>
+          — save signal to a file in the scripts folder
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>save 'data.txt', ntf           // save notification signal to file
+save 'data.txt', ntf.signal, 2 // save signal in 2-column format</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           load
+          </code>
+          — load floating point signal from a file in the scripts folder
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>signal = load('data.txt')      // load data from file</pre>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_nodeinfo_commands">
+       A.4. NodeInfo commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          node
+         </code>
+         — access to node information service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>node                      // access node info parameters
+node.address              // check node address
+node.address = 5          // change node address</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           node.address
+          </code>
+          — Node address
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           node.nodeName
+          </code>
+          — Node name
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           node.origin
+          </code>
+          — origin (lat,long,depth)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           node.location
+          </code>
+          — Location of the node in [x,y,z] meters
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           node.speed
+          </code>
+          — speed (meter/second)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           node.heading
+          </code>
+          — heading (deg, 0 is North, clockwise)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           node.turnRate
+          </code>
+          — turn rate (deg/s, clockwise)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           node.diveRate
+          </code>
+          — dive rate (meter/second)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           node.mobility
+          </code>
+          — true if the node is mobile, false if it is fixed
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           node.time
+          </code>
+          — node time (real-time clock)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           node.canForward
+          </code>
+          — true if node has forwarding capability, false otherwise
+         </p>
+        </li>
+       </ul>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_scheduler_commands">
+       A.5. Scheduler commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          scheduler
+         </code>
+         — access to scheduling service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           addsleep
+          </code>
+          — schedule sleep and wakeup of the modem
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>addsleep 1507014548, 1507014558  // sleep from epoch 1507014548 to 1507014558
+addsleep 1507014558              // sleep immediately until 1507014548
+addsleep 10.s.later, 20.s.later  // sleep 10s later and wake up 20s later
+addsleep 20.s.later              // sleep immediately and wake up 20s later
+addsleep 20.s.later, forever     // sleep 20s later forever
+addsleep                         // sleep immediately forever</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           showsleep
+          </code>
+          — shows sleep/wakeup schedule
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>showsleep                        // show schedule</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           rmsleep
+          </code>
+          — removes sleep/wakeup schedule
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>rmsleep '3bf9e744-b225-48f4'     // removes sleep schedule with given id</pre>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_ranging_commands">
+       A.6. Ranging commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          ranging
+         </code>
+         — access to ranging service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>ranging                            // display ranging parameters
+ranging &lt;&lt; new RangeReq(to: 27)    // get range to node 27
+ranging &lt;&lt; new BeaconReq()         // transmit a beacon out
+ranging.lifetime = 30              // change sync validity to 30 seconds</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           ranging.lifetime
+          </code>
+          — lifetime for sync info in seconds
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging.minRange
+          </code>
+          — minimum valid range
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging.maxRange
+          </code>
+          — maximum valid range
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging.maxBadRangeCnt
+          </code>
+          — number of bad ranges before discarding sync info
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           range
+          </code>
+          — get ranging information from a node
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>range 21                 // get range to node 21
+range 22, 15000          // get range to node 22 with a 15 second timeout</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           beacon
+          </code>
+          — send a timestamped beacon
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>beacon                   // broadcast a timestamped beacon</pre>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_physical_commands">
+       A.7. Physical commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          phy
+         </code>
+         — access to physical service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>phy                           // access physical parameters
+phy[CONTROL]                  // access control channel parameters
+phy[DATA]                     // access data channel parameters
+phy &lt;&lt; msg                    // send request msg to physical agent
+phy.rxEnable = false          // disable reception of frames</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           plvl
+          </code>
+          — get/set TX power level for all PHY channel types
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>plvl                       // get all power levels
+plvl -10                   // set all power to -10 dB
+plvl(-10)                  // alternative syntax
+plvl = -10                 // alternative syntax</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        The following parameters are available on all modems. Additional modem
+dependent parameters are also available. For information on these
+parameters type "help modem".
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           phy.MTU
+          </code>
+          — maximum transmission unit (MTU) in bytes
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy.rxEnable
+          </code>
+          — true if reception enabled
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy.propagationSpeed
+          </code>
+          — propagation speed in m/s
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy.timestampedTxDelay
+          </code>
+          — delay before TX of timestamped frames
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy.time
+          </code>
+          — physical layer time (us)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy.busy
+          </code>
+          — true if modem is TX/RX a frame, false if idle
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy.refPowerLevel
+          </code>
+          — reference power level in dB re uPa @ 1m
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy.maxPowerLevel
+          </code>
+          — maximum supported power level (relative to reference)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy.minPowerLevel
+          </code>
+          — minimum supported power level (relative to reference)
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Channel Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        The following parameters are available on all modems. Additional modem
+dependent parameters are also available. For information on these
+parameters type "help modem".
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           phy[].MTU
+          </code>
+          — maximum transmission unit (MTU) in bytes
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy[].dataRate
+          </code>
+          — effective frame data rate (bps)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy[].frameDuration
+          </code>
+          — frame duration (seconds)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy[].powerLevel
+          </code>
+          — powel level used for transmission (relative to reference)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy[].errorDetection
+          </code>
+          — number of bytes for error detection
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy[].frameLength
+          </code>
+          — frame length (bytes)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy[].maxFrameLength
+          </code>
+          — maximum settable frame length (bytes)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy[].fec
+          </code>
+          — forward error correction code
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        A value of 0 indicates no error correction. Other values are
+settable from the phy[].fecList in order of increasing robustness,
+but lower data rates.
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           phy[].fecList
+          </code>
+          — list of available forward error correction codes
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        List of available forward error correction code names (in order of
+increasing robustness).
+       </p>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_unet_commands">
+       A.8. Unet commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          unet
+         </code>
+         — basic unet commands
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           ver
+          </code>
+          — version information
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           time
+          </code>
+          — current platform time
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ls
+          </code>
+          — list script files
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           free
+          </code>
+          — show free disk space
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           iface
+          </code>
+          — display/enable interfaces
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Usage:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>iface [iftype, port[, baud] [, settings]]</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>// show all interfaces
+iface</pre>
+       </div>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>// enable AT commands on TCP port 5001
+iface ATScriptEngine, 5001</pre>
+       </div>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>// enable Groovy shell on TCP port 5002
+iface GroovyScriptEngine, 5002</pre>
+       </div>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>// enable AT commands on serial port /dev/ttyS0 at 9600 baud
+iface ATScriptEngine, '/dev/ttyS0'</pre>
+       </div>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>// enable Groovy shell on serial port /dev/ttyS0 at 115200 baud
+iface GroovyScriptEngine, '/dev/ttyS0', 115200</pre>
+       </div>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>// enable API connector on serial port /dev/ttyS0 at 115200 baud
+// with settings: no partity, 8 bits, 1 stop bit
+iface API, '/dev/ttyS0', 115200, 'N81'</pre>
+       </div>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>// alternate syntax to enable AT commands on TCP port 5001
+iface new ATScriptEngine(), 5001</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           distance
+          </code>
+          — compute distance between two points
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>distance([0,0], [100,100])   // distance between origin and (100,100)</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           logs
+          </code>
+          — list log files
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Only log files with the default settings (logs/*.txt) are listed.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>logs                        // list log files</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           clrlogs
+          </code>
+          — clear old log files
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Old log files (logs/
+        <strong>
+         .txt) are deleted. The currently active log files
+(logs/
+        </strong>
+        -0.txt) are not deleted.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>clrlogs                     // clear old log files</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           tail
+          </code>
+          — show the last few lines of the current log file
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>tail                        // show last 10 lines of the current log file
+tail 20                     // show last 20 lines of the current log file</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           file
+          </code>
+          — file in the scripts folder
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>file('a.groovy').size()     // get size of script file a.groovy
+file('a.groovy').delete()   // delete script file a.groovy
+file('a.groovy').text       // show contents of file a.groovy</pre>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_mac_commands">
+       A.9. Mac commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          mac
+         </code>
+         — access to medium access control (MAC) service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>mac                                            // list MAC parameters
+mac &lt;&lt; new ReservationReq(to: 27, duration: 1) // channel reservation request</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           mac.channelBusy
+          </code>
+          — indicates if the channel is busy
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           mac.reservationPayloadSize
+          </code>
+          — size of payload (bytes) carried in MAC PDU
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           mac.ackPayloadSize
+          </code>
+          — size of ack payload (bytes) carried in ACK PDU
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           mac.maxReservationDuration
+          </code>
+          — maximum reservation duration
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           mac.recommendedReservationDuration
+          </code>
+          — recommended reservation duration
+         </p>
+        </li>
+       </ul>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_arp_commands">
+       A.10. Arp commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          arp
+         </code>
+         — access to address resolution service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           host
+          </code>
+          — resolve hostname to address
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>host 'redstar'         // get address for host named "redstar"
+rs = host('redstar')   // save address of "redstar" in variable "rs"</pre>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_remote_commands">
+       A.11. Remote commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          remote
+         </code>
+         — access to remote service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>tell 2, 'hello'         // send text message to node 2
+fget 3, 'abc.txt'       // get file abc.txt from node 3
+fput 2, 'abc.txt'       // send file abc.txt to node 2
+rsh 3, 'reboot'         // ask node 3 to reboot itself</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           tell
+          </code>
+          — send a text message to remote node
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>tell 2, 'hello'         // send text message to node 2</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           fget
+          </code>
+          — get file from remote node
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        fget can only get files from nodes with remote.enable = true
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>fget 3, 'abc.txt'       // get file abc.txt from node 3</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           fput
+          </code>
+          — put file on remote node
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        fput can only put files from nodes with remote.enable = true
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>fput 2, 'a.txt'         // send file a.txt to node 2
+fput 2, 'a.txt', 'abc'  // create file a.txt on node 2
+                        //   with content 'abc'</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           rsh
+          </code>
+          — run shell command on remote node
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        rsh can only execute commands on nodes with remote.enable = true
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>rsh 3, 'reboot'         // ask node 3 to reboot itself</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           ack
+          </code>
+          — enable/disable acknowledments for remote commands
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>ack on          // enable acknowldegements for fput, rsh, tell
+ack true        // enable acknowldegements for fput, rsh, tell
+ack off         // disable acknowldegements for fput, rsh, tell
+ack false       // disable acknowldegements for fput, rsh, tell
+ack             // check current setting for acknowldegements</pre>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_router_commands">
+       A.12. Router commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          router
+         </code>
+         — access to routing service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>routes              // display routing table
+routes 2            // display routes to node 2
+addroute 27, 29     // add a route to node 27 via node 29
+delroute 2          // delete route number 2
+delroutesto 27      // delete all routes to node 27
+delroutes           // delete all routes
+trace 27            // trace route to node 27
+ping 27             // check if node 27 is accessible</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           router.MTU
+          </code>
+          — maximum data transfer size
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           router.auto1hop
+          </code>
+          — automatically assume single hop routes
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           router.defaultLink
+          </code>
+          — default link to use
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           routes
+          </code>
+          — print routing table
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>routes              // display routing table
+routes 2            // display routes to node 2</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           addroute
+          </code>
+          — add a route to the routing table
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>addroute 27, 29                // add a route to node 27 via node 29
+addroute 27, 29, link2, false  // add route on link2 with no reliability</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           delroute
+          </code>
+          — delete a route from the routing table
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        The route number can be obtained by displaying the routing table
+using the 'routes' command.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>delroute 2          // delete route number 2</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           delroutesto
+          </code>
+          — delete all routes to specified node from the routing table
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>delroutesto 27      // delete all routes to node 27</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           delroutes
+          </code>
+          — delete all routes from the routing table
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>delroutes           // delete all routes</pre>
+       </div>
+      </div>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          rdp
+         </code>
+         — access to route discovery/maintenance service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>rreq 27             // start route discovery to node 27
+rreq 27, 3, 2, 10   // find &lt;3-hop route to node 27 with 2 RREQs 10s apart
+trace 27            // trace current route to node 27</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           rreq
+          </code>
+          — initiate route discovery
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        With a single parameter, rreq finds up to 3-hop routes using 3 probes spaced
+20 seconds apart.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>rreq 27             // start route discovery to node 27
+rreq 27, 3, 2, 10   // find &lt;3-hop route to node 27 with 2 RREQs 10s apart</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           trace
+          </code>
+          — trace route
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>trace 27            // trace current route to node 27
+trace 27, 10000     // trace current route to node 27 with 10s timeout</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           ping
+          </code>
+          — ping node
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>ping 27             // ping node 27
+ping 27, 5          // ping node 27, 5 times
+ping 27, 5, 30000   // ping node 27, 5 times, with 30s timeout</pre>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_swtransport_commands">
+       A.13. SWTransport commands
+      </h3>
+      <div class="paragraph">
+       <p>
+        <strong>
+         SWTransport parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           transport.maxRetries
+          </code>
+          — maximum retries for reliable delivery
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           transport.timeout
+          </code>
+          — end-to-end ACK timeout
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           transport.reportProgress
+          </code>
+          — enable/disable progress reporting of transfer
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           transport.dsp
+          </code>
+          — datagram service provider used for communication
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         SWTransport commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           netstat
+          </code>
+          — show status of ongoing transport agent connections
+         </p>
+        </li>
+       </ul>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_basebandsignalmonitor_commands">
+       A.14. BasebandSignalMonitor commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          bbmon
+         </code>
+         — baseband signal monitor
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        The baseband signal monitor records any signals received by it
+to a signal log file (called signal-*.txt). The signals are
+encoded in base64 in the file. A Python package arlpy.unet is
+available though PyPi to load these files.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>bbmon.enable = true      // enable recording of baseband signals
+bbmon.enable = false     // disable recording of baseband signals</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           bbmon.enable
+          </code>
+          — enable/disable monitoring of baseband signals
+         </p>
+        </li>
+       </ul>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_statemanager_commands">
+       A.15. StateManager commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          state
+         </code>
+         — access to state manager service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           savestate
+          </code>
+          — save state of all or specified agent in Groovy script format
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>savestate 'pandan'          // save current state of all agents
+savestate 'pandan', 'phy'   // save current state of specified agent
+savestate 'pandan', phy     // save current state of specified agent
+savestate                   // save current state in "saved-state.groovy"</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           clrstate
+          </code>
+          — set current state as the baseline for savestate
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>clrstate                    // set baseline state
+phy[1].powerLevel = -10     // change parameters
+savestate                   // save changed parameters</pre>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_csma_commands">
+       A.16. CSMA commands
+      </h3>
+      <div class="paragraph">
+       <p>
+        <strong>
+         CSMA MAC parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           mac.phy
+          </code>
+          — physical agent used for carrier sensing
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           mac.minBackoff
+          </code>
+          — minimum backoff window (seconds)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           mac.maxBackoff
+          </code>
+          — maximum backoff window (seconds)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           mac.reservationsPending
+          </code>
+          — number of reservations in queue (read-only)
+         </p>
+        </li>
+       </ul>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_reliablelink_commands">
+       A.17. ReliableLink commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          uwlink
+         </code>
+         — access to underwater data link service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>uwlink                         // access parameters
+uwlink.maxRetries = 5          // set maximum retries for reliable delivery
+uwlink &lt;&lt; new DatagramReq(to: 2, data: [1,2,3], reliability: true)
+                               // send reliable datagram</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        Note that reliability is only supported on unicast datagrams.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           uwlink.MTU
+          </code>
+          — maximum data transfer size
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.maxRetries
+          </code>
+          — maximum retries for reliable delivery
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.reservationGuardTime
+          </code>
+          — guard period (s)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.maxPropagationDelay
+          </code>
+          — maximum propagation delay (s)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.controlChannel
+          </code>
+          — channel to use for control frames (CONTROL/DATA)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.dataChannel
+          </code>
+          — channel to use for data frames (CONTROL/DATA)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.mac
+          </code>
+          — medium access control (MAC) agent name to use (or 'none')
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.phy
+          </code>
+          — physical layer agent name to use
+         </p>
+        </li>
+       </ul>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_remotecontrol_commands">
+       A.18. RemoteControl commands
+      </h3>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           remote.dsp
+          </code>
+          — datagram service provider used for communication
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           remote.shell
+          </code>
+          — shell service provider used to run commands
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           remote.cwd
+          </code>
+          — working directory to load/save files
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           remote.reliability
+          </code>
+          — reliability to be requested on datagrams
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           remote.enable
+          </code>
+          — enable/disable remote file/shell operations
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           remote.groovy
+          </code>
+          — enable Groovy extensions for shell commands
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        When Groovy extensions are enabled, rsh commands can use a "me" variable
+to denote the requsting node address. Commands starting with a "?"
+send their output back to the requesting node.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>rsh 3, 'tell me,"hello!"'    // ask node 3 to send a text message to me
+rsh 3, '?phy.MTU'            // ask node 3 to send me the value of phy.MTU
+rsh 3, '?ls'                 // ask node 3 to send me the list of files</pre>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_eclink_commands">
+       A.19. ECLink commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          uwlink
+         </code>
+         — access to underwater data link service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>uwlink                         // access parameters
+uwlink.maxRetries = 5          // set maximum retries for reliable delivery
+uwlink.status                  // show status of ongoing TX/RX
+uwlink &lt;&lt; new DatagramReq(to: 2, data: [1,2,3], reliability: true)
+                               // send reliable datagram</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        Note that reliability is only supported on unicast datagrams.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           uwlink.MTU
+          </code>
+          — maximum data transfer size
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.mac
+          </code>
+          — medium access control (MAC) agent name to use (or 'none')
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.phy
+          </code>
+          — physical layer agent name to use
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.controlChannel
+          </code>
+          — channel to use for control frames (CONTROL/DATA)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.dataChannel
+          </code>
+          — channel to use for data frames (CONTROL/DATA)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.guardTime
+          </code>
+          — guard period (s)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.maxPropagationDelay
+          </code>
+          — maximum propagation delay (s)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.maxRetries
+          </code>
+          — maximum retries for reliable delivery
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.minBatchSize
+          </code>
+          — minimum number of frames to send in each batch
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.maxBatchSize
+          </code>
+          — maximum number of frames to send in each batch
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.reliableExtra
+          </code>
+          — extra frames (fraction) for reliable TX
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.unreliableExtra
+          </code>
+          — extra frames (fraction) for unreliable TX
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.status
+          </code>
+          — show status of ongoing TX/RX on all links
+         </p>
+        </li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </div>
+   <div class="sect1">
     <h2 id="_mysimplehandshakemac">
-     Appendix A: MySimpleHandshakeMac
+     Appendix B: MySimpleHandshakeMac
     </h2>
     <div class="sectionbody">
      <div class="paragraph">
@@ -22308,7 +25191,7 @@ d -t 585.747000 -s 1 -d 3 -i 259068939 -p 0 -x {1.0 4.0 -1 ------- null} -y BAD_
    <div id="footer-text">
     Version 3.0.0
     <br/>
-    Last updated 2019-09-25 00:53:36 +0800
+    Last updated 2019-09-25 22:20:57 +0800
    </div>
 <script>
  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

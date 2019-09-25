@@ -129,4 +129,6 @@ include::models.adoc[]
 
 = *Appendices*
 
+include::cmdref.adoc[]
+
 include::MySimpleHandshakeMac.adoc[]

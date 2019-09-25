@@ -1,0 +1,3818 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="Asciidoctor 2.0.10" name="generator"/>
+  <meta content="Mandar Chitre" name="author"/>
+  <title>
+   Underwater Networks Handbook
+  </title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700" rel="stylesheet"/>
+  <style>
+   /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment @import statement to use as custom stylesheet */
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section{display:block}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+abbr[title]{border-bottom:1px dotted}
+b,strong{font-weight:bold}
+dfn{font-style:italic}
+hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,*::before,*::after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0;direction:ltr}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{font-family:inherit;font-weight:400;font-size:1em;line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em;height:0}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{font-size:1em;line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0;font-size:1em}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+abbr,acronym{text-transform:uppercase;font-size:90%;color:rgba(0,0,0,.8);border-bottom:1px dotted #ddd;cursor:help}
+abbr{text-transform:none}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote cite{display:block;font-size:.9375em;color:rgba(0,0,0,.6)}
+blockquote cite::before{content:"\2014 \0020"}
+blockquote cite a,blockquote cite a:visited{color:rgba(0,0,0,.6)}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
+:not(pre)>code.nobreak{word-wrap:normal}
+:not(pre)>code.nowrap{white-space:nowrap}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre>code{display:block}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:-ms-flexbox;display:-webkit-flex;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:100%;background:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:rgba(255,255,255,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details>summary:first-of-type{cursor:pointer;display:list-item;outline:none;margin-bottom:.75em}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+table.tableblock #preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:inherit}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6)}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border-style:solid;border-width:1px;border-color:#e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;-webkit-border-radius:4px;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border-style:solid;border-width:1px;border-color:#dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;-webkit-border-radius:4px;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{-webkit-border-radius:4px;border-radius:4px;word-wrap:break-word;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class="highlight"],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;-webkit-border-radius:4px;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos{border-right:1px solid currentColor;opacity:.35;padding-right:.5em}
+pre.pygments .lineno{border-right:1px solid currentColor;opacity:.35;display:inline-block;margin-right:.75em}
+pre.pygments .lineno::before{content:"";margin-right:-.125em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;text-align:left;margin-right:0}
+table.tableblock{max-width:100%;border-collapse:separate}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+td.tableblock>.content>:last-child.sidebarblock{margin-bottom:0}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>thead>tr>.tableblock,table.grid-all>tbody>tr>.tableblock{border-width:0 1px 1px 0}
+table.grid-all>tfoot>tr>.tableblock{border-width:1px 1px 0 0}
+table.grid-cols>*>tr>.tableblock{border-width:0 1px 0 0}
+table.grid-rows>thead>tr>.tableblock,table.grid-rows>tbody>tr>.tableblock{border-width:0 0 1px}
+table.grid-rows>tfoot>tr>.tableblock{border-width:1px 0 0}
+table.grid-all>*>tr>.tableblock:last-child,table.grid-cols>*>tr>.tableblock:last-child{border-right-width:0}
+table.grid-all>tbody>tr:last-child>.tableblock,table.grid-all>thead:last-child>tr>.tableblock,table.grid-rows>tbody>tr:last-child>.tableblock,table.grid-rows>thead:last-child>tr>.tableblock{border-bottom-width:0}
+table.frame-all{border-width:1px}
+table.frame-sides{border-width:0 1px}
+table.frame-topbot,table.frame-ends{border-width:1px 0}
+table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd),table.stripes-even tr:nth-of-type(even),table.stripes-hover tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{display:table-cell;line-height:1.6;background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+ul.checklist{margin-left:.625em}
+ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{margin-right:.25em}
+ul.inline{display:-ms-flexbox;display:-webkit-box;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:solid 4px #fff;-webkit-box-shadow:0 0 0 1px #ddd;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+.gist .file-data>table{border:0;background:#fff;width:100%;margin-bottom:0}
+.gist .file-data>table td.line-data{width:99%}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);-webkit-border-radius:100px;border-radius:100px;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;-webkit-box-shadow:0 1px 4px #e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{-webkit-box-shadow:none!important;box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media print,amzn-kf8{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+  </style>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+ </head>
+ <body class="book toc2 toc-left">
+  <div id="header">
+   <h1>
+    Underwater Networks Handbook
+   </h1>
+   <div class="details">
+    <span class="author" id="author">
+     Mandar Chitre
+    </span>
+    <br/>
+    <span id="revnumber">
+     version 3.0.0
+    </span>
+   </div>
+   <div class="toc2" id="toc">
+    <div id="toctitle">
+     Table of Contents
+    </div>
+    <ul class="sectlevel1">
+     <li>
+      <a href="unet-handbook_preface.html">
+       Preface
+      </a>
+     </li>
+     <li>
+      <a href="unet-handbook_part_i_introduction_to_unetstack.html">
+       <strong>
+        Part I: Introduction to UnetStack
+       </strong>
+      </a>
+      <ul class="sectlevel1">
+       <li>
+        <a href="unet-handbook_introduction.html">
+         1. Introduction
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_getting_started.html">
+         2. Getting started
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_unetstack_basics.html">
+         3. UnetStack basics
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li>
+      <a href="unet-handbook_part_ii_setting_up_underwater_networks.html">
+       <strong>
+        Part II: Setting up underwater networks
+       </strong>
+      </a>
+      <ul class="sectlevel1">
+       <li>
+        <a href="unet-handbook_unet_basics.html">
+         4. Unet basics
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_setting_up_small_networks.html">
+         5. Setting up small networks
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_routing_in_larger_networks.html">
+         6. Routing in larger networks
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_wired_and_over_the_air_links.html">
+         7. Wired and over-the-air links
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li>
+      <a href="unet-handbook_part_iii_building_unet_applications.html">
+       <strong>
+        Part III: Building Unet applications
+       </strong>
+      </a>
+      <ul class="sectlevel1">
+       <li>
+        <a href="unet-handbook_interfacing_with_unetstack.html">
+         8. Interfacing with UnetStack
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_unetsocket_api.html">
+         9. UnetSocket API
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_portals.html">
+         10. Portals
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_at_script_engine.html">
+         11. AT script engine
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li>
+      <a href="unet-handbook_part_iv_understanding_unetstack_services.html">
+       <strong>
+        Part IV: Understanding UnetStack services
+       </strong>
+      </a>
+      <ul class="sectlevel1">
+       <li>
+        <a href="unet-handbook_services_and_capabilities.html">
+         12. Services and capabilities
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_datagram_service.html">
+         13. Datagram service
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_physical_service.html">
+         14. Physical service
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_baseband_service.html">
+         15. Baseband service
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_ranging_and_synchronization.html">
+         16. Ranging and synchronization
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_node_information.html">
+         17. Node information
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_address_resolution.html">
+         18. Address resolution
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_medium_access_control.html">
+         19. Medium access control
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_single_hop_links.html">
+         20. Single-hop links
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_routing_and_route_maintenance.html">
+         21. Routing and route maintenance
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_transport_service.html">
+         22. Transport service
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_remote_access.html">
+         23. Remote access
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_state_persistence.html">
+         24. State persistence
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_scheduler.html">
+         25. Scheduler
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_shell.html">
+         26. Shell
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li>
+      <a href="unet-handbook_part_v_extending_unetstack.html">
+       <strong>
+        Part V: Extending UnetStack
+       </strong>
+      </a>
+      <ul class="sectlevel1">
+       <li>
+        <a href="unet-handbook_developing_your_own_agents.html">
+         27. Developing your own agents
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_implementing_network_protocols.html">
+         28. Implementing network protocols
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li>
+      <a href="unet-handbook_part_vi_simulating_underwater_networks.html">
+       <strong>
+        Part VI: Simulating underwater networks
+       </strong>
+      </a>
+      <ul class="sectlevel1">
+       <li>
+        <a href="unet-handbook_writing_simulation_scripts.html">
+         29. Writing simulation scripts
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_discrete_event_simulation.html">
+         30. Discrete event simulation
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_modems_and_channel_models.html">
+         31. Modems and channel models
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li>
+      <a href="unet-handbook_appendices.html">
+       <strong>
+        Appendices
+       </strong>
+      </a>
+      <ul class="sectlevel1">
+       <li>
+        <a href="unet-handbook_command_reference.html">
+         Appendix A: Command reference
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_mysimplehandshakemac.html">
+         Appendix B: MySimpleHandshakeMac
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </div>
+  </div>
+  <div id="content">
+   <div class="sect1">
+    <h2 id="_command_reference">
+     Appendix A: Command reference
+    </h2>
+    <div class="sectionbody">
+     <div class="sect2">
+      <h3 id="_fjåge_commands">
+       A.1. fjåge commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          shell
+         </code>
+         — basic shell commands
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           help
+          </code>
+          — provide help on a specified topic
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Usage:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>help [topic]</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>help                            // get help index
+help shell                      // get help on 'shell'
+help('shell')                   // alternative syntax</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           ps
+          </code>
+          — list all the agents
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           services
+          </code>
+          — list all services provided by agents
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           who
+          </code>
+          — display list of variables in workspace
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           shutdown
+          </code>
+          — shutdown the local platform
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           run
+          </code>
+          — run a Groovy script
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Scripts are stored in a folder defined by the 'scripts' variable in the
+workspace. If no such variable is defined, they are in the current folder.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>run 'myscript'                   // run a script called myscript.groovy
+myscript                         // alternative syntax for running myscript
+run 'res://myscript.groovy'      // run a script from resources (in jar)
+run 'cls://myscript'             // run a precompiled script from class</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           println
+          </code>
+          — display message on console
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Usage:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>println output, [type]</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>println 'hello there!'
+println 'that failed!', org.arl.fjage.shell.OutputType.ERROR</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           href
+          </code>
+          — make a clickable URL (on terminals that support URLs)
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Usage:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>href(url)
+href(url, text)</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>println href('http://www.google.com')
+println href('http://www.google.com', 'Search...')</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           delay
+          </code>
+          — delay execution by the specified number of milliseconds
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>delay 1000                      // delay for 1000 ms</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           logLevel
+          </code>
+          — set loglevel (optionally for a named logger)
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Usage:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>logLevel [name],level</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>logLevel INFO                  // set loglevel to INFO
+logLevel 'org.arl', ALL        // set loglevel for logger org.arl to ALL</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           subscribe
+          </code>
+          — subscribe to notifications from a named topic
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>subscribe topic('MyTopic')     // subscribe to notifications from MyTopic
+subscribe agent('abc')         // subscribe to notifications from agent abc</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           unsubscribe
+          </code>
+          — unsubscribe from notifications for a named topic
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>unsubscribe topic('MyTopic')   // unsubscribe notifications from MyTopic
+unsubscribe agent('abc')       // unsubscribe notifications from agent abc</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           export
+          </code>
+          — add specified package/classes to list of default imports
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>export 'org.arl.fjage.*'            // import package org.arl.fjage
+export 'mypackage.MyClass'          // import class mypackage.MyClass</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        At the shell prompt (but not in a script), export can be abbreviated
+to import. For example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>import org.arl.fjage.*             // import package org.arl.fjage</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           agent
+          </code>
+          — return an agent id for the named agent
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Usage:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>agent(name)</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>a = agent('shell')</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           agentForService
+          </code>
+          — find an agent id providing the specified service
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>a = agentForService Services.SHELL  // find agents providing shell service</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           agentsForService
+          </code>
+          — get a list of all agent ids providing a service
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>a = agentsForService Services.SHELL // list all agents providing a service</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           send
+          </code>
+          — send the given message
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>send new Message(agent('shell'))    // send a message to agent shell</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           request
+          </code>
+          — send the given request and wait for a response
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Usage:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>request req,[timeout]</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>rsp = request req     // send req and wait for response for default timeout
+rsp = request req,100 // send req and wait for response for 100 ms</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           receive
+          </code>
+          — wait for a message
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Usage:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>receive [filter], [timeout]
+receive [msg], [timeout]</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>msg = receive                     // get any message with default timeout
+msg = receive 100                 // get any message within 100 ms
+msg = receive req                 // get a response message for request req
+msg = receive A                   // get message that of class A
+msg = receive { it instanceof A } // get message that of class A
+msg = receive req                 // get message response to req</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           input
+          </code>
+          — get user input
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Usage:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>input [prompt], [hide]</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>name = input('What is your name?')  // prompt user and get input
+secret = input('Secret?', true)     // hide input after entering</pre>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_transport_commands">
+       A.2. Transport commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          transport
+         </code>
+         — access to transport service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>transport                       // access parameters
+transport.maxRetries = 5        // set maximum retries for reliable delivery
+transport &lt;&lt; new DatagramReq(to: 2, data: [1,2,3], reliability: true)
+                                // send reliable datagram</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           transport.MTU
+          </code>
+          — maximum data transfer size
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           abort
+          </code>
+          — abort all transport datagram transfers
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>abort                           // abort ongoing transfers</pre>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_baseband_commands">
+       A.3. Baseband commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          bb
+         </code>
+         — access to baseband service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>bbrec 1000               // record 1000 baseband signals
+bbtx sig                 // transmit baseband signal "sig"
+bb.carrierFrequency      // check carrier frequency
+bb.maxSignalLength       // check max signal length (samples)</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           bb.carrierFrequency
+          </code>
+          — carrier frequency (Hz)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           bb.basebandRate
+          </code>
+          — baseband sampling rate (Hz)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           bb.maxPreambleID
+          </code>
+          — maximum preamble ID
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           bb.preambleDuration
+          </code>
+          — preamble duration in seconds
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           bb.maxSignalLength
+          </code>
+          — baseband signal length (samples)
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           bbrec
+          </code>
+          — make a baseband recording
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>bbrec 1000                 // record 1000 baseband signals
+bbrec 1000, 87897287       // schedule a recording at given PHY time</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           bbtx
+          </code>
+          — transmit a baseband signal
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>bbtx sig                 // transmit complex baseband signal
+bbtx sig, 87897287       // schedule a transmission at given PHY time</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           pbtx
+          </code>
+          — transmit a passband signal sampled at 8 x basebandRate
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>pbtx sig                 // transmit real passband signal
+pbtx sig, 87897287       // schedule a transmission at given PHY time</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           cw
+          </code>
+          — create a tonal signal with unit amplitude
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>cw(10000, 0.5)           // 0.5 second 10 kHz baseband tonal
+cw(15000, 0.2, 0)        // 0.2 second 15 kHz passband tonal</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           sweep
+          </code>
+          — create a linear sweep with unit amplitude
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>sweep(10000, 12000, 0.5)     // 0.5 second baseband sweep from 10-12 kHz
+sweep(10000, 12000, 0.5, 0)  // 0.5 second passband sweep from 10-12 kHz</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           save
+          </code>
+          — save signal to a file in the scripts folder
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>save 'data.txt', ntf           // save notification signal to file
+save 'data.txt', ntf.signal, 2 // save signal in 2-column format</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           load
+          </code>
+          — load floating point signal from a file in the scripts folder
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>signal = load('data.txt')      // load data from file</pre>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_nodeinfo_commands">
+       A.4. NodeInfo commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          node
+         </code>
+         — access to node information service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>node                      // access node info parameters
+node.address              // check node address
+node.address = 5          // change node address</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           node.address
+          </code>
+          — Node address
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           node.nodeName
+          </code>
+          — Node name
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           node.origin
+          </code>
+          — origin (lat,long,depth)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           node.location
+          </code>
+          — Location of the node in [x,y,z] meters
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           node.speed
+          </code>
+          — speed (meter/second)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           node.heading
+          </code>
+          — heading (deg, 0 is North, clockwise)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           node.turnRate
+          </code>
+          — turn rate (deg/s, clockwise)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           node.diveRate
+          </code>
+          — dive rate (meter/second)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           node.mobility
+          </code>
+          — true if the node is mobile, false if it is fixed
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           node.time
+          </code>
+          — node time (real-time clock)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           node.canForward
+          </code>
+          — true if node has forwarding capability, false otherwise
+         </p>
+        </li>
+       </ul>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_scheduler_commands">
+       A.5. Scheduler commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          scheduler
+         </code>
+         — access to scheduling service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           addsleep
+          </code>
+          — schedule sleep and wakeup of the modem
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>addsleep 1507014548, 1507014558  // sleep from epoch 1507014548 to 1507014558
+addsleep 1507014558              // sleep immediately until 1507014548
+addsleep 10.s.later, 20.s.later  // sleep 10s later and wake up 20s later
+addsleep 20.s.later              // sleep immediately and wake up 20s later
+addsleep 20.s.later, forever     // sleep 20s later forever
+addsleep                         // sleep immediately forever</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           showsleep
+          </code>
+          — shows sleep/wakeup schedule
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>showsleep                        // show schedule</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           rmsleep
+          </code>
+          — removes sleep/wakeup schedule
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>rmsleep '3bf9e744-b225-48f4'     // removes sleep schedule with given id</pre>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_ranging_commands">
+       A.6. Ranging commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          ranging
+         </code>
+         — access to ranging service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>ranging                            // display ranging parameters
+ranging &lt;&lt; new RangeReq(to: 27)    // get range to node 27
+ranging &lt;&lt; new BeaconReq()         // transmit a beacon out
+ranging.lifetime = 30              // change sync validity to 30 seconds</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           ranging.lifetime
+          </code>
+          — lifetime for sync info in seconds
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging.minRange
+          </code>
+          — minimum valid range
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging.maxRange
+          </code>
+          — maximum valid range
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging.maxBadRangeCnt
+          </code>
+          — number of bad ranges before discarding sync info
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           range
+          </code>
+          — get ranging information from a node
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>range 21                 // get range to node 21
+range 22, 15000          // get range to node 22 with a 15 second timeout</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           beacon
+          </code>
+          — send a timestamped beacon
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>beacon                   // broadcast a timestamped beacon</pre>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_physical_commands">
+       A.7. Physical commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          phy
+         </code>
+         — access to physical service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>phy                           // access physical parameters
+phy[CONTROL]                  // access control channel parameters
+phy[DATA]                     // access data channel parameters
+phy &lt;&lt; msg                    // send request msg to physical agent
+phy.rxEnable = false          // disable reception of frames</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           plvl
+          </code>
+          — get/set TX power level for all PHY channel types
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>plvl                       // get all power levels
+plvl -10                   // set all power to -10 dB
+plvl(-10)                  // alternative syntax
+plvl = -10                 // alternative syntax</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        The following parameters are available on all modems. Additional modem
+dependent parameters are also available. For information on these
+parameters type "help modem".
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           phy.MTU
+          </code>
+          — maximum transmission unit (MTU) in bytes
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy.rxEnable
+          </code>
+          — true if reception enabled
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy.propagationSpeed
+          </code>
+          — propagation speed in m/s
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy.timestampedTxDelay
+          </code>
+          — delay before TX of timestamped frames
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy.time
+          </code>
+          — physical layer time (us)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy.busy
+          </code>
+          — true if modem is TX/RX a frame, false if idle
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy.refPowerLevel
+          </code>
+          — reference power level in dB re uPa @ 1m
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy.maxPowerLevel
+          </code>
+          — maximum supported power level (relative to reference)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy.minPowerLevel
+          </code>
+          — minimum supported power level (relative to reference)
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Channel Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        The following parameters are available on all modems. Additional modem
+dependent parameters are also available. For information on these
+parameters type "help modem".
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           phy[].MTU
+          </code>
+          — maximum transmission unit (MTU) in bytes
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy[].dataRate
+          </code>
+          — effective frame data rate (bps)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy[].frameDuration
+          </code>
+          — frame duration (seconds)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy[].powerLevel
+          </code>
+          — powel level used for transmission (relative to reference)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy[].errorDetection
+          </code>
+          — number of bytes for error detection
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy[].frameLength
+          </code>
+          — frame length (bytes)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy[].maxFrameLength
+          </code>
+          — maximum settable frame length (bytes)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy[].fec
+          </code>
+          — forward error correction code
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        A value of 0 indicates no error correction. Other values are
+settable from the phy[].fecList in order of increasing robustness,
+but lower data rates.
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           phy[].fecList
+          </code>
+          — list of available forward error correction codes
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        List of available forward error correction code names (in order of
+increasing robustness).
+       </p>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_unet_commands">
+       A.8. Unet commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          unet
+         </code>
+         — basic unet commands
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           ver
+          </code>
+          — version information
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           time
+          </code>
+          — current platform time
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ls
+          </code>
+          — list script files
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           free
+          </code>
+          — show free disk space
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           iface
+          </code>
+          — display/enable interfaces
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Usage:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>iface [iftype, port[, baud] [, settings]]</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>// show all interfaces
+iface</pre>
+       </div>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>// enable AT commands on TCP port 5001
+iface ATScriptEngine, 5001</pre>
+       </div>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>// enable Groovy shell on TCP port 5002
+iface GroovyScriptEngine, 5002</pre>
+       </div>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>// enable AT commands on serial port /dev/ttyS0 at 9600 baud
+iface ATScriptEngine, '/dev/ttyS0'</pre>
+       </div>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>// enable Groovy shell on serial port /dev/ttyS0 at 115200 baud
+iface GroovyScriptEngine, '/dev/ttyS0', 115200</pre>
+       </div>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>// enable API connector on serial port /dev/ttyS0 at 115200 baud
+// with settings: no partity, 8 bits, 1 stop bit
+iface API, '/dev/ttyS0', 115200, 'N81'</pre>
+       </div>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>// alternate syntax to enable AT commands on TCP port 5001
+iface new ATScriptEngine(), 5001</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           distance
+          </code>
+          — compute distance between two points
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>distance([0,0], [100,100])   // distance between origin and (100,100)</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           logs
+          </code>
+          — list log files
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Only log files with the default settings (logs/*.txt) are listed.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>logs                        // list log files</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           clrlogs
+          </code>
+          — clear old log files
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Old log files (logs/
+        <strong>
+         .txt) are deleted. The currently active log files
+(logs/
+        </strong>
+        -0.txt) are not deleted.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>clrlogs                     // clear old log files</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           tail
+          </code>
+          — show the last few lines of the current log file
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>tail                        // show last 10 lines of the current log file
+tail 20                     // show last 20 lines of the current log file</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           file
+          </code>
+          — file in the scripts folder
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>file('a.groovy').size()     // get size of script file a.groovy
+file('a.groovy').delete()   // delete script file a.groovy
+file('a.groovy').text       // show contents of file a.groovy</pre>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_mac_commands">
+       A.9. Mac commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          mac
+         </code>
+         — access to medium access control (MAC) service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>mac                                            // list MAC parameters
+mac &lt;&lt; new ReservationReq(to: 27, duration: 1) // channel reservation request</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           mac.channelBusy
+          </code>
+          — indicates if the channel is busy
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           mac.reservationPayloadSize
+          </code>
+          — size of payload (bytes) carried in MAC PDU
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           mac.ackPayloadSize
+          </code>
+          — size of ack payload (bytes) carried in ACK PDU
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           mac.maxReservationDuration
+          </code>
+          — maximum reservation duration
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           mac.recommendedReservationDuration
+          </code>
+          — recommended reservation duration
+         </p>
+        </li>
+       </ul>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_arp_commands">
+       A.10. Arp commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          arp
+         </code>
+         — access to address resolution service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           host
+          </code>
+          — resolve hostname to address
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>host 'redstar'         // get address for host named "redstar"
+rs = host('redstar')   // save address of "redstar" in variable "rs"</pre>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_remote_commands">
+       A.11. Remote commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          remote
+         </code>
+         — access to remote service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>tell 2, 'hello'         // send text message to node 2
+fget 3, 'abc.txt'       // get file abc.txt from node 3
+fput 2, 'abc.txt'       // send file abc.txt to node 2
+rsh 3, 'reboot'         // ask node 3 to reboot itself</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           tell
+          </code>
+          — send a text message to remote node
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>tell 2, 'hello'         // send text message to node 2</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           fget
+          </code>
+          — get file from remote node
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        fget can only get files from nodes with remote.enable = true
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>fget 3, 'abc.txt'       // get file abc.txt from node 3</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           fput
+          </code>
+          — put file on remote node
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        fput can only put files from nodes with remote.enable = true
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>fput 2, 'a.txt'         // send file a.txt to node 2
+fput 2, 'a.txt', 'abc'  // create file a.txt on node 2
+                        //   with content 'abc'</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           rsh
+          </code>
+          — run shell command on remote node
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        rsh can only execute commands on nodes with remote.enable = true
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>rsh 3, 'reboot'         // ask node 3 to reboot itself</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           ack
+          </code>
+          — enable/disable acknowledments for remote commands
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>ack on          // enable acknowldegements for fput, rsh, tell
+ack true        // enable acknowldegements for fput, rsh, tell
+ack off         // disable acknowldegements for fput, rsh, tell
+ack false       // disable acknowldegements for fput, rsh, tell
+ack             // check current setting for acknowldegements</pre>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_router_commands">
+       A.12. Router commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          router
+         </code>
+         — access to routing service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>routes              // display routing table
+routes 2            // display routes to node 2
+addroute 27, 29     // add a route to node 27 via node 29
+delroute 2          // delete route number 2
+delroutesto 27      // delete all routes to node 27
+delroutes           // delete all routes
+trace 27            // trace route to node 27
+ping 27             // check if node 27 is accessible</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           router.MTU
+          </code>
+          — maximum data transfer size
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           router.auto1hop
+          </code>
+          — automatically assume single hop routes
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           router.defaultLink
+          </code>
+          — default link to use
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           routes
+          </code>
+          — print routing table
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>routes              // display routing table
+routes 2            // display routes to node 2</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           addroute
+          </code>
+          — add a route to the routing table
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>addroute 27, 29                // add a route to node 27 via node 29
+addroute 27, 29, link2, false  // add route on link2 with no reliability</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           delroute
+          </code>
+          — delete a route from the routing table
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        The route number can be obtained by displaying the routing table
+using the 'routes' command.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>delroute 2          // delete route number 2</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           delroutesto
+          </code>
+          — delete all routes to specified node from the routing table
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>delroutesto 27      // delete all routes to node 27</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           delroutes
+          </code>
+          — delete all routes from the routing table
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>delroutes           // delete all routes</pre>
+       </div>
+      </div>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          rdp
+         </code>
+         — access to route discovery/maintenance service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>rreq 27             // start route discovery to node 27
+rreq 27, 3, 2, 10   // find &lt;3-hop route to node 27 with 2 RREQs 10s apart
+trace 27            // trace current route to node 27</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           rreq
+          </code>
+          — initiate route discovery
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        With a single parameter, rreq finds up to 3-hop routes using 3 probes spaced
+20 seconds apart.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>rreq 27             // start route discovery to node 27
+rreq 27, 3, 2, 10   // find &lt;3-hop route to node 27 with 2 RREQs 10s apart</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           trace
+          </code>
+          — trace route
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>trace 27            // trace current route to node 27
+trace 27, 10000     // trace current route to node 27 with 10s timeout</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           ping
+          </code>
+          — ping node
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>ping 27             // ping node 27
+ping 27, 5          // ping node 27, 5 times
+ping 27, 5, 30000   // ping node 27, 5 times, with 30s timeout</pre>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_swtransport_commands">
+       A.13. SWTransport commands
+      </h3>
+      <div class="paragraph">
+       <p>
+        <strong>
+         SWTransport parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           transport.maxRetries
+          </code>
+          — maximum retries for reliable delivery
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           transport.timeout
+          </code>
+          — end-to-end ACK timeout
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           transport.reportProgress
+          </code>
+          — enable/disable progress reporting of transfer
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           transport.dsp
+          </code>
+          — datagram service provider used for communication
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         SWTransport commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           netstat
+          </code>
+          — show status of ongoing transport agent connections
+         </p>
+        </li>
+       </ul>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_basebandsignalmonitor_commands">
+       A.14. BasebandSignalMonitor commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          bbmon
+         </code>
+         — baseband signal monitor
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        The baseband signal monitor records any signals received by it
+to a signal log file (called signal-*.txt). The signals are
+encoded in base64 in the file. A Python package arlpy.unet is
+available though PyPi to load these files.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>bbmon.enable = true      // enable recording of baseband signals
+bbmon.enable = false     // disable recording of baseband signals</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           bbmon.enable
+          </code>
+          — enable/disable monitoring of baseband signals
+         </p>
+        </li>
+       </ul>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_statemanager_commands">
+       A.15. StateManager commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          state
+         </code>
+         — access to state manager service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           savestate
+          </code>
+          — save state of all or specified agent in Groovy script format
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>savestate 'pandan'          // save current state of all agents
+savestate 'pandan', 'phy'   // save current state of specified agent
+savestate 'pandan', phy     // save current state of specified agent
+savestate                   // save current state in "saved-state.groovy"</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           clrstate
+          </code>
+          — set current state as the baseline for savestate
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>clrstate                    // set baseline state
+phy[1].powerLevel = -10     // change parameters
+savestate                   // save changed parameters</pre>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_csma_commands">
+       A.16. CSMA commands
+      </h3>
+      <div class="paragraph">
+       <p>
+        <strong>
+         CSMA MAC parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           mac.phy
+          </code>
+          — physical agent used for carrier sensing
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           mac.minBackoff
+          </code>
+          — minimum backoff window (seconds)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           mac.maxBackoff
+          </code>
+          — maximum backoff window (seconds)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           mac.reservationsPending
+          </code>
+          — number of reservations in queue (read-only)
+         </p>
+        </li>
+       </ul>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_reliablelink_commands">
+       A.17. ReliableLink commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          uwlink
+         </code>
+         — access to underwater data link service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>uwlink                         // access parameters
+uwlink.maxRetries = 5          // set maximum retries for reliable delivery
+uwlink &lt;&lt; new DatagramReq(to: 2, data: [1,2,3], reliability: true)
+                               // send reliable datagram</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        Note that reliability is only supported on unicast datagrams.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           uwlink.MTU
+          </code>
+          — maximum data transfer size
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.maxRetries
+          </code>
+          — maximum retries for reliable delivery
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.reservationGuardTime
+          </code>
+          — guard period (s)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.maxPropagationDelay
+          </code>
+          — maximum propagation delay (s)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.controlChannel
+          </code>
+          — channel to use for control frames (CONTROL/DATA)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.dataChannel
+          </code>
+          — channel to use for data frames (CONTROL/DATA)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.mac
+          </code>
+          — medium access control (MAC) agent name to use (or 'none')
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.phy
+          </code>
+          — physical layer agent name to use
+         </p>
+        </li>
+       </ul>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_remotecontrol_commands">
+       A.18. RemoteControl commands
+      </h3>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           remote.dsp
+          </code>
+          — datagram service provider used for communication
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           remote.shell
+          </code>
+          — shell service provider used to run commands
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           remote.cwd
+          </code>
+          — working directory to load/save files
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           remote.reliability
+          </code>
+          — reliability to be requested on datagrams
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           remote.enable
+          </code>
+          — enable/disable remote file/shell operations
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           remote.groovy
+          </code>
+          — enable Groovy extensions for shell commands
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        When Groovy extensions are enabled, rsh commands can use a "me" variable
+to denote the requsting node address. Commands starting with a "?"
+send their output back to the requesting node.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>rsh 3, 'tell me,"hello!"'    // ask node 3 to send a text message to me
+rsh 3, '?phy.MTU'            // ask node 3 to send me the value of phy.MTU
+rsh 3, '?ls'                 // ask node 3 to send me the list of files</pre>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_eclink_commands">
+       A.19. ECLink commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          uwlink
+         </code>
+         — access to underwater data link service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>uwlink                         // access parameters
+uwlink.maxRetries = 5          // set maximum retries for reliable delivery
+uwlink.status                  // show status of ongoing TX/RX
+uwlink &lt;&lt; new DatagramReq(to: 2, data: [1,2,3], reliability: true)
+                               // send reliable datagram</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        Note that reliability is only supported on unicast datagrams.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           uwlink.MTU
+          </code>
+          — maximum data transfer size
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.mac
+          </code>
+          — medium access control (MAC) agent name to use (or 'none')
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.phy
+          </code>
+          — physical layer agent name to use
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.controlChannel
+          </code>
+          — channel to use for control frames (CONTROL/DATA)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.dataChannel
+          </code>
+          — channel to use for data frames (CONTROL/DATA)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.guardTime
+          </code>
+          — guard period (s)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.maxPropagationDelay
+          </code>
+          — maximum propagation delay (s)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.maxRetries
+          </code>
+          — maximum retries for reliable delivery
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.minBatchSize
+          </code>
+          — minimum number of frames to send in each batch
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.maxBatchSize
+          </code>
+          — maximum number of frames to send in each batch
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.reliableExtra
+          </code>
+          — extra frames (fraction) for reliable TX
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.unreliableExtra
+          </code>
+          — extra frames (fraction) for unreliable TX
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.status
+          </code>
+          — show status of ongoing TX/RX on all links
+         </p>
+        </li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </div>
+   <table width="100%">
+    <tr>
+     <td align="left" width="50%">
+      <a href="unet-handbook_modems_and_channel_models.html" style="text-decoration: none;">
+       &lt;&lt;&lt; [Modems and channel models]
+      </a>
+     </td>     <td align="right" width="50%">
+      <a href="unet-handbook_mysimplehandshakemac.html" style="text-decoration: none;">
+       [Appendix B: MySimpleHandshakeMac] &gt;&gt;&gt;
+      </a>
+     </td>
+    </tr>
+   </table>
+  </div>
+  <div id="footer">
+   <div id="footer-text">
+    Version 3.0.0
+    <br/>
+    Last updated 2019-09-25 22:20:57 +0800
+   </div>
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-52885583-1', 'auto');
+    ga('send', 'pageview');
+</script>
+  </div>
+  <style>
+   pre.rouge table td { padding: 5px; }
+pre.rouge table pre { margin: 0; }
+pre.rouge .cm {
+  color: #999988;
+  font-style: italic;
+}
+pre.rouge .cp {
+  color: #999999;
+  font-weight: bold;
+}
+pre.rouge .c1 {
+  color: #999988;
+  font-style: italic;
+}
+pre.rouge .cs {
+  color: #999999;
+  font-weight: bold;
+  font-style: italic;
+}
+pre.rouge .c, pre.rouge .cd {
+  color: #999988;
+  font-style: italic;
+}
+pre.rouge .err {
+  color: #a61717;
+  background-color: #e3d2d2;
+}
+pre.rouge .gd {
+  color: #000000;
+  background-color: #ffdddd;
+}
+pre.rouge .ge {
+  color: #000000;
+  font-style: italic;
+}
+pre.rouge .gr {
+  color: #aa0000;
+}
+pre.rouge .gh {
+  color: #999999;
+}
+pre.rouge .gi {
+  color: #000000;
+  background-color: #ddffdd;
+}
+pre.rouge .go {
+  color: #888888;
+}
+pre.rouge .gp {
+  color: #555555;
+}
+pre.rouge .gs {
+  font-weight: bold;
+}
+pre.rouge .gu {
+  color: #aaaaaa;
+}
+pre.rouge .gt {
+  color: #aa0000;
+}
+pre.rouge .kc {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kd {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kn {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kp {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kr {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kt {
+  color: #445588;
+  font-weight: bold;
+}
+pre.rouge .k, pre.rouge .kv {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .mf {
+  color: #009999;
+}
+pre.rouge .mh {
+  color: #009999;
+}
+pre.rouge .il {
+  color: #009999;
+}
+pre.rouge .mi {
+  color: #009999;
+}
+pre.rouge .mo {
+  color: #009999;
+}
+pre.rouge .m, pre.rouge .mb, pre.rouge .mx {
+  color: #009999;
+}
+pre.rouge .sb {
+  color: #d14;
+}
+pre.rouge .sc {
+  color: #d14;
+}
+pre.rouge .sd {
+  color: #d14;
+}
+pre.rouge .s2 {
+  color: #d14;
+}
+pre.rouge .se {
+  color: #d14;
+}
+pre.rouge .sh {
+  color: #d14;
+}
+pre.rouge .si {
+  color: #d14;
+}
+pre.rouge .sx {
+  color: #d14;
+}
+pre.rouge .sr {
+  color: #009926;
+}
+pre.rouge .s1 {
+  color: #d14;
+}
+pre.rouge .ss {
+  color: #990073;
+}
+pre.rouge .s {
+  color: #d14;
+}
+pre.rouge .na {
+  color: #008080;
+}
+pre.rouge .bp {
+  color: #999999;
+}
+pre.rouge .nb {
+  color: #0086B3;
+}
+pre.rouge .nc {
+  color: #445588;
+  font-weight: bold;
+}
+pre.rouge .no {
+  color: #008080;
+}
+pre.rouge .nd {
+  color: #3c5d5d;
+  font-weight: bold;
+}
+pre.rouge .ni {
+  color: #800080;
+}
+pre.rouge .ne {
+  color: #990000;
+  font-weight: bold;
+}
+pre.rouge .nf {
+  color: #990000;
+  font-weight: bold;
+}
+pre.rouge .nl {
+  color: #990000;
+  font-weight: bold;
+}
+pre.rouge .nn {
+  color: #555555;
+}
+pre.rouge .nt {
+  color: #000080;
+}
+pre.rouge .vc {
+  color: #008080;
+}
+pre.rouge .vg {
+  color: #008080;
+}
+pre.rouge .vi {
+  color: #008080;
+}
+pre.rouge .nv {
+  color: #008080;
+}
+pre.rouge .ow {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .o {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .w {
+  color: #bbbbbb;
+}
+pre.rouge {
+  background-color: #f8f8f8;
+}
+  </style>
+ </body>
+</html>

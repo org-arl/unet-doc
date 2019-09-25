@@ -1,0 +1,914 @@
+
+[appendix]
+== Command reference
+
+=== fjåge commands
+
+'''
+
+*`shell` -- basic shell commands*
+
+- `help` -- provide help on a specified topic
+
+Usage:
+
+  help [topic]
+
+Examples:
+
+  help                            // get help index
+  help shell                      // get help on 'shell'
+  help('shell')                   // alternative syntax
+
+- `ps` -- list all the agents
+
+- `services` -- list all services provided by agents
+
+- `who` -- display list of variables in workspace
+
+- `shutdown` -- shutdown the local platform
+
+- `run` -- run a Groovy script
+
+Scripts are stored in a folder defined by the 'scripts' variable in the
+workspace. If no such variable is defined, they are in the current folder.
+
+Examples:
+
+  run 'myscript'                   // run a script called myscript.groovy
+  myscript                         // alternative syntax for running myscript
+  run 'res://myscript.groovy'      // run a script from resources (in jar)
+  run 'cls://myscript'             // run a precompiled script from class
+
+- `println` -- display message on console
+
+Usage:
+
+  println output, [type]
+
+Examples:
+
+  println 'hello there!'
+  println 'that failed!', org.arl.fjage.shell.OutputType.ERROR
+
+- `href` -- make a clickable URL (on terminals that support URLs)
+
+Usage:
+
+  href(url)
+  href(url, text)
+
+Examples:
+
+  println href('http://www.google.com')
+  println href('http://www.google.com', 'Search...')
+
+- `delay` -- delay execution by the specified number of milliseconds
+
+Example:
+
+  delay 1000                      // delay for 1000 ms
+
+- `logLevel` -- set loglevel (optionally for a named logger)
+
+Usage:
+
+  logLevel [name],level
+
+Examples:
+
+  logLevel INFO                  // set loglevel to INFO
+  logLevel 'org.arl', ALL        // set loglevel for logger org.arl to ALL
+
+- `subscribe` -- subscribe to notifications from a named topic
+
+Examples:
+
+  subscribe topic('MyTopic')     // subscribe to notifications from MyTopic
+  subscribe agent('abc')         // subscribe to notifications from agent abc
+
+- `unsubscribe` -- unsubscribe from notifications for a named topic
+
+Examples:
+
+  unsubscribe topic('MyTopic')   // unsubscribe notifications from MyTopic
+  unsubscribe agent('abc')       // unsubscribe notifications from agent abc
+
+- `export` -- add specified package/classes to list of default imports
+
+Examples:
+
+  export 'org.arl.fjage.*'            // import package org.arl.fjage
+  export 'mypackage.MyClass'          // import class mypackage.MyClass
+
+At the shell prompt (but not in a script), export can be abbreviated
+to import. For example:
+
+  import org.arl.fjage.*             // import package org.arl.fjage
+
+- `agent` -- return an agent id for the named agent
+
+Usage:
+
+  agent(name)
+
+Example:
+
+  a = agent('shell')
+
+- `agentForService` -- find an agent id providing the specified service
+
+Examples:
+
+  a = agentForService Services.SHELL  // find agents providing shell service
+
+- `agentsForService` -- get a list of all agent ids providing a service
+
+Examples:
+
+  a = agentsForService Services.SHELL // list all agents providing a service
+
+- `send` -- send the given message
+
+Examples:
+
+  send new Message(agent('shell'))    // send a message to agent shell
+
+- `request` -- send the given request and wait for a response
+
+Usage:
+
+  request req,[timeout]
+
+Examples:
+
+  rsp = request req     // send req and wait for response for default timeout
+  rsp = request req,100 // send req and wait for response for 100 ms
+
+- `receive` -- wait for a message
+
+Usage:
+
+  receive [filter], [timeout]
+  receive [msg], [timeout]
+
+Examples:
+
+  msg = receive                     // get any message with default timeout
+  msg = receive 100                 // get any message within 100 ms
+  msg = receive req                 // get a response message for request req
+  msg = receive A                   // get message that of class A
+  msg = receive { it instanceof A } // get message that of class A
+  msg = receive req                 // get message response to req
+
+- `input` -- get user input
+
+Usage:
+
+  input [prompt], [hide]
+
+Examples:
+
+  name = input('What is your name?')  // prompt user and get input
+  secret = input('Secret?', true)     // hide input after entering
+
+=== Transport commands
+
+'''
+
+*`transport` -- access to transport service*
+
+Examples:
+
+ transport                       // access parameters
+ transport.maxRetries = 5        // set maximum retries for reliable delivery
+ transport << new DatagramReq(to: 2, data: [1,2,3], reliability: true)
+                                 // send reliable datagram
+
+*Parameters:*
+
+- `transport.MTU` -- maximum data transfer size
+
+*Commands:*
+
+- `abort` -- abort all transport datagram transfers
+
+Example:
+
+ abort                           // abort ongoing transfers
+
+=== Baseband commands
+
+'''
+
+*`bb` -- access to baseband service*
+
+Examples:
+
+  bbrec 1000               // record 1000 baseband signals
+  bbtx sig                 // transmit baseband signal "sig"
+  bb.carrierFrequency      // check carrier frequency
+  bb.maxSignalLength       // check max signal length (samples)
+
+*Parameters:*
+
+- `bb.carrierFrequency` -- carrier frequency (Hz)
+
+- `bb.basebandRate` -- baseband sampling rate (Hz)
+
+- `bb.maxPreambleID` -- maximum preamble ID
+
+- `bb.preambleDuration` -- preamble duration in seconds
+
+- `bb.maxSignalLength` -- baseband signal length (samples)
+
+*Commands:*
+
+- `bbrec` -- make a baseband recording
+
+Examples:
+
+  bbrec 1000                 // record 1000 baseband signals
+  bbrec 1000, 87897287       // schedule a recording at given PHY time
+
+- `bbtx` -- transmit a baseband signal
+
+Examples:
+
+  bbtx sig                 // transmit complex baseband signal
+  bbtx sig, 87897287       // schedule a transmission at given PHY time
+
+- `pbtx` -- transmit a passband signal sampled at 8 x basebandRate
+
+Examples:
+
+  pbtx sig                 // transmit real passband signal
+  pbtx sig, 87897287       // schedule a transmission at given PHY time
+
+- `cw` -- create a tonal signal with unit amplitude
+
+Examples:
+
+  cw(10000, 0.5)           // 0.5 second 10 kHz baseband tonal
+  cw(15000, 0.2, 0)        // 0.2 second 15 kHz passband tonal
+
+- `sweep` -- create a linear sweep with unit amplitude
+
+Examples:
+
+  sweep(10000, 12000, 0.5)     // 0.5 second baseband sweep from 10-12 kHz
+  sweep(10000, 12000, 0.5, 0)  // 0.5 second passband sweep from 10-12 kHz
+
+- `save` -- save signal to a file in the scripts folder
+
+Example:
+
+  save 'data.txt', ntf           // save notification signal to file
+  save 'data.txt', ntf.signal, 2 // save signal in 2-column format
+
+- `load` -- load floating point signal from a file in the scripts folder
+
+Example:
+
+  signal = load('data.txt')      // load data from file
+
+=== NodeInfo commands
+
+'''
+
+*`node` -- access to node information service*
+
+Examples:
+
+  node                      // access node info parameters
+  node.address              // check node address
+  node.address = 5          // change node address
+
+*Parameters:*
+
+- `node.address` -- Node address
+
+- `node.nodeName` -- Node name
+
+- `node.origin` -- origin (lat,long,depth)
+
+- `node.location` -- Location of the node in [x,y,z] meters
+
+- `node.speed` -- speed (meter/second)
+
+- `node.heading` -- heading (deg, 0 is North, clockwise)
+
+- `node.turnRate` -- turn rate (deg/s, clockwise)
+
+- `node.diveRate` -- dive rate (meter/second)
+
+- `node.mobility` -- true if the node is mobile, false if it is fixed
+
+- `node.time` -- node time (real-time clock)
+
+- `node.canForward` -- true if node has forwarding capability, false otherwise
+
+=== Scheduler commands
+
+'''
+
+*`scheduler` -- access to scheduling service*
+
+*Commands:*
+
+- `addsleep` -- schedule sleep and wakeup of the modem
+
+Examples:
+
+  addsleep 1507014548, 1507014558  // sleep from epoch 1507014548 to 1507014558
+  addsleep 1507014558              // sleep immediately until 1507014548
+  addsleep 10.s.later, 20.s.later  // sleep 10s later and wake up 20s later
+  addsleep 20.s.later              // sleep immediately and wake up 20s later
+  addsleep 20.s.later, forever     // sleep 20s later forever
+  addsleep                         // sleep immediately forever
+
+- `showsleep` -- shows sleep/wakeup schedule
+
+Example:
+
+  showsleep                        // show schedule
+
+- `rmsleep` -- removes sleep/wakeup schedule
+
+Example:
+
+  rmsleep '3bf9e744-b225-48f4'     // removes sleep schedule with given id
+
+=== Ranging commands
+
+'''
+
+*`ranging` -- access to ranging service*
+
+Examples:
+
+  ranging                            // display ranging parameters
+  ranging << new RangeReq(to: 27)    // get range to node 27
+  ranging << new BeaconReq()         // transmit a beacon out
+  ranging.lifetime = 30              // change sync validity to 30 seconds
+
+*Parameters:*
+
+- `ranging.lifetime` -- lifetime for sync info in seconds
+
+- `ranging.minRange` -- minimum valid range
+
+- `ranging.maxRange` -- maximum valid range
+
+- `ranging.maxBadRangeCnt` -- number of bad ranges before discarding sync info
+
+*Commands:*
+
+- `range` -- get ranging information from a node
+
+Examples:
+
+  range 21                 // get range to node 21
+  range 22, 15000          // get range to node 22 with a 15 second timeout
+
+- `beacon` -- send a timestamped beacon
+
+Examples:
+
+  beacon                   // broadcast a timestamped beacon
+
+=== Physical commands
+
+'''
+
+*`phy` -- access to physical service*
+
+Examples:
+
+  phy                           // access physical parameters
+  phy[CONTROL]                  // access control channel parameters
+  phy[DATA]                     // access data channel parameters
+  phy << msg                    // send request msg to physical agent
+  phy.rxEnable = false          // disable reception of frames
+
+*Commands:*
+
+- `plvl` -- get/set TX power level for all PHY channel types
+
+Examples:
+
+  plvl                       // get all power levels
+  plvl -10                   // set all power to -10 dB
+  plvl(-10)                  // alternative syntax
+  plvl = -10                 // alternative syntax
+
+*Parameters:*
+
+The following parameters are available on all modems. Additional modem
+dependent parameters are also available. For information on these
+parameters type "help modem".
+
+- `phy.MTU` -- maximum transmission unit (MTU) in bytes
+
+- `phy.rxEnable` -- true if reception enabled
+
+- `phy.propagationSpeed` -- propagation speed in m/s
+
+- `phy.timestampedTxDelay` -- delay before TX of timestamped frames
+
+- `phy.time` -- physical layer time (us)
+
+- `phy.busy` -- true if modem is TX/RX a frame, false if idle
+
+- `phy.refPowerLevel` -- reference power level in dB re uPa @ 1m
+
+- `phy.maxPowerLevel` -- maximum supported power level (relative to reference)
+
+- `phy.minPowerLevel` -- minimum supported power level (relative to reference)
+
+*Channel Parameters:*
+
+The following parameters are available on all modems. Additional modem
+dependent parameters are also available. For information on these
+parameters type "help modem".
+
+- `phy[].MTU` -- maximum transmission unit (MTU) in bytes
+
+- `phy[].dataRate` -- effective frame data rate (bps)
+
+- `phy[].frameDuration` -- frame duration (seconds)
+
+- `phy[].powerLevel` -- powel level used for transmission (relative to reference)
+
+- `phy[].errorDetection` -- number of bytes for error detection
+
+- `phy[].frameLength` -- frame length (bytes)
+
+- `phy[].maxFrameLength` -- maximum settable frame length (bytes)
+
+- `phy[].fec` -- forward error correction code
+
+A value of 0 indicates no error correction. Other values are
+settable from the phy[].fecList in order of increasing robustness,
+but lower data rates.
+
+- `phy[].fecList` -- list of available forward error correction codes
+
+List of available forward error correction code names (in order of
+increasing robustness).
+
+=== Unet commands
+
+'''
+
+*`unet` -- basic unet commands*
+
+*Commands:*
+
+- `ver` -- version information
+
+- `time` -- current platform time
+
+- `ls` -- list script files
+
+- `free` -- show free disk space
+
+- `iface` -- display/enable interfaces
+
+Usage:
+
+  iface [iftype, port[, baud] [, settings]]
+
+Examples:
+
+  // show all interfaces
+  iface
+
+  // enable AT commands on TCP port 5001
+  iface ATScriptEngine, 5001
+
+  // enable Groovy shell on TCP port 5002
+  iface GroovyScriptEngine, 5002
+
+  // enable AT commands on serial port /dev/ttyS0 at 9600 baud
+  iface ATScriptEngine, '/dev/ttyS0'
+
+  // enable Groovy shell on serial port /dev/ttyS0 at 115200 baud
+  iface GroovyScriptEngine, '/dev/ttyS0', 115200
+
+  // enable API connector on serial port /dev/ttyS0 at 115200 baud
+  // with settings: no partity, 8 bits, 1 stop bit
+  iface API, '/dev/ttyS0', 115200, 'N81'
+
+  // alternate syntax to enable AT commands on TCP port 5001
+  iface new ATScriptEngine(), 5001
+
+- `distance` -- compute distance between two points
+
+Example:
+
+  distance([0,0], [100,100])   // distance between origin and (100,100)
+
+- `logs` -- list log files
+
+Only log files with the default settings (logs/*.txt) are listed.
+
+Example:
+
+  logs                        // list log files
+
+- `clrlogs` -- clear old log files
+
+Old log files (logs/*.txt) are deleted. The currently active log files
+(logs/*-0.txt) are not deleted.
+
+Example:
+
+  clrlogs                     // clear old log files
+
+- `tail` -- show the last few lines of the current log file
+
+Examples:
+
+  tail                        // show last 10 lines of the current log file
+  tail 20                     // show last 20 lines of the current log file
+
+- `file` -- file in the scripts folder
+
+Example:
+
+  file('a.groovy').size()     // get size of script file a.groovy
+  file('a.groovy').delete()   // delete script file a.groovy
+  file('a.groovy').text       // show contents of file a.groovy
+
+=== Mac commands
+
+'''
+
+*`mac` -- access to medium access control (MAC) service*
+
+Examples:
+
+ mac                                            // list MAC parameters
+ mac << new ReservationReq(to: 27, duration: 1) // channel reservation request
+
+*Parameters:*
+
+- `mac.channelBusy` -- indicates if the channel is busy
+
+- `mac.reservationPayloadSize` -- size of payload (bytes) carried in MAC PDU
+
+- `mac.ackPayloadSize` -- size of ack payload (bytes) carried in ACK PDU
+
+- `mac.maxReservationDuration` -- maximum reservation duration
+
+- `mac.recommendedReservationDuration` -- recommended reservation duration
+
+=== Arp commands
+
+'''
+
+*`arp` -- access to address resolution service*
+
+*Commands:*
+
+- `host` -- resolve hostname to address
+
+Examples:
+
+  host 'redstar'         // get address for host named "redstar"
+  rs = host('redstar')   // save address of "redstar" in variable "rs"
+
+=== Remote commands
+
+'''
+
+*`remote` -- access to remote service*
+
+Examples:
+
+  tell 2, 'hello'         // send text message to node 2
+  fget 3, 'abc.txt'       // get file abc.txt from node 3
+  fput 2, 'abc.txt'       // send file abc.txt to node 2
+  rsh 3, 'reboot'         // ask node 3 to reboot itself
+
+*Commands:*
+
+- `tell` -- send a text message to remote node
+
+Example:
+
+  tell 2, 'hello'         // send text message to node 2
+
+- `fget` -- get file from remote node
+
+fget can only get files from nodes with remote.enable = true
+
+Example:
+
+  fget 3, 'abc.txt'       // get file abc.txt from node 3
+
+- `fput` -- put file on remote node
+
+fput can only put files from nodes with remote.enable = true
+
+Examples:
+
+  fput 2, 'a.txt'         // send file a.txt to node 2
+  fput 2, 'a.txt', 'abc'  // create file a.txt on node 2
+                          //   with content 'abc'
+
+- `rsh` -- run shell command on remote node
+
+rsh can only execute commands on nodes with remote.enable = true
+
+Example:
+
+  rsh 3, 'reboot'         // ask node 3 to reboot itself
+
+- `ack` -- enable/disable acknowledments for remote commands
+
+Examples:
+
+  ack on          // enable acknowldegements for fput, rsh, tell
+  ack true        // enable acknowldegements for fput, rsh, tell
+  ack off         // disable acknowldegements for fput, rsh, tell
+  ack false       // disable acknowldegements for fput, rsh, tell
+  ack             // check current setting for acknowldegements
+
+=== Router commands
+
+'''
+
+*`router` -- access to routing service*
+
+Examples:
+
+  routes              // display routing table
+  routes 2            // display routes to node 2
+  addroute 27, 29     // add a route to node 27 via node 29
+  delroute 2          // delete route number 2
+  delroutesto 27      // delete all routes to node 27
+  delroutes           // delete all routes
+  trace 27            // trace route to node 27
+  ping 27             // check if node 27 is accessible
+
+*Parameters:*
+
+- `router.MTU` -- maximum data transfer size
+
+- `router.auto1hop` -- automatically assume single hop routes
+
+- `router.defaultLink` -- default link to use
+
+*Commands:*
+
+- `routes` -- print routing table
+
+Examples:
+
+  routes              // display routing table
+  routes 2            // display routes to node 2
+
+- `addroute` -- add a route to the routing table
+
+Example:
+
+  addroute 27, 29                // add a route to node 27 via node 29
+  addroute 27, 29, link2, false  // add route on link2 with no reliability
+
+- `delroute` -- delete a route from the routing table
+
+The route number can be obtained by displaying the routing table
+using the 'routes' command.
+
+Example:
+
+  delroute 2          // delete route number 2
+
+- `delroutesto` -- delete all routes to specified node from the routing table
+
+Example:
+
+  delroutesto 27      // delete all routes to node 27
+
+- `delroutes` -- delete all routes from the routing table
+
+Example:
+
+  delroutes           // delete all routes
+
+'''
+
+*`rdp` -- access to route discovery/maintenance service*
+
+Examples:
+
+  rreq 27             // start route discovery to node 27
+  rreq 27, 3, 2, 10   // find <3-hop route to node 27 with 2 RREQs 10s apart
+  trace 27            // trace current route to node 27
+
+*Commands:*
+
+- `rreq` -- initiate route discovery
+
+With a single parameter, rreq finds up to 3-hop routes using 3 probes spaced
+20 seconds apart.
+
+Examples:
+
+  rreq 27             // start route discovery to node 27
+  rreq 27, 3, 2, 10   // find <3-hop route to node 27 with 2 RREQs 10s apart
+
+- `trace` -- trace route
+
+Example:
+
+  trace 27            // trace current route to node 27
+  trace 27, 10000     // trace current route to node 27 with 10s timeout
+
+- `ping` -- ping node
+
+Example:
+
+  ping 27             // ping node 27
+  ping 27, 5          // ping node 27, 5 times
+  ping 27, 5, 30000   // ping node 27, 5 times, with 30s timeout
+
+=== SWTransport commands
+
+*SWTransport parameters:*
+
+- `transport.maxRetries` -- maximum retries for reliable delivery
+
+- `transport.timeout` -- end-to-end ACK timeout
+
+- `transport.reportProgress` -- enable/disable progress reporting of transfer
+
+- `transport.dsp` -- datagram service provider used for communication
+
+*SWTransport commands:*
+
+- `netstat` -- show status of ongoing transport agent connections
+
+=== BasebandSignalMonitor commands
+
+'''
+
+*`bbmon` -- baseband signal monitor*
+
+The baseband signal monitor records any signals received by it
+to a signal log file (called signal-*.txt). The signals are
+encoded in base64 in the file. A Python package arlpy.unet is
+available though PyPi to load these files.
+
+Examples:
+
+  bbmon.enable = true      // enable recording of baseband signals
+  bbmon.enable = false     // disable recording of baseband signals
+
+*Parameters:*
+
+- `bbmon.enable` -- enable/disable monitoring of baseband signals
+
+=== StateManager commands
+
+'''
+
+*`state` -- access to state manager service*
+
+*Commands:*
+
+- `savestate` -- save state of all or specified agent in Groovy script format
+
+Examples:
+
+  savestate 'pandan'          // save current state of all agents
+  savestate 'pandan', 'phy'   // save current state of specified agent
+  savestate 'pandan', phy     // save current state of specified agent
+  savestate                   // save current state in "saved-state.groovy"
+
+- `clrstate` -- set current state as the baseline for savestate
+
+Example:
+
+  clrstate                    // set baseline state
+  phy[1].powerLevel = -10     // change parameters
+  savestate                   // save changed parameters
+
+
+=== CSMA commands
+
+*CSMA MAC parameters:*
+
+- `mac.phy` -- physical agent used for carrier sensing
+
+- `mac.minBackoff` -- minimum backoff window (seconds)
+
+- `mac.maxBackoff` -- maximum backoff window (seconds)
+
+- `mac.reservationsPending` -- number of reservations in queue (read-only)
+
+=== ReliableLink commands
+
+'''
+
+*`uwlink` -- access to underwater data link service*
+
+Examples:
+
+ uwlink                         // access parameters
+ uwlink.maxRetries = 5          // set maximum retries for reliable delivery
+ uwlink << new DatagramReq(to: 2, data: [1,2,3], reliability: true)
+                                // send reliable datagram
+
+Note that reliability is only supported on unicast datagrams.
+
+*Parameters:*
+
+- `uwlink.MTU` -- maximum data transfer size
+
+- `uwlink.maxRetries` -- maximum retries for reliable delivery
+
+- `uwlink.reservationGuardTime` -- guard period (s)
+
+- `uwlink.maxPropagationDelay` -- maximum propagation delay (s)
+
+- `uwlink.controlChannel` -- channel to use for control frames (CONTROL/DATA)
+
+- `uwlink.dataChannel` -- channel to use for data frames (CONTROL/DATA)
+
+- `uwlink.mac` -- medium access control (MAC) agent name to use (or 'none')
+
+- `uwlink.phy` -- physical layer agent name to use
+
+=== RemoteControl commands
+
+*Parameters:*
+
+- `remote.dsp` -- datagram service provider used for communication
+
+- `remote.shell` -- shell service provider used to run commands
+
+- `remote.cwd` -- working directory to load/save files
+
+- `remote.reliability` -- reliability to be requested on datagrams
+
+- `remote.enable` -- enable/disable remote file/shell operations
+
+- `remote.groovy` -- enable Groovy extensions for shell commands
+
+When Groovy extensions are enabled, rsh commands can use a "me" variable
+to denote the requsting node address. Commands starting with a "?"
+send their output back to the requesting node.
+
+Examples:
+
+  rsh 3, 'tell me,"hello!"'    // ask node 3 to send a text message to me
+  rsh 3, '?phy.MTU'            // ask node 3 to send me the value of phy.MTU
+  rsh 3, '?ls'                 // ask node 3 to send me the list of files
+
+=== ECLink commands
+
+'''
+
+*`uwlink` -- access to underwater data link service*
+
+Examples:
+
+ uwlink                         // access parameters
+ uwlink.maxRetries = 5          // set maximum retries for reliable delivery
+ uwlink.status                  // show status of ongoing TX/RX
+ uwlink << new DatagramReq(to: 2, data: [1,2,3], reliability: true)
+                                // send reliable datagram
+
+Note that reliability is only supported on unicast datagrams.
+
+*Parameters:*
+
+- `uwlink.MTU` -- maximum data transfer size
+
+- `uwlink.mac` -- medium access control (MAC) agent name to use (or 'none')
+
+- `uwlink.phy` -- physical layer agent name to use
+
+- `uwlink.controlChannel` -- channel to use for control frames (CONTROL/DATA)
+
+- `uwlink.dataChannel` -- channel to use for data frames (CONTROL/DATA)
+
+- `uwlink.guardTime` -- guard period (s)
+
+- `uwlink.maxPropagationDelay` -- maximum propagation delay (s)
+
+- `uwlink.maxRetries` -- maximum retries for reliable delivery
+
+- `uwlink.minBatchSize` -- minimum number of frames to send in each batch
+
+- `uwlink.maxBatchSize` -- maximum number of frames to send in each batch
+
+- `uwlink.reliableExtra` -- extra frames (fraction) for reliable TX
+
+- `uwlink.unreliableExtra` -- extra frames (fraction) for unreliable TX
+
+- `uwlink.status` -- show status of ongoing TX/RX on all links
+

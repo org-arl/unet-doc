@@ -2,8 +2,9 @@ BUILD=../docs/handbook
 TMP=/tmp/unet-doc
 ADOCS=$(shell find . -name '*.adoc')
 HTML_OPTS=
+UNET_LIB=../../unet/lib
 
-.PHONY: all clean pdf html
+.PHONY: all clean pdf html cmdref
 
 html: ${BUILD}/unet-handbook.html
 pdf: ${BUILD}/unet-handbook.pdf
@@ -19,6 +20,10 @@ ${BUILD}/unet-handbook.html: handbook.adoc ${ADOCS}
 	asciidoctor ${HTML_OPTS} -o $@ $<
 	python bin/chunk-adoc-html.py ${BUILD} unet-handbook
 	cat redirect.html | sed 's/URL/unet-handbook_preface.html/' > ${BUILD}/index.html
+
+cmdref:
+	rm -f cmdref.adoc
+	python bin/doc2adoc.py ${UNET_LIB} > cmdref.adoc
 
 clean:
 	rm -rf ${BUILD}
