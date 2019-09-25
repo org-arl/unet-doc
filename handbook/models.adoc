@@ -52,11 +52,11 @@ Short descriptions and default values of these properties are shown below:
 
 `modem.janus = [false, false, true]`:: Support for JANUS frames.
 
-`modem.powerLevel = [-10, -10, -10]`:: Transmit power level (dB re `refPowerLevel`).
+`modem.powerLevel = [-42, -42, -42]`:: Transmit power level (dB re `refPowerLevel`).
 
 In addition to the above indexed properties, several other properties control the modem behavior:
 
-`modem.signalPowerLevel = -10`:: Transmit power level (dB re `refPowerLevel`) for baseband signals.
+`modem.signalPowerLevel = -42`:: Transmit power level (dB re `refPowerLevel`) for baseband signals.
 
 `modem.preambleDuration = 0.2`:: Frame detection preamble duration (s).
 

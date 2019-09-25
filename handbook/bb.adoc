@@ -86,7 +86,7 @@ We can now direct all our requests to the `phy` agent. Let's check the baseband 
   carrierFrequency = 12000.0
   maxPreambleID = 4
   maxSignalLength = 2147483647
-  signalPowerLevel = -10.0
+  signalPowerLevel = -42.0
 ----
 
 We see that the Unet audio SDOAM operates at a carrier frequency of 12 kHz and a bandband sampling rate of 12 kSa/s. Let's create a DC signal of length 12000 complex baseband samples (24000 floats) and transmit it. A DC signal of length 12000 complex samples with a carrier frequency of 12 kHz is a sinusoidal 12 kHz signal for 1 second.

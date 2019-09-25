@@ -154,7 +154,7 @@ We can dig deeper into the parameters for the CONTROL and DATA channel separatel
   janus = false
   llr = false
   maxFrameLength = 128
-  powerLevel = -10.0
+  powerLevel = -42.0
 
 > phy[DATA]
 <<< PHY >>>
@@ -172,7 +172,7 @@ We can dig deeper into the parameters for the CONTROL and DATA channel separatel
   janus = false
   llr = false
   maxFrameLength = 512
-  powerLevel = -10.0
+  powerLevel = -42.0
 ----
 
 NOTE: The values you see above are specific to this simulated network, and will generally be different for different networks, depending on the devices that are being used and the environment that they are deployed in.
@@ -274,7 +274,7 @@ Further, let's look at the indexed parameters for the CONTROL channel:
   janus = false
   llr = false
   maxFrameLength = 396
-  powerLevel = -10.0
+  powerLevel = -42.0
 
 [org.arl.yoda.FhbfskParam]
   chiplen = 1
