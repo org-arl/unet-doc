@@ -68,7 +68,7 @@ Modem web: http://localhost:8080/
 
 On the shell for the Unet audio SDOAM, check which agents provide the baseband service:
 
-[source, console]
+[source]
 ----
 > agentsForService(org.arl.unet.Services.BASEBAND)
 [phy]
@@ -76,7 +76,7 @@ On the shell for the Unet audio SDOAM, check which agents provide the baseband s
 
 We can now direct all our requests to the `phy` agent. Let's check the baseband parameters of the `phy` agent (we omit other parameters here for brevity):
 
-[source, console]
+[source]
 ----
 > phy
 <<< Physical >>>
@@ -91,7 +91,7 @@ We can now direct all our requests to the `phy` agent. Let's check the baseband 
 
 We see that the Unet audio SDOAM operates at a carrier frequency of 12 kHz and a bandband sampling rate of 12 kSa/s. Let's create a DC signal of length 12000 complex baseband samples (24000 floats) and transmit it. A DC signal of length 12000 complex samples with a carrier frequency of 12 kHz is a sinusoidal 12 kHz signal for 1 second.
 
-[source, console]
+[source]
 ----
 > s = [1,0]*12000                 //<1>
 [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 <<snip>> 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0]
@@ -109,7 +109,7 @@ TIP: You can generate other frequency signals using the `cw()` (continuous wave)
 
 Unet audio supports transmission of passband signals as well. Let us create a half second 2000 kHz passband signal and transmit it:
 
-[source, console]
+[source]
 ----
 > s = cw(2000, 0.5, 0)                             //<1>
 > s.size()
@@ -124,7 +124,7 @@ phy >> TxFrameNtf:INFORM[txTime:414013271]
 
 Next, let's request a recording of 12000 samples (1 second duration):
 
-[source, console]
+[source]
 ----
 > phy << new RecordBasebandSignalReq(recLength: 12000)
 AGREE
@@ -136,7 +136,7 @@ phy >> RxBasebandSignalNtf:INFORM[adc:1 rxTime:11780353 rssi:-79.1 fc:12000.0 fs
 
 You can also ask for recordings to begin at a specified time:
 
-[source, console]
+[source]
 ----
 > t = phy.time + 5000000; println(t); phy << new RecordBasebandSignalReq(recLength: 12000, recTime: t)
 855949105
@@ -148,7 +148,7 @@ You'd have noticed the 6 second delay (5 seconds to begin recording, 1 more seco
 
 Interestingly, you can also request recordings in the past! Many modems have a short buffer, allowing recording in the recent past. Go too far in the past and the modem will refuse your request!
 
-[source, console]
+[source]
 ----
 > t = phy.time - 5000000; println(t); phy << new RecordBasebandSignalReq(recLength: 12000, recTime: t)
 1186471772
@@ -161,7 +161,7 @@ REFUSE: Bad start time
 
 Specifying a negative `recTime` is understood by the baseband service provider as a relative time. So we can simpify our request to record 5 seconds in the past:
 
-[source, console]
+[source]
 ----
 > phy << new RecordBasebandSignalReq(recLength: 12000, recTime: -5000000)
 AGREE
@@ -174,7 +174,7 @@ Each logical channel (CONTROL, DATA, etc.) is associated with a detection preamb
 
 We can transmit a preamble easily:
 
-[source, console]
+[source]
 ----
 > phy << new TxBasebandSignalReq(preamble: 1)
 AGREE
@@ -187,7 +187,7 @@ If you had another Unet audio SDOAM running nearby, it would have heard the prea
 
 If you don't have access to another computer to run Unet audio on, we can easily demonstrate the above behavior with a single Unet audio SDOAM by simply enabling the full-duplex mode (and hence using the same computer for transmission and reception simultaneously), as we did in <<Physical service>>:
 
-[source, console]
+[source]
 ----
 > subscribe phy
 > phy.fullduplex = true
@@ -202,7 +202,7 @@ phy >> BadFrameNtf:INFORM[type:CONTROL rxTime:5809825603 rssi:-55.6 (18 bytes)]
 
 Preambles 1 and 2 are used by the CONTROL and DATA channel respectively. It's better not to mess with these, but instead use preamble 3, which is left for the user to configure in Unet audio. By default, detection of preamble 3 is disabled. You can enable it by setting the detection threshold `phy[3].threshold` parameter. Let's try it:
 
-[source, console]
+[source]
 ----
 > phy[3].threshold = 0.25
 0.25
@@ -223,7 +223,7 @@ NOTE: The `basebandRx` and `basebandExtra` parameters are provided by the Unet a
 
 If you enable `basebandRx`, a recording will be triggered every time the preamble is detected:
 
-[source, console]
+[source]
 ----
 > phy[3].basebandRx = true
 true
@@ -237,7 +237,7 @@ phy >> RxBasebandSignalNtf:INFORM[adc:1 rxTime:6992616269 rssi:-22.0 preamble:3 
 
 The `RxBasebandSignalNtf` notified us of the recorded signal (containing just the detected preamble). If we wanted a longer recording after the preamble, we can ask for that using the `basebandExtra` parameter, specifying the length of the recording (in samples) beyond the preamble:
 
-[source, console]
+[source]
 ----
 > phy[3].basebandExtra = 1200     //<1>
 1200
@@ -260,7 +260,7 @@ During the development of signal processing algorithms, one often wants to simpl
 
 The `bbmon` agent is already loaded when you run Unet audio. However, by default, it is disabled. It's easy to enable it:
 
-[source, console]
+[source]
 ----
 > bbmon.enable = true
 true
@@ -268,7 +268,7 @@ true
 
 Now, every `RxBasebandSignalNtf` that is sent to `phy` agent's topic will be recorded in a `signal-0.txt` file in the `logs` folder.
 
-[source, console]
+[source]
 ----
 > logs                                           //<1>
 signals-0.txt [0 bytes]                          //<2>

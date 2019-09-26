@@ -25,7 +25,7 @@ Agents providing the REMOTE service support the following messages:
 
 Start the 2-node network and connect to node A:
 
-[source, console]
+[source]
 ----
 > agentsForService org.arl.unet.Services.REMOTE
 [remote]
@@ -61,7 +61,7 @@ TIP: The `phy[CONTROL].scrambler` and `phy[DATA].scrambler` parameters available
 
 All remote commands (`tell`, `fget`, `fput`, `rsh`, and `ack`) encountered in <<Sending text messages>> and <<File transfer and remote access>> are implemented by the shell using the above messages. For example, the same effect as the `tell` command can be achieved by directly sending the `RemoteTextReq` message to the `remote` agent on node A:
 
-[source, console]
+[source]
 ----
 > remote << new RemoteTextReq(to: host('B'), text: 'hello!', ack: true)
 AGREE
@@ -70,7 +70,7 @@ remote >> RemoteSuccessNtf:INFORM[RemoteTextReq:REQUEST[to:31 text:hello! ack:tr
 
 We should see the text message delivered on node B:
 
-[source, console]
+[source]
 ----
 [232]: hello!
 ----

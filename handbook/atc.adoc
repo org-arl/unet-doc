@@ -14,7 +14,7 @@ We describe the AT command set through examples below. The convention used in de
 
 The AT command interpreter is available as a script engine that can be loaded using a shell agent:
 
-[source, console]
+[source]
 ----
 > conn = new org.arl.fjage.connectors.TcpHubConnector(5001, false)        //<1>
 > cshell = new org.arl.fjage.shell.ConsoleShell(conn, true)
@@ -31,7 +31,7 @@ A small set of basic AT commands are honored by the interpreter:
 
 * `AT` -- check if a command link is active:
 
-[source, console]
+[source]
 ----
 AT
 OK
@@ -39,7 +39,7 @@ OK
 
 * `ATE0`/`ATE1` -- turn off/on echo:
 
-[source, console]
+[source]
 ----
 ATE1
 OK
@@ -64,7 +64,7 @@ The interpreter can be customized using shell extensions:
 
 Fields and methods exposed by a shell extension are made available in a shell using this command. Example:
 
-[source, console]
+[source]
 ----
 AT~PLVL
 ERROR
@@ -96,7 +96,7 @@ Agent parameters may be listed, read and written to:
 
 * `AT~agent[/index]?` -- list parameters:
 
-[source, console]
+[source]
 ----
 AT~PHY?
 PHY.SIGNALPOWERLEVEL=-10.0
@@ -124,7 +124,7 @@ OK
 
 * `AT~agent[/index].parameter?` -- get parameter:
 
-[source, console]
+[source]
 ----
 AT~PHY/1.FRAMELENGTH?
 PHY/1.FRAMELENGTH=18
@@ -133,7 +133,7 @@ OK
 
 * `AT~agent[/index].parameter=value` -- set parameter:
 
-[source, console]
+[source]
 ----
 AT~PHY/1.FRAMELENGTH=21
 OK
@@ -150,7 +150,7 @@ The command interpreter may make requests and receive message notification by de
 
 Message formats defined using this command are available for requests and also used for notifications. If a message is not defined, notifications of that message type are silently ignored. The following command defines a message `DRQ` of class `org.arl.unet.DatagramReq` with 3 parameters: `to`, `protocol` and `data` in that order:
 
-[source, console]
+[source]
 ----
 AT~MSG:DRQ=org.arl.unet.DatagramReq:to,protocol,data
 OK
@@ -158,7 +158,7 @@ OK
 
 We also define other messages similarly:
 
-[source, console]
+[source]
 ----
 AT~MSG:TXNTF=org.arl.unet.phy.TxFrameNtf:type,txTime
 OK
@@ -170,7 +170,7 @@ OK
 
 Once we have defined the messages above, we can make a request to `PHY` to send a datagram to node 2 with protocol 0 and 3 bytes of data: `[1,2,3]`:
 
-[source, console]
+[source]
 ----
 AT~PHY<DRQ=2,0,"010203"
 OK
@@ -178,14 +178,14 @@ OK
 
 The notification for the datagram transmission completion will be displayed as an unsolicited notification:
 
-[source, console]
+[source]
 ----
 ~PHY>TXNTF=2,1994962099
 ----
 
 The general notifications format as: `~agent>msg=parameter[,parameter]...`. If any of the parameters are `byte[]` or `float[]`, they are not included in the parameter list. Instead a colon (`:`) is added at the end of the line, and the data in hex follows on subsequent lines. Once the data ends, a period (`.`) is sent on a single line. If multiple parameters are arrays, the number of array parameters is given by the number of colons at the end of the line, and each array is terminated by a period, followed by the next array. An example is shown below:
 
-[source, console]
+[source]
 ----
 ~PHY>RXNTF=1,0,0,2095058353:
 0102030405060708090A0B0C0D0E0F
@@ -197,7 +197,7 @@ The general notifications format as: `~agent>msg=parameter[,parameter]...`. If a
 
 Without subscribing to a topic, we see that the user is not notified about the reception of a frame, although the message type is already defined:
 
-[source, console]
+[source]
 ----
 AT~PHY.FULLDUPLEX=1
 OK
@@ -208,7 +208,7 @@ OK
 
 After subscribing to `PHY`, the received message is reported:
 
-[source, console]
+[source]
 ----
 AT~SUB=PHY
 OK
@@ -224,7 +224,7 @@ Here we see that the data from the `RXNTF` is included after the notification me
 
 * `AT~UNSUB=topic[,subtopic]` -- unsubscribe from a topic:
 
-[source, console]
+[source]
 ----
 AT~UNSUB=PHY
 OK
@@ -241,7 +241,7 @@ While data may be directly included in a request message, sometimes it is useful
 
 Data is represented as a series of hexadecimal bytes, and may span many lines. Data entry is terminated by a period (`.`) on a line by itself:
 
-[source, console]
+[source]
 ----
 AT~DATA:
 010203
@@ -254,7 +254,7 @@ The above representation is convenient for `byte[]` parameters. However, the sam
 
 An alternative data representation is useful for `float[]`, where the floating point numbers are directly specified:
 
-[source, console]
+[source]
 ----
 AT~DATA:
 1.54
@@ -269,7 +269,7 @@ For this representation, it is necessary to have a decimal place (`.`) in each n
 
 * `AT~DATA?` -- check size of data buffer:
 
-[source, console]
+[source]
 ----
 AT~DATA:
 010203
@@ -283,7 +283,7 @@ OK
 
 * `AT~CLRDATA` -- clear data buffer:
 
-[source, console]
+[source]
 ----
 AT~CLRDATA
 OK
@@ -294,7 +294,7 @@ OK
 
 To use the data buffer, we simply use `"DATA"` instead of the hexadecimal data in a message. For example:
 
-[source, console]
+[source]
 ----
 AT~SUB=PHY
 OK

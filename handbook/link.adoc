@@ -26,7 +26,7 @@ Agents offering the LINK service may support the following parameter:
 
 Start the 2-node network and connect to node A:
 
-[source, console]
+[source]
 ----
 > agentsForService org.arl.unet.Services.LINK
 [uwlink]

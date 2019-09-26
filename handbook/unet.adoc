@@ -10,7 +10,7 @@ NOTE: The code examples in this chapter assume that you have a simulated Unet (t
 
 To check the current address size on your node:
 
-[source, console]
+[source]
 ----
 > node
 <<< NodeInfo >>>
@@ -29,7 +29,7 @@ Some node parameters have not been shown in the above listing for brevity.
 
 Address 0 is a broadcast address. All other addresses may be assigned to nodes in a Unet. Each Unet node is also associated with a node name (`node.nodeName`). If a node name is not explicity set, it defaults to the string representation of the node address. Descriptive node names may be used, if desired:
 
-[source, console]
+[source]
 ----
 > node.nodeName = 'buoy_A'
 buoy_A
@@ -48,7 +48,7 @@ buoy_A
 
 It is recommended that, if descriptive node names are used, the corresponding node addresses be set using the ADDRESS_RESOLUTION service. This ensures that name-to-address resolution leads to the correct address for the node. The ADDRESS_RESOLUTION service can be accessed via the `host()` shell command:
 
-[source, console]
+[source]
 ----
 > host('buoy_A')
 68
@@ -58,7 +58,7 @@ It is recommended that, if descriptive node names are used, the corresponding no
 
 The default ADDRESS_RESOLUTION agent in the UnetStack maps node names to node addresses using a hash function. The method reduces network traffic for host name resolution, but can lead to address conflicts between nodes if two names happen to map to the same address. It is the responsibility of the network engineer to resolve address conflicts manually during the setup of the network, if the default ADDRESS_RESOLUTION agent is used. For small networks, this is simply a matter of checking that all chosen node names in the network lead to unique node addresses:
 
-[source, console]
+[source]
 ----
 > ['buoy_A', 'auv_1', 'auv_2', 'sensor_adcp1', 'sensor_ctd1'].each { name ->
 -   print "${name}: ${host(name)}"
@@ -78,7 +78,7 @@ The consumer may be an agent or an end-user application. Protocol number 0 (`Pro
 
 On node B, type:
 
-[source, console]
+[source]
 ----
 > s = new UnetSocket(this);
 > s.bind(Protocol.USER)                 // listen for datagrams with Protocol.USER
@@ -89,7 +89,7 @@ to wait for a reception with `Protocol.USER`.
 
 On node A, type:
 
-[source, console]
+[source]
 ----
 > s = new UnetSocket(this);
 > s.connect(host('B'), Protocol.DATA)  // send datagrams with Protocol.DATA
@@ -102,7 +102,7 @@ true
 
 Node B will receive only the second message, since it is listening for datagrams with `Protocol.USER` only. We can confirm this by checking the data in the received datagram on the command shell for node B, and close the socket:
 
-[source, console]
+[source]
 ----
 DatagramNtf:INFORM[from:68 to:31 protocol:32 (6 bytes)]
 > new String(rx.data)

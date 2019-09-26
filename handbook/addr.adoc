@@ -21,7 +21,7 @@ Address allocation is typically required at startup, and usually initiated by th
 
 We can start the 2-node network, and manually test this on the shell of node A:
 
-[source, console]
+[source]
 ----
 > a = agentForService(org.arl.unet.Services.ADDRESS_RESOLUTION);
 > a << new AddressAllocReq(name: 'A')
@@ -30,7 +30,7 @@ AddressAllocRsp:INFORM[address:232]
 
 Address resolution is performed via the `AddressResolutionReq` message. The `host` command sends this message on your behalf, and shows you the response:
 
-[source, console]
+[source]
 ----
 > a << new AddressResolutionReq(name: 'A')
 AddressResolutionRsp:INFORM[address:232 name:A]

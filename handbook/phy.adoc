@@ -112,7 +112,7 @@ NOTE: The configurable parameters of the CONTROL and DATA channels depend strong
 
 Fire up the 2-node network simulation and connect to node A's shell. If you simply type `phy`, you can explore the physical layer parameters for the node:
 
-[source, console]
+[source]
 ----
 > phy
 <<< HalfDuplexModem >>>
@@ -136,7 +136,7 @@ The `phy.MTU` parameter tells us the maximum amount of user data that can be tra
 
 We can dig deeper into the parameters for the CONTROL and DATA channel separately:
 
-[source, console]
+[source]
 ----
 > phy[CONTROL]
 <<< PHY >>>
@@ -199,7 +199,7 @@ Modem web: http://localhost:8080/
 
 On the web shell for the modem:
 
-[source, console]
+[source]
 ----
 > phy
 <<< Physical >>>
@@ -256,7 +256,7 @@ For brevity, we have omitted the baseband service and scheduler service paramete
 
 Further, let's look at the indexed parameters for the CONTROL channel:
 
-[source, console]
+[source]
 ----
 > phy[CONTROL]
 <<< PHY >>>
@@ -311,7 +311,7 @@ CAUTION: Real modems typically cannot do full-duplex communication because the w
 
 On Unet audio shell, enable full-duplex operation and try a transmission (you should be able to hear it from your computer speaker!). Your output might not look exactly the same, but let's go over all the notifications we got and see if we can understand all of them:
 
-[source, console]
+[source]
 ----
 > phy.fullduplex = true
 true
@@ -334,7 +334,7 @@ phy >> BadFrameNtf:INFORM[type:DATA rxTime:80659519 rssi:-38.5 (18 bytes)] //<6>
 
 To get rid of the false alarm on the DATA channel, we could either increase the detection threshold or turn off the detector completely (`phy[DATA].threshold = 0`). For now, we'll do the latter. Let's also turn on the `phy[CONTROL].test` flag so that we can measure communication performance in terms of BER. To measure BER before error correction, we also need to turn off `phy[CONTROL].fec`:
 
-[source, console]
+[source]
 ----
 > phy[DATA].threshold = 0
 0
@@ -346,7 +346,7 @@ true
 
 Now we can make 10 transmissions, 2 seconds apart, and watch the BER of the received frames:
 
-[source, console]
+[source]
 ----
 > 10.times { phy << new TxFrameReq(); delay(2000); }
 phy >> TxFrameNtf:INFORM[type:CONTROL txTime:204359766]
@@ -381,7 +381,7 @@ WARNING: Remember to turn off the `phy[CONTROL].test` flag before trying any dat
 
 To explore timed and timestamped transmissions, let's go back to our 2-node network simulation. On the shell for node A:
 
-[source, console]
+[source]
 ----
 > phy << new CapabilityReq()
 CapabilityListRsp:INFORM[TIMESTAMPED_TX,TIMED_BBREC,TIMED_BBTX,TIMED_TX]
@@ -389,14 +389,14 @@ CapabilityListRsp:INFORM[TIMESTAMPED_TX,TIMED_BBREC,TIMED_BBTX,TIMED_TX]
 
 We see that the `phy` agent supports the `TIMESTAMPED_TX` and `TIMED_TX` optional capabilities. Let us try them out. On node B:
 
-[source, console]
+[source]
 ----
 > subscribe phy
 ----
 
 Going back to node A, send a timestamped frame:
 
-[source, console]
+[source]
 ----
 > phy << new TxFrameReq(timestamped: true)
 AGREE
@@ -405,7 +405,7 @@ phy >> TxFrameNtf:INFORM[type:CONTROL txTime:2489196375]
 
 We see that the frame was transmitted at time 2489196375 (when you try this, the time will of course be different). You should see the `RxFrameNtf` for this frame on node B:
 
-[source, console]
+[source]
 ----
 phy >> RxFrameStartNtf:INFORM[type:CONTROL rxTime:687419054]
 phy >> RxFrameNtf:INFORM[type:CONTROL from:232 rxTime:687419054 txTime:2489196375]
@@ -419,7 +419,7 @@ CAUTION: Do bear in mind that the `phy.time` clocks on node A and B may not be s
 
 Sometimes you may not need to transmit a timestamped frame, but you do want the frame to be transmitted at a specified time. On node A:
 
-[source, console]
+[source]
 ----
 > t = phy.time + 5000000; println(t); phy << new TxFrameReq(txTime: t) //<1>
 3174864375                                                             //<2>
@@ -440,14 +440,14 @@ If you're familiar with Ethernet network interface cards, you may have come acro
 
 With the 2-node network simulation, let's first only subscribe to the `phy` agent's topic on node B:
 
-[source, console]
+[source]
 ----
 > subscribe phy
 ----
 
 From node A, transmit a frame to node B and to node C (node C does not exist in this network):
 
-[source, console]
+[source]
 ----
 > phy << new TxFrameReq(to: host('B'))
 AGREE
@@ -459,7 +459,7 @@ phy >> TxFrameNtf:INFORM[type:CONTROL txTime:4623823375]
 
 On node B, you'll find that it receives the `RxFrameStartNtf` for both transmissions, but only the `RxFrameNtf` for the transmission addressed to node B:
 
-[source, console]
+[source]
 ----
 phy >> RxFrameStartNtf:INFORM[type:CONTROL rxTime:2820757054]
 phy >> RxFrameNtf:INFORM[type:CONTROL from:232 to:31 rxTime:2820757054]
@@ -470,14 +470,14 @@ The `RxFrameStartNtf` is sent when a frame is detected. At that point in time, t
 
 If you were interested in snooping conversations between other nodes, you could subscribe to the SNOOP topic on node B:
 
-[source, console]
+[source]
 ----
 > subscribe topic(phy, org.arl.unet.phy.Physical.SNOOP)
 ----
 
 Now try transmitting another frame from node A to node C. On node A:
 
-[source, console]
+[source]
 ----
 > phy << new TxFrameReq(to: host('C'))
 AGREE
@@ -486,7 +486,7 @@ phy >> TxFrameNtf:INFORM[type:CONTROL txTime:4899843375]
 
 Now you'll see on node B that the corresponding `RxFrameNtf` is received:
 
-[source, console]
+[source]
 ----
 phy >> RxFrameStartNtf:INFORM[type:CONTROL rxTime:3098066054]
 phy >> RxFrameNtf:INFORM[type:CONTROL from:232 to:74 rxTime:3098066054]

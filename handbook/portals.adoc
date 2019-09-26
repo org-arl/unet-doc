@@ -39,7 +39,7 @@ Node B: tcp://localhost:1102, http://localhost:8082/
 
 Open browser windows for shell access to each of the nodes. On node A, create a UdpPortal listening on port 7000 (since application X will send UDP datagrams to this port) and sending Unet datagrams (protocol 0 in this example, but that can be configured using the `protocol` parameter below) to node B:
 
-[source, console]
+[source]
 ----
 > container.add 'portal', new org.arl.unet.portal.UdpPortal(port:7000, peer:host('B'));
 > portal
@@ -63,7 +63,7 @@ The default `port` and `clientPort` for the UdpPortal are arbitrarily chosen to 
 
 On node B, create the other end-point of the UDP portal to send the UDP datagrams to `localhost` UDP port 7778, where you will run application Y:
 
-[source, console]
+[source]
 ----
 > container.add 'portal', new org.arl.unet.portal.UdpPortal(clientIP: 'localhost', clientPort: 7778);
 > portal
@@ -146,7 +146,7 @@ A TCP portal is set up using the Portal agent. The Portal agent is quite similar
 
 Restart your 2-node network, and on node A set up a TCP portal listening on port 7000:
 
-[source, console]
+[source]
 ----
 > container.add 'portal', new org.arl.unet.portal.Portal(7000);
 > portal
@@ -167,7 +167,7 @@ Restart your 2-node network, and on node A set up a TCP portal listening on port
 
 On node B, create the other end-point of the TCP portal listening on port 7001:
 
-[source, console]
+[source]
 ----
 > container.add 'portal', new org.arl.unet.portal.Portal(7001);
 ----
@@ -208,7 +208,7 @@ TIP: The TCP portal is bidirectional, so you can type something on node A, and y
 
 Since the Portal agent uses the fjåge connectors framework, it can easily work with any type of connector. Since fjåge provides a serial port connecor, we can easily set up a serial portal on each of your nodes:
 
-[source, console]
+[source]
 ----
 > container.add 'portal', new org.arl.unet.portal.Portal('/dev/ttyS0', 9600, 'N81');
 ----

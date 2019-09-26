@@ -48,7 +48,7 @@ The minimum and maximum valid range settings control what the RANGING service co
 
 In order to understand how the RANGING service provides OWTT and TWTT ranging, it is instructive to try a few examples using the Netiquette 3-node network simulation (`bin/unet samples/netq-network.groovy`). Start the simulation, and connect to node A:
 
-[source, console]
+[source]
 ----
 > agentsForService(org.arl.unet.Services.RANGING)  //<1>
 [ranging]
@@ -82,7 +82,7 @@ ranging >> RangeNtf:INFORM[from:31 to:232 range:371.0 offset:-256067128]
 The range measurement above used TWTT ranging. While node B participated in the range measurement by responding to node A's request for a two-way frame exchange, this is all done quietly and we see nothing on node B's shell. To see what is happening on both nodes, subscribe to the `phy` and `ranging` agent's topics on both nodes. Then repeat the `RangeReq` on node A:
 
 .Node A:
-[source, console]
+[source]
 ----
 > subscribe phy
 > subscribe ranging
@@ -99,7 +99,7 @@ We see that node A transmitted a CONTROL frame. It then received a timestamped C
 If we look at node B's shell at the same time:
 
 .Node B:
-[source, console]
+[source]
 ----
 > subscribe phy
 > subscribe ranging
@@ -113,7 +113,7 @@ We see that node B received a CONTROL frame and responded back with a CONTROL fr
 We can ask node A for the synchronization information it has gathered:
 
 .Node A:
-[source, console]
+[source]
 ----
 > ranging << new SyncInfoReq(to: host('B'))
 SyncInfoRsp:INFORM[to:31 offset:-256067128 validTill:1568557167512]
@@ -122,7 +122,7 @@ SyncInfoRsp:INFORM[to:31 offset:-256067128 validTill:1568557167512]
 We see that it has stored the time offset to node B, along with a validity. However, you'll find that the validity has already expired, since the `lifetime` parameter was set to 0. If you ask for synchronization information on node B, you'll find that it does not have any:
 
 .Node B:
-[source, console]
+[source]
 ----
 > ranging << new SyncInfoReq(to: host('A'))
 REFUSE: Information unavailable
@@ -135,7 +135,7 @@ Without synchronization information, OWTT ranging cannot be performed.
 If we have low-drift clocks on all our nodes, we can set the `lifetime` parameter of the `ranging` agent to a larger value. Let's do that on all nodes. Also unsubscribe from `phy` to avoid too much clutter, but ensure that you're subscribed to `ranging` on all 3 nodes (node A, node B and node C):
 
 .Nodes A, B and C:
-[source, console]
+[source]
 ----
 > ranging.lifetime = 3600
 3600
@@ -146,7 +146,7 @@ If we have low-drift clocks on all our nodes, we can set the `lifetime` paramete
 Now, initiate TWTT ranging to from node A to node B again:
 
 .Node A:
-[source, console]
+[source]
 ----
 > ranging << new RangeReq(to: host('B'))
 AGREE
@@ -156,7 +156,7 @@ ranging >> RangeNtf:INFORM[from:31 to:232 range:371.0 offset:-256067128]
 Not much of a difference here, but if you look at the shell for node B, you'll see a notification:
 
 .Node B:
-[source, console]
+[source]
 ----
 ranging >> RangeNtf:INFORM[from:232 to:31 range:371.0 offset:256067128]
 ----
@@ -166,7 +166,7 @@ The information in this `RangeNtf` is the same as the `RangeNtf` on node A, exce
 But why did node B receive this `RangeNtf`? If we did a TWTT from node A, node A transmitted a frame, node B responded, and node A computed the two-way travel time. How did node B get that information to generate the `RangeNtf`? Now that the `lifetime` is non-zero, node A transmits the range and time offset to node B to synchronize the nodes. We can verify this by asking node B for the synchronization information it has gleaned:
 
 .Node B:
-[source, console]
+[source]
 ----
 > ranging << new SyncInfoReq(to: host('A'))
 SyncInfoRsp:INFORM[to:232 offset:256067128 validTill:1568562001976]
@@ -175,7 +175,7 @@ SyncInfoRsp:INFORM[to:232 offset:256067128 validTill:1568562001976]
 In fact, if you look at the shell for node C, you'll see that it hears this information as well, but it does not have any synchronization information to either node A or B:
 
 .Node C:
-[source, console]
+[source]
 ----
 > ranging << new SyncInfoReq(to: host('A'))
 REFUSE: Information unavailable
@@ -186,7 +186,7 @@ REFUSE: Information unavailable
 Let's try TWTT ranging from node A to node C:
 
 .Node A:
-[source, console]
+[source]
 ----
 > ranging << new RangeReq(to: host('C'))
 AGREE
@@ -196,7 +196,7 @@ ranging >> RangeNtf:INFORM[from:74 to:232 range:529.9 offset:630715082]
 Now, if you check node C, you'll see that it has not only gotten the `RangeNtf`, but also has stored the synchronization information:
 
 .Node C:
-[source, console]
+[source]
 ----
 ranging >> RangeNtf:INFORM[from:232 to:74 range:529.9 offset:-630715082]
 > ranging << new SyncInfoReq(to: host('A'))
@@ -206,7 +206,7 @@ SyncInfoRsp:INFORM[to:232 offset:-630715082 validTill:1568562266302]
 Checking node B, we find that it has also heard the exchange between nodes A and C, and gotten a `RangeNtf` for it. More interestingly, it has synchronization information (time offset) for node C, although we did not ever do a TWTT exchange between nodes B and C! It has inferred the time offset to node C because it knew the time offset to node A, and overheard the time offset between node A and node C!
 
 .Node B:
-[source, console]
+[source]
 ----
 ranging >> RangeNtf:INFORM[from:74 to:232 range:529.9]
 > ranging << new SyncInfoReq(to: host('C'))
@@ -220,7 +220,7 @@ Based on two TWTT exchanges, node A knows time offset to nodes B and C, node B k
 Let's transmit a ranging beacon from node A:
 
 .Node A
-[source, console]
+[source]
 ----
 > ranging << new BeaconReq()
 AGREE
@@ -229,13 +229,13 @@ AGREE
 On node B and C, we see `RangeNtf` from the OWTT ranging:
 
 .Node B
-[source, console]
+[source]
 ----
 ranging >> RangeNtf:INFORM[from:232 to:31 range:371.0]
 ----
 
 .Node C
-[source, console]
+[source]
 ----
 ranging >> RangeNtf:INFORM[from:232 to:74 range:529.9]
 ----
@@ -246,7 +246,7 @@ on nodes B and C, if you subscribe to `phy`, in addition to the `RangeNtf` messa
 We can also get node A to request node C to transmit a beacon:
 
 .Node A
-[source, console]
+[source]
 ----
 > ranging << new RangeReq(to: host('C'), reqBeacon: true)
 AGREE
@@ -256,7 +256,7 @@ ranging >> RangeNtf:INFORM[from:74 to:232 range:529.9]
 This yeilds a `RangeNtf` back on node A, giving range from node C to node A. But since node B hears the beacon, and has synchronization information for node C, it also produces a `RangeNtf` with the range from node C to node B:
 
 .Node B
-[source, console]
+[source]
 ----
 ranging >> RangeNtf:INFORM[from:74 to:31 range:615.9]
 ----

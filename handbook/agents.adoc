@@ -119,7 +119,7 @@ The same approach can be used to create Groovy scripts in the `scripts` folder.
 
 Now start the 2-node network simulation that we have been using as a testbed, and on node B, load the agent:
 
-[source, console]
+[source]
 ----
 > container.add 'echo', new EchoDaemon();             //<1>
 > ps
@@ -154,7 +154,7 @@ In some rare cases, instead of printing an error, the shell may simply refuse to
 
 Once the daemon is successfully loaded on node B, we can test it from node A:
 
-[source, console]
+[source]
 ----
 > subscribe phy                                       //<1>
 > phy << new DatagramReq(to: host('B'), protocol: Protocol.USER, data: [42]) //<2>
@@ -254,7 +254,7 @@ TIP: Behaviors in Groovy use closures to make the syntax easy to work with. If y
 
 Go ahead and replace the `processMessage()` method in your `EchoDaemon.groovy` file and try it! In order to reload the agent, all you need to do on node B is:
 
-[source, console]
+[source]
 ----
 > container.kill echo
 true
@@ -286,7 +286,7 @@ We have seen many agents with parameters that you can get/set. If we wanted to m
 
 With the echo daemon loaded on node B, we see that it doesn't have any configurable parameters by default:
 
-[source, console]
+[source]
 ----
 > echo
 <<< EchoDaemon >>>
@@ -349,7 +349,7 @@ TIP: If you were writing the agent in Java instead of Groovy, you'd need to impl
 
 Let's see how the agent looks with parameters. Reload the agent on node B and check its parameters:
 
-[source, console]
+[source]
 ----
 > container.kill agent('echo')
 true

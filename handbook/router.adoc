@@ -44,7 +44,7 @@ The `Router` class (agent name `router`) provides the ROUTING service in the sta
 
 Without `auto1hop` enabled, every route must be explicitly added to the routing table (even when the node is accessible over a single hop). By enabling `auto1hop`, we tell the router than any node that isn't explicitly added to the routing table is assumed to be accessible over a single hop. This is the default setting:
 
-[source, console]
+[source]
 ----
 > router
 <<< Router >>>
@@ -61,7 +61,7 @@ The `RouteDiscoveryProtocol` class (agent name `rdp`) provides the ROUTE_MAINTEN
 
 In <<Routing in larger networks>>, we explored several examples of how to set up networks with static and dynamic routes. To find out more about routing, type `help router` in the shell:
 
-[source, console]
+[source]
 ----
 > help router
 router - access to routing service

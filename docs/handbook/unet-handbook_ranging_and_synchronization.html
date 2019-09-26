@@ -993,25 +993,25 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>agentsForService<span class="o">(</span>org.arl.unet.Services.RANGING<span class="o">)</span>  <i class="conum" data-value="1"></i><b>(1)</b>
-<span class="go">[ranging]
-</span><span class="gp">&gt;</span><span class="w"> </span>ranging
-<span class="gp">&lt;&lt;&lt; Ranging &gt;</span><span class="o">&gt;&gt;</span>
-<span class="go">
-[org.arl.unet.phy.RangeParam]
-  channel = 1                                      <i class="conum" data-value="2"></i><b>(2)</b>
-  lifetime = 0                                     <i class="conum" data-value="3"></i><b>(3)</b>
-  maxBadRangeCnt = 10
-  maxRange = 6500.0
-  minRange = -10.0
-
-</span><span class="gp">&gt;</span><span class="w"> </span>range host<span class="o">(</span><span class="s1">'B'</span><span class="o">)</span>                                  <i class="conum" data-value="4"></i><b>(4)</b>
-<span class="go">370.98
-</span><span class="gp">&gt;</span><span class="w"> </span>ranging <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RangeReq(to: host('B'))           <i class="conum" data-value="5"></i><b>(5)</b>
-</span><span class="go">AGREE
-</span><span class="gp">ranging &gt;</span><span class="o">&gt;</span> RangeNtf:INFORM[from:31 to:232 range:371.0 offset:-256067128]
-<span class="gp">&gt;</span><span class="w"> </span>ntf.range                                        <i class="conum" data-value="6"></i><b>(6)</b>
-<span class="go">370.98</span></code></pre>
+        <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">agentsForService(org.arl.unet.Services.RANGING)  </span><span class="w"><i class="conum" data-value="1"></i><b>(1)</b>
+</span><span class="go">[ranging]</span><span class="w">
+</span><span class="gp">&gt; </span><span class="gs">ranging</span><span class="w">
+</span><span class="go">&lt;&lt;&lt; Ranging &gt;&gt;&gt;</span><span class="w">
+</span><span class="err">
+</span><span class="go">[org.arl.unet.phy.RangeParam]</span><span class="w">
+</span><span class="go">  channel = 1                                      </span><span class="w"><i class="conum" data-value="2"></i><b>(2)</b>
+</span><span class="go">  lifetime = 0                                     </span><span class="w"><i class="conum" data-value="3"></i><b>(3)</b>
+</span><span class="go">  maxBadRangeCnt = 10</span><span class="w">
+</span><span class="go">  maxRange = 6500.0</span><span class="w">
+</span><span class="go">  minRange = -10.0</span><span class="w">
+</span><span class="err">
+</span><span class="gp">&gt; </span><span class="gs">range host(</span><span class="s1">'B'</span><span class="gs">)                                  </span><span class="w"><i class="conum" data-value="4"></i><b>(4)</b>
+</span><span class="go">370.98</span><span class="w">
+</span><span class="gp">&gt; </span><span class="gs">ranging &lt;&lt; </span><span class="kr">new</span><span class="gs"> RangeReq(to: host(</span><span class="s1">'B'</span><span class="gs">))           </span><span class="w"><i class="conum" data-value="5"></i><b>(5)</b>
+</span><span class="go">AGREE</span><span class="w">
+</span><span class="gh">ranging &gt;&gt; RangeNtf:INFORM[from:31 to:232 range:371.0 offset:-256067128]</span><span class="w">
+</span><span class="gp">&gt; </span><span class="gs">ntf.range                                        </span><span class="w"><i class="conum" data-value="6"></i><b>(6)</b>
+</span><span class="go">370.98</span></code></pre>
        </div>
       </div>
       <div class="colist arabic">
@@ -1164,14 +1164,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
          Node A:
         </div>
         <div class="content">
-         <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>subscribe phy
-<span class="gp">&gt;</span><span class="w"> </span>subscribe ranging
-<span class="gp">&gt;</span><span class="w"> </span>ranging <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RangeReq(to: host('B'))
-</span><span class="go">AGREE
-</span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameStartNtf:INFORM[type:CONTROL txTime:2546485580 txDuration:950]
-<span class="gp">phy &gt;</span><span class="o">&gt;</span> RxFrameStartNtf:INFORM[type:CONTROL rxTime:2548827417]
-<span class="gp">phy &gt;</span><span class="o">&gt;</span> RxFrameNtf:INFORM[type:CONTROL from:31 to:232 protocol:1 rxTime:2548827417 txTime:2292518452 <span class="o">(</span>7 bytes<span class="o">)]</span>
-<span class="gp">ranging &gt;</span><span class="o">&gt;</span> RangeNtf:INFORM[from:31 to:232 range:371.0 offset:-256067128]</code></pre>
+         <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">subscribe phy</span><span class="w">
+</span><span class="gp">&gt; </span><span class="gs">subscribe ranging</span><span class="w">
+</span><span class="gp">&gt; </span><span class="gs">ranging &lt;&lt; </span><span class="kr">new</span><span class="gs"> RangeReq(to: host(</span><span class="s1">'B'</span><span class="gs">))</span><span class="w">
+</span><span class="go">AGREE</span><span class="w">
+</span><span class="gh">phy &gt;&gt; TxFrameStartNtf:INFORM[type:CONTROL txTime:2546485580 txDuration:950]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; RxFrameStartNtf:INFORM[type:CONTROL rxTime:2548827417]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:31 to:232 protocol:1 rxTime:2548827417 txTime:2292518452 (7 bytes)]</span><span class="w">
+</span><span class="gh">ranging &gt;&gt; RangeNtf:INFORM[from:31 to:232 range:371.0 offset:-256067128]</span></code></pre>
         </div>
        </div>
        <div class="paragraph">
@@ -1193,11 +1193,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
          Node B:
         </div>
         <div class="content">
-         <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>subscribe phy
-<span class="gp">&gt;</span><span class="w"> </span>subscribe ranging
-<span class="gp">phy &gt;</span><span class="o">&gt;</span> RxFrameStartNtf:INFORM[type:CONTROL rxTime:2290660289]
-<span class="gp">phy &gt;</span><span class="o">&gt;</span> RxFrameNtf:INFORM[type:CONTROL from:232 to:31 protocol:1 rxTime:2290660289 <span class="o">(</span>1 byte<span class="o">)]</span>
-<span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameStartNtf:INFORM[type:CONTROL txTime:2292518452 txDuration:950]</code></pre>
+         <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">subscribe phy</span><span class="w">
+</span><span class="gp">&gt; </span><span class="gs">subscribe ranging</span><span class="w">
+</span><span class="gh">phy &gt;&gt; RxFrameStartNtf:INFORM[type:CONTROL rxTime:2290660289]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:232 to:31 protocol:1 rxTime:2290660289 (1 byte)]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; TxFrameStartNtf:INFORM[type:CONTROL txTime:2292518452 txDuration:950]</span></code></pre>
         </div>
        </div>
        <div class="paragraph">
@@ -1215,7 +1215,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
          Node A:
         </div>
         <div class="content">
-         <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>ranging <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> SyncInfoReq(to: host('B'))
+         <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">ranging &lt;&lt; </span><span class="kr">new</span><span class="gs"> SyncInfoReq(to: host(</span><span class="s1">'B'</span><span class="gs">))</span><span class="w">
 </span><span class="go">SyncInfoRsp:INFORM[to:31 offset:-256067128 validTill:1568557167512]</span></code></pre>
         </div>
        </div>
@@ -1233,7 +1233,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
          Node B:
         </div>
         <div class="content">
-         <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>ranging <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> SyncInfoReq(to: host('A'))
+         <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">ranging &lt;&lt; </span><span class="kr">new</span><span class="gs"> SyncInfoReq(to: host(</span><span class="s1">'A'</span><span class="gs">))</span><span class="w">
 </span><span class="go">REFUSE: Information unavailable</span></code></pre>
         </div>
        </div>
@@ -1273,10 +1273,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
          Nodes A, B and C:
         </div>
         <div class="content">
-         <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>ranging.lifetime <span class="o">=</span> 3600
-<span class="go">3600
-</span><span class="gp">&gt;</span><span class="w"> </span>unsubscribe phy
-<span class="gp">&gt;</span><span class="w"> </span>subscribe ranging</code></pre>
+         <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">ranging.lifetime = </span><span class="mi">3600</span><span class="w">
+</span><span class="go">3600</span><span class="w">
+</span><span class="gp">&gt; </span><span class="gs">unsubscribe phy</span><span class="w">
+</span><span class="gp">&gt; </span><span class="gs">subscribe ranging</span></code></pre>
         </div>
        </div>
        <div class="paragraph">
@@ -1289,9 +1289,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
          Node A:
         </div>
         <div class="content">
-         <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>ranging <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RangeReq(to: host('B'))
-</span><span class="go">AGREE
-</span><span class="gp">ranging &gt;</span><span class="o">&gt;</span> RangeNtf:INFORM[from:31 to:232 range:371.0 offset:-256067128]</code></pre>
+         <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">ranging &lt;&lt; </span><span class="kr">new</span><span class="gs"> RangeReq(to: host(</span><span class="s1">'B'</span><span class="gs">))</span><span class="w">
+</span><span class="go">AGREE</span><span class="w">
+</span><span class="gh">ranging &gt;&gt; RangeNtf:INFORM[from:31 to:232 range:371.0 offset:-256067128]</span></code></pre>
         </div>
        </div>
        <div class="paragraph">
@@ -1304,7 +1304,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
          Node B:
         </div>
         <div class="content">
-         <pre class="rouge highlight"><code data-lang="console"><span class="gp">ranging &gt;</span><span class="o">&gt;</span> RangeNtf:INFORM[from:232 to:31 range:371.0 offset:256067128]</code></pre>
+         <pre class="rouge highlight"><code data-lang="unet"><span class="gh">ranging &gt;&gt; RangeNtf:INFORM[from:232 to:31 range:371.0 offset:256067128]</span></code></pre>
         </div>
        </div>
        <div class="paragraph">
@@ -1358,7 +1358,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
          Node B:
         </div>
         <div class="content">
-         <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>ranging <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> SyncInfoReq(to: host('A'))
+         <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">ranging &lt;&lt; </span><span class="kr">new</span><span class="gs"> SyncInfoReq(to: host(</span><span class="s1">'A'</span><span class="gs">))</span><span class="w">
 </span><span class="go">SyncInfoRsp:INFORM[to:232 offset:256067128 validTill:1568562001976]</span></code></pre>
         </div>
        </div>
@@ -1372,9 +1372,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
          Node C:
         </div>
         <div class="content">
-         <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>ranging <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> SyncInfoReq(to: host('A'))
-</span><span class="go">REFUSE: Information unavailable
-</span><span class="gp">&gt;</span><span class="w"> </span>ranging <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> SyncInfoReq(to: host('B'))
+         <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">ranging &lt;&lt; </span><span class="kr">new</span><span class="gs"> SyncInfoReq(to: host(</span><span class="s1">'A'</span><span class="gs">))</span><span class="w">
+</span><span class="go">REFUSE: Information unavailable</span><span class="w">
+</span><span class="gp">&gt; </span><span class="gs">ranging &lt;&lt; </span><span class="kr">new</span><span class="gs"> SyncInfoReq(to: host(</span><span class="s1">'B'</span><span class="gs">))</span><span class="w">
 </span><span class="go">REFUSE: Information unavailable</span></code></pre>
         </div>
        </div>
@@ -1388,9 +1388,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
          Node A:
         </div>
         <div class="content">
-         <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>ranging <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RangeReq(to: host('C'))
-</span><span class="go">AGREE
-</span><span class="gp">ranging &gt;</span><span class="o">&gt;</span> RangeNtf:INFORM[from:74 to:232 range:529.9 offset:630715082]</code></pre>
+         <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">ranging &lt;&lt; </span><span class="kr">new</span><span class="gs"> RangeReq(to: host(</span><span class="s1">'C'</span><span class="gs">))</span><span class="w">
+</span><span class="go">AGREE</span><span class="w">
+</span><span class="gh">ranging &gt;&gt; RangeNtf:INFORM[from:74 to:232 range:529.9 offset:630715082]</span></code></pre>
         </div>
        </div>
        <div class="paragraph">
@@ -1407,8 +1407,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
          Node C:
         </div>
         <div class="content">
-         <pre class="rouge highlight"><code data-lang="console"><span class="gp">ranging &gt;</span><span class="o">&gt;</span> RangeNtf:INFORM[from:232 to:74 range:529.9 offset:-630715082]
-<span class="gp">&gt;</span><span class="w"> </span>ranging <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> SyncInfoReq(to: host('A'))
+         <pre class="rouge highlight"><code data-lang="unet"><span class="gh">ranging &gt;&gt; RangeNtf:INFORM[from:232 to:74 range:529.9 offset:-630715082]</span><span class="w">
+</span><span class="gp">&gt; </span><span class="gs">ranging &lt;&lt; </span><span class="kr">new</span><span class="gs"> SyncInfoReq(to: host(</span><span class="s1">'A'</span><span class="gs">))</span><span class="w">
 </span><span class="go">SyncInfoRsp:INFORM[to:232 offset:-630715082 validTill:1568562266302]</span></code></pre>
         </div>
        </div>
@@ -1426,8 +1426,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
          Node B:
         </div>
         <div class="content">
-         <pre class="rouge highlight"><code data-lang="console"><span class="gp">ranging &gt;</span><span class="o">&gt;</span> RangeNtf:INFORM[from:74 to:232 range:529.9]
-<span class="gp">&gt;</span><span class="w"> </span>ranging <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> SyncInfoReq(to: host('C'))
+         <pre class="rouge highlight"><code data-lang="unet"><span class="gh">ranging &gt;&gt; RangeNtf:INFORM[from:74 to:232 range:529.9]</span><span class="w">
+</span><span class="gp">&gt; </span><span class="gs">ranging &lt;&lt; </span><span class="kr">new</span><span class="gs"> SyncInfoReq(to: host(</span><span class="s1">'C'</span><span class="gs">))</span><span class="w">
 </span><span class="go">SyncInfoRsp:INFORM[to:74 offset:886782210 validTill:1568562266192]</span></code></pre>
         </div>
        </div>
@@ -1451,7 +1451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
          Node A
         </div>
         <div class="content">
-         <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>ranging <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> BeaconReq()
+         <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">ranging &lt;&lt; </span><span class="kr">new</span><span class="gs"> BeaconReq()</span><span class="w">
 </span><span class="go">AGREE</span></code></pre>
         </div>
        </div>
@@ -1469,7 +1469,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
          Node B
         </div>
         <div class="content">
-         <pre class="rouge highlight"><code data-lang="console"><span class="gp">ranging &gt;</span><span class="o">&gt;</span> RangeNtf:INFORM[from:232 to:31 range:371.0]</code></pre>
+         <pre class="rouge highlight"><code data-lang="unet"><span class="gh">ranging &gt;&gt; RangeNtf:INFORM[from:232 to:31 range:371.0]</span></code></pre>
         </div>
        </div>
        <div class="listingblock">
@@ -1477,7 +1477,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
          Node C
         </div>
         <div class="content">
-         <pre class="rouge highlight"><code data-lang="console"><span class="gp">ranging &gt;</span><span class="o">&gt;</span> RangeNtf:INFORM[from:232 to:74 range:529.9]</code></pre>
+         <pre class="rouge highlight"><code data-lang="unet"><span class="gh">ranging &gt;&gt; RangeNtf:INFORM[from:232 to:74 range:529.9]</span></code></pre>
         </div>
        </div>
        <div class="admonitionblock tip">
@@ -1523,9 +1523,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
          Node A
         </div>
         <div class="content">
-         <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>ranging <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RangeReq(to: host('C'), reqBeacon: true)
-</span><span class="go">AGREE
-</span><span class="gp">ranging &gt;</span><span class="o">&gt;</span> RangeNtf:INFORM[from:74 to:232 range:529.9]</code></pre>
+         <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">ranging &lt;&lt; </span><span class="kr">new</span><span class="gs"> RangeReq(to: host(</span><span class="s1">'C'</span><span class="gs">), reqBeacon: true)</span><span class="w">
+</span><span class="go">AGREE</span><span class="w">
+</span><span class="gh">ranging &gt;&gt; RangeNtf:INFORM[from:74 to:232 range:529.9]</span></code></pre>
         </div>
        </div>
        <div class="paragraph">
@@ -1546,7 +1546,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
          Node B
         </div>
         <div class="content">
-         <pre class="rouge highlight"><code data-lang="console"><span class="gp">ranging &gt;</span><span class="o">&gt;</span> RangeNtf:INFORM[from:74 to:31 range:615.9]</code></pre>
+         <pre class="rouge highlight"><code data-lang="unet"><span class="gh">ranging &gt;&gt; RangeNtf:INFORM[from:74 to:31 range:615.9]</span></code></pre>
         </div>
        </div>
        <div class="paragraph">
@@ -1619,7 +1619,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
    <div id="footer-text">
     Version 3.0.0
     <br/>
-    Last updated 2019-09-26 15:30:51 +0800
+    Last updated 2019-09-26 21:35:55 +0800
    </div>
 <script>
  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -1633,212 +1633,176 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
   <style>
    pre.rouge table td { padding: 5px; }
 pre.rouge table pre { margin: 0; }
-pre.rouge .cm {
-  color: #999988;
+pre.rouge {
+  color: #faf6e4;
+  background-color: #122b3b;
+}
+pre.rouge .gl {
+  color: #dee5e7;
+  background-color: #4e5d62;
+}
+pre.rouge .gp {
+  color: #a8e1fe;
+  font-weight: bold;
+}
+pre.rouge .c, pre.rouge .cd, pre.rouge .cm, pre.rouge .c1, pre.rouge .cs {
+  color: #6c8b9f;
   font-style: italic;
 }
 pre.rouge .cp {
-  color: #999999;
+  color: #b2fd6d;
   font-weight: bold;
-}
-pre.rouge .c1 {
-  color: #999988;
-  font-style: italic;
-}
-pre.rouge .cs {
-  color: #999999;
-  font-weight: bold;
-  font-style: italic;
-}
-pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cpf {
-  color: #999988;
   font-style: italic;
 }
 pre.rouge .err {
-  color: #a61717;
-  background-color: #e3d2d2;
-}
-pre.rouge .gd {
-  color: #000000;
-  background-color: #ffdddd;
-}
-pre.rouge .ge {
-  color: #000000;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 pre.rouge .gr {
-  color: #aa0000;
+  color: #cc0000;
+  font-weight: bold;
+  font-style: italic;
 }
-pre.rouge .gh {
-  color: #999999;
+pre.rouge .k, pre.rouge .kd, pre.rouge .kv {
+  color: #f6dd62;
+  font-weight: bold;
+}
+pre.rouge .o, pre.rouge .ow {
+  color: #4df4ff;
+  font-weight: bold;
+}
+pre.rouge .p, pre.rouge .pi {
+  color: #4df4ff;
+}
+pre.rouge .gd {
+  color: #cc0000;
 }
 pre.rouge .gi {
-  color: #000000;
-  background-color: #ddffdd;
+  color: #b2fd6d;
 }
-pre.rouge .go {
-  color: #888888;
-}
-pre.rouge .gp {
-  color: #555555;
+pre.rouge .ge {
+  font-style: italic;
 }
 pre.rouge .gs {
   font-weight: bold;
 }
-pre.rouge .gu {
-  color: #aaaaaa;
-}
 pre.rouge .gt {
-  color: #aa0000;
+  color: #dee5e7;
+  background-color: #4e5d62;
 }
 pre.rouge .kc {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kd {
-  color: #000000;
+  color: #f696db;
   font-weight: bold;
 }
 pre.rouge .kn {
-  color: #000000;
+  color: #ffb000;
   font-weight: bold;
 }
 pre.rouge .kp {
-  color: #000000;
+  color: #ffb000;
   font-weight: bold;
 }
 pre.rouge .kr {
-  color: #000000;
+  color: #ffb000;
+  font-weight: bold;
+}
+pre.rouge .gh {
+  color: #ffb000;
+  font-weight: bold;
+}
+pre.rouge .gu {
+  color: #ffb000;
   font-weight: bold;
 }
 pre.rouge .kt {
-  color: #445588;
-  font-weight: bold;
-}
-pre.rouge .k, pre.rouge .kv {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .mf {
-  color: #009999;
-}
-pre.rouge .mh {
-  color: #009999;
-}
-pre.rouge .il {
-  color: #009999;
-}
-pre.rouge .mi {
-  color: #009999;
-}
-pre.rouge .mo {
-  color: #009999;
-}
-pre.rouge .m, pre.rouge .mb, pre.rouge .mx {
-  color: #009999;
-}
-pre.rouge .sb {
-  color: #d14;
-}
-pre.rouge .sc {
-  color: #d14;
-}
-pre.rouge .sd {
-  color: #d14;
-}
-pre.rouge .s2 {
-  color: #d14;
-}
-pre.rouge .se {
-  color: #d14;
-}
-pre.rouge .sh {
-  color: #d14;
-}
-pre.rouge .si {
-  color: #d14;
-}
-pre.rouge .sx {
-  color: #d14;
-}
-pre.rouge .sr {
-  color: #009926;
-}
-pre.rouge .s1 {
-  color: #d14;
-}
-pre.rouge .ss {
-  color: #990073;
-}
-pre.rouge .s, pre.rouge .sa, pre.rouge .dl {
-  color: #d14;
-}
-pre.rouge .na {
-  color: #008080;
-}
-pre.rouge .bp {
-  color: #999999;
-}
-pre.rouge .nb {
-  color: #0086B3;
-}
-pre.rouge .nc {
-  color: #445588;
+  color: #b2fd6d;
   font-weight: bold;
 }
 pre.rouge .no {
-  color: #008080;
+  color: #b2fd6d;
+  font-weight: bold;
+}
+pre.rouge .nc {
+  color: #b2fd6d;
+  font-weight: bold;
 }
 pre.rouge .nd {
-  color: #3c5d5d;
-  font-weight: bold;
-}
-pre.rouge .ni {
-  color: #800080;
-}
-pre.rouge .ne {
-  color: #990000;
-  font-weight: bold;
-}
-pre.rouge .nf, pre.rouge .fm {
-  color: #990000;
-  font-weight: bold;
-}
-pre.rouge .nl {
-  color: #990000;
+  color: #b2fd6d;
   font-weight: bold;
 }
 pre.rouge .nn {
-  color: #555555;
-}
-pre.rouge .nt {
-  color: #000080;
-}
-pre.rouge .vc {
-  color: #008080;
-}
-pre.rouge .vg {
-  color: #008080;
-}
-pre.rouge .vi {
-  color: #008080;
-}
-pre.rouge .nv, pre.rouge .vm {
-  color: #008080;
-}
-pre.rouge .ow {
-  color: #000000;
+  color: #b2fd6d;
   font-weight: bold;
 }
-pre.rouge .o {
-  color: #000000;
+pre.rouge .bp {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+pre.rouge .ne {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+pre.rouge .nl {
+  color: #ffb000;
+  font-weight: bold;
+}
+pre.rouge .nt {
+  color: #ffb000;
+  font-weight: bold;
+}
+pre.rouge .m, pre.rouge .mf, pre.rouge .mh, pre.rouge .mi, pre.rouge .il, pre.rouge .mo, pre.rouge .mb, pre.rouge .mx {
+  color: #f696db;
+  font-weight: bold;
+}
+pre.rouge .ld {
+  color: #f696db;
+  font-weight: bold;
+}
+pre.rouge .ss {
+  color: #f696db;
+  font-weight: bold;
+}
+pre.rouge .s, pre.rouge .sb, pre.rouge .sd, pre.rouge .s2, pre.rouge .sh, pre.rouge .sx, pre.rouge .sr, pre.rouge .s1 {
+  color: #fff0a6;
+  font-weight: bold;
+}
+pre.rouge .se {
+  color: #4df4ff;
+  font-weight: bold;
+}
+pre.rouge .sc {
+  color: #4df4ff;
+  font-weight: bold;
+}
+pre.rouge .si {
+  color: #4df4ff;
+  font-weight: bold;
+}
+pre.rouge .nb {
+  font-weight: bold;
+}
+pre.rouge .ni {
+  color: #999999;
   font-weight: bold;
 }
 pre.rouge .w {
-  color: #bbbbbb;
+  color: #BBBBBB;
 }
-pre.rouge {
-  background-color: #f8f8f8;
+pre.rouge .go {
+  color: #BBBBBB;
+}
+pre.rouge .nf {
+  color: #a8e1fe;
+}
+pre.rouge .py {
+  color: #a8e1fe;
+}
+pre.rouge .na {
+  color: #a8e1fe;
+}
+pre.rouge .nv, pre.rouge .vc, pre.rouge .vg, pre.rouge .vi {
+  color: #a8e1fe;
+  font-weight: bold;
 }
   </style>
  </body>

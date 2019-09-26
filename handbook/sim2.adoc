@@ -91,7 +91,7 @@ TIP: The `rnditem(list)` function allows a random item to be chosen from a list.
 
 Open Unet IDE (`bin/unet sim`), create a new simulation script in the `scripts` folder, copy this code in, and run it. Within a few seconds, you should see the results:
 
-[source, console]
+[source]
 ----
 [1398, 1080, 0.13631, 0.105]
 1 simulation completed in 2.817 seconds
@@ -158,7 +158,7 @@ Other than the pretty printing to tabulate the output, you'll see that we have a
 
 A slightly beautified copy of the above code is available in the `samples/aloha.groovy` script. You can either run that, or run the above code. You should see something like this output:
 
-[source, console]
+[source]
 ----
 Pure ALOHA simulation
 =====================

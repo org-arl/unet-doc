@@ -29,7 +29,7 @@ TIP: The port numbers you see in the examples above aren't particularly special.
 We start off by checking the configuration of each node:
 
 .`Node A`
-[source, console]
+[source]
 ----
 > node
 <<< NodeInfo >>>
@@ -44,7 +44,7 @@ We start off by checking the configuration of each node:
 ----
 
 .`Node B`
-[source, console]
+[source]
 ----
 > node
 <<< NodeInfo >>>
@@ -59,7 +59,7 @@ We start off by checking the configuration of each node:
 ----
 
 .`Node C`
-[source, console]
+[source]
 ----
 > node
 <<< NodeInfo >>>
@@ -82,7 +82,7 @@ TIP: In the simulated network, all of the node parameters are correctly setup by
 Let us first check the connectivity between the nodes:
 
 .`Node A`
-[source, console]
+[source]
 ----
 > ping host('B')
 PING 31
@@ -101,7 +101,7 @@ Response from 74: seq=2 rthops=2 time=2737 ms
 The connectivity from node A to nodes B and C looks good. What about the connectivity from node B to node C?
 
 .`Node B`
-[source, console]
+[source]
 ----
 > ping host('C')
 PING 74
@@ -118,7 +118,7 @@ NOTE: In this simulation, everything checks out nicely. But, in the real world, 
 We can also check cross-check that the routes from node A to nodes B and C are direct:
 
 .`Node A`
-[source, console]
+[source]
 ----
 > trace host('B')
 [232, 31, 232]
@@ -131,7 +131,7 @@ The first trace shows that the datagram originated at node A (address 232), reac
 We can also make range measurements (in meters) between the nodes:
 
 .`Node A`
-[source, console]
+[source]
 ----
 > range host('A')
 0.0
@@ -142,7 +142,7 @@ We can also make range measurements (in meters) between the nodes:
 ----
 
 .`Node B`
-[source, console]
+[source]
 ----
 > range host('A')
 370.98
@@ -157,7 +157,7 @@ We can also make range measurements (in meters) between the nodes:
 Once we have connectivity, we can of course send text messages from the shell:
 
 .`Node A`
-[source, console]
+[source]
 ----
 > tell host('B'), 'hello!'
 AGREE
@@ -166,7 +166,7 @@ AGREE
 and we see the text message on node B:
 
 .`Node B`
-[source, console]
+[source]
 ----
 [232]: hello!
 ----
@@ -178,7 +178,7 @@ We have already seen in <<Getting started>> and <<Protocol numbers>> on how to s
 Data is often stored in files. Transferring files between nodes is a common requirement. File transfers and remote access is disabled by default. Let us enable this on node B:
 
 .`Node B`
-[source, console]
+[source]
 ----
 > remote
 <<< RemoteControl >>>
@@ -198,7 +198,7 @@ true
 Now we can send & receive files, and run remote commands on node B. Let's try it from node A:
 
 .`Node A`
-[source, console]
+[source]
 ----
 > B = host('B')
 31
@@ -230,7 +230,7 @@ NOTE: Although we demonstrated file transfers between nodes with the simulator, 
 You can also use `fget` to receive a file from a remote node, but you have to remember to set `remote.enable = true` on the receiving node:
 
 .`Node A`
-[source, console]
+[source]
 ----
 > remote.enable = true
 true
@@ -247,7 +247,7 @@ The last command failed to get file `def.txt`, as it does not exist on node B.
 When we send commands to execute on a remote node, they are usually silently executed and the output is not sent back. If we want the output to be shown to us, we need to explicity ask for it using `tell`. Since this is often required, we have a simple Groovy extensions shortcut `?` to do this for us:
 
 .`Node A`
-[source, console]
+[source]
 ----
 > rsh B, 'tell me,node.nodeName'
 AGREE
@@ -273,7 +273,7 @@ AGREE
 Sometimes we are not interested in the output, but simply want an acknowledgement that the command was successfully executed. For example, if we set the transmission power on a remote node, we want to know that it was set. That can be requested using the `ack` function.
 
 .`Node A`
-[source, console]
+[source]
 ----
 > ack on
 > rsh B, 'plvl -6'
@@ -305,7 +305,7 @@ NOTE: The Unet simulator requires a local coordinate system to be defined, and s
 In <<Connectivity & ranging>>, we measured the acoustic range between nodes A and B to about about 371 m. We can check this against distance computed from the location of nodes A and B. We first get the location of node A:
 
 .`Node A`
-[source, console]
+[source]
 ----
 > node.location
 [121.0, 137.0, -10.0]
@@ -314,7 +314,7 @@ In <<Connectivity & ranging>>, we measured the acoustic range between nodes A an
 and then compute the distance to it on node B:
 
 .`Node B`
-[source, console]
+[source]
 ----
 > distance(node.location, [121.0, 137.0, -10.0])
 371.09
@@ -325,7 +325,7 @@ We see that it agrees well with the acoustic range!
 It is often necessary to convert between the GPS coordinate system and the local coordinate system. To aid in this, UnetStack provides a set of utility functions:
 
 .`Node A`
-[source, console]
+[source]
 ----
 > gps = new org.arl.unet.utils.GpsLocalFrame(node.origin);   // set origin GPS coordinates
 > gps.toGps(node.location[0..1])                             // local to GPS

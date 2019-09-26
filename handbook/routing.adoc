@@ -46,7 +46,7 @@ To: From:,    21,    22,    27,    28,    29,    31,    34
 During the MISSION 2013 experiment, node 21 was a gateway node with surface expression and connectivity to the Internet (via a 3G cellular network). All other nodes were on the seabed and not directly accessible. So let us start by exploring the connectivity from node 21 to other nodes:
 
 .`Node 21`
-[source, console]
+[source]
 ----
 > ping 22
 PING 22
@@ -98,7 +98,7 @@ From <<fig_m13_map>> and <<tab_m13_fdr>>, we see that node 28 has good connectiv
 On node 21, we add routes to nodes 31 and 34:
 
 .`Node 21`
-[source, console]
+[source]
 ----
 > addroute 31, 28
 > addroute 34, 28
@@ -110,7 +110,7 @@ On node 21, we add routes to nodes 31 and 34:
 On nodes 31 and 34, we add routes to node 21 via node 28:
 
 .`Node 31`
-[source, console]
+[source]
 ----
 > addroute 21, 28
 > routes
@@ -118,7 +118,7 @@ On nodes 31 and 34, we add routes to node 21 via node 28:
 ----
 
 .`Node 34`
-[source, console]
+[source]
 ----
 > addroute 21, 28
 > routes
@@ -128,7 +128,7 @@ On nodes 31 and 34, we add routes to node 21 via node 28:
 Now, we can check out connectivity from node 21 to nodes 31 and 34 again:
 
 .`Node 21`
-[source, console]
+[source]
 ----
 > ping 31
 PING 31
@@ -146,7 +146,7 @@ Request timeout for seq 2
 While the connectivity to node 31 seems okay, the connectivity to node 34 is still poor. We notice that the `seq=0` round-trip time is very close to the timeout of 30 seconds, and so try a ping with a longer timeout of 60 seconds:
 
 .`Node 21`
-[source, console]
+[source]
 ----
 > ping 34, 3, 60000
 Response from 34: seq=0 rthops=4 time=38505 ms
@@ -160,7 +160,7 @@ Much better!
 The pings to nodes 31 and 34 show `rthops` (round trip hops) to be 4, which makes sense, since we have 2-hop routes in each direction. We can ask the routing agent for a trace to check what route the datagram took:
 
 .`Node 21`
-[source, console]
+[source]
 ----
 > trace 31
 [21, 28, 31, 28, 21]
@@ -171,7 +171,7 @@ This shows that the datagram originated at node 21, passed through node 28 befor
 Let us next try to do something using the routes we created. We can get node 21 to ask node 31 to measure the range to node 34 and report it to us. This request will be relayed via node 28, since our routing tables are set up to do so. Remember to set `remote.enable = true` on node 31 before making the request from node 21:
 
 .`Node 21`
-[source, console]
+[source]
 ----
 > rsh 31, '?range 34'
 AGREE
@@ -189,7 +189,7 @@ In the previous section, we learned how to set up static routes manually. But wh
 To see how to do this, let us restart our MISSION 2013 simulation so that the routing tables are empty (alternatively we can remove the routes we created earlier by typing `delroutes` on nodes 21, 31 and 34). We can verify that the routing table is indeed empty:
 
 .`Node 21`
-[source, console]
+[source]
 ----
 > routes
 >
@@ -198,7 +198,7 @@ To see how to do this, let us restart our MISSION 2013 simulation so that the ro
 Now, start a route discovery to node 31:
 
 .`Node 21`
-[source, console]
+[source]
 ----
 > rreq 31
 OK
@@ -207,7 +207,7 @@ OK
 Patiently wait for a minute or two before checking the routing table on node 21:
 
 .`Node 21`
-[source, console]
+[source]
 ----
 > routes
 1: to 29 via uwlink/29 [reliable, hops: 1, metric: 2.0]
@@ -221,7 +221,7 @@ Patiently wait for a minute or two before checking the routing table on node 21:
 Your routing table may differ, as the route discovery process is stochastic. We see that we now have a route to node 31 via node 28. Let us check the routing table on node 31 as well, to see if it has a corresponding entry for a route to node 21:
 
 .`Node 31`
-[source, console]
+[source]
 ----
 > routes
 1: to 29 via uwlink/29 [reliable, hops: 1, metric: 2.0]
@@ -235,7 +235,7 @@ Your routing table may differ, as the route discovery process is stochastic. We 
 Indeed it does! In fact, it has 3 routes back to node 21, one via node 29, another via node 28 and the last via node 34. Of these routes, the route via node 28 has the largest metric, and so will be the route that is used. We can verify that by issuing a trace from node 21:
 
 .`Node 21`
-[source, console]
+[source]
 ----
 > trace 31
 [21, 28, 31, 28, 21]

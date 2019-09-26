@@ -13,7 +13,7 @@ Let us consider a scenario where node 31 also has a surface expression and 3G ce
 Fire up the `mission2013-network.groovy` network simulation (or if you already have it running from the last chapter, terminate and restart it, so that we have no routes in our routing tables). Connect to node 21's shell and add the `UdpLink` agent, and setup a route to node 31 via the UDP link:
 
 .Node 21:
-[source, console]
+[source]
 ----
 > container.add 'udplink', new UdpLink();
 > udplink
@@ -42,7 +42,7 @@ Fire up the `mission2013-network.groovy` network simulation (or if you already h
 Similarly, connect to node 31's shell and add the `UdpLink` agent as well as a route to node 21 via the UDP link:
 
 .Node 31:
-[source, console]
+[source]
 ----
 > container.add 'udplink', new UdpLink();
 > addroute 21, 21, udplink
@@ -53,7 +53,7 @@ Similarly, connect to node 31's shell and add the `UdpLink` agent as well as a r
 Go back to node 21's shell and see if you can communicate to node 31 via the UDP link:
 
 .Node 21:
-[source, console]
+[source]
 ----
 > ping 31
 PING 31
@@ -71,7 +71,7 @@ remote >> RemoteSuccessNtf:INFORM[RemoteTextReq:REQUEST[to:31 text:hello ack:tru
 and on node 31, you'll see:
 
 .Node 31:
-[source, console]
+[source]
 ----
 [21]: hello
 ----
@@ -83,7 +83,7 @@ You'll also notice that the communication is much faster, since the UDP/IP laten
 When we added the `UdpLink` agent in the last section, we set up static routes manually on both nodes. Let's delete these routes on both nodes:
 
 .Node 21, 31:
-[source, console]
+[source]
 ----
 > delroutes
 ----
@@ -91,7 +91,7 @@ When we added the `UdpLink` agent in the last section, we set up static routes m
 Now, let's see what the route discovery agent does when we ask it to discover routes for us:
 
 .Node 21
-[source, console]
+[source]
 ----
 > rreq 31
 OK
@@ -115,7 +115,7 @@ Note that the route discovery resulted in 2 routes to node 31 in this case. The 
 You can check the routing table on node 31:
 
 .Node 31
-[source, console]
+[source]
 ----
 > routes
 1: to 29 via uwlink/29 [reliable, hops: 1, metric: 1.0]

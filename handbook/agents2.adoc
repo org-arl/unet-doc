@@ -135,7 +135,7 @@ Now we have a fully-compliant, but very simple, MAC agent!
 
 The `MySimplestMac` agent from the previous section is available in the `samples` folder of your Unet simulator. To test it, fire up the 2-node network simulator and connect to node A:
 
-[source, console]
+[source]
 ----
 > ps
 remote: org.arl.unet.remote.RemoteControl - IDLE
@@ -156,7 +156,7 @@ mac: org.arl.unet.mac.CSMA - IDLE
 
 We see that the `org.arl.unet.mac.CSMA` agent is the current `mac`. To use our `MySimplestMac` agent, you first need to kill the `org.arl.unet.mac.CSMA` agent, and then load the `MySimplestMac` agent:
 
-[source, console]
+[source]
 ----
 > container.kill mac
 true
@@ -193,7 +193,7 @@ It's loaded and working!
 
 Now, you can ask for a reservation and see if it responds correctly:
 
-[source, console]
+[source]
 ----
 > mac << new ReservationReq(to: 31, duration: 3.seconds)
 ReservationRsp:AGREE
@@ -214,14 +214,14 @@ log.fine 'Some debugging information'
 
 The log level can be controlled on a per-class or per-package basis using the `logLevel` command on the Unet shell (type `help logLevel` for details). To set the current log level to include fine level logs:
 
-[source, console]
+[source]
 ----
 > logLevel FINE
 ----
 
 You can access the logs from the web interface "Logs" tab, or on your disk in the `logs` folder. The active agent log file is always called `log-0.txt`. To see the last few lines of this file from your shell:
 
-[source, console]
+[source]
 ----
 > tail
 1568482567444|INFO|org.arl.unet.remote.RemoteControl/B@57:startup|Using transport for communication
@@ -406,7 +406,7 @@ Since encoding and decoding of PDUs is required in almost all protocol implement
 
 This is best illustrated with an example that you can try on a shell:
 
-[source, console]
+[source]
 ----
 > import java.nio.ByteOrder
 > pdu = PDU.withFormat {
@@ -680,7 +680,7 @@ We are done! You can find the full listing of the `MySimpleHandshakeMac` agent i
 
 Let's try out this MAC. The steps are similar to <<Testing our simple MAC>>, but since the handshake requires MAC to be running on all nodes, you will have to fire up the 2-node network and replace the default CSMA MAC with `MySimpleHandshakeMac` on both nodes (node A and node B):
 
-[source, console]
+[source]
 ----
 > container.kill mac
 true
@@ -698,7 +698,7 @@ true
 
 Since the handshaking involves exchange of PDUs between nodes, it is instructive to see the PDUs being exchanged by subscribing to `phy`. You can make a reservation request on node A:
 
-[source, console]
+[source]
 ----
 > subscribe phy
 > mac << new ReservationReq(to: 31, duration: 3.seconds)

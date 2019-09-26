@@ -26,7 +26,7 @@ TIP: You can either press the `icon:play[]` button or type `sim.run 'samples/2-n
 
 In the shell panel, you'll see:
 
-[source, console]
+[source]
 ----
 2-node network
 --------------

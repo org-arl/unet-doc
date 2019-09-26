@@ -6,7 +6,7 @@ The command shell is great for manual configuration and interaction, but often w
 
 If you recall from <<Sending & receiving application data>>, you opened a socket connection to UnetStack on the command shell with:
 
-[source, console]
+[source]
 ----
 > s = new UnetSocket(this);
 ----
@@ -18,7 +18,7 @@ NOTE: The examples in this chapter assume that you are running: +
 
 For example, to connect to UnetStack from an application over TCP/IP, we need to know the IP address and port of the API connector on UnetStack. Simply type `iface` on the command shell of node A to find this information:
 
-[source, console]
+[source]
 ----
 > iface
 tcp://192.168.1.9:1101 [API]

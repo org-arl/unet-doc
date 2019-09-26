@@ -73,7 +73,7 @@ Fire up your 2-node network again, and open two browser windows -- one connectin
 
 On node B:
 
-[source, console]
+[source]
 ----
 > agentsForService(org.arl.unet.Services.DATAGRAM)
 [transport, router, uwlink, phy]
@@ -90,7 +90,7 @@ We obtained a list of agents which provide the DATAGRAM service. We checked the 
 
 On node A:
 
-[source, console]
+[source]
 ----
 > uwlink << new DatagramReq(to: 31, data: new byte[64])                               //<1>
 AGREE
@@ -118,7 +118,7 @@ REFUSE: Data length exceeds MTU
 
 If we look at the shell for node B, we should see the 3 successfully delivered datagrams:
 
-[source, console]
+[source]
 ----
 uwlink >> DatagramNtf:INFORM[from:232 to:31 (64 bytes)]
 uwlink >> DatagramNtf:INFORM[from:232 to:31 (64 bytes)]
@@ -133,7 +133,7 @@ We were able to successfully deliver datagrams from node A to node B in the exam
 
 Let's try it again, but with a small difference. On node A:
 
-[source, console]
+[source]
 ----
 > uwlink << new DatagramReq(to: 31, data: new byte[32])
 AGREE
@@ -141,7 +141,7 @@ AGREE
 
 We transmitted a smaller datagram, and node A happily accepted it for delivery. However, if we look at the shell for node B, we don't see a `DatagramNtf` message corresponding to the datagram, even though you had already subscribed to `uwlink`! What's going on? Let's try it again, but this time enable reliability:
 
-[source, console]
+[source]
 ----
 > uwlink << new DatagramReq(to: 31, data: new byte[32], reliability: true)
 AGREE
@@ -150,7 +150,7 @@ uwlink >> DatagramDeliveryNtf:INFORM[id:4aaa86e5-9a56-46f8-bc1a-f6be33af03a4 to:
 
 We see that the datagram was indeed delivered! And now, if we look at node B's shell, we'll see the delivery notification:
 
-[source, console]
+[source]
 ----
 uwlink >> DatagramNtf:INFORM[from:232 to:31 (32 bytes)]
 ----
@@ -159,14 +159,14 @@ It seems that enabling reliability successfully delivered the datagram, but othe
 
 To try and troubleshoot this, let's subscribe to notifications from the `phy` agent to see if the data is arriving at the physical layer. On node B:
 
-[source, console]
+[source]
 ----
 > subscribe phy
 ----
 
 On node A, transmit the unreliable small datagram again:
 
-[source, console]
+[source]
 ----
 > uwlink << new DatagramReq(to: 31, data: new byte[32])
 AGREE
@@ -174,7 +174,7 @@ AGREE
 
 On node B, we now see a couple of notifications:
 
-[source, console]
+[source]
 ----
 phy >> RxFrameStartNtf:INFORM[type:DATA rxTime:3956973678]
 phy >> RxFrameNtf:INFORM[type:DATA from:232 to:31 rxTime:3956973678 (32 bytes)]
@@ -184,7 +184,7 @@ The first notification says that the physical layer detected the start of a data
 
 Let's solve the second mystery first. An `RxFrameNtf` is a subclass of `DatagramNtf`, so it is indeed a `DatagramNtf` message. We can easily verify this on node B:
 
-[source, console]
+[source]
 ----
 > ntf
 RxFrameNtf:INFORM[type:DATA from:232 to:31 rxTime:3956973678 (32 bytes)]
@@ -209,7 +209,7 @@ image::shortcircuit.png[]
 
 On node B, we should have done this in the first place:
 
-[source, console]
+[source]
 ----
 > agentsForService(org.arl.unet.Services.DATAGRAM).each { subscribe it }
 ----
@@ -222,7 +222,7 @@ TIP: Agents should use the call `subscribeForService(org.arl.unet.Services.DATAG
 
 The UnetSocket API also supports delivery of datagrams. Let's try it. On node A:
 
-[source, console]
+[source]
 ----
 > s = new UnetSocket(this);
 > s.send new DatagramReq(to: 31, data: new byte[32])
@@ -231,7 +231,7 @@ true
 
 On node B, we will see the datagram delivery:
 
-[source, console]
+[source]
 ----
 uwlink >> DatagramNtf:INFORM[from:232 to:31 (32 bytes)]
 ----

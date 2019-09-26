@@ -22,7 +22,7 @@ The language in which the commands are written is not defined by the service, bu
 
 Start the 2-node network and connect to node A:
 
-[source, console]
+[source]
 ----
 > agentsForService org.arl.fjage.shell.Services.SHELL                  //<1>
 [websh]
@@ -41,7 +41,7 @@ FOOBAR
 
 Next, let's try the `GetFileReq` and `PutFileReq` messages to read, write and delete this file:
 
-[source, console]
+[source]
 ----
 > websh.send new GetFileReq(filename: 'scripts/foobar')                //<1>
 websh >> INFORM: GetFileRsp

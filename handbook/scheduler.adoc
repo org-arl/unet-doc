@@ -25,7 +25,7 @@ Only parameter is required by the SCHEDULER service:
 
 The Unet simulator currently does not support sleep/wake scheduling. While Unet audio supports the SCHEDULER service, it does not actually put your computer to sleep. Therefore you can experiment with creating and managing schedules on Unet audio, without worrying about your computer going to sleep. Start up Unet audio (`bin/unet audio`) and connect to its shell:
 
-[source, console]
+[source]
 ----
 > agentsForService org.arl.unet.Services.SCHEDULER
 [phy]
@@ -71,7 +71,7 @@ We see that the `phy` agent provides the SCHEDULER service in Unet audio. We add
 
 The `addsleep`, `showsleep`, and `rmsleep` commands use the `AddScheduledSleepReq`, `GetSleepScheduleReq`, and `RemoveScheduledSleepReq` messages to achieve their functionality. We can manually send this messages to confirm this, if we like:
 
-[source, console]
+[source]
 ----
 > phy << new GetSleepScheduleReq()
 SleepScheduleRsp:INFORM[(1 item)]
@@ -89,7 +89,7 @@ A big advantage of working with the web interface for sleep scheduling is that t
 
 The Unix epoch is the number of seconds that have elapsed since January 1, 1970 (midnight UTC), not counting leap seconds. While computers find it easy to work with epoch time, we find it hard to interpret. So UnetStack introduces syntactic sugar such as "1.hour.later" that computes the Unix epoch time 1 hour from now:
 
-[source, console]
+[source]
 ----
 > 1.hour.later
 1569097078
@@ -100,7 +100,7 @@ The Unix epoch is the number of seconds that have elapsed since January 1, 1970 
 
 There are https://www.epochconverter.com[online calculators^] that'll help you convert between Unix epoch time and human readable date/time. This works well, if you need to manually convert a few date/times, but what if you needed to do this programmatically? Java provides simple APIs to deal with date/times:
 
-[source, console]
+[source]
 ----
 > import java.time.Instant
 > Instant.now().epochSecond                           //<1>

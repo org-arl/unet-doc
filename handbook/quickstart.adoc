@@ -27,7 +27,7 @@ Open two web browser windows and key in the two http URLs shown above in each br
 
 On the command shell for node A, type:
 
-[source, console]
+[source]
 ----
 > tell 0, 'hello!'
 AGREE
@@ -35,7 +35,7 @@ AGREE
 
 Address 0 is a broadcast address, so you did not need to explicitly know the address of node B to transmit a message to it. After a short delay, you should see the message on the command shell for node B:
 
-[source, console]
+[source]
 ----
 [232]: hello!
 ----
@@ -44,7 +44,7 @@ Address 0 is a broadcast address, so you did not need to explicitly know the add
 
 The `[232]` that you see on node B is the _from_ address (of node A). The simulator automatically allocates addresses to each node. You can easily find out the addresses of both nodes (on either node):
 
-[source, console]
+[source]
 ----
 > host('A')
 232
@@ -54,7 +54,7 @@ The `[232]` that you see on node B is the _from_ address (of node A). The simula
 
 You can try sending a message back from node B:
 
-[source, console]
+[source]
 ----
 > tell 232, 'hi!'
 ----
@@ -70,7 +70,7 @@ In the simulation, nodes A and B are placed 1 km apart. Since the speed of sound
 
 On node A, type:
 
-[source, console]
+[source]
 ----
 > range host('B')
 999.7
@@ -84,7 +84,7 @@ In real applications, you may want to send complex _datagrams_ (messages) progra
 
 On node B, type:
 
-[source, console]
+[source]
 ----
 > s = new UnetSocket(this);              //<1>
 > rx = s.receive()                       //<2>
@@ -94,7 +94,7 @@ On node B, type:
 
 On node A, type:
 
-[source, console]
+[source]
 ----
 > s = new UnetSocket(this);
 > s.send('hello!' as byte[], 0)          //<1>
@@ -105,7 +105,7 @@ true
 
 Node B will receive the bytes as a `RxFrameNtf` message. You can check the data in the received datagram on the command shell for node B, and close the socket:
 
-[source, console]
+[source]
 ----
 RxFrameNtf:INFORM[type:DATA from:232 rxTime:4134355059 (6 bytes)]
 > rx.data
@@ -188,7 +188,7 @@ TIP: If you only have one computer available, you can connect both modems to the
 
 When working with modems, you may need to adjust the transmit power level to a suitable level for use in the water body that you have the modems in. Too high or too low a power level will not allow the modems to communicate well. The modem transmit power can be adjusted using the `plvl` command. Type `help plvl` on the command shell for node A to see examples of how the command is used:
 
-[source, console]
+[source]
 ----
 > help plvl
 plvl - get/set TX power level for all PHY channel types
@@ -204,7 +204,7 @@ TIP: The `help` command is your friend! Just type `help` to see a list of help t
 
 Assuming you have the modems in a bucket, you'll need a fairly low transmit power. On node A, let us set the transmit power to -50 dB and try a transmission:
 
-[source, console]
+[source]
 ----
 > plvl -50
 OK
@@ -214,7 +214,7 @@ AGREE
 
 If all goes well, you should see the message on node B:
 
-[source, console]
+[source]
 ----
 [232]: hello!
 ----
@@ -235,7 +235,7 @@ Modem web: http://localhost:8080/
 
 This should start up the SDOAM and open a browser with a command shell accessing the modem. If the browser does not automatically open, just enter the modem web URL shown above in your browser. At the command shell, you can try transmitting a message:
 
-[source, console]
+[source]
 ----
 > tell 0, 'hello!'
 AGREE
@@ -247,7 +247,7 @@ TIP: If you have 2 computers running the Unet audio SDOAM, you can receive the t
 
 Next, try sending a simple 10 kHz tonal signal:
 
-[source, console]
+[source]
 ----
 > bbtx cw(10000, 0.5)                    //<1>
 AGREE
@@ -260,7 +260,7 @@ You should hear a 0.5 second 10 kHz tone from your computer speaker. The `bbtx` 
 
 To generate the baseband representation of the signal you wish to transmit, you will need to know the carrier frequency and the baseband sampling rate of the modem:
 
-[source, console]
+[source]
 ----
 > phy.basebandRate
 12000.0
@@ -274,7 +274,7 @@ TIP: The baseband signal is represented as a floating point array with alternate
 
 You can equally easily ask the SDOAM to make an acoustic recording for you:
 
-[source, console]
+[source]
 ----
 > bbrec 12000                            //<1>
 AGREE
@@ -284,7 +284,7 @@ phy >> RxBasebandSignalNtf:INFORM[adc:1 rxTime:1911353 rssi:-61.2 fc:12000.0 fs:
 
 The recording is sent to you as a `RxBasebandSignalNtf` message with 12000 baseband samples in the `signal` field. You can check the first 32 samples:
 
-[source, console]
+[source]
 ----
 > ntf.signal[0..31]
 [-3.735939E-4, 6.7323225E-4, 7.94507E-4, 5.0331384E-4, 0.0012656008, -0.0010853912, -2.0923217E-4, -8.322359E-4, 1.5215082E-4, 2.417963E-4, -3.0220395E-5, -5.190366E-4, -6.904016E-4, -7.3395047E-4, 3.9846844E-5, 5.161132E-4, 0.0013477469, 6.2060537E-4, 1.00925405E-4, -3.974573E-4, -8.8431453E-4, -5.807383E-4, -5.730035E-4, -8.5867435E-4, -9.026667E-4, 2.2320295E-5, -1.7575005E-5, 0.0010946163, 7.7881676E-4, -3.7582265E-4, -9.449492E-4, -1.7722705E-4]

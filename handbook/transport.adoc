@@ -14,7 +14,7 @@ There are no special messages or parameters defined by the TRANSPORT service, bu
 
 The default implementation of the TRANSPORT service is the `SWTransport` class. If you start the 2-node network simulation and connect to node A, you can explore the configurable parameters that it advertises:
 
-[source, console]
+[source]
 ----
 > transport
 <<< SWTransport >>>
@@ -44,7 +44,7 @@ We briefly explain each parameter below:
 
 Next, let's try a 2048-byte datagram transfer from node A to node B with progress reports:
 
-[source, console]
+[source]
 ----
 > transport << new DatagramReq(to: 31, data: new float[2048], reliability: true)
 AGREE

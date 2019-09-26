@@ -1480,22 +1480,22 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy
-<span class="gp">&lt;&lt;&lt; HalfDuplexModem &gt;</span><span class="o">&gt;&gt;</span>
-<span class="go">
-[org.arl.unet.DatagramParam]
-  MTU = 56
-
-[org.arl.unet.phy.PhysicalParam]
-  busy = false
-  maxPowerLevel = 0.0
-  minPowerLevel = -96.0
-  propagationSpeed = 1534.4574
-  refPowerLevel = 185.0
-  rxEnable = true
-  rxSensitivity = -200.0
-  time = 9615673299
-  timestampedTxDelay = 1.0</span></code></pre>
+        <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">phy</span><span class="w">
+</span><span class="go">&lt;&lt;&lt; HalfDuplexModem &gt;&gt;&gt;</span><span class="w">
+</span><span class="err">
+</span><span class="go">[org.arl.unet.DatagramParam]</span><span class="w">
+</span><span class="go">  MTU = 56</span><span class="w">
+</span><span class="err">
+</span><span class="go">[org.arl.unet.phy.PhysicalParam]</span><span class="w">
+</span><span class="go">  busy = false</span><span class="w">
+</span><span class="go">  maxPowerLevel = 0.0</span><span class="w">
+</span><span class="go">  minPowerLevel = -96.0</span><span class="w">
+</span><span class="go">  propagationSpeed = 1534.4574</span><span class="w">
+</span><span class="go">  refPowerLevel = 185.0</span><span class="w">
+</span><span class="go">  rxEnable = true</span><span class="w">
+</span><span class="go">  rxSensitivity = -200.0</span><span class="w">
+</span><span class="go">  time = 9615673299</span><span class="w">
+</span><span class="go">  timestampedTxDelay = 1.0</span></code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -1526,41 +1526,41 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy[CONTROL]
-<span class="gp">&lt;&lt;&lt; PHY &gt;</span><span class="o">&gt;&gt;</span>
-<span class="go">
-[org.arl.unet.DatagramParam]
-  MTU = 16
-
-[org.arl.unet.phy.PhysicalChannelParam]
-  dataRate = 202.10527
-  errorDetection = 1
-  fec = 0
-  fecList = null
-  frameDuration = 0.95
-  frameLength = 24
-  janus = false
-  llr = false
-  maxFrameLength = 128
-  powerLevel = -10.0
-
-</span><span class="gp">&gt;</span><span class="w"> </span>phy[DATA]
-<span class="gp">&lt;&lt;&lt; PHY &gt;</span><span class="o">&gt;&gt;</span>
-<span class="go">
-[org.arl.unet.DatagramParam]
-  MTU = 56
-
-[org.arl.unet.phy.PhysicalChannelParam]
-  dataRate = 731.4286
-  errorDetection = 1
-  fec = 0
-  fecList = null
-  frameDuration = 0.7
-  frameLength = 64
-  janus = false
-  llr = false
-  maxFrameLength = 512
-  powerLevel = -10.0</span></code></pre>
+        <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">phy[CONTROL]</span><span class="w">
+</span><span class="go">&lt;&lt;&lt; PHY &gt;&gt;&gt;</span><span class="w">
+</span><span class="err">
+</span><span class="go">[org.arl.unet.DatagramParam]</span><span class="w">
+</span><span class="go">  MTU = 16</span><span class="w">
+</span><span class="err">
+</span><span class="go">[org.arl.unet.phy.PhysicalChannelParam]</span><span class="w">
+</span><span class="go">  dataRate = 202.10527</span><span class="w">
+</span><span class="go">  errorDetection = 1</span><span class="w">
+</span><span class="go">  fec = 0</span><span class="w">
+</span><span class="go">  fecList = null</span><span class="w">
+</span><span class="go">  frameDuration = 0.95</span><span class="w">
+</span><span class="go">  frameLength = 24</span><span class="w">
+</span><span class="go">  janus = false</span><span class="w">
+</span><span class="go">  llr = false</span><span class="w">
+</span><span class="go">  maxFrameLength = 128</span><span class="w">
+</span><span class="go">  powerLevel = -10.0</span><span class="w">
+</span><span class="err">
+</span><span class="gp">&gt; </span><span class="gs">phy[DATA]</span><span class="w">
+</span><span class="go">&lt;&lt;&lt; PHY &gt;&gt;&gt;</span><span class="w">
+</span><span class="err">
+</span><span class="go">[org.arl.unet.DatagramParam]</span><span class="w">
+</span><span class="go">  MTU = 56</span><span class="w">
+</span><span class="err">
+</span><span class="go">[org.arl.unet.phy.PhysicalChannelParam]</span><span class="w">
+</span><span class="go">  dataRate = 731.4286</span><span class="w">
+</span><span class="go">  errorDetection = 1</span><span class="w">
+</span><span class="go">  fec = 0</span><span class="w">
+</span><span class="go">  fecList = null</span><span class="w">
+</span><span class="go">  frameDuration = 0.7</span><span class="w">
+</span><span class="go">  frameLength = 64</span><span class="w">
+</span><span class="go">  janus = false</span><span class="w">
+</span><span class="go">  llr = false</span><span class="w">
+</span><span class="go">  maxFrameLength = 512</span><span class="w">
+</span><span class="go">  powerLevel = -10.0</span></code></pre>
        </div>
       </div>
       <div class="admonitionblock note">
@@ -1703,55 +1703,55 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy
-<span class="gp">&lt;&lt;&lt; Physical &gt;</span><span class="o">&gt;&gt;</span>
-<span class="go">
-[org.arl.unet.DatagramParam]
-  MTU = 13
-
-[org.arl.unet.phy.PhysicalParam]
-  busy = false
-  maxPowerLevel = 0.0
-  minPowerLevel = -138.0
-  propagationSpeed = 1500.0
-  refPowerLevel = 0.0
-  rxEnable = true
-  rxSensitivity = 0.0
-  time = 51530438
-  timestampedTxDelay = 1000
-
-[org.arl.yoda.ModemParam]
-  adcrate = 48000.0
-  bbsblk = 6000
-  bbscnt = 0
-  bpfilter = true
-  clockCalib = 1.0
-  dacrate = 96000.0
-  downconvRatio = 4.0
-  fan = false
-  fanctl = 45.0
-  fullduplex = false
-  gain = 0.0
-  inhibit = 120
-  isc = true
-  loopback = false
-  model = portaudio
-  mute = true
-  noise = -62.0
-  npulses = 1
-  pbsblk = 65536
-  pbscnt = 0
-  post = null
-  poweramp = false
-  preamp = true
-  pulsedelay = 0
-  serial = portaudio
-  standby = 15
-  upconvRatio = 8.0
-  vendor = Subnero
-  voltage = 0.0
-  wakeupdelay = 400
-  wakeuplen = 8000</span></code></pre>
+        <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">phy</span><span class="w">
+</span><span class="go">&lt;&lt;&lt; Physical &gt;&gt;&gt;</span><span class="w">
+</span><span class="err">
+</span><span class="go">[org.arl.unet.DatagramParam]</span><span class="w">
+</span><span class="go">  MTU = 13</span><span class="w">
+</span><span class="err">
+</span><span class="go">[org.arl.unet.phy.PhysicalParam]</span><span class="w">
+</span><span class="go">  busy = false</span><span class="w">
+</span><span class="go">  maxPowerLevel = 0.0</span><span class="w">
+</span><span class="go">  minPowerLevel = -138.0</span><span class="w">
+</span><span class="go">  propagationSpeed = 1500.0</span><span class="w">
+</span><span class="go">  refPowerLevel = 0.0</span><span class="w">
+</span><span class="go">  rxEnable = true</span><span class="w">
+</span><span class="go">  rxSensitivity = 0.0</span><span class="w">
+</span><span class="go">  time = 51530438</span><span class="w">
+</span><span class="go">  timestampedTxDelay = 1000</span><span class="w">
+</span><span class="err">
+</span><span class="go">[org.arl.yoda.ModemParam]</span><span class="w">
+</span><span class="go">  adcrate = 48000.0</span><span class="w">
+</span><span class="go">  bbsblk = 6000</span><span class="w">
+</span><span class="go">  bbscnt = 0</span><span class="w">
+</span><span class="go">  bpfilter = true</span><span class="w">
+</span><span class="go">  clockCalib = 1.0</span><span class="w">
+</span><span class="go">  dacrate = 96000.0</span><span class="w">
+</span><span class="go">  downconvRatio = 4.0</span><span class="w">
+</span><span class="go">  fan = false</span><span class="w">
+</span><span class="go">  fanctl = 45.0</span><span class="w">
+</span><span class="go">  fullduplex = false</span><span class="w">
+</span><span class="go">  gain = 0.0</span><span class="w">
+</span><span class="go">  inhibit = 120</span><span class="w">
+</span><span class="go">  isc = true</span><span class="w">
+</span><span class="go">  loopback = false</span><span class="w">
+</span><span class="go">  model = portaudio</span><span class="w">
+</span><span class="go">  mute = true</span><span class="w">
+</span><span class="go">  noise = -62.0</span><span class="w">
+</span><span class="go">  npulses = 1</span><span class="w">
+</span><span class="go">  pbsblk = 65536</span><span class="w">
+</span><span class="go">  pbscnt = 0</span><span class="w">
+</span><span class="go">  post = null</span><span class="w">
+</span><span class="go">  poweramp = false</span><span class="w">
+</span><span class="go">  preamp = true</span><span class="w">
+</span><span class="go">  pulsedelay = 0</span><span class="w">
+</span><span class="go">  serial = portaudio</span><span class="w">
+</span><span class="go">  standby = 15</span><span class="w">
+</span><span class="go">  upconvRatio = 8.0</span><span class="w">
+</span><span class="go">  vendor = Subnero</span><span class="w">
+</span><span class="go">  voltage = 0.0</span><span class="w">
+</span><span class="go">  wakeupdelay = 400</span><span class="w">
+</span><span class="go">  wakeuplen = 8000</span></code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -1770,41 +1770,41 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy[CONTROL]
-<span class="gp">&lt;&lt;&lt; PHY &gt;</span><span class="o">&gt;&gt;</span>
-<span class="go">
-[org.arl.unet.DatagramParam]
-  MTU = 13
-
-[org.arl.unet.phy.PhysicalChannelParam]
-  dataRate = 70.588234
-  errorDetection = true
-  fec = 1
-  fecList = [ICONV2]
-  frameDuration = 2.04
-  frameLength = 18
-  janus = false
-  llr = false
-  maxFrameLength = 396
-  powerLevel = -10.0
-
-[org.arl.yoda.FhbfskParam]
-  chiplen = 1
-  fmin = 9520.0
-  fstep = 160.0
-  hops = 13
-  scrambler = 0
-  sync = true
-  tukey = true
-
-[org.arl.yoda.ModemChannelParam]
-  basebandExtra = 0
-  basebandRx = false
-  modulation = fhbfsk
-  preamble = (480 samples)
-  test = false
-  threshold = 0.25
-  valid = true</span></code></pre>
+        <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">phy[CONTROL]</span><span class="w">
+</span><span class="go">&lt;&lt;&lt; PHY &gt;&gt;&gt;</span><span class="w">
+</span><span class="err">
+</span><span class="go">[org.arl.unet.DatagramParam]</span><span class="w">
+</span><span class="go">  MTU = 13</span><span class="w">
+</span><span class="err">
+</span><span class="go">[org.arl.unet.phy.PhysicalChannelParam]</span><span class="w">
+</span><span class="go">  dataRate = 70.588234</span><span class="w">
+</span><span class="go">  errorDetection = true</span><span class="w">
+</span><span class="go">  fec = 1</span><span class="w">
+</span><span class="go">  fecList = [ICONV2]</span><span class="w">
+</span><span class="go">  frameDuration = 2.04</span><span class="w">
+</span><span class="go">  frameLength = 18</span><span class="w">
+</span><span class="go">  janus = false</span><span class="w">
+</span><span class="go">  llr = false</span><span class="w">
+</span><span class="go">  maxFrameLength = 396</span><span class="w">
+</span><span class="go">  powerLevel = -10.0</span><span class="w">
+</span><span class="err">
+</span><span class="go">[org.arl.yoda.FhbfskParam]</span><span class="w">
+</span><span class="go">  chiplen = 1</span><span class="w">
+</span><span class="go">  fmin = 9520.0</span><span class="w">
+</span><span class="go">  fstep = 160.0</span><span class="w">
+</span><span class="go">  hops = 13</span><span class="w">
+</span><span class="go">  scrambler = 0</span><span class="w">
+</span><span class="go">  sync = true</span><span class="w">
+</span><span class="go">  tukey = true</span><span class="w">
+</span><span class="err">
+</span><span class="go">[org.arl.yoda.ModemChannelParam]</span><span class="w">
+</span><span class="go">  basebandExtra = 0</span><span class="w">
+</span><span class="go">  basebandRx = false</span><span class="w">
+</span><span class="go">  modulation = fhbfsk</span><span class="w">
+</span><span class="go">  preamble = (480 samples)</span><span class="w">
+</span><span class="go">  test = false</span><span class="w">
+</span><span class="go">  threshold = 0.25</span><span class="w">
+</span><span class="go">  valid = true</span></code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -1917,17 +1917,18 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy.fullduplex <span class="o">=</span> <span class="nb">true</span>
-<span class="go">true
-</span><span class="gp">&gt;</span><span class="w"> </span>subscribe phy
-<span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxFrameReq()
-</span><span class="go">AGREE
-</span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameStartNtf:INFORM[type:CONTROL txTime:79322682]                <i class="conum" data-value="1"></i><b>(1)</b>
-<span class="gp">phy &gt;</span><span class="o">&gt;</span> RxFrameStartNtf:INFORM[type:CONTROL rxTime:79309353 detector:0.87]  <i class="conum" data-value="2"></i><b>(2)</b>
-<span class="gp">phy &gt;</span><span class="o">&gt;</span> RxFrameStartNtf:INFORM[type:DATA rxTime:80659519 detector:0.26]     <i class="conum" data-value="3"></i><b>(3)</b>
-<span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[type:CONTROL txTime:79310432]                     <i class="conum" data-value="4"></i><b>(4)</b>
-<span class="gp">phy &gt;</span><span class="o">&gt;</span> RxFrameNtf:INFORM[type:CONTROL from:1 rxTime:79309353 rssi:-29.3]   <i class="conum" data-value="5"></i><b>(5)</b>
-<span class="gp">phy &gt;</span><span class="o">&gt;</span> BadFrameNtf:INFORM[type:DATA rxTime:80659519 rssi:-38.5 <span class="o">(</span>18 bytes<span class="o">)]</span> <i class="conum" data-value="6"></i><b>(6)</b></code></pre>
+        <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">phy.fullduplex = true</span><span class="w">
+</span><span class="go">true</span><span class="w">
+</span><span class="gp">&gt; </span><span class="gs">subscribe phy</span><span class="w">
+</span><span class="gp">&gt; </span><span class="gs">phy &lt;&lt; </span><span class="kr">new</span><span class="gs"> TxFrameReq()</span><span class="w">
+</span><span class="go">AGREE</span><span class="w">
+</span><span class="gh">phy &gt;&gt; TxFrameStartNtf:INFORM[type:CONTROL txTime:79322682]                </span><span class="w"><i class="conum" data-value="1"></i><b>(1)</b>
+</span><span class="gh">phy &gt;&gt; RxFrameStartNtf:INFORM[type:CONTROL rxTime:79309353 detector:0.87]  </span><span class="w"><i class="conum" data-value="2"></i><b>(2)</b>
+</span><span class="gh">phy &gt;&gt; RxFrameStartNtf:INFORM[type:DATA rxTime:80659519 detector:0.26]     </span><span class="w"><i class="conum" data-value="3"></i><b>(3)</b>
+</span><span class="gh">phy &gt;&gt; TxFrameNtf:INFORM[type:CONTROL txTime:79310432]                     </span><span class="w"><i class="conum" data-value="4"></i><b>(4)</b>
+</span><span class="gh">phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:1 rxTime:79309353 rssi:-29.3]   </span><span class="w"><i class="conum" data-value="5"></i><b>(5)</b>
+</span><span class="gh">phy &gt;&gt; BadFrameNtf:INFORM[type:DATA rxTime:80659519 rssi:-38.5 (18 bytes)] </span><span class="w"><i class="conum" data-value="6"></i><b>(6)</b>
+</span></code></pre>
        </div>
       </div>
       <div class="colist arabic">
@@ -2025,12 +2026,12 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy[DATA].threshold <span class="o">=</span> 0
-<span class="go">0
-</span><span class="gp">&gt;</span><span class="w"> </span>phy[CONTROL].test <span class="o">=</span> <span class="nb">true</span>
-<span class="go">true
-</span><span class="gp">&gt;</span><span class="w"> </span>phy[CONTROL].fec <span class="o">=</span> 0
-<span class="go">0</span></code></pre>
+        <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">phy[DATA].threshold = </span><span class="mi">0</span><span class="w">
+</span><span class="go">0</span><span class="w">
+</span><span class="gp">&gt; </span><span class="gs">phy[CONTROL].test = true</span><span class="w">
+</span><span class="go">true</span><span class="w">
+</span><span class="gp">&gt; </span><span class="gs">phy[CONTROL].fec = </span><span class="mi">0</span><span class="w">
+</span><span class="go">0</span></code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -2040,27 +2041,27 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>10.times <span class="o">{</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxFrameReq(); delay(2000); }
-</span><span class="gp">phy &gt;</span><span class="sh">&gt; TxFrameNtf:INFORM[type:CONTROL txTime:204359766]
-</span><span class="gp">phy &gt;</span><span class="sh">&gt; RxFrameNtf:INFORM[type:CONTROL rxTime:204385187 rssi:-28.9 cfo:0.0 ber:0/144 (18 bytes)]
-</span><span class="gp">phy &gt;</span><span class="sh">&gt; TxFrameNtf:INFORM[type:CONTROL txTime:205578432]
-</span><span class="gp">phy &gt;</span><span class="sh">&gt; RxFrameNtf:INFORM[type:CONTROL rxTime:205603853 rssi:-28.4 cfo:0.0 ber:0/144 (18 bytes)]
-</span><span class="gp">phy &gt;</span><span class="sh">&gt; TxFrameNtf:INFORM[type:CONTROL txTime:207567766]
-</span><span class="gp">phy &gt;</span><span class="sh">&gt; RxFrameNtf:INFORM[type:CONTROL rxTime:207589186 rssi:-28.5 cfo:0.0 ber:0/144 (18 bytes)]
-</span><span class="gp">phy &gt;</span><span class="sh">&gt; TxFrameNtf:INFORM[type:CONTROL txTime:209583766]
-</span><span class="gp">phy &gt;</span><span class="sh">&gt; RxFrameNtf:INFORM[type:CONTROL rxTime:209609187 rssi:-28.2 cfo:0.0 ber:0/144 (18 bytes)]
-</span><span class="gp">phy &gt;</span><span class="sh">&gt; TxFrameNtf:INFORM[type:CONTROL txTime:211573099]
-</span><span class="gp">phy &gt;</span><span class="sh">&gt; RxFrameNtf:INFORM[type:CONTROL rxTime:211594519 rssi:-28.3 cfo:0.0 ber:0/144 (18 bytes)]
-</span><span class="gp">phy &gt;</span><span class="sh">&gt; TxFrameNtf:INFORM[type:CONTROL txTime:213589099]
-</span><span class="gp">phy &gt;</span><span class="sh">&gt; RxFrameNtf:INFORM[type:CONTROL rxTime:213614520 rssi:-28.1 cfo:0.0 ber:0/144 (18 bytes)]
-</span><span class="gp">phy &gt;</span><span class="sh">&gt; TxFrameNtf:INFORM[type:CONTROL txTime:215578432]
-</span><span class="gp">phy &gt;</span><span class="sh">&gt; RxFrameNtf:INFORM[type:CONTROL rxTime:215599853 rssi:-28.5 cfo:0.0 ber:0/144 (18 bytes)]
-</span><span class="gp">phy &gt;</span><span class="sh">&gt; TxFrameNtf:INFORM[type:CONTROL txTime:217594432]
-</span><span class="gp">phy &gt;</span><span class="sh">&gt; RxFrameNtf:INFORM[type:CONTROL rxTime:217619853 rssi:-28.2 cfo:0.0 ber:0/144 (18 bytes)]
-</span><span class="gp">phy &gt;</span><span class="sh">&gt; TxFrameNtf:INFORM[type:CONTROL txTime:219583766]
-</span><span class="gp">phy &gt;</span><span class="sh">&gt; RxFrameNtf:INFORM[type:CONTROL rxTime:219605186 rssi:-28.0 cfo:0.0 ber:0/144 (18 bytes)]
-</span><span class="gp">phy &gt;</span><span class="sh">&gt; TxFrameNtf:INFORM[type:CONTROL txTime:221599766]
-</span><span class="gp">phy &gt;</span><span class="sh">&gt; RxFrameNtf:INFORM[type:CONTROL rxTime:221625187 rssi:-27.7 cfo:0.0 ber:0/144 (18 bytes)]</span></code></pre>
+        <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="mi">10</span><span class="gs">.times { phy &lt;&lt; </span><span class="kr">new</span><span class="gs"> TxFrameReq(); delay(</span><span class="mi">2000</span><span class="gs">); }</span><span class="w">
+</span><span class="gh">phy &gt;&gt; TxFrameNtf:INFORM[type:CONTROL txTime:204359766]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL rxTime:204385187 rssi:-28.9 cfo:0.0 ber:0/144 (18 bytes)]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; TxFrameNtf:INFORM[type:CONTROL txTime:205578432]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL rxTime:205603853 rssi:-28.4 cfo:0.0 ber:0/144 (18 bytes)]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; TxFrameNtf:INFORM[type:CONTROL txTime:207567766]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL rxTime:207589186 rssi:-28.5 cfo:0.0 ber:0/144 (18 bytes)]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; TxFrameNtf:INFORM[type:CONTROL txTime:209583766]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL rxTime:209609187 rssi:-28.2 cfo:0.0 ber:0/144 (18 bytes)]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; TxFrameNtf:INFORM[type:CONTROL txTime:211573099]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL rxTime:211594519 rssi:-28.3 cfo:0.0 ber:0/144 (18 bytes)]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; TxFrameNtf:INFORM[type:CONTROL txTime:213589099]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL rxTime:213614520 rssi:-28.1 cfo:0.0 ber:0/144 (18 bytes)]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; TxFrameNtf:INFORM[type:CONTROL txTime:215578432]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL rxTime:215599853 rssi:-28.5 cfo:0.0 ber:0/144 (18 bytes)]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; TxFrameNtf:INFORM[type:CONTROL txTime:217594432]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL rxTime:217619853 rssi:-28.2 cfo:0.0 ber:0/144 (18 bytes)]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; TxFrameNtf:INFORM[type:CONTROL txTime:219583766]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL rxTime:219605186 rssi:-28.0 cfo:0.0 ber:0/144 (18 bytes)]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; TxFrameNtf:INFORM[type:CONTROL txTime:221599766]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL rxTime:221625187 rssi:-27.7 cfo:0.0 ber:0/144 (18 bytes)]</span></code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -2110,7 +2111,7 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> CapabilityReq()
+        <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">phy &lt;&lt; </span><span class="kr">new</span><span class="gs"> CapabilityReq()</span><span class="w">
 </span><span class="go">CapabilityListRsp:INFORM[TIMESTAMPED_TX,TIMED_BBREC,TIMED_BBTX,TIMED_TX]</span></code></pre>
        </div>
       </div>
@@ -2133,7 +2134,7 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>subscribe phy</code></pre>
+        <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">subscribe phy</span></code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -2143,9 +2144,9 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxFrameReq(timestamped: true)
-</span><span class="go">AGREE
-</span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[type:CONTROL txTime:2489196375]</code></pre>
+        <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">phy &lt;&lt; </span><span class="kr">new</span><span class="gs"> TxFrameReq(timestamped: true)</span><span class="w">
+</span><span class="go">AGREE</span><span class="w">
+</span><span class="gh">phy &gt;&gt; TxFrameNtf:INFORM[type:CONTROL txTime:2489196375]</span></code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -2159,8 +2160,8 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">phy &gt;</span><span class="o">&gt;</span> RxFrameStartNtf:INFORM[type:CONTROL rxTime:687419054]
-<span class="gp">phy &gt;</span><span class="o">&gt;</span> RxFrameNtf:INFORM[type:CONTROL from:232 rxTime:687419054 txTime:2489196375]</code></pre>
+        <pre class="rouge highlight"><code data-lang="unet"><span class="gh">phy &gt;&gt; RxFrameStartNtf:INFORM[type:CONTROL rxTime:687419054]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:232 rxTime:687419054 txTime:2489196375]</span></code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -2237,10 +2238,11 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>t <span class="o">=</span> phy.time + 5000000<span class="p">;</span> println<span class="o">(</span>t<span class="o">)</span><span class="p">;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxFrameReq(txTime: t) <i class="conum" data-value="1"></i><b>(1)</b>
-</span><span class="go">3174864375                                                             <i class="conum" data-value="2"></i><b>(2)</b>
-AGREE
-</span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[type:CONTROL txTime:3174864375]               <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+        <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">t = phy.time + </span><span class="mi">5000000</span><span class="gs">; println(t); phy &lt;&lt; </span><span class="kr">new</span><span class="gs"> TxFrameReq(txTime: t) </span><span class="w"><i class="conum" data-value="1"></i><b>(1)</b>
+</span><span class="go">3174864375                                                             </span><span class="w"><i class="conum" data-value="2"></i><b>(2)</b>
+</span><span class="go">AGREE</span><span class="w">
+</span><span class="gh">phy &gt;&gt; TxFrameNtf:INFORM[type:CONTROL txTime:3174864375]               </span><span class="w"><i class="conum" data-value="3"></i><b>(3)</b>
+</span></code></pre>
        </div>
       </div>
       <div class="colist arabic">
@@ -2365,7 +2367,7 @@ AGREE
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>subscribe phy</code></pre>
+        <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">subscribe phy</span></code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -2375,12 +2377,12 @@ AGREE
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxFrameReq(to: host('B'))
-</span><span class="go">AGREE
-</span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[type:CONTROL txTime:4622534375]
-<span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxFrameReq(to: host('C'))
-</span><span class="go">AGREE
-</span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[type:CONTROL txTime:4623823375]</code></pre>
+        <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">phy &lt;&lt; </span><span class="kr">new</span><span class="gs"> TxFrameReq(to: host(</span><span class="s1">'B'</span><span class="gs">))</span><span class="w">
+</span><span class="go">AGREE</span><span class="w">
+</span><span class="gh">phy &gt;&gt; TxFrameNtf:INFORM[type:CONTROL txTime:4622534375]</span><span class="w">
+</span><span class="gp">&gt; </span><span class="gs">phy &lt;&lt; </span><span class="kr">new</span><span class="gs"> TxFrameReq(to: host(</span><span class="s1">'C'</span><span class="gs">))</span><span class="w">
+</span><span class="go">AGREE</span><span class="w">
+</span><span class="gh">phy &gt;&gt; TxFrameNtf:INFORM[type:CONTROL txTime:4623823375]</span></code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -2398,9 +2400,9 @@ AGREE
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">phy &gt;</span><span class="o">&gt;</span> RxFrameStartNtf:INFORM[type:CONTROL rxTime:2820757054]
-<span class="gp">phy &gt;</span><span class="o">&gt;</span> RxFrameNtf:INFORM[type:CONTROL from:232 to:31 rxTime:2820757054]
-<span class="gp">phy &gt;</span><span class="o">&gt;</span> RxFrameStartNtf:INFORM[type:CONTROL rxTime:2822046054]</code></pre>
+        <pre class="rouge highlight"><code data-lang="unet"><span class="gh">phy &gt;&gt; RxFrameStartNtf:INFORM[type:CONTROL rxTime:2820757054]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:232 to:31 rxTime:2820757054]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; RxFrameStartNtf:INFORM[type:CONTROL rxTime:2822046054]</span></code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -2423,7 +2425,7 @@ AGREE
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>subscribe topic<span class="o">(</span>phy, org.arl.unet.phy.Physical.SNOOP<span class="o">)</span></code></pre>
+        <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">subscribe topic(phy, org.arl.unet.phy.Physical.SNOOP)</span></code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -2433,9 +2435,9 @@ AGREE
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxFrameReq(to: host('C'))
-</span><span class="go">AGREE
-</span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[type:CONTROL txTime:4899843375]</code></pre>
+        <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">phy &lt;&lt; </span><span class="kr">new</span><span class="gs"> TxFrameReq(to: host(</span><span class="s1">'C'</span><span class="gs">))</span><span class="w">
+</span><span class="go">AGREE</span><span class="w">
+</span><span class="gh">phy &gt;&gt; TxFrameNtf:INFORM[type:CONTROL txTime:4899843375]</span></code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -2449,8 +2451,8 @@ AGREE
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">phy &gt;</span><span class="o">&gt;</span> RxFrameStartNtf:INFORM[type:CONTROL rxTime:3098066054]
-<span class="gp">phy &gt;</span><span class="o">&gt;</span> RxFrameNtf:INFORM[type:CONTROL from:232 to:74 rxTime:3098066054]</code></pre>
+        <pre class="rouge highlight"><code data-lang="unet"><span class="gh">phy &gt;&gt; RxFrameStartNtf:INFORM[type:CONTROL rxTime:3098066054]</span><span class="w">
+</span><span class="gh">phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:232 to:74 rxTime:3098066054]</span></code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -2487,7 +2489,7 @@ AGREE
    <div id="footer-text">
     Version 3.0.0
     <br/>
-    Last updated 2019-09-26 15:30:51 +0800
+    Last updated 2019-09-26 21:35:55 +0800
    </div>
 <script>
  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -2501,212 +2503,176 @@ AGREE
   <style>
    pre.rouge table td { padding: 5px; }
 pre.rouge table pre { margin: 0; }
-pre.rouge .cm {
-  color: #999988;
+pre.rouge {
+  color: #faf6e4;
+  background-color: #122b3b;
+}
+pre.rouge .gl {
+  color: #dee5e7;
+  background-color: #4e5d62;
+}
+pre.rouge .gp {
+  color: #a8e1fe;
+  font-weight: bold;
+}
+pre.rouge .c, pre.rouge .cd, pre.rouge .cm, pre.rouge .c1, pre.rouge .cs {
+  color: #6c8b9f;
   font-style: italic;
 }
 pre.rouge .cp {
-  color: #999999;
+  color: #b2fd6d;
   font-weight: bold;
-}
-pre.rouge .c1 {
-  color: #999988;
-  font-style: italic;
-}
-pre.rouge .cs {
-  color: #999999;
-  font-weight: bold;
-  font-style: italic;
-}
-pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cpf {
-  color: #999988;
   font-style: italic;
 }
 pre.rouge .err {
-  color: #a61717;
-  background-color: #e3d2d2;
-}
-pre.rouge .gd {
-  color: #000000;
-  background-color: #ffdddd;
-}
-pre.rouge .ge {
-  color: #000000;
-  font-style: italic;
+  color: #fefeec;
+  background-color: #cc0000;
 }
 pre.rouge .gr {
-  color: #aa0000;
+  color: #cc0000;
+  font-weight: bold;
+  font-style: italic;
 }
-pre.rouge .gh {
-  color: #999999;
+pre.rouge .k, pre.rouge .kd, pre.rouge .kv {
+  color: #f6dd62;
+  font-weight: bold;
+}
+pre.rouge .o, pre.rouge .ow {
+  color: #4df4ff;
+  font-weight: bold;
+}
+pre.rouge .p, pre.rouge .pi {
+  color: #4df4ff;
+}
+pre.rouge .gd {
+  color: #cc0000;
 }
 pre.rouge .gi {
-  color: #000000;
-  background-color: #ddffdd;
+  color: #b2fd6d;
 }
-pre.rouge .go {
-  color: #888888;
-}
-pre.rouge .gp {
-  color: #555555;
+pre.rouge .ge {
+  font-style: italic;
 }
 pre.rouge .gs {
   font-weight: bold;
 }
-pre.rouge .gu {
-  color: #aaaaaa;
-}
 pre.rouge .gt {
-  color: #aa0000;
+  color: #dee5e7;
+  background-color: #4e5d62;
 }
 pre.rouge .kc {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kd {
-  color: #000000;
+  color: #f696db;
   font-weight: bold;
 }
 pre.rouge .kn {
-  color: #000000;
+  color: #ffb000;
   font-weight: bold;
 }
 pre.rouge .kp {
-  color: #000000;
+  color: #ffb000;
   font-weight: bold;
 }
 pre.rouge .kr {
-  color: #000000;
+  color: #ffb000;
+  font-weight: bold;
+}
+pre.rouge .gh {
+  color: #ffb000;
+  font-weight: bold;
+}
+pre.rouge .gu {
+  color: #ffb000;
   font-weight: bold;
 }
 pre.rouge .kt {
-  color: #445588;
-  font-weight: bold;
-}
-pre.rouge .k, pre.rouge .kv {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .mf {
-  color: #009999;
-}
-pre.rouge .mh {
-  color: #009999;
-}
-pre.rouge .il {
-  color: #009999;
-}
-pre.rouge .mi {
-  color: #009999;
-}
-pre.rouge .mo {
-  color: #009999;
-}
-pre.rouge .m, pre.rouge .mb, pre.rouge .mx {
-  color: #009999;
-}
-pre.rouge .sb {
-  color: #d14;
-}
-pre.rouge .sc {
-  color: #d14;
-}
-pre.rouge .sd {
-  color: #d14;
-}
-pre.rouge .s2 {
-  color: #d14;
-}
-pre.rouge .se {
-  color: #d14;
-}
-pre.rouge .sh {
-  color: #d14;
-}
-pre.rouge .si {
-  color: #d14;
-}
-pre.rouge .sx {
-  color: #d14;
-}
-pre.rouge .sr {
-  color: #009926;
-}
-pre.rouge .s1 {
-  color: #d14;
-}
-pre.rouge .ss {
-  color: #990073;
-}
-pre.rouge .s, pre.rouge .sa, pre.rouge .dl {
-  color: #d14;
-}
-pre.rouge .na {
-  color: #008080;
-}
-pre.rouge .bp {
-  color: #999999;
-}
-pre.rouge .nb {
-  color: #0086B3;
-}
-pre.rouge .nc {
-  color: #445588;
+  color: #b2fd6d;
   font-weight: bold;
 }
 pre.rouge .no {
-  color: #008080;
+  color: #b2fd6d;
+  font-weight: bold;
+}
+pre.rouge .nc {
+  color: #b2fd6d;
+  font-weight: bold;
 }
 pre.rouge .nd {
-  color: #3c5d5d;
-  font-weight: bold;
-}
-pre.rouge .ni {
-  color: #800080;
-}
-pre.rouge .ne {
-  color: #990000;
-  font-weight: bold;
-}
-pre.rouge .nf, pre.rouge .fm {
-  color: #990000;
-  font-weight: bold;
-}
-pre.rouge .nl {
-  color: #990000;
+  color: #b2fd6d;
   font-weight: bold;
 }
 pre.rouge .nn {
-  color: #555555;
-}
-pre.rouge .nt {
-  color: #000080;
-}
-pre.rouge .vc {
-  color: #008080;
-}
-pre.rouge .vg {
-  color: #008080;
-}
-pre.rouge .vi {
-  color: #008080;
-}
-pre.rouge .nv, pre.rouge .vm {
-  color: #008080;
-}
-pre.rouge .ow {
-  color: #000000;
+  color: #b2fd6d;
   font-weight: bold;
 }
-pre.rouge .o {
-  color: #000000;
+pre.rouge .bp {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+pre.rouge .ne {
+  color: #b2fd6d;
+  font-weight: bold;
+}
+pre.rouge .nl {
+  color: #ffb000;
+  font-weight: bold;
+}
+pre.rouge .nt {
+  color: #ffb000;
+  font-weight: bold;
+}
+pre.rouge .m, pre.rouge .mf, pre.rouge .mh, pre.rouge .mi, pre.rouge .il, pre.rouge .mo, pre.rouge .mb, pre.rouge .mx {
+  color: #f696db;
+  font-weight: bold;
+}
+pre.rouge .ld {
+  color: #f696db;
+  font-weight: bold;
+}
+pre.rouge .ss {
+  color: #f696db;
+  font-weight: bold;
+}
+pre.rouge .s, pre.rouge .sb, pre.rouge .sd, pre.rouge .s2, pre.rouge .sh, pre.rouge .sx, pre.rouge .sr, pre.rouge .s1 {
+  color: #fff0a6;
+  font-weight: bold;
+}
+pre.rouge .se {
+  color: #4df4ff;
+  font-weight: bold;
+}
+pre.rouge .sc {
+  color: #4df4ff;
+  font-weight: bold;
+}
+pre.rouge .si {
+  color: #4df4ff;
+  font-weight: bold;
+}
+pre.rouge .nb {
+  font-weight: bold;
+}
+pre.rouge .ni {
+  color: #999999;
   font-weight: bold;
 }
 pre.rouge .w {
-  color: #bbbbbb;
+  color: #BBBBBB;
 }
-pre.rouge {
-  background-color: #f8f8f8;
+pre.rouge .go {
+  color: #BBBBBB;
+}
+pre.rouge .nf {
+  color: #a8e1fe;
+}
+pre.rouge .py {
+  color: #a8e1fe;
+}
+pre.rouge .na {
+  color: #a8e1fe;
+}
+pre.rouge .nv, pre.rouge .vc, pre.rouge .vg, pre.rouge .vi {
+  color: #a8e1fe;
+  font-weight: bold;
 }
   </style>
  </body>

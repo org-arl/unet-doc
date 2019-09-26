@@ -21,7 +21,7 @@ The `SaveStateReq` message causes the agent state (changed parameters) to be per
 
 Fire up Unet audio (`bin/unet audio`) to test out how state persistence works:
 
-[source, console]
+[source]
 ----
 > plvl
 phy[1].powerLevel = -10.0
@@ -36,7 +36,7 @@ OK
 
 Now start Unet audio again, and you'll find that the `plvl` state was not retained through reboots:
 
-[source, console]
+[source]
 ----
 > plvl
 phy[1].powerLevel = -10.0
@@ -48,7 +48,7 @@ phy.signalPowerLevel = -10.0
 
 We can ask it to retain the state:
 
-[source, console]
+[source]
 ----
 > plvl -40
 OK
@@ -64,7 +64,7 @@ saved-state.groovy [156 bytes]    //<2>
 
 Start Unet audio again, and you'll find that the state is retained:
 
-[source, console]
+[source]
 ----
 > plvl
 phy[1].powerLevel = -40.0
@@ -90,7 +90,7 @@ phy.signalPowerLevel = -40.0
 
 Delete this file and start Unet audio again:
 
-[source, console]
+[source]
 ----
 > help savestate
 savestate - save state of all or specified agent in Groovy script format
@@ -112,7 +112,7 @@ Example:
 
 The help shows you that the `savestate` command can be used to save the state of individual agents, if you wish, to a filename of your choice. If you save the state to a different filename, it is not automatically restored on startup. But you can restore it easily with a single command (name of the file):
 
-[source, console]
+[source]
 ----
 > plvl
 phy[1].powerLevel = -10.0

@@ -34,7 +34,7 @@ In <<Accessing agent services>>, we have already come across the `agentForServic
 
 Fire up your trusty 2-node network and connect to node A's shell:
 
-[source, console]
+[source]
 ----
 > a = agentForService(org.arl.unet.Services.PHYSICAL);
 > a.name
@@ -45,7 +45,7 @@ We asked for an agent that provides the `org.arl.unet.Services.PHYSICAL` service
 
 But what if there were more than one agents capable of providing the same service? We can ask for the list of all agents that provide a service:
 
-[source, console]
+[source]
 ----
 > agentsForService(org.arl.unet.Services.PHYSICAL)
 [phy]
@@ -53,7 +53,7 @@ But what if there were more than one agents capable of providing the same servic
 
 Well, there was only one agent providing the PHYSICAL service. Are there other services that multiple agents provide? Indeed, there are:
 
-[source, console]
+[source]
 ----
 > agentsForService(org.arl.unet.Services.DATAGRAM)
 [transport, router, uwlink, phy]
@@ -63,7 +63,7 @@ The DATAGRAM service is provided by several agents. If you were interested in al
 
 What would have happened if you only asked for `agentForService()` instead of `agentsForService()` for the DATAGRAM service? Try it:
 
-[source, console]
+[source]
 ----
 > a = agentForService(org.arl.unet.Services.DATAGRAM);
 > a.name
@@ -78,7 +78,7 @@ When you try to print an AgentID object on the shell, the shell tries to be help
 
 You can also ask an agent for the list of services it provides:
 
-[source, console]
+[source]
 ----
 > phy.services
 [org.arl.unet.Services.PHYSICAL, org.arl.unet.Services.DATAGRAM, org.arl.unet.Services.BASEBAND]
@@ -86,7 +86,7 @@ You can also ask an agent for the list of services it provides:
 
 or get a list of all services provided by all agents in the stack:
 
-[source, console]
+[source]
 ----
 > services
 org.arl.unet.Services.NODE_INFO: node
@@ -109,7 +109,7 @@ org.arl.unet.Services.ROUTE_MAINTENANCE: rdp
 
 So let's say you looked up the list of agents that provide the DATAGRAM service:
 
-[source, console]
+[source]
 ----
 > agentsForService(org.arl.unet.Services.DATAGRAM)
 [transport, router, uwlink, phy]
@@ -117,7 +117,7 @@ So let's say you looked up the list of agents that provide the DATAGRAM service:
 
 If you wanted to send a datagram, how do you pick which one you'd rather use? Different agents may provide different optional capabilities. If you were specifically interested in a particular capability (e.g. reliability), you could ask the agent if it supported that:
 
-[source, console]
+[source]
 ----
 > phy << new CapabilityReq(org.arl.unet.DatagramCapability.RELIABILITY)
 DISCONFIRM
@@ -129,7 +129,7 @@ Here, we asked `phy` if it can do reliable datagram delivery, and it said "no". 
 
 You can also ask an agent to list all its optional capabilities:
 
-[source, console]
+[source]
 ----
 > transport << new CapabilityReq()
 CapabilityListRsp:INFORM[PROGRESS,RELIABILITY,FRAGMENTATION,CANCELLATION]
@@ -139,7 +139,7 @@ The `transport` agent says it can do reliable datagram delivery, fragment & reas
 
 Another way you may choose a service provider is by checking its parameters. For example, the `MTU` parameter (defined in the DATAGRAM service) tells you what is the largest datagram the agent can deliver:
 
-[source, console]
+[source]
 ----
 > phy.MTU
 56

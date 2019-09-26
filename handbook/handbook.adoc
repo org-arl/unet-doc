@@ -12,6 +12,7 @@ v3.0.0
 :sectnums:
 :xrefstyle: short
 :source-highlighter: rouge
+:source-language: unet
 :url-unetstack: https://www.unetstack.net
 :url-editions: https://www.unetstack.net/editions.html
 :url-downloads: https://www.unetstack.net/downloads.html
@@ -21,6 +22,9 @@ v3.0.0
 :url-unet-javadoc: https://unetstack.net/javadoc/index.html?
 :url-fjage-javadoc: https://org-arl.github.io/fjage/javadoc/index.html?
 :url-fjage-doc: https://fjage.readthedocs.io/en/latest
+ifdef::backend-html5[]
+:rouge-style: thankful_eyes
+endif::backend-html5[]
 
 [preface]
 = Preface

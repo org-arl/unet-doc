@@ -8,7 +8,7 @@ The simplest way to interact with UnetStack is via the command shell (or simply 
 
 On node A, we can ask for a list of agents running:
 
-[source, console]
+[source]
 ----
 > ps
 remote: org.arl.unet.remote.RemoteControl - IDLE
@@ -29,7 +29,7 @@ mac: org.arl.unet.mac.CSMA - IDLE
 
 We can further ask for more details of a specific agent:
 
-[source, console]
+[source]
 ----
 > phy
 <<< HalfDuplexModem >>>
@@ -63,7 +63,7 @@ We can further ask for more details of a specific agent:
 
 We asked for details of the agent `phy`, and we got a list of parameters supported by the agent. We can get or set individual parameters of the agent:
 
-[source, console]
+[source]
 ----
 > phy.MTU
 56
@@ -79,7 +79,7 @@ true
 
 To find out more about a specific parameter, we can ask for help on the parameter:
 
-[source, console]
+[source]
 ----
 > help phy.MTU
 phy.MTU - maximum transmission unit (MTU) in bytes
@@ -89,7 +89,7 @@ phy.rxEnable - true if reception enabled
 
 We can also ask for help on an agent:
 
-[source, console]
+[source]
 ----
 > help phy
 phy - access to physical service
@@ -140,7 +140,7 @@ parameters type "help modem".
 
 From this help, we see that `phy` agent also supports channel parameters (also known as _indexed_ parameters). It supports two logical channels, CONTROL (1) and DATA (2). The CONTROL channel is meant for low-rate robust data transmission, whereas the DATA channel is typically configured for higher rate data transmission. Channel parameters work in the same way as normal parameters, but with an index:
 
-[source, console]
+[source]
 ----
 > phy[CONTROL]
 <<< PHY >>>
@@ -194,7 +194,7 @@ NOTE: The actual parameters you see may differ if you are working with a modem, 
 
 Most agents also support some commands. For example, the `phy` agent supports the `plvl` command:
 
-[source, console]
+[source]
 ----
 > help plvl
 plvl - get/set TX power level for all PHY channel types
@@ -221,7 +221,7 @@ phy.signalPowerLevel = -20.0
 
 The `plvl` command simply displays or sets the `powerLevel` parameter of all channels. The same can be manually accomplished by setting or getting individual parameters, if desired:
 
-[source, console]
+[source]
 ----
 > phy[1].powerLevel
 -20
@@ -246,7 +246,7 @@ TIP: All parameters and commands are implemented by exchanging messages between 
 
 Typically, we would want to send a _request_ to an agent and get a _response_ message back. This can be accomplished with the `request` call (or the equivalent alias `<<`) on the agent:
 
-[source, console]
+[source]
 ----
 > phy << new TxFrameReq(data: [1,2,3])
 AGREE
@@ -259,7 +259,7 @@ TIP: A _frame_ is simply a datagram at the physical layer, also sometimes called
 
 We can also use the return value in a condition, but we need to remember that the return value from the `request` is a message:
 
-[source, console]
+[source]
 ----
 > x = phy << new TxFrameReq();
 phy >> TxFrameNtf:INFORM[type:CONTROL txTime:3381446740]
@@ -277,14 +277,14 @@ TIP: The semicolon ";" at the end of the first statement prevents the return val
 
 Unsolicited notification messages can be received by subscribing to the topic of interest. For example, on node B, we can subscribe to physical layer events on node B:
 
-[source, console]
+[source]
 ----
 > subscribe phy
 ----
 
 Now, if we broadcast a frame from node A using `phy << new TxFrameReq()`, we will see the relevant reception events on node B:
 
-[source, console]
+[source]
 ----
 phy >> RxFrameStartNtf:INFORM[type:CONTROL rxTime:1765508396]
 phy >> RxFrameNtf:INFORM[type:CONTROL from:232 rxTime:1765508396]
@@ -298,7 +298,7 @@ If all of this seems somewhat confusing to you, don't worry about it. Most of th
 
 The default UnetStack shell accepts any {url-groovy}[Groovy] code, and so is very flexible:
 
-[source, console]
+[source]
 ----
 > 1+2
 3
@@ -312,7 +312,7 @@ The default UnetStack shell accepts any {url-groovy}[Groovy] code, and so is ver
 
 You can also define closures (if you're not familiar with closures, you can think of them as functions for now):
 
-[source, console]
+[source]
 ----
 > tx2 = {
 -   2.times {
@@ -323,7 +323,7 @@ You can also define closures (if you're not familiar with closures, you can thin
 
 and call them later:
 
-[source, console]
+[source]
 ----
 > tx2
 phy >> TxFrameNtf:INFORM[type:CONTROL txTime:3911898740]

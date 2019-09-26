@@ -48,7 +48,7 @@ Additionally, if time stability or location accuracy information is available, t
 
 If you start the mission2013 network simulation (`bin/unet samples/mission2013-network.groovy`), connect to node 21's shell and type `node`, you'll see the NODE_INFO parameters for the node in this network:
 
-[source, console]
+[source]
 ----
 > node
 <<< NodeInfo >>>
