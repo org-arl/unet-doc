@@ -125,7 +125,7 @@ UnetStack provides API bindings for many languages (Java, Groovy, Python, Julia,
 
 We'll assume you have Python 3.x already installed. Let us start by installing the UnetStack Python API bindings:
 
-[source, console]
+[source, shell]
 ----
 $ pip install unetpy
 Collecting unetpy
@@ -167,7 +167,7 @@ s.close()
 
 First run `python rx.py` to start reception. Then, on a separate terminal window, run `python tx.py` to initiate transmission. You should see the received datagram printed by the `rx.py` script:
 
-[source, console]
+[source, shell]
 ----
 $ python rx.py
 from node 1 : hello!
