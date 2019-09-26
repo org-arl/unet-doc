@@ -971,7 +971,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> ps
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>ps
 <span class="go">remote: org.arl.unet.remote.RemoteControl - IDLE
 state: org.arl.unet.state.StateManager - IDLE
 rdp: org.arl.unet.net.RouteDiscoveryProtocol - IDLE
@@ -1015,11 +1015,11 @@ mac: org.arl.unet.mac.CSMA - IDLE</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> container.kill mac
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>container.kill mac
 <span class="go">true
-</span><span class="gp">&gt;</span> container.add <span class="s1">'mac'</span>, new MySimplestMac<span class="o">()</span>
+</span><span class="gp">&gt;</span><span class="w"> </span>container.add <span class="s1">'mac'</span>, new MySimplestMac<span class="o">()</span>
 <span class="go">mac
-</span><span class="gp">&gt;</span> ps
+</span><span class="gp">&gt;</span><span class="w"> </span>ps
 <span class="go">remote: org.arl.unet.remote.RemoteControl - IDLE
 state: org.arl.unet.state.StateManager - IDLE
 rdp: org.arl.unet.net.RouteDiscoveryProtocol - IDLE
@@ -1035,7 +1035,7 @@ transport: org.arl.unet.transport.SWTransport - IDLE
 router: org.arl.unet.net.Router - IDLE
 mac: MySimplestMac - IDLE
 
-</span><span class="gp">&gt;</span> mac
+</span><span class="gp">&gt;</span><span class="w"> </span>mac
 <span class="gp">&lt;&lt;&lt; MySimplestMac &gt;</span><span class="o">&gt;&gt;</span>
 <span class="go">
 [org.arl.unet.mac.MacParam]
@@ -1058,7 +1058,7 @@ mac: MySimplestMac - IDLE
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> mac <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> ReservationReq(to: 31, duration: 3.seconds)
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>mac <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> ReservationReq(to: 31, duration: 3.seconds)
 </span><span class="go">ReservationRsp:AGREE
 </span><span class="gp">mac &gt;</span><span class="o">&gt;</span> ReservationStatusNtf:INFORM[to:31 status:START]
 <span class="gp">mac &gt;</span><span class="o">&gt;</span> ReservationStatusNtf:INFORM[to:31 status:END]</code></pre>
@@ -1131,7 +1131,7 @@ mac: MySimplestMac - IDLE
         </div>
         <div class="listingblock">
          <div class="content">
-          <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> logLevel FINE</code></pre>
+          <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>logLevel FINE</code></pre>
          </div>
         </div>
         <div class="paragraph">
@@ -1149,7 +1149,7 @@ mac: MySimplestMac - IDLE
         </div>
         <div class="listingblock">
          <div class="content">
-          <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> <span class="nb">tail</span>
+          <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span><span class="nb">tail</span>
 <span class="go">1568482567444|INFO|org.arl.unet.remote.RemoteControl/B@57:startup|Using transport for communication
 1568482567447|INFO|org.arl.unet.link.ECLink/B@59:startup|No PHY specified, auto detecting...
 1568482567448|INFO|org.arl.unet.link.ECLink/B@59:startup|Using agent 'phy' for PHY
@@ -1588,8 +1588,8 @@ mac: MySimplestMac - IDLE
         </div>
         <div class="listingblock">
          <div class="content">
-          <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> import java.nio.ByteOrder
-<span class="gp">&gt;</span> pdu <span class="o">=</span> PDU.withFormat <span class="o">{</span>
+          <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>import java.nio.ByteOrder
+<span class="gp">&gt;</span><span class="w"> </span>pdu <span class="o">=</span> PDU.withFormat <span class="o">{</span>
 <span class="go">-    length(16)                     // 16 byte PDU
 -    order(ByteOrder.BIG_ENDIAN)    // byte ordering is big endian
 -    uint8('type')                  // 1 byte field 'type'
@@ -1597,10 +1597,10 @@ mac: MySimplestMac - IDLE
 -    filler(2)                      // 2 filler bytes
 -    uint16('data')                 // 2 byte field 'data' as unsigned short
 -    padding(0xff)                  // padded with 0xff to make 16 bytes
-</span><span class="gp">- };</span>
-<span class="gp">&gt;</span> bytes <span class="o">=</span> pdu.encode<span class="o">([</span><span class="nb">type</span>: 7, data: 42]<span class="o">)</span>
+</span><span class="gp">- };</span><span class="w">
+</span><span class="gp">&gt;</span><span class="w"> </span>bytes <span class="o">=</span> pdu.encode<span class="o">([</span><span class="nb">type</span>: 7, data: 42]<span class="o">)</span>
 <span class="go">[7, 1, 0, 0, 0, 42, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
-</span><span class="gp">&gt;</span> pdu.decode<span class="o">(</span>bytes<span class="o">)</span>
+</span><span class="gp">&gt;</span><span class="w"> </span>pdu.decode<span class="o">(</span>bytes<span class="o">)</span>
 <span class="go">[data:42, type:7]</span></code></pre>
          </div>
         </div>
@@ -2192,10 +2192,10 @@ mac: MySimplestMac - IDLE
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> container.kill mac
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>container.kill mac
 <span class="go">true
-</span><span class="gp">&gt;</span> container.add <span class="s1">'mac'</span>, new MySimpleHandshakeMac<span class="o">()</span><span class="p">;</span>
-<span class="gp">&gt;</span> mac
+</span><span class="gp">&gt;</span><span class="w"> </span>container.add <span class="s1">'mac'</span>, new MySimpleHandshakeMac<span class="o">()</span><span class="p">;</span>
+<span class="gp">&gt;</span><span class="w"> </span>mac
 <span class="gp">&lt;&lt;&lt; MySimpleHandshakeMac &gt;</span><span class="o">&gt;&gt;</span>
 <span class="go">
 [org.arl.unet.mac.MacParam]
@@ -2217,8 +2217,8 @@ mac: MySimplestMac - IDLE
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> subscribe phy
-<span class="gp">&gt;</span> mac <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> ReservationReq(to: 31, duration: 3.seconds)
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>subscribe phy
+<span class="gp">&gt;</span><span class="w"> </span>mac <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> ReservationReq(to: 31, duration: 3.seconds)
 </span><span class="go">ReservationRsp:AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameStartNtf:INFORM[type:CONTROL txTime:3631928985 txDuration:950]
 <span class="gp">phy &gt;</span><span class="o">&gt;</span> RxFrameStartNtf:INFORM[type:CONTROL rxTime:3634151681]
@@ -2265,7 +2265,7 @@ mac: MySimplestMac - IDLE
    <div id="footer-text">
     Version 3.0.0
     <br/>
-    Last updated 2019-09-25 22:20:57 +0800
+    Last updated 2019-09-26 15:30:51 +0800
    </div>
 <script>
  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -2296,7 +2296,7 @@ pre.rouge .cs {
   font-weight: bold;
   font-style: italic;
 }
-pre.rouge .c, pre.rouge .cd {
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cpf {
   color: #999988;
   font-style: italic;
 }
@@ -2416,7 +2416,7 @@ pre.rouge .s1 {
 pre.rouge .ss {
   color: #990073;
 }
-pre.rouge .s {
+pre.rouge .s, pre.rouge .sa, pre.rouge .dl {
   color: #d14;
 }
 pre.rouge .na {
@@ -2446,7 +2446,7 @@ pre.rouge .ne {
   color: #990000;
   font-weight: bold;
 }
-pre.rouge .nf {
+pre.rouge .nf, pre.rouge .fm {
   color: #990000;
   font-weight: bold;
 }
@@ -2469,7 +2469,7 @@ pre.rouge .vg {
 pre.rouge .vi {
   color: #008080;
 }
-pre.rouge .nv {
+pre.rouge .nv, pre.rouge .vm {
   color: #008080;
 }
 pre.rouge .ow {

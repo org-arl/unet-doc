@@ -747,7 +747,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> node
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>node
 <span class="gp">&lt;&lt;&lt; NodeInfo &gt;</span><span class="o">&gt;&gt;</span>
 <span class="go">
 [org.arl.unet.nodeinfo.NodeInfoParam]
@@ -776,9 +776,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> node.nodeName <span class="o">=</span> <span class="s1">'buoy_A'</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>node.nodeName <span class="o">=</span> <span class="s1">'buoy_A'</span>
 <span class="go">buoy_A
-</span><span class="gp">&gt;</span> node
+</span><span class="gp">&gt;</span><span class="w"> </span>node
 <span class="gp">&lt;&lt;&lt; NodeInfo &gt;</span><span class="o">&gt;&gt;</span>
 <span class="go">
 [org.arl.unet.nodeinfo.NodeInfoParam]
@@ -802,9 +802,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> host<span class="o">(</span><span class="s1">'buoy_A'</span><span class="o">)</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>host<span class="o">(</span><span class="s1">'buoy_A'</span><span class="o">)</span>
 <span class="go">68
-</span><span class="gp">&gt;</span> node.address <span class="o">=</span> host<span class="o">(</span>node.nodeName<span class="o">)</span>
+</span><span class="gp">&gt;</span><span class="w"> </span>node.address <span class="o">=</span> host<span class="o">(</span>node.nodeName<span class="o">)</span>
 <span class="go">68</span></code></pre>
        </div>
       </div>
@@ -815,10 +815,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> <span class="o">[</span><span class="s1">'buoy_A'</span>, <span class="s1">'auv_1'</span>, <span class="s1">'auv_2'</span>, <span class="s1">'sensor_adcp1'</span>, <span class="s1">'sensor_ctd1'</span><span class="o">]</span>.each <span class="o">{</span> name -&gt;
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span><span class="o">[</span><span class="s1">'buoy_A'</span>, <span class="s1">'auv_1'</span>, <span class="s1">'auv_2'</span>, <span class="s1">'sensor_adcp1'</span>, <span class="s1">'sensor_ctd1'</span><span class="o">]</span>.each <span class="o">{</span> name -&gt;
 <span class="gp">-   print "$</span><span class="o">{</span>name<span class="o">}</span>: <span class="k">${</span><span class="nv">host</span><span class="p">(name)</span><span class="k">}</span><span class="s2">"
-</span><span class="gp">- };</span>
-<span class="go">buoy_A: 68
+</span><span class="gp">- };</span><span class="w">
+</span><span class="go">buoy_A: 68
 auv_1: 150
 auv_2: 109
 sensor_adcp1: 43
@@ -863,9 +863,9 @@ sensor_ctd1: 14</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> s <span class="o">=</span> new UnetSocket<span class="o">(</span>this<span class="o">)</span><span class="p">;</span>
-<span class="gp">&gt;</span> s.bind<span class="o">(</span>Protocol.USER<span class="o">)</span>                 // listen <span class="k">for </span>datagrams with Protocol.USER
-<span class="gp">&gt;</span> rx <span class="o">=</span> s.receive<span class="o">()</span></code></pre>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>s <span class="o">=</span> new UnetSocket<span class="o">(</span>this<span class="o">)</span><span class="p">;</span>
+<span class="gp">&gt;</span><span class="w"> </span>s.bind<span class="o">(</span>Protocol.USER<span class="o">)</span>                 // listen <span class="k">for </span>datagrams with Protocol.USER
+<span class="gp">&gt;</span><span class="w"> </span>rx <span class="o">=</span> s.receive<span class="o">()</span></code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -884,13 +884,13 @@ sensor_ctd1: 14</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> s <span class="o">=</span> new UnetSocket<span class="o">(</span>this<span class="o">)</span><span class="p">;</span>
-<span class="gp">&gt;</span> s.connect<span class="o">(</span>host<span class="o">(</span><span class="s1">'B'</span><span class="o">)</span>, Protocol.DATA<span class="o">)</span>  // send datagrams with Protocol.DATA
-<span class="gp">&gt;</span> s.send<span class="o">(</span><span class="s1">'hi!'</span> as byte[]<span class="o">)</span>
-<span class="gp">&gt;</span> s.connect<span class="o">(</span>host<span class="o">(</span><span class="s1">'B'</span><span class="o">)</span>, Protocol.USER<span class="o">)</span>  // send datagrams with Protocol.USER
-<span class="gp">&gt;</span> s.send<span class="o">(</span><span class="s1">'hello!'</span> as byte[]<span class="o">)</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>s <span class="o">=</span> new UnetSocket<span class="o">(</span>this<span class="o">)</span><span class="p">;</span>
+<span class="gp">&gt;</span><span class="w"> </span>s.connect<span class="o">(</span>host<span class="o">(</span><span class="s1">'B'</span><span class="o">)</span>, Protocol.DATA<span class="o">)</span>  // send datagrams with Protocol.DATA
+<span class="gp">&gt;</span><span class="w"> </span>s.send<span class="o">(</span><span class="s1">'hi!'</span> as byte[]<span class="o">)</span>
+<span class="gp">&gt;</span><span class="w"> </span>s.connect<span class="o">(</span>host<span class="o">(</span><span class="s1">'B'</span><span class="o">)</span>, Protocol.USER<span class="o">)</span>  // send datagrams with Protocol.USER
+<span class="gp">&gt;</span><span class="w"> </span>s.send<span class="o">(</span><span class="s1">'hello!'</span> as byte[]<span class="o">)</span>
 <span class="go">true
-</span><span class="gp">&gt;</span> s.close<span class="o">()</span></code></pre>
+</span><span class="gp">&gt;</span><span class="w"> </span>s.close<span class="o">()</span></code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -905,9 +905,9 @@ sensor_ctd1: 14</span></code></pre>
       <div class="listingblock">
        <div class="content">
         <pre class="rouge highlight"><code data-lang="console"><span class="go">DatagramNtf:INFORM[from:68 to:31 protocol:32 (6 bytes)]
-</span><span class="gp">&gt;</span> new String<span class="o">(</span>rx.data<span class="o">)</span>
+</span><span class="gp">&gt;</span><span class="w"> </span>new String<span class="o">(</span>rx.data<span class="o">)</span>
 <span class="go">hello!
-</span><span class="gp">&gt;</span> s.close<span class="o">()</span></code></pre>
+</span><span class="gp">&gt;</span><span class="w"> </span>s.close<span class="o">()</span></code></pre>
        </div>
       </div>
      </div>
@@ -931,7 +931,7 @@ sensor_ctd1: 14</span></code></pre>
    <div id="footer-text">
     Version 3.0.0
     <br/>
-    Last updated 2019-09-25 22:20:57 +0800
+    Last updated 2019-09-26 15:30:51 +0800
    </div>
 <script>
  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -962,7 +962,7 @@ pre.rouge .cs {
   font-weight: bold;
   font-style: italic;
 }
-pre.rouge .c, pre.rouge .cd {
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cpf {
   color: #999988;
   font-style: italic;
 }
@@ -1082,7 +1082,7 @@ pre.rouge .s1 {
 pre.rouge .ss {
   color: #990073;
 }
-pre.rouge .s {
+pre.rouge .s, pre.rouge .sa, pre.rouge .dl {
   color: #d14;
 }
 pre.rouge .na {
@@ -1112,7 +1112,7 @@ pre.rouge .ne {
   color: #990000;
   font-weight: bold;
 }
-pre.rouge .nf {
+pre.rouge .nf, pre.rouge .fm {
   color: #990000;
   font-weight: bold;
 }
@@ -1135,7 +1135,7 @@ pre.rouge .vg {
 pre.rouge .vi {
   color: #008080;
 }
-pre.rouge .nv {
+pre.rouge .nv, pre.rouge .vm {
   color: #008080;
 }
 pre.rouge .ow {

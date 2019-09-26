@@ -1105,8 +1105,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> container.add <span class="s1">'echo'</span>, new EchoDaemon<span class="o">()</span><span class="p">;</span>             <i class="conum" data-value="1"></i><b>(1)</b>
-<span class="gp">&gt;</span> ps
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>container.add <span class="s1">'echo'</span>, new EchoDaemon<span class="o">()</span><span class="p">;</span>             <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="gp">&gt;</span><span class="w"> </span>ps
 <span class="go">remote: org.arl.unet.remote.RemoteControl - IDLE
 state: org.arl.unet.state.StateManager - IDLE
 rdp: org.arl.unet.net.RouteDiscoveryProtocol - IDLE
@@ -1210,13 +1210,13 @@ WebGW-5c9c1c68385a388f: REMOTE</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> subscribe phy                                       <i class="conum" data-value="1"></i><b>(1)</b>
-<span class="gp">&gt;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> DatagramReq(to: host('B'), protocol: Protocol.USER, data: [42]) <i class="conum" data-value="2"></i><b>(2)</b>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>subscribe phy                                       <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> DatagramReq(to: host('B'), protocol: Protocol.USER, data: [42]) <i class="conum" data-value="2"></i><b>(2)</b>
 </span><span class="go">AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[type:DATA txTime:2809812247]
 <span class="gp">phy &gt;</span><span class="o">&gt;</span> RxFrameStartNtf:INFORM[type:DATA rxTime:2811767943]
 <span class="gp">phy &gt;</span><span class="o">&gt;</span> RxFrameNtf:INFORM[type:DATA from:31 to:232 rxTime:2811767943 <span class="o">(</span>1 byte<span class="o">)]</span>
-<span class="gp">&gt;</span> ntf.data
+<span class="gp">&gt;</span><span class="w"> </span>ntf.data
 <span class="go">[42]                                                  <i class="conum" data-value="3"></i><b>(3)</b>
 </span></code></pre>
        </div>
@@ -1306,23 +1306,23 @@ WebGW-5c9c1c68385a388f: REMOTE</span></code></pre>
         <pre class="rouge highlight"><code data-lang="java"><span class="kn">import</span> <span class="nn">org.arl.fjage.*</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.arl.unet.*</span><span class="o">;</span>
 
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EchoDaemon</span> <span class="kd">extends</span> <span class="n">UnetAgent</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EchoDaemon</span> <span class="kd">extends</span> <span class="nc">UnetAgent</span> <span class="o">{</span>
 
   <span class="nd">@Override</span>
   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">startup</span><span class="o">()</span> <span class="o">{</span>
     <span class="c1">// subscribe to all agents that provide the datagram service</span>
-    <span class="n">subscribeForService</span><span class="o">(</span><span class="n">Services</span><span class="o">.</span><span class="na">DATAGRAM</span><span class="o">);</span>
+    <span class="n">subscribeForService</span><span class="o">(</span><span class="nc">Services</span><span class="o">.</span><span class="na">DATAGRAM</span><span class="o">);</span>
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">processMessage</span><span class="o">(</span><span class="n">Message</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">msg</span> <span class="k">instanceof</span> <span class="n">DatagramNtf</span> <span class="o">&amp;&amp;</span> <span class="o">((</span><span class="n">DatagramNtf</span><span class="o">)</span><span class="n">msg</span><span class="o">).</span><span class="na">getProtocol</span><span class="o">()</span> <span class="o">==</span> <span class="n">Protocol</span><span class="o">.</span><span class="na">USER</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">processMessage</span><span class="o">(</span><span class="nc">Message</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">msg</span> <span class="k">instanceof</span> <span class="nc">DatagramNtf</span> <span class="o">&amp;&amp;</span> <span class="o">((</span><span class="nc">DatagramNtf</span><span class="o">)</span><span class="n">msg</span><span class="o">).</span><span class="na">getProtocol</span><span class="o">()</span> <span class="o">==</span> <span class="nc">Protocol</span><span class="o">.</span><span class="na">USER</span><span class="o">)</span> <span class="o">{</span>
       <span class="c1">// we got an echo request!</span>
       <span class="c1">// respond with a protocol DATA datagram</span>
-      <span class="n">DatagramNtf</span> <span class="n">ntf</span> <span class="o">=</span> <span class="o">(</span><span class="n">DatagramNtf</span><span class="o">)</span><span class="n">msg</span><span class="o">;</span>
-      <span class="n">DatagramReq</span> <span class="n">req</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DatagramReq</span><span class="o">(</span><span class="n">ntf</span><span class="o">.</span><span class="na">getSender</span><span class="o">());</span>
+      <span class="nc">DatagramNtf</span> <span class="n">ntf</span> <span class="o">=</span> <span class="o">(</span><span class="nc">DatagramNtf</span><span class="o">)</span><span class="n">msg</span><span class="o">;</span>
+      <span class="nc">DatagramReq</span> <span class="n">req</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DatagramReq</span><span class="o">(</span><span class="n">ntf</span><span class="o">.</span><span class="na">getSender</span><span class="o">());</span>
       <span class="n">req</span><span class="o">.</span><span class="na">setTo</span><span class="o">(</span><span class="n">ntf</span><span class="o">.</span><span class="na">getFrom</span><span class="o">());</span>
-      <span class="n">req</span><span class="o">.</span><span class="na">setProtocol</span><span class="o">(</span><span class="n">Protocol</span><span class="o">.</span><span class="na">DATA</span><span class="o">);</span>
+      <span class="n">req</span><span class="o">.</span><span class="na">setProtocol</span><span class="o">(</span><span class="nc">Protocol</span><span class="o">.</span><span class="na">DATA</span><span class="o">);</span>
       <span class="n">req</span><span class="o">.</span><span class="na">setData</span><span class="o">(</span><span class="n">ntf</span><span class="o">.</span><span class="na">getData</span><span class="o">());</span>
       <span class="n">send</span><span class="o">(</span><span class="n">req</span><span class="o">);</span>
     <span class="o">}</span>
@@ -1512,9 +1512,9 @@ WebGW-5c9c1c68385a388f: REMOTE</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> container.kill <span class="nb">echo</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>container.kill <span class="nb">echo</span>
 <span class="go">true
-</span><span class="gp">&gt;</span> container.add <span class="s1">'echo'</span>, new EchoDaemon<span class="o">()</span><span class="p">;</span></code></pre>
+</span><span class="gp">&gt;</span><span class="w"> </span>container.add <span class="s1">'echo'</span>, new EchoDaemon<span class="o">()</span><span class="p">;</span></code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -1625,7 +1625,7 @@ WebGW-5c9c1c68385a388f: REMOTE</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> <span class="nb">echo</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span><span class="nb">echo</span>
 <span class="gp">&lt;&lt;&lt; EchoDaemon &gt;</span><span class="o">&gt;&gt;</span></code></pre>
        </div>
       </div>
@@ -1783,10 +1783,10 @@ WebGW-5c9c1c68385a388f: REMOTE</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> container.kill agent<span class="o">(</span><span class="s1">'echo'</span><span class="o">)</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>container.kill agent<span class="o">(</span><span class="s1">'echo'</span><span class="o">)</span>
 <span class="go">true
-</span><span class="gp">&gt;</span> container.add <span class="s1">'echo'</span>, new EchoDaemon<span class="o">()</span><span class="p">;</span>
-<span class="gp">&gt;</span> <span class="nb">echo</span>
+</span><span class="gp">&gt;</span><span class="w"> </span>container.add <span class="s1">'echo'</span>, new EchoDaemon<span class="o">()</span><span class="p">;</span>
+<span class="gp">&gt;</span><span class="w"> </span><span class="nb">echo</span>
 <span class="gp">&lt;&lt;&lt; Echo Daemon &gt;</span><span class="o">&gt;&gt;</span>                      <i class="conum" data-value="1"></i><b>(1)</b>
 <span class="go">
 Echoes any USER datagrams back as DATA   <i class="conum" data-value="2"></i><b>(2)</b>
@@ -1794,11 +1794,11 @@ Echoes any USER datagrams back as DATA   <i class="conum" data-value="2"></i><b>
 [EchoDaemon.Params]
   delay = 7000
 
-</span><span class="gp">&gt;</span> echo.delay
+</span><span class="gp">&gt;</span><span class="w"> </span>echo.delay
 <span class="go">7000
-</span><span class="gp">&gt;</span> echo.delay <span class="o">=</span> 5000
+</span><span class="gp">&gt;</span><span class="w"> </span>echo.delay <span class="o">=</span> 5000
 <span class="go">5000
-</span><span class="gp">&gt;</span> echo.delay
+</span><span class="gp">&gt;</span><span class="w"> </span>echo.delay
 <span class="go">5000</span></code></pre>
        </div>
       </div>
@@ -1912,7 +1912,7 @@ Echoes any USER datagrams back as DATA   <i class="conum" data-value="2"></i><b>
    <div id="footer-text">
     Version 3.0.0
     <br/>
-    Last updated 2019-09-25 22:20:57 +0800
+    Last updated 2019-09-26 15:30:51 +0800
    </div>
 <script>
  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -1943,7 +1943,7 @@ pre.rouge .cs {
   font-weight: bold;
   font-style: italic;
 }
-pre.rouge .c, pre.rouge .cd {
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cpf {
   color: #999988;
   font-style: italic;
 }
@@ -2063,7 +2063,7 @@ pre.rouge .s1 {
 pre.rouge .ss {
   color: #990073;
 }
-pre.rouge .s {
+pre.rouge .s, pre.rouge .sa, pre.rouge .dl {
   color: #d14;
 }
 pre.rouge .na {
@@ -2093,7 +2093,7 @@ pre.rouge .ne {
   color: #990000;
   font-weight: bold;
 }
-pre.rouge .nf {
+pre.rouge .nf, pre.rouge .fm {
   color: #990000;
   font-weight: bold;
 }
@@ -2116,7 +2116,7 @@ pre.rouge .vg {
 pre.rouge .vi {
   color: #008080;
 }
-pre.rouge .nv {
+pre.rouge .nv, pre.rouge .vm {
   color: #008080;
 }
 pre.rouge .ow {

@@ -886,9 +886,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> agentsForService org.arl.unet.Services.REMOTE
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>agentsForService org.arl.unet.Services.REMOTE
 <span class="go">[remote]
-</span><span class="gp">&gt;</span> remote
+</span><span class="gp">&gt;</span><span class="w"> </span>remote
 <span class="gp">&lt;&lt;&lt; RemoteControl &gt;</span><span class="o">&gt;&gt;</span>
 <span class="go">
 [org.arl.unet.remote.RemoteControlParam]
@@ -1114,7 +1114,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> remote <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RemoteTextReq(to: host('B'), text: 'hello!', ack: true)
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>remote <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RemoteTextReq(to: host('B'), text: 'hello!', ack: true)
 </span><span class="go">AGREE
 </span><span class="gp">remote &gt;</span><span class="o">&gt;</span> RemoteSuccessNtf:INFORM[RemoteTextReq:REQUEST[to:31 text:hello! ack:true]]</code></pre>
        </div>
@@ -1163,7 +1163,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
    <div id="footer-text">
     Version 3.0.0
     <br/>
-    Last updated 2019-09-25 22:20:57 +0800
+    Last updated 2019-09-26 15:30:51 +0800
    </div>
 <script>
  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -1194,7 +1194,7 @@ pre.rouge .cs {
   font-weight: bold;
   font-style: italic;
 }
-pre.rouge .c, pre.rouge .cd {
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cpf {
   color: #999988;
   font-style: italic;
 }
@@ -1314,7 +1314,7 @@ pre.rouge .s1 {
 pre.rouge .ss {
   color: #990073;
 }
-pre.rouge .s {
+pre.rouge .s, pre.rouge .sa, pre.rouge .dl {
   color: #d14;
 }
 pre.rouge .na {
@@ -1344,7 +1344,7 @@ pre.rouge .ne {
   color: #990000;
   font-weight: bold;
 }
-pre.rouge .nf {
+pre.rouge .nf, pre.rouge .fm {
   color: #990000;
   font-weight: bold;
 }
@@ -1367,7 +1367,7 @@ pre.rouge .vg {
 pre.rouge .vi {
   color: #008080;
 }
-pre.rouge .nv {
+pre.rouge .nv, pre.rouge .vm {
   color: #008080;
 }
 pre.rouge .ow {

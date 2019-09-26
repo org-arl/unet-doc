@@ -1062,7 +1062,7 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> agentsForService<span class="o">(</span>org.arl.unet.Services.BASEBAND<span class="o">)</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>agentsForService<span class="o">(</span>org.arl.unet.Services.BASEBAND<span class="o">)</span>
 <span class="go">[phy]</span></code></pre>
        </div>
       </div>
@@ -1081,7 +1081,7 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> phy
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy
 <span class="gp">&lt;&lt;&lt; Physical &gt;</span><span class="o">&gt;&gt;</span>
 <span class="go">
 [org.arl.unet.bb.BasebandParam]
@@ -1099,11 +1099,11 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> s <span class="o">=</span> <span class="o">[</span>1,0]<span class="k">*</span>12000                 <i class="conum" data-value="1"></i><b>(1)</b>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>s <span class="o">=</span> <span class="o">[</span>1,0]<span class="k">*</span>12000                 <i class="conum" data-value="1"></i><b>(1)</b>
 <span class="gp">[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 &lt;&lt;snip&gt;</span><span class="o">&gt;</span> 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0]
-<span class="gp">&gt;</span> s.size<span class="o">()</span>
+<span class="gp">&gt;</span><span class="w"> </span>s.size<span class="o">()</span>
 <span class="go">24000
-</span><span class="gp">&gt;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(signal: s)
+</span><span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(signal: s)
 </span><span class="go">AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[txTime:11401231]</code></pre>
        </div>
@@ -1173,10 +1173,10 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> s <span class="o">=</span> cw<span class="o">(</span>2000, 0.5, 0<span class="o">)</span>                             <i class="conum" data-value="1"></i><b>(1)</b>
-<span class="gp">&gt;</span> s.size<span class="o">()</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>s <span class="o">=</span> cw<span class="o">(</span>2000, 0.5, 0<span class="o">)</span>                             <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="gp">&gt;</span><span class="w"> </span>s.size<span class="o">()</span>
 <span class="go">48000                                              <i class="conum" data-value="2"></i><b>(2)</b>
-</span><span class="gp">&gt;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(signal: s, fc: 0) <i class="conum" data-value="3"></i><b>(3)</b>
+</span><span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(signal: s, fc: 0) <i class="conum" data-value="3"></i><b>(3)</b>
 </span><span class="go">AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[txTime:414013271]</code></pre>
        </div>
@@ -1244,10 +1244,10 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RecordBasebandSignalReq(recLength: 12000)
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RecordBasebandSignalReq(recLength: 12000)
 </span><span class="go">AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> RxBasebandSignalNtf:INFORM[adc:1 rxTime:11780353 rssi:-79.1 <span class="nb">fc</span>:12000.0 fs:12000.0 <span class="o">(</span>12000 baseband samples<span class="o">)]</span>
-<span class="gp">&gt;</span> ntf.signal                      <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="gp">&gt;</span><span class="w"> </span>ntf.signal                      <i class="conum" data-value="1"></i><b>(1)</b>
 <span class="gp">[8.611694E-5, 5.8899976E-5, 1.01 &lt;&lt;snip&gt;</span><span class="o">&gt;</span> E-6, <span class="nt">-9</span>.148392E-6, 3.5340495E-6]</code></pre>
        </div>
       </div>
@@ -1286,7 +1286,7 @@ Modem web: http://localhost:8080/</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> t <span class="o">=</span> phy.time + 5000000<span class="p">;</span> println<span class="o">(</span>t<span class="o">)</span><span class="p">;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RecordBasebandSignalReq(recLength: 12000, recTime: t)
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>t <span class="o">=</span> phy.time + 5000000<span class="p">;</span> println<span class="o">(</span>t<span class="o">)</span><span class="p">;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RecordBasebandSignalReq(recLength: 12000, recTime: t)
 </span><span class="go">855949105
 AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> RxBasebandSignalNtf:INFORM[adc:1 rxTime:855949105 rssi:-90.3 <span class="nb">fc</span>:12000.0 fs:12000.0 <span class="o">(</span>12000 baseband samples<span class="o">)]</span></code></pre>
@@ -1304,11 +1304,11 @@ AGREE
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> t <span class="o">=</span> phy.time - 5000000<span class="p">;</span> println<span class="o">(</span>t<span class="o">)</span><span class="p">;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RecordBasebandSignalReq(recLength: 12000, recTime: t)
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>t <span class="o">=</span> phy.time - 5000000<span class="p">;</span> println<span class="o">(</span>t<span class="o">)</span><span class="p">;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RecordBasebandSignalReq(recLength: 12000, recTime: t)
 </span><span class="go">1186471772
 AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> RxBasebandSignalNtf:INFORM[adc:1 rxTime:1186471772 rssi:-74.6 <span class="nb">fc</span>:12000.0 fs:12000.0 <span class="o">(</span>12000 baseband samples<span class="o">)]</span>
-<span class="gp">&gt;</span> t <span class="o">=</span> phy.time - 60000000<span class="p">;</span> println<span class="o">(</span>t<span class="o">)</span><span class="p">;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RecordBasebandSignalReq(recLength: 12000, recTime: t)
+<span class="gp">&gt;</span><span class="w"> </span>t <span class="o">=</span> phy.time - 60000000<span class="p">;</span> println<span class="o">(</span>t<span class="o">)</span><span class="p">;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RecordBasebandSignalReq(recLength: 12000, recTime: t)
 </span><span class="go">1204946438
 REFUSE: Bad start time</span></code></pre>
        </div>
@@ -1324,7 +1324,7 @@ REFUSE: Bad start time</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RecordBasebandSignalReq(recLength: 12000, recTime: -5000000)
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> RecordBasebandSignalReq(recLength: 12000, recTime: -5000000)
 </span><span class="go">AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> RxBasebandSignalNtf:INFORM[adc:1 rxTime:1361359020 rssi:-72.9 <span class="nb">fc</span>:12000.0 fs:12000.0 <span class="o">(</span>12000 baseband samples<span class="o">)]</span></code></pre>
        </div>
@@ -1346,7 +1346,7 @@ REFUSE: Bad start time</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(preamble: 1)
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(preamble: 1)
 </span><span class="go">AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[txTime:5470777099]</code></pre>
        </div>
@@ -1384,10 +1384,10 @@ REFUSE: Bad start time</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> subscribe phy
-<span class="gp">&gt;</span> phy.fullduplex <span class="o">=</span> <span class="nb">true</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>subscribe phy
+<span class="gp">&gt;</span><span class="w"> </span>phy.fullduplex <span class="o">=</span> <span class="nb">true</span>
 <span class="go">true
-</span><span class="gp">&gt;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(preamble:1)
+</span><span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(preamble:1)
 </span><span class="go">AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameStartNtf:INFORM[txTime:5809832016 txDuration:40416]
 <span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[txTime:5809859766]
@@ -1406,9 +1406,9 @@ REFUSE: Bad start time</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> phy[3].threshold <span class="o">=</span> 0.25
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy[3].threshold <span class="o">=</span> 0.25
 <span class="go">0.25
-</span><span class="gp">&gt;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(preamble: 3)
+</span><span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(preamble: 3)
 </span><span class="go">AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameStartNtf:INFORM[txTime:6011688016 txDuration:170916]
 <span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[txTime:6011686599]
@@ -1498,9 +1498,9 @@ REFUSE: Bad start time</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> phy[3].basebandRx <span class="o">=</span> <span class="nb">true</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy[3].basebandRx <span class="o">=</span> <span class="nb">true</span>
 <span class="go">true
-</span><span class="gp">&gt;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(preamble: 3)
+</span><span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(preamble: 3)
 </span><span class="go">AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameStartNtf:INFORM[txTime:6992613349 txDuration:170916]
 <span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[txTime:6992598599]
@@ -1523,9 +1523,9 @@ REFUSE: Bad start time</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> phy[3].basebandExtra <span class="o">=</span> 1200     <i class="conum" data-value="1"></i><b>(1)</b>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>phy[3].basebandExtra <span class="o">=</span> 1200     <i class="conum" data-value="1"></i><b>(1)</b>
 <span class="go">1200
-</span><span class="gp">&gt;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(preamble: 3)
+</span><span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(preamble: 3)
 </span><span class="go">AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameStartNtf:INFORM[txTime:7143093349 txDuration:170916]
 <span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[txTime:7143062599]
@@ -1608,7 +1608,7 @@ REFUSE: Bad start time</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> bbmon.enable <span class="o">=</span> <span class="nb">true</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>bbmon.enable <span class="o">=</span> <span class="nb">true</span>
 <span class="go">true</span></code></pre>
        </div>
       </div>
@@ -1635,18 +1635,18 @@ REFUSE: Bad start time</span></code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> logs                                           <i class="conum" data-value="1"></i><b>(1)</b>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>logs                                           <i class="conum" data-value="1"></i><b>(1)</b>
 <span class="go">signals-0.txt [0 bytes]                          <i class="conum" data-value="2"></i><b>(2)</b>
 results.txt [39 bytes]
 phy-log-0.txt [687 bytes]
 log-0.txt [4 kB]
-</span><span class="gp">&gt;</span> phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(preamble: 3)    <i class="conum" data-value="3"></i><b>(3)</b>
+</span><span class="gp">&gt;</span><span class="w"> </span>phy <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> TxBasebandSignalReq(preamble: 3)    <i class="conum" data-value="3"></i><b>(3)</b>
 </span><span class="go">AGREE
 </span><span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameStartNtf:INFORM[txTime:102528016 txDuration:170916]
 <span class="gp">phy &gt;</span><span class="o">&gt;</span> TxFrameNtf:INFORM[txTime:102513266]
 <span class="gp">phy &gt;</span><span class="o">&gt;</span> RxFrameStartNtf:INFORM[type:#3 rxTime:102531520 rxDuration:270500 detector:0.74]
 <span class="gp">phy &gt;</span><span class="o">&gt;</span> RxBasebandSignalNtf:INFORM[adc:1 rxTime:102531520 rssi:-23.6 preamble:3 <span class="nb">fc</span>:12000.0 fs:12000.0 <span class="o">(</span>3246 baseband samples<span class="o">)]</span>
-<span class="gp">&gt;</span> logs
+<span class="gp">&gt;</span><span class="w"> </span>logs
 <span class="go">signals-0.txt [34 kB]                            <i class="conum" data-value="4"></i><b>(4)</b>
 results.txt [39 bytes]
 phy-log-0.txt [687 bytes]
@@ -1958,7 +1958,7 @@ log-0.txt [5 kB]</span></code></pre>
    <div id="footer-text">
     Version 3.0.0
     <br/>
-    Last updated 2019-09-25 22:20:57 +0800
+    Last updated 2019-09-26 15:30:51 +0800
    </div>
 <script>
  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -1989,7 +1989,7 @@ pre.rouge .cs {
   font-weight: bold;
   font-style: italic;
 }
-pre.rouge .c, pre.rouge .cd {
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cpf {
   color: #999988;
   font-style: italic;
 }
@@ -2109,7 +2109,7 @@ pre.rouge .s1 {
 pre.rouge .ss {
   color: #990073;
 }
-pre.rouge .s {
+pre.rouge .s, pre.rouge .sa, pre.rouge .dl {
   color: #d14;
 }
 pre.rouge .na {
@@ -2139,7 +2139,7 @@ pre.rouge .ne {
   color: #990000;
   font-weight: bold;
 }
-pre.rouge .nf {
+pre.rouge .nf, pre.rouge .fm {
   color: #990000;
   font-weight: bold;
 }
@@ -2162,7 +2162,7 @@ pre.rouge .vg {
 pre.rouge .vi {
   color: #008080;
 }
-pre.rouge .nv {
+pre.rouge .nv, pre.rouge .vm {
   color: #008080;
 }
 pre.rouge .ow {

@@ -1055,15 +1055,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> agentsForService<span class="o">(</span>org.arl.unet.Services.DATAGRAM<span class="o">)</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>agentsForService<span class="o">(</span>org.arl.unet.Services.DATAGRAM<span class="o">)</span>
 <span class="go">[transport, router, uwlink, phy]
-</span><span class="gp">&gt;</span> phy.MTU
+</span><span class="gp">&gt;</span><span class="w"> </span>phy.MTU
 <span class="go">56
-</span><span class="gp">&gt;</span> uwlink.MTU
+</span><span class="gp">&gt;</span><span class="w"> </span>uwlink.MTU
 <span class="go">848
-</span><span class="gp">&gt;</span> uwlink <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> CapabilityReq()
+</span><span class="gp">&gt;</span><span class="w"> </span>uwlink <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> CapabilityReq()
 </span><span class="go">CapabilityListRsp:INFORM[RELIABILITY,FRAGMENTATION]
-</span><span class="gp">&gt;</span> subscribe uwlink</code></pre>
+</span><span class="gp">&gt;</span><span class="w"> </span>subscribe uwlink</code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -1098,19 +1098,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> uwlink <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> DatagramReq(to: 31, data: new byte[64])                               <i class="conum" data-value="1"></i><b>(1)</b>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>uwlink <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> DatagramReq(to: 31, data: new byte[64])                               <i class="conum" data-value="1"></i><b>(1)</b>
 </span><span class="go">AGREE
-</span><span class="gp">&gt;</span> uwlink <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> DatagramReq(to: 31, data: new byte[64], reliability: true)            <i class="conum" data-value="2"></i><b>(2)</b>
+</span><span class="gp">&gt;</span><span class="w"> </span>uwlink <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> DatagramReq(to: 31, data: new byte[64], reliability: true)            <i class="conum" data-value="2"></i><b>(2)</b>
 </span><span class="go">AGREE
 </span><span class="gp">uwlink &gt;</span><span class="o">&gt;</span> DatagramDeliveryNtf:INFORM[id:4dda055e-a533-401f-89c8-a01065ca5d70 to:31]   <i class="conum" data-value="3"></i><b>(3)</b>
-<span class="gp">&gt;</span> uwlink <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> DatagramReq(to: 37, data: new byte[64], reliability: true)            <i class="conum" data-value="4"></i><b>(4)</b>
+<span class="gp">&gt;</span><span class="w"> </span>uwlink <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> DatagramReq(to: 37, data: new byte[64], reliability: true)            <i class="conum" data-value="4"></i><b>(4)</b>
 </span><span class="go">AGREE
 </span><span class="gp">uwlink &gt;</span><span class="o">&gt;</span> DatagramFailureNtf:INFORM[id:bc65e643-6161-4b06-913c-3ff4f6985d36 to:37]    <i class="conum" data-value="5"></i><b>(5)</b>
-<span class="gp">&gt;</span> uwlink <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> DatagramReq(to: 0, data: new byte[64])                                <i class="conum" data-value="6"></i><b>(6)</b>
+<span class="gp">&gt;</span><span class="w"> </span>uwlink <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> DatagramReq(to: 0, data: new byte[64])                                <i class="conum" data-value="6"></i><b>(6)</b>
 </span><span class="go">AGREE
-</span><span class="gp">&gt;</span> uwlink <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> DatagramReq(to: 0, data: new byte[64], reliability: true)             <i class="conum" data-value="7"></i><b>(7)</b>
+</span><span class="gp">&gt;</span><span class="w"> </span>uwlink <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> DatagramReq(to: 0, data: new byte[64], reliability: true)             <i class="conum" data-value="7"></i><b>(7)</b>
 </span><span class="go">REFUSE: Reliability not supported for broadcast
-</span><span class="gp">&gt;</span> uwlink <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> DatagramReq(to: 31, data: new byte[1024])                             <i class="conum" data-value="8"></i><b>(8)</b>
+</span><span class="gp">&gt;</span><span class="w"> </span>uwlink <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> DatagramReq(to: 31, data: new byte[1024])                             <i class="conum" data-value="8"></i><b>(8)</b>
 </span><span class="go">REFUSE: Data length exceeds MTU</span></code></pre>
        </div>
       </div>
@@ -1284,7 +1284,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> uwlink <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> DatagramReq(to: 31, data: new byte[32])
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>uwlink <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> DatagramReq(to: 31, data: new byte[32])
 </span><span class="go">AGREE</span></code></pre>
        </div>
       </div>
@@ -1303,7 +1303,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> uwlink <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> DatagramReq(to: 31, data: new byte[32], reliability: true)
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>uwlink <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> DatagramReq(to: 31, data: new byte[32], reliability: true)
 </span><span class="go">AGREE
 </span><span class="gp">uwlink &gt;</span><span class="o">&gt;</span> DatagramDeliveryNtf:INFORM[id:4aaa86e5-9a56-46f8-bc1a-f6be33af03a4 to:31]</code></pre>
        </div>
@@ -1338,7 +1338,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> subscribe phy</code></pre>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>subscribe phy</code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -1348,7 +1348,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> uwlink <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> DatagramReq(to: 31, data: new byte[32])
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>uwlink <span class="o">&lt;&lt;</span> <span class="no">new</span><span class="sh"> DatagramReq(to: 31, data: new byte[32])
 </span><span class="go">AGREE</span></code></pre>
        </div>
       </div>
@@ -1407,9 +1407,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> ntf
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>ntf
 <span class="go">RxFrameNtf:INFORM[type:DATA from:232 to:31 rxTime:3956973678 (32 bytes)]
-</span><span class="gp">&gt;</span> ntf instanceof DatagramNtf
+</span><span class="gp">&gt;</span><span class="w"> </span>ntf instanceof DatagramNtf
 <span class="go">true</span></code></pre>
        </div>
       </div>
@@ -1557,7 +1557,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> agentsForService<span class="o">(</span>org.arl.unet.Services.DATAGRAM<span class="o">)</span>.each <span class="o">{</span> subscribe it <span class="o">}</span></code></pre>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>agentsForService<span class="o">(</span>org.arl.unet.Services.DATAGRAM<span class="o">)</span>.each <span class="o">{</span> subscribe it <span class="o">}</span></code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -1594,8 +1594,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span> s <span class="o">=</span> new UnetSocket<span class="o">(</span>this<span class="o">)</span><span class="p">;</span>
-<span class="gp">&gt;</span> s.send new DatagramReq<span class="o">(</span>to: 31, data: new byte[32]<span class="o">)</span>
+        <pre class="rouge highlight"><code data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>s <span class="o">=</span> new UnetSocket<span class="o">(</span>this<span class="o">)</span><span class="p">;</span>
+<span class="gp">&gt;</span><span class="w"> </span>s.send new DatagramReq<span class="o">(</span>to: 31, data: new byte[32]<span class="o">)</span>
 <span class="go">true</span></code></pre>
        </div>
       </div>
@@ -1639,7 +1639,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
    <div id="footer-text">
     Version 3.0.0
     <br/>
-    Last updated 2019-09-25 22:20:57 +0800
+    Last updated 2019-09-26 15:30:51 +0800
    </div>
 <script>
  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -1670,7 +1670,7 @@ pre.rouge .cs {
   font-weight: bold;
   font-style: italic;
 }
-pre.rouge .c, pre.rouge .cd {
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cpf {
   color: #999988;
   font-style: italic;
 }
@@ -1790,7 +1790,7 @@ pre.rouge .s1 {
 pre.rouge .ss {
   color: #990073;
 }
-pre.rouge .s {
+pre.rouge .s, pre.rouge .sa, pre.rouge .dl {
   color: #d14;
 }
 pre.rouge .na {
@@ -1820,7 +1820,7 @@ pre.rouge .ne {
   color: #990000;
   font-weight: bold;
 }
-pre.rouge .nf {
+pre.rouge .nf, pre.rouge .fm {
   color: #990000;
   font-weight: bold;
 }
@@ -1843,7 +1843,7 @@ pre.rouge .vg {
 pre.rouge .vi {
   color: #008080;
 }
-pre.rouge .nv {
+pre.rouge .nv, pre.rouge .vm {
   color: #008080;
 }
 pre.rouge .ow {

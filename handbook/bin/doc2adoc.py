@@ -68,7 +68,8 @@ def process(jar, exts=None, name=None):
     print(doc_to_adoc(ext, doc, mkname(ext) if name is None else name))
 
 print(header)
-process(fjar, ['org.arl.fjage.shell.ShellDoc'], 'fjåge')
+process(fjar, ['org.arl.fjage.shell.ShellDoc'], name='fjåge')
 process(get_jar('unet-framework'))
 process(get_jar('unet-basic'))
 process(get_jar('unet-premium'))
+process(get_jar('unet-yoda'), name='Unet audio')
