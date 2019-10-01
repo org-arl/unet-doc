@@ -1,0 +1,23 @@
+[appendix]
+== FAQs and resources
+
+=== Frequently asked questions (FAQs)
+
+* https://blog.unetstack.net/whats-new-in-UnetStack3[What's new in UnetStack3?^]
+* https://blog.unetstack.net/using-idea-with-unetstack[Can I use UnetStack with IntelliJ IDEA?^]
+* https://blog.unetstack.net/developing-modem-drivers-for-unetstack[How do I write a modem driver for my modem?^]
+* https://blog.unetstack.net/on-underwater-localization-using-unetstack[Can I use UnetStack to localize underwater nodes?^]
+* https://blog.unetstack.net/AUV-to-transponder-Range-Estimation-Application-using-UnetStack[How can I use UnetStack to measure distance to a commercial-off-the-shelf (COTS) transponder?^]
+
+=== Useful resources
+
+* https://blog.unetstack.net[Unet blog articles^] -- take a look, there are many cool articles here!
+* https://contrib.unetstack.net/[Unet community contributions^] -- explore what others have been doing, and contribute back!
+* https://support.unetstack.net/[UnetStack discussions & support^] on StackOverflow
+
+=== Quick links
+
+* {url-unetstack}[UnetStack homepage^]
+* {url-unet-javadoc}[UnetStack API reference^]
+* {url-fjage-doc}[fjåge documentation^]
+* {url-fjage-javadoc}[fjåge API reference^]

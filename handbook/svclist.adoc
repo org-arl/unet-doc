@@ -1,0 +1,21 @@
+The following services are currently defined in UnetStack:
+
+[%header,cols="1,2,3,1",format=csv]
+|===
+Short name, Fully qualified name, Description, Read...
+DATAGRAM, `org.arl.unet.Services.DATAGRAM`, Send and receive datagrams, <<Datagram service>>
+PHYSICAL, `org.arl.unet.Services.PHYSICAL`, Physical layer, <<Physical service>>
+BASEBAND, `org.arl.unet.Services.BASEBAND`, Arbitrary waveform transmission & recording, <<Baseband service>>
+RANGING, `org.arl.unet.Services.RANGING`, Ranging & synchronization, <<Ranging and synchronization>>
+NODE_INFO, `org.arl.unet.Services.NODE_INFO`, Node & network information, <<Node information>>
+ADDRESS_RESOLUTION, `org.arl.unet.Services.ADDRESS_RESOLUTION`, Address allocation & resolution, <<Address resolution>>
+LINK, `org.arl.unet.Services.LINK`, Datagram transmission over a single hop, <<Single-hop links>>
+MAC, `org.arl.unet.Services.MAC`, Medium access control, <<Medium access control>>
+ROUTING, `org.arl.unet.Services.ROUTING`, Routing of datagrams over a multihop network, <<Routing and route maintenance>>
+ROUTE_MAINTENANCE, `org.arl.unet.Services.ROUTE_MAINTENANCE`, Discovery & maintenance of routes in a multihop network, <<Routing and route maintenance>>
+TRANSPORT, `org.arl.unet.Services.TRANSPORT`, Datagram transmission over a multihop network, <<Transport and reliability>>
+REMOTE, `org.arl.unet.Services.REMOTE`, "Remote command execution, text messaging & file transfer", <<Remote access>>
+STATE_MANAGER, `org.arl.unet.Services.STATE_MANAGER`, State persistence across node reboots, <<State persistence>>
+SCHEDULER, `org.arl.unet.Services.SCHEDULER`, Sleep-wake scheduling for energy management, <<Scheduler>>
+SHELL, `org.arl.fjage.shell.Services.SHELL`, Commmand execution & file management services, <<Shell>>
+|===

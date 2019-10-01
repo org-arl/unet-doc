@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
     </span>
     <br/>
     <span id="revnumber">
-     version 3.0.0
+     version 3.0.1
     </span>
    </div>
    <div class="toc2" id="toc">
@@ -681,13 +681,23 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </a>
       <ul class="sectlevel1">
        <li>
+        <a href="unet-handbook_faqs_and_resources.html">
+         Appendix A: FAQs and resources
+        </a>
+       </li>
+       <li>
+        <a href="unet-handbook_list_of_services.html">
+         Appendix B: List of services
+        </a>
+       </li>
+       <li>
         <a href="unet-handbook_command_reference.html">
-         Appendix A: Command reference
+         Appendix C: Command reference
         </a>
        </li>
        <li>
         <a href="unet-handbook_mysimplehandshakemac.html">
-         Appendix B: MySimpleHandshakeMac
+         Appendix D: MySimpleHandshakeMac
         </a>
        </li>
       </ul>
@@ -698,12 +708,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
   <div id="content">
    <div class="sect1">
     <h2 id="_command_reference">
-     Appendix A: Command reference
+     Appendix C: Command reference
     </h2>
     <div class="sectionbody">
      <div class="sect2">
       <h3 id="_fjåge_commands">
-       A.1. fjåge commands
+       C.1. fjåge commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -1220,7 +1230,7 @@ secret = input('Secret?', true)     // hide input after entering</pre>
      </div>
      <div class="sect2">
       <h3 id="_unet_commands">
-       A.2. Unet commands
+       C.2. Unet commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -1473,7 +1483,7 @@ file('a.groovy').text       // show contents of file a.groovy</pre>
      </div>
      <div class="sect2">
       <h3 id="_transport_commands">
-       A.3. Transport commands
+       C.3. Transport commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -1550,7 +1560,7 @@ transport &lt;&lt; new DatagramReq(to: 2, data: [1,2,3], reliability: true)
      </div>
      <div class="sect2">
       <h3 id="_baseband_commands">
-       A.4. Baseband commands
+       C.4. Baseband commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -1797,7 +1807,7 @@ save 'data.txt', ntf.signal, 2 // save signal in 2-column format</pre>
      </div>
      <div class="sect2">
       <h3 id="_nodeinfo_commands">
-       A.5. NodeInfo commands
+       C.5. NodeInfo commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -1924,7 +1934,7 @@ node.address = 5          // change node address</pre>
      </div>
      <div class="sect2">
       <h3 id="_scheduler_commands">
-       A.6. Scheduler commands
+       C.6. Scheduler commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -2018,7 +2028,7 @@ addsleep                         // sleep immediately forever</pre>
      </div>
      <div class="sect2">
       <h3 id="_physical_commands">
-       A.7. Physical commands
+       C.7. Physical commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -2277,7 +2287,7 @@ increasing robustness).
      </div>
      <div class="sect2">
       <h3 id="_ranging_commands">
-       A.8. Ranging commands
+       C.8. Ranging commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -2401,7 +2411,7 @@ range 22, 15000          // get range to node 22 with a 15 second timeout</pre>
      </div>
      <div class="sect2">
       <h3 id="_mac_commands">
-       A.9. Mac commands
+       C.9. Mac commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -2479,7 +2489,7 @@ mac &lt;&lt; new ReservationReq(to: 27, duration: 1) // channel reservation requ
      </div>
      <div class="sect2">
       <h3 id="_arp_commands">
-       A.10. Arp commands
+       C.10. Arp commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -2525,7 +2535,7 @@ rs = host('redstar')   // save address of "redstar" in variable "rs"</pre>
      </div>
      <div class="sect2">
       <h3 id="_remote_commands">
-       A.11. Remote commands
+       C.11. Remote commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -2692,7 +2702,7 @@ ack             // check current setting for acknowldegements</pre>
      </div>
      <div class="sect2">
       <h3 id="_router_commands">
-       A.12. Router commands
+       C.12. Router commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -2991,7 +3001,7 @@ ping 27, 5, 30000   // ping node 27, 5 times, with 30s timeout</pre>
      </div>
      <div class="sect2">
       <h3 id="_swtransport_commands">
-       A.13. SWTransport commands
+       C.13. SWTransport commands
       </h3>
       <div class="paragraph">
        <p>
@@ -3058,7 +3068,7 @@ ping 27, 5, 30000   // ping node 27, 5 times, with 30s timeout</pre>
      </div>
      <div class="sect2">
       <h3 id="_basebandsignalmonitor_commands">
-       A.14. BasebandSignalMonitor commands
+       C.14. BasebandSignalMonitor commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -3112,7 +3122,7 @@ bbmon.enable = false     // disable recording of baseband signals</pre>
      </div>
      <div class="sect2">
       <h3 id="_statemanager_commands">
-       A.15. StateManager commands
+       C.15. StateManager commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -3184,7 +3194,7 @@ savestate                   // save changed parameters</pre>
      </div>
      <div class="sect2">
       <h3 id="_csma_commands">
-       A.16. CSMA commands
+       C.16. CSMA commands
       </h3>
       <div class="paragraph">
        <p>
@@ -3232,7 +3242,7 @@ savestate                   // save changed parameters</pre>
      </div>
      <div class="sect2">
       <h3 id="_reliablelink_commands">
-       A.17. ReliableLink commands
+       C.17. ReliableLink commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -3341,7 +3351,7 @@ uwlink &lt;&lt; new DatagramReq(to: 2, data: [1,2,3], reliability: true)
      </div>
      <div class="sect2">
       <h3 id="_remotecontrol_commands">
-       A.18. RemoteControl commands
+       C.18. RemoteControl commands
       </h3>
       <div class="paragraph">
        <p>
@@ -3424,7 +3434,7 @@ rsh 3, '?ls'                 // ask node 3 to send me the list of files</pre>
      </div>
      <div class="sect2">
       <h3 id="_eclink_commands">
-       A.19. ECLink commands
+       C.19. ECLink commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -3574,7 +3584,7 @@ uwlink &lt;&lt; new DatagramReq(to: 2, data: [1,2,3], reliability: true)
      </div>
      <div class="sect2">
       <h3 id="_unet_audio_commands">
-       A.20. Unet audio commands
+       C.20. Unet audio commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -4301,12 +4311,12 @@ BER is computed for the frame.
    <table width="100%">
     <tr>
      <td align="left" width="50%">
-      <a href="unet-handbook_modems_and_channel_models.html" style="text-decoration: none;">
-       &lt;&lt;&lt; [Modems and channel models]
+      <a href="unet-handbook_list_of_services.html" style="text-decoration: none;">
+       &lt;&lt;&lt; [Appendix B: List of services]
       </a>
      </td>     <td align="right" width="50%">
       <a href="unet-handbook_mysimplehandshakemac.html" style="text-decoration: none;">
-       [Appendix B: MySimpleHandshakeMac] &gt;&gt;&gt;
+       [Appendix D: MySimpleHandshakeMac] &gt;&gt;&gt;
       </a>
      </td>
     </tr>
@@ -4314,9 +4324,9 @@ BER is computed for the frame.
   </div>
   <div id="footer">
    <div id="footer-text">
-    Version 3.0.0
+    Version 3.0.1
     <br/>
-    Last updated 2019-09-26 21:35:55 +0800
+    Last updated 2019-10-01 14:02:16 +0800
    </div>
 <script>
  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -4342,14 +4352,13 @@ pre.rouge .gp {
   color: #a8e1fe;
   font-weight: bold;
 }
-pre.rouge .c, pre.rouge .cd, pre.rouge .cm, pre.rouge .c1, pre.rouge .cs {
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cm, pre.rouge .cpf, pre.rouge .c1, pre.rouge .cs {
   color: #6c8b9f;
   font-style: italic;
 }
 pre.rouge .cp {
   color: #b2fd6d;
   font-weight: bold;
-  font-style: italic;
 }
 pre.rouge .err {
   color: #fefeec;
@@ -4447,7 +4456,7 @@ pre.rouge .nt {
   color: #ffb000;
   font-weight: bold;
 }
-pre.rouge .m, pre.rouge .mf, pre.rouge .mh, pre.rouge .mi, pre.rouge .il, pre.rouge .mo, pre.rouge .mb, pre.rouge .mx {
+pre.rouge .m, pre.rouge .mb, pre.rouge .mf, pre.rouge .mh, pre.rouge .mi, pre.rouge .il, pre.rouge .mo, pre.rouge .mx {
   color: #f696db;
   font-weight: bold;
 }
@@ -4459,7 +4468,7 @@ pre.rouge .ss {
   color: #f696db;
   font-weight: bold;
 }
-pre.rouge .s, pre.rouge .sb, pre.rouge .sd, pre.rouge .s2, pre.rouge .sh, pre.rouge .sx, pre.rouge .sr, pre.rouge .s1 {
+pre.rouge .s, pre.rouge .sa, pre.rouge .sb, pre.rouge .dl, pre.rouge .sd, pre.rouge .s2, pre.rouge .sh, pre.rouge .sx, pre.rouge .sr, pre.rouge .s1 {
   color: #fff0a6;
   font-weight: bold;
 }
@@ -4488,7 +4497,7 @@ pre.rouge .w {
 pre.rouge .go {
   color: #BBBBBB;
 }
-pre.rouge .nf {
+pre.rouge .nf, pre.rouge .fm {
   color: #a8e1fe;
 }
 pre.rouge .py {
@@ -4497,7 +4506,7 @@ pre.rouge .py {
 pre.rouge .na {
   color: #a8e1fe;
 }
-pre.rouge .nv, pre.rouge .vc, pre.rouge .vg, pre.rouge .vi {
+pre.rouge .nv, pre.rouge .vc, pre.rouge .vg, pre.rouge .vi, pre.rouge .vm {
   color: #a8e1fe;
   font-weight: bold;
 }
