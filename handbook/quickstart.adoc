@@ -18,8 +18,8 @@ Node B: tcp://localhost:1102, http://localhost:8082/
 
 ----
 
-NOTE: If you're using Windows, you may need to use: +
-`bin\unet samples\handbook\2-node-network.groovy`
+NOTE: If you're using Windows, you might need to install Cygwin and may need to use: +
+`bin\unet.bat samples\handbook\2-node-network.groovy`
 
 Open two web browser windows and key in the two http URLs shown above in each browser. This should give you a command shell for node A and node B in the two browser windows.
 
