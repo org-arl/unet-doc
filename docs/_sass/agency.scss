@@ -1,21 +1,23 @@
 /*!
- * Start Bootstrap - Agency Bootstrap Theme (http://startbootstrap.com)
+ * Start Bootstrap - Agency Bootstrap Theme (http://startbootstrap.com);
  * Code licensed under the Apache License v2.0.
- * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.;
  */
+
+
 
 body {
     overflow-x: hidden;
-    font-family: opensans,"Helvetica Neue",Helvetica,Arial,sans-serif;
-    color: #{{ site.data.template.color.secondary-dark }};
+    font-family: $font-primary;
+    color: $color-secondary-dark;
 }
 
 .text-muted {
-    color: #{{ site.data.template.color.muted }};
+    color: $color-muted;
 }
 
 .text-primary {
-    color: #{{ site.data.template.color.primary }};
+    color: $color-primary;
 }
 
 p {
@@ -36,14 +38,14 @@ a.active {
 }
 
 a {
-    color: #{{ site.data.template.color.primary }};
+    color: $color-primary;
 }
 
 a:hover,
 a:focus,
 a:active,
 a.active {
-    color: #{{ site.data.template.color.secondary }};
+    color: $color-secondary;
 }
 
 h1,
@@ -53,7 +55,7 @@ h4,
 h5,
 h6 {
     text-transform: uppercase;
-    font-family: {{ site.data.template.font.primary }};
+    font-family: $font-primary;
     font-weight: 700;
 }
 
@@ -70,12 +72,12 @@ h6 {
 }
 
 .btn-primary {
-    border-color: #{{ site.data.template.color.primary }};
+    border-color: $color-primary;
     text-transform: uppercase;
-    font-family: {{ site.data.template.font.primary }};
+    font-family: $font-primary;
     font-weight: 700;
     color: #fff;
-    background-color: #{{ site.data.template.color.primary }};
+    background-color: $color-primary;
 }
 
 .btn-primary:hover,
@@ -83,9 +85,9 @@ h6 {
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
-    border-color: #{{ site.data.template.color.primary }};
+    border-color: $color-primary;
     color: #fff;
-    background-color: #{{ site.data.template.color.secondary }};
+    background-color: $color-secondary;
 }
 
 .btn-primary:active,
@@ -109,25 +111,25 @@ fieldset[disabled] .btn-primary:active,
 .btn-primary.disabled.active,
 .btn-primary[disabled].active,
 fieldset[disabled] .btn-primary.active {
-    border-color: #{{ site.data.template.color.primary }};
-    background-color: #{{ site.data.template.color.primary }};
+    border-color: $color-primary;
+    background-color: $color-primary;
 }
 
 .btn-primary .badge {
-    color: #{{ site.data.template.color.primary }};
+    color: $color-primary;
     background-color: #fff;
 }
 
 .btn-xl {
     padding: 20px 40px;
-    border-color: #{{ site.data.template.color.primary }};
+    border-color: $color-primary;
     border-radius: 3px;
     text-transform: uppercase;
-    font-family: {{ site.data.template.font.primary }};
+    font-family: $font-primary;
     font-size: 18px;
     font-weight: 700;
     color: #fff;
-    background-color: #{{ site.data.template.color.primary }};
+    background-color: $color-primary;
 }
 
 .btn-xl:hover,
@@ -135,9 +137,9 @@ fieldset[disabled] .btn-primary.active {
 .btn-xl:active,
 .btn-xl.active,
 .open .dropdown-toggle.btn-xl {
-    border-color: #{{ site.data.template.color.primary }};
+    border-color: $color-primary;
     color: #fff;
-    background-color: #{{ site.data.template.color.secondary }};
+    background-color: $color-secondary;
 }
 
 .btn-xl:active,
@@ -161,12 +163,12 @@ fieldset[disabled] .btn-xl:active,
 .btn-xl.disabled.active,
 .btn-xl[disabled].active,
 fieldset[disabled] .btn-xl.active {
-    border-color: #{{ site.data.template.color.primary }};
-    background-color: #{{ site.data.template.color.primary }};
+    border-color: $color-primary;
+    background-color: $color-primary;
 }
 
 .btn-xl .badge {
-    color: #{{ site.data.template.color.primary }};
+    color: $color-primary;
     background-color: #fff;
 }
 
@@ -176,15 +178,15 @@ fieldset[disabled] .btn-xl.active {
 }
 
 .navbar-default .navbar-brand {
-    font-family: opensans,"Helvetica Neue",Helvetica,Arial,cursive;
-    color: #{{ site.data.template.color.primary }};
+    font-family: $font-primary;
+    color: $color-primary;
 }
 
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus,
 .navbar-default .navbar-brand:active,
 .navbar-default .navbar-brand.active {
-    color: #{{ site.data.template.color.secondary }};
+    color: $color-secondary;
 }
 
 .navbar-default .navbar-collapse {
@@ -192,8 +194,8 @@ fieldset[disabled] .btn-xl.active {
 }
 
 .navbar-default .navbar-toggle {
-    border-color: #{{ site.data.template.color.primary }};
-    background-color: #{{ site.data.template.color.primary }};
+    border-color: $color-primary;
+    background-color: $color-primary;
 }
 
 .navbar-default .navbar-toggle .icon-bar {
@@ -202,12 +204,12 @@ fieldset[disabled] .btn-xl.active {
 
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {
-    background-color: #{{ site.data.template.color.primary }};
+    background-color: $color-primary;
 }
 
 .navbar-default .nav li a {
     text-transform: uppercase;
-    font-family: {{ site.data.template.font.primary }};
+    font-family: $font-primary;
     font-weight: 400;
     letter-spacing: 1px;
     color: #fff;
@@ -219,19 +221,19 @@ fieldset[disabled] .btn-xl.active {
 .navbar-default .nav li a:hover,
 .navbar-default .nav li a:focus {
     outline: 0;
-    color: #{{ site.data.template.color.primary }};
+    color: $color-primary;
 }
 
 .navbar-default .navbar-nav>.active>a {
     border-radius: 0;
     color: #fff;
-    background-color: #{{ site.data.template.color.primary }};
+    background-color: $color-primary;
 }
 
 .navbar-default .navbar-nav>.active>a:hover,
 .navbar-default .navbar-nav>.active>a:focus {
     color: #fff;
-    background-color: #{{ site.data.template.color.secondary }};
+    background-color: $color-secondary;
 }
 
 @media(min-width:768px) {
@@ -269,7 +271,7 @@ header {
     text-align: center;
     color: #fff;
     background-attachment: scroll;
-    background-image: url('{{ site.baseurl }}/img/header-bg.jpg');
+    background-image: url('/img/header-bg.jpg');
     background-position: center center;
     background-repeat: none;
     -webkit-background-size: cover;
@@ -285,7 +287,7 @@ header .intro-text {
 
 header .intro-text .intro-lead-in {
     margin-bottom: 25px;
-    font-family: {{ site.data.template.font.secondary }};
+    font-family: $font-secondary;
     font-size: 22px;
     font-style: italic;
     line-height: 22px;
@@ -293,8 +295,8 @@ header .intro-text .intro-lead-in {
 
 header .intro-text .intro-heading {
     margin-bottom: 25px;
-    /*text-transform: uppercase;*/
-    font-family: {{ site.data.template.font.primary }};
+    /*text-transform: uppercase*/;
+    font-family: $font-primary;
     font-size: 50px;
     font-weight: 700;
     line-height: 50px;
@@ -308,7 +310,7 @@ header .intro-text .intro-heading {
 
     header .intro-text .intro-lead-in {
         margin-bottom: 25px;
-        font-family: {{ site.data.template.font.secondary }};
+        font-family: $font-secondary;
         font-size: 40px;
         font-style: italic;
         line-height: 40px;
@@ -316,8 +318,8 @@ header .intro-text .intro-heading {
 
     header .intro-text .intro-heading {
         margin-bottom: 50px;
-        /*text-transform: uppercase;*/
-        font-family: {{ site.data.template.font.primary }};
+        /*text-transform: uppercase*/;
+        font-family: $font-primary;
         font-size: 75px;
         font-weight: 700;
         line-height: 75px;
@@ -337,7 +339,7 @@ section h2.section-heading {
 section h3.section-subheading {
     margin-bottom: 75px;
     text-transform: none;
-    font-family: {{ site.data.template.font.secondary }};
+    font-family: $font-secondary;
     font-size: 16px;
     font-style: italic;
     font-weight: 400;
@@ -374,8 +376,7 @@ section h3.section-subheading {
     -webkit-transition: all ease .5s;
     -moz-transition: all ease .5s;
     transition: all ease .5s;
-    background: rgba(254,209,54,.9); /* Fallback when no plugin support */
-    background: rgba({{ site.data.template.color.primary | hex_to_rgb | join: ',' }}, .9);
+    background: rgba( $color-primary, .9 );
 }
 
 #portfolio .portfolio-item .portfolio-link .portfolio-hover:hover {
@@ -417,7 +418,7 @@ section h3.section-subheading {
 
 #portfolio .portfolio-item .portfolio-caption p {
     margin: 0;
-    font-family: {{ site.data.template.font.secondary }};
+    font-family: $font-secondary;
     font-size: 16px;
     font-style: italic;
 }
@@ -498,7 +499,7 @@ section h3.section-subheading {
     border-radius: 100%;
     text-align: center;
     color: #fff;
-    background-color: #{{ site.data.template.color.primary }};
+    background-color: $color-primary;
 }
 
 .timeline>li .timeline-image h4 {
@@ -658,7 +659,7 @@ aside.clients img {
 
 section#contact {
     background-color: #222;
-    background-image: url('{{ site.baseurl }}/img/map-image.png');
+    background-image: url('/img/map-image.png');
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -685,34 +686,34 @@ section#contact .form-group textarea.form-control {
 }
 
 section#contact .form-control:focus {
-    border-color: #{{ site.data.template.color.primary }};
+    border-color: $color-primary;
     box-shadow: none;
 }
 
 section#contact::-webkit-input-placeholder {
     text-transform: uppercase;
-    font-family: {{ site.data.template.font.primary }};
+    font-family: $font-primary;
     font-weight: 700;
     color: #bbb;
 }
 
 section#contact:-moz-placeholder {
     text-transform: uppercase;
-    font-family: {{ site.data.template.font.primary }};
+    font-family: $font-primary;
     font-weight: 700;
     color: #bbb;
 }
 
 section#contact::-moz-placeholder {
     text-transform: uppercase;
-    font-family: {{ site.data.template.font.primary }};
+    font-family: $font-primary;
     font-weight: 700;
     color: #bbb;
 }
 
 section#contact:-ms-input-placeholder {
     text-transform: uppercase;
-    font-family: {{ site.data.template.font.primary }};
+    font-family: $font-primary;
     font-weight: 700;
     color: #bbb;
 }
@@ -728,14 +729,14 @@ footer {
 
 footer span.copyright {
     text-transform: none;
-    font-family: {{ site.data.template.font.primary }};
+    font-family: $font-primary;
     line-height: 40px;
 }
 
 footer ul.quicklinks {
     margin-bottom: 0;
     text-transform: none;
-    font-family: {{ site.data.template.font.primary }};
+    font-family: $font-primary;
     line-height: 40px;
 }
 
@@ -761,7 +762,7 @@ ul.social-buttons li a {
 ul.social-buttons li a:hover,
 ul.social-buttons li a:focus,
 ul.social-buttons li a:active {
-    background-color: #{{ site.data.template.color.primary }};
+    background-color: $color-primary;
 }
 
 .btn:focus,
@@ -793,7 +794,7 @@ ul.social-buttons li a:active {
 
 .portfolio-modal .modal-content p.item-intro {
     margin: 20px 0 30px;
-    font-family: {{ site.data.template.font.secondary }};
+    font-family: $font-secondary;
     font-size: 16px;
     font-style: italic;
 }
@@ -844,12 +845,12 @@ ul.social-buttons li a:active {
 
 ::-moz-selection {
     text-shadow: none;
-    background: #{{ site.data.template.color.primary }};
+    background: $color-primary;
 }
 
 ::selection {
     text-shadow: none;
-    background: #{{ site.data.template.color.primary }};
+    background: $color-primary;
 }
 
 img::selection {
@@ -861,5 +862,5 @@ img::-moz-selection {
 }
 
 body {
-    webkit-tap-highlight-color: #{{ site.data.template.color.primary }};
+    webkit-tap-highlight-color: $color-primary;
 }

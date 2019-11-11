@@ -1,0 +1,14 @@
+body {
+    font-size: 15px;
+}
+
+.navbar-nav>li>a {
+    line-height: 21px;
+}
+
+@media (min-width: 768px){
+    .navbar-nav>li>a {
+        padding-top: 19.5px;
+        padding-bottom: 19.5px;
+    }
+}
