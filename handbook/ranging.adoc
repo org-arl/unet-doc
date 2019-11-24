@@ -18,8 +18,8 @@ The following messages are defined by the RANGING service:
 * {url-unet-javadoc}org/arl/unet/phy/BeaconReq.html[`BeaconReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- transmit beacon message for OWTT
 * {url-unet-javadoc}org/arl/unet/phy/SyncInfoReq.html[`SyncInfoReq`^] => {url-unet-javadoc}org/arl/unet/phy/SyncInfoRsp.html[`SyncInfoRsp`^] / `REFUSE` / `FAILURE` -- get synchronization information for peer node
 * {url-unet-javadoc}org/arl/unet/phy/ClearSyncReq.html[`ClearSyncReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- clear synchronization information for peer node
-* {url-unet-javadoc}org/arl/unet/phy/RangeNtf.html[`RangeNtf`^] -- sent to agent's topic when range information for peer node becomes available
-* {url-unet-javadoc}org/arl/unet/phy/BadRangeNtf.html[`BadRangeNtf`^] -- sent to agent's topic when invalid range information for peer node indicates potentially outdated synchronization with that node
+* {url-unet-javadoc}org/arl/unet/phy/RangeNtf.html[`RangeNtf`^] -- sent to the requestor or the agent's topic when range information for peer node becomes available
+* {url-unet-javadoc}org/arl/unet/phy/BadRangeNtf.html[`BadRangeNtf`^] -- sent to the requestor or the agent's topic when invalid range information for peer node indicates potentially outdated synchronization with that node
 
 The use of these messages will become clearer through examples below.
 
