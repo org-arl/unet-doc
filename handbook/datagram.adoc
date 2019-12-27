@@ -203,7 +203,7 @@ Short-circuit delivery is not only done by `uwlink`, but by all agents supportin
 WARNING: As a result of short-circuit delivery optimization, you need to subscribe to *all* DATAGRAM service providers to receive `DatagramNtf` messages, and not just the one you send the datagram via.
 
 [[fig_shortcircuit]]
-.With short-circuit delivery, `uwlink` on node A recognizes the `DatagramReq` to be within the `phy` agent's capability, and no delegates it without adding any headers. On node B, the received frame is directly delivered as a `DatagramNtf` by the `phy` agent, since `uwlink` functionality is not required.
+.With short-circuit delivery, `uwlink` on node A recognizes the `DatagramReq` to be within the `phy` agent's capability, and delegates it without adding any headers. On node B, the received frame is directly delivered as a `DatagramNtf` by the `phy` agent, since `uwlink` functionality is not required.
 image::shortcircuit.png[]
 
 
