@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
     </span>
     <br/>
     <span id="revnumber">
-     version 3.0.2
+     version 3.0.3
     </span>
    </div>
    <div class="toc2" id="toc">
@@ -1115,24 +1115,24 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">container.add </span><span class="s1">'echo'</span><span class="gs">, </span><span class="kr">new</span><span class="gs"> EchoDaemon();             </span><span class="w"><i class="conum" data-value="1"></i><b>(1)</b>
-</span><span class="gp">&gt; </span><span class="gs">ps</span><span class="w">
-</span><span class="go">remote: org.arl.unet.remote.RemoteControl - IDLE</span><span class="w">
-</span><span class="go">state: org.arl.unet.state.StateManager - IDLE</span><span class="w">
-</span><span class="go">rdp: org.arl.unet.net.RouteDiscoveryProtocol - IDLE</span><span class="w">
-</span><span class="go">ranging: org.arl.unet.phy.Ranging - IDLE</span><span class="w">
-</span><span class="go">uwlink: org.arl.unet.link.ECLink - IDLE</span><span class="w">
-</span><span class="go">node: org.arl.unet.nodeinfo.NodeInfo - IDLE</span><span class="w">
-</span><span class="go">websh: org.arl.fjage.shell.ShellAgent - RUNNING</span><span class="w">
-</span><span class="go">simulator: org.arl.unet.sim.SimulationAgent - IDLE</span><span class="w">
-</span><span class="go">phy: org.arl.unet.sim.HalfDuplexModem - IDLE</span><span class="w">
-</span><span class="go">bbmon: org.arl.unet.bb.BasebandSignalMonitor - IDLE</span><span class="w">
-</span><span class="go">arp: org.arl.unet.addr.AddressResolution - IDLE</span><span class="w">
-</span><span class="go">transport: org.arl.unet.transport.SWTransport - IDLE</span><span class="w">
-</span><span class="go">echo: EchoDaemon - IDLE                               </span><span class="w"><i class="conum" data-value="2"></i><b>(2)</b>
-</span><span class="go">router: org.arl.unet.net.Router - IDLE</span><span class="w">
-</span><span class="go">mac: org.arl.unet.mac.CSMA - IDLE</span><span class="w">
-</span><span class="go">WebGW-5c9c1c68385a388f: REMOTE</span></code></pre>
+        <pre class="rouge highlight"><code data-lang="unet">&gt; container.add 'echo', new EchoDaemon();             <i class="conum" data-value="1"></i><b>(1)</b>
+&gt; ps
+remote: org.arl.unet.remote.RemoteControl - IDLE
+state: org.arl.unet.state.StateManager - IDLE
+rdp: org.arl.unet.net.RouteDiscoveryProtocol - IDLE
+ranging: org.arl.unet.phy.Ranging - IDLE
+uwlink: org.arl.unet.link.ECLink - IDLE
+node: org.arl.unet.nodeinfo.NodeInfo - IDLE
+websh: org.arl.fjage.shell.ShellAgent - RUNNING
+simulator: org.arl.unet.sim.SimulationAgent - IDLE
+phy: org.arl.unet.sim.HalfDuplexModem - IDLE
+bbmon: org.arl.unet.bb.BasebandSignalMonitor - IDLE
+arp: org.arl.unet.addr.AddressResolution - IDLE
+transport: org.arl.unet.transport.SWTransport - IDLE
+echo: EchoDaemon - IDLE                               <i class="conum" data-value="2"></i><b>(2)</b>
+router: org.arl.unet.net.Router - IDLE
+mac: org.arl.unet.mac.CSMA - IDLE
+WebGW-5c9c1c68385a388f: REMOTE</code></pre>
        </div>
       </div>
       <div class="colist arabic">
@@ -1220,15 +1220,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">subscribe phy                                       </span><span class="w"><i class="conum" data-value="1"></i><b>(1)</b>
-</span><span class="gp">&gt; </span><span class="gs">phy &lt;&lt; </span><span class="kr">new</span><span class="gs"> DatagramReq(to: host(</span><span class="s1">'B'</span><span class="gs">), protocol: Protocol.USER, data: [</span><span class="mi">42</span><span class="gs">]) </span><span class="w"><i class="conum" data-value="2"></i><b>(2)</b>
-</span><span class="go">AGREE</span><span class="w">
-</span><span class="gh">phy &gt;&gt; TxFrameNtf:INFORM[type:DATA txTime:2809812247]</span><span class="w">
-</span><span class="gh">phy &gt;&gt; RxFrameStartNtf:INFORM[type:DATA rxTime:2811767943]</span><span class="w">
-</span><span class="gh">phy &gt;&gt; RxFrameNtf:INFORM[type:DATA from:31 to:232 rxTime:2811767943 (1 byte)]</span><span class="w">
-</span><span class="gp">&gt; </span><span class="gs">ntf.data</span><span class="w">
-</span><span class="go">[42]                                                  </span><span class="w"><i class="conum" data-value="3"></i><b>(3)</b>
-</span></code></pre>
+        <pre class="rouge highlight"><code data-lang="unet">&gt; subscribe phy                                       <i class="conum" data-value="1"></i><b>(1)</b>
+&gt; phy &lt;&lt; new DatagramReq(to: host('B'), protocol: Protocol.USER, data: [42]) <i class="conum" data-value="2"></i><b>(2)</b>
+AGREE
+phy &gt;&gt; TxFrameNtf:INFORM[type:DATA txTime:2809812247]
+phy &gt;&gt; RxFrameStartNtf:INFORM[type:DATA rxTime:2811767943]
+phy &gt;&gt; RxFrameNtf:INFORM[type:DATA from:31 to:232 rxTime:2811767943 (1 byte)]
+&gt; ntf.data
+[42]                                                  <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
        </div>
       </div>
       <div class="colist arabic">
@@ -1316,23 +1315,23 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
         <pre class="rouge highlight"><code data-lang="java"><span class="kn">import</span> <span class="nn">org.arl.fjage.*</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.arl.unet.*</span><span class="o">;</span>
 
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EchoDaemon</span> <span class="kd">extends</span> <span class="n">UnetAgent</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EchoDaemon</span> <span class="kd">extends</span> <span class="nc">UnetAgent</span> <span class="o">{</span>
 
   <span class="nd">@Override</span>
   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">startup</span><span class="o">()</span> <span class="o">{</span>
     <span class="c1">// subscribe to all agents that provide the datagram service</span>
-    <span class="n">subscribeForService</span><span class="o">(</span><span class="n">Services</span><span class="o">.</span><span class="na">DATAGRAM</span><span class="o">);</span>
+    <span class="n">subscribeForService</span><span class="o">(</span><span class="nc">Services</span><span class="o">.</span><span class="na">DATAGRAM</span><span class="o">);</span>
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">processMessage</span><span class="o">(</span><span class="n">Message</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">msg</span> <span class="k">instanceof</span> <span class="n">DatagramNtf</span> <span class="o">&amp;&amp;</span> <span class="o">((</span><span class="n">DatagramNtf</span><span class="o">)</span><span class="n">msg</span><span class="o">).</span><span class="na">getProtocol</span><span class="o">()</span> <span class="o">==</span> <span class="n">Protocol</span><span class="o">.</span><span class="na">USER</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">processMessage</span><span class="o">(</span><span class="nc">Message</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">msg</span> <span class="k">instanceof</span> <span class="nc">DatagramNtf</span> <span class="o">&amp;&amp;</span> <span class="o">((</span><span class="nc">DatagramNtf</span><span class="o">)</span><span class="n">msg</span><span class="o">).</span><span class="na">getProtocol</span><span class="o">()</span> <span class="o">==</span> <span class="nc">Protocol</span><span class="o">.</span><span class="na">USER</span><span class="o">)</span> <span class="o">{</span>
       <span class="c1">// we got an echo request!</span>
       <span class="c1">// respond with a protocol DATA datagram</span>
-      <span class="n">DatagramNtf</span> <span class="n">ntf</span> <span class="o">=</span> <span class="o">(</span><span class="n">DatagramNtf</span><span class="o">)</span><span class="n">msg</span><span class="o">;</span>
-      <span class="n">DatagramReq</span> <span class="n">req</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DatagramReq</span><span class="o">(</span><span class="n">ntf</span><span class="o">.</span><span class="na">getSender</span><span class="o">());</span>
+      <span class="nc">DatagramNtf</span> <span class="n">ntf</span> <span class="o">=</span> <span class="o">(</span><span class="nc">DatagramNtf</span><span class="o">)</span><span class="n">msg</span><span class="o">;</span>
+      <span class="nc">DatagramReq</span> <span class="n">req</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DatagramReq</span><span class="o">(</span><span class="n">ntf</span><span class="o">.</span><span class="na">getSender</span><span class="o">());</span>
       <span class="n">req</span><span class="o">.</span><span class="na">setTo</span><span class="o">(</span><span class="n">ntf</span><span class="o">.</span><span class="na">getFrom</span><span class="o">());</span>
-      <span class="n">req</span><span class="o">.</span><span class="na">setProtocol</span><span class="o">(</span><span class="n">Protocol</span><span class="o">.</span><span class="na">DATA</span><span class="o">);</span>
+      <span class="n">req</span><span class="o">.</span><span class="na">setProtocol</span><span class="o">(</span><span class="nc">Protocol</span><span class="o">.</span><span class="na">DATA</span><span class="o">);</span>
       <span class="n">req</span><span class="o">.</span><span class="na">setData</span><span class="o">(</span><span class="n">ntf</span><span class="o">.</span><span class="na">getData</span><span class="o">());</span>
       <span class="n">send</span><span class="o">(</span><span class="n">req</span><span class="o">);</span>
     <span class="o">}</span>
@@ -1352,7 +1351,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="shell"><span class="nv">$ </span>javac <span class="nt">-cp</span> lib/fjage-1.6.jar:lib/unet-framework-3.0.0.jar EchoDaemon.java</code></pre>
+        <pre class="rouge highlight"><code data-lang="shell"><span class="nv">$ </span>javac <span class="nt">-cp</span> lib/fjage-1.6.jar:lib/unet-framework-3.0.2.jar EchoDaemon.java</code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -1522,9 +1521,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">container.kill echo</span><span class="w">
-</span><span class="go">true</span><span class="w">
-</span><span class="gp">&gt; </span><span class="gs">container.add </span><span class="s1">'echo'</span><span class="gs">, </span><span class="kr">new</span><span class="gs"> EchoDaemon();</span></code></pre>
+        <pre class="rouge highlight"><code data-lang="unet">&gt; container.kill echo
+true
+&gt; container.add 'echo', new EchoDaemon();</code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -1635,8 +1634,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">echo</span><span class="w">
-</span><span class="go">&lt;&lt;&lt; EchoDaemon &gt;&gt;&gt;</span></code></pre>
+        <pre class="rouge highlight"><code data-lang="unet">&gt; echo
+&lt;&lt;&lt; EchoDaemon &gt;&gt;&gt;</code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -1793,23 +1792,23 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="unet"><span class="gp">&gt; </span><span class="gs">container.kill agent(</span><span class="s1">'echo'</span><span class="gs">)</span><span class="w">
-</span><span class="go">true</span><span class="w">
-</span><span class="gp">&gt; </span><span class="gs">container.add </span><span class="s1">'echo'</span><span class="gs">, </span><span class="kr">new</span><span class="gs"> EchoDaemon();</span><span class="w">
-</span><span class="gp">&gt; </span><span class="gs">echo</span><span class="w">
-</span><span class="go">&lt;&lt;&lt; Echo Daemon &gt;&gt;&gt;                      </span><span class="w"><i class="conum" data-value="1"></i><b>(1)</b>
-</span><span class="err">
-</span><span class="go">Echoes any USER datagrams back as DATA   </span><span class="w"><i class="conum" data-value="2"></i><b>(2)</b>
-</span><span class="err">
-</span><span class="go">[EchoDaemon.Params]</span><span class="w">
-</span><span class="go">  delay = 7000</span><span class="w">
-</span><span class="err">
-</span><span class="gp">&gt; </span><span class="gs">echo.delay</span><span class="w">
-</span><span class="go">7000</span><span class="w">
-</span><span class="gp">&gt; </span><span class="gs">echo.delay = </span><span class="mi">5000</span><span class="w">
-</span><span class="go">5000</span><span class="w">
-</span><span class="gp">&gt; </span><span class="gs">echo.delay</span><span class="w">
-</span><span class="go">5000</span></code></pre>
+        <pre class="rouge highlight"><code data-lang="unet">&gt; container.kill agent('echo')
+true
+&gt; container.add 'echo', new EchoDaemon();
+&gt; echo
+&lt;&lt;&lt; Echo Daemon &gt;&gt;&gt;                      <i class="conum" data-value="1"></i><b>(1)</b>
+
+Echoes any USER datagrams back as DATA   <i class="conum" data-value="2"></i><b>(2)</b>
+
+[EchoDaemon.Params]
+  delay = 7000
+
+&gt; echo.delay
+7000
+&gt; echo.delay = 5000
+5000
+&gt; echo.delay
+5000</code></pre>
        </div>
       </div>
       <div class="colist arabic">
@@ -1920,18 +1919,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
   </div>
   <div id="footer">
    <div id="footer-text">
-    Version 3.0.2
+    Version 3.0.3
     <br/>
-    Last updated 2019-10-05 20:50:08 +0800
+    Last updated 2019-12-27 18:03:26 +0800
    </div>
-<script>
- (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+   <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
     ga('create', 'UA-52885583-1', 'auto');
     ga('send', 'pageview');
-</script>
+   </script>
   </div>
   <style>
    pre.rouge table td { padding: 5px; }
@@ -1948,14 +1947,13 @@ pre.rouge .gp {
   color: #a8e1fe;
   font-weight: bold;
 }
-pre.rouge .c, pre.rouge .cd, pre.rouge .cm, pre.rouge .c1, pre.rouge .cs {
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cm, pre.rouge .cpf, pre.rouge .c1, pre.rouge .cs {
   color: #6c8b9f;
   font-style: italic;
 }
 pre.rouge .cp {
   color: #b2fd6d;
   font-weight: bold;
-  font-style: italic;
 }
 pre.rouge .err {
   color: #fefeec;
@@ -2053,7 +2051,7 @@ pre.rouge .nt {
   color: #ffb000;
   font-weight: bold;
 }
-pre.rouge .m, pre.rouge .mf, pre.rouge .mh, pre.rouge .mi, pre.rouge .il, pre.rouge .mo, pre.rouge .mb, pre.rouge .mx {
+pre.rouge .m, pre.rouge .mb, pre.rouge .mf, pre.rouge .mh, pre.rouge .mi, pre.rouge .il, pre.rouge .mo, pre.rouge .mx {
   color: #f696db;
   font-weight: bold;
 }
@@ -2065,7 +2063,7 @@ pre.rouge .ss {
   color: #f696db;
   font-weight: bold;
 }
-pre.rouge .s, pre.rouge .sb, pre.rouge .sd, pre.rouge .s2, pre.rouge .sh, pre.rouge .sx, pre.rouge .sr, pre.rouge .s1 {
+pre.rouge .s, pre.rouge .sa, pre.rouge .sb, pre.rouge .dl, pre.rouge .sd, pre.rouge .s2, pre.rouge .sh, pre.rouge .sx, pre.rouge .sr, pre.rouge .s1 {
   color: #fff0a6;
   font-weight: bold;
 }
@@ -2094,7 +2092,7 @@ pre.rouge .w {
 pre.rouge .go {
   color: #BBBBBB;
 }
-pre.rouge .nf {
+pre.rouge .nf, pre.rouge .fm {
   color: #a8e1fe;
 }
 pre.rouge .py {
@@ -2103,7 +2101,7 @@ pre.rouge .py {
 pre.rouge .na {
   color: #a8e1fe;
 }
-pre.rouge .nv, pre.rouge .vc, pre.rouge .vg, pre.rouge .vi {
+pre.rouge .nv, pre.rouge .vc, pre.rouge .vg, pre.rouge .vi, pre.rouge .vm {
   color: #a8e1fe;
   font-weight: bold;
 }
