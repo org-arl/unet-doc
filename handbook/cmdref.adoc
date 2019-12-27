@@ -172,90 +172,6 @@ Examples:
   name = input('What is your name?')  // prompt user and get input
   secret = input('Secret?', true)     // hide input after entering
 
-=== Unet commands
-
-'''
-
-*`unet` -- basic unet commands*
-
-*Commands:*
-
-- `ver` -- version information
-
-- `time` -- current platform time
-
-- `ls` -- list script files
-
-- `free` -- show free disk space
-
-- `iface` -- display/enable interfaces
-
-Usage:
-
-  iface [iftype, port[, baud] [, settings]]
-
-Examples:
-
-  // show all interfaces
-  iface
-
-  // enable AT commands on TCP port 5001
-  iface ATScriptEngine, 5001
-
-  // enable Groovy shell on TCP port 5002
-  iface GroovyScriptEngine, 5002
-
-  // enable AT commands on serial port /dev/ttyS0 at 9600 baud
-  iface ATScriptEngine, '/dev/ttyS0'
-
-  // enable Groovy shell on serial port /dev/ttyS0 at 115200 baud
-  iface GroovyScriptEngine, '/dev/ttyS0', 115200
-
-  // enable API connector on serial port /dev/ttyS0 at 115200 baud
-  // with settings: no partity, 8 bits, 1 stop bit
-  iface API, '/dev/ttyS0', 115200, 'N81'
-
-  // alternate syntax to enable AT commands on TCP port 5001
-  iface new ATScriptEngine(), 5001
-
-- `distance` -- compute distance between two points
-
-Example:
-
-  distance([0,0], [100,100])   // distance between origin and (100,100)
-
-- `logs` -- list log files
-
-Only log files with the default settings (logs/*.txt) are listed.
-
-Example:
-
-  logs                        // list log files
-
-- `clrlogs` -- clear old log files
-
-Old log files (logs/*.txt) are deleted. The currently active log files
-(logs/*-0.txt) are not deleted.
-
-Example:
-
-  clrlogs                     // clear old log files
-
-- `tail` -- show the last few lines of the current log file
-
-Examples:
-
-  tail                        // show last 10 lines of the current log file
-  tail 20                     // show last 20 lines of the current log file
-
-- `file` -- file in the scripts folder
-
-Example:
-
-  file('a.groovy').size()     // get size of script file a.groovy
-  file('a.groovy').delete()   // delete script file a.groovy
-  file('a.groovy').text       // show contents of file a.groovy
-
 === Transport commands
 
 '''
@@ -343,6 +259,12 @@ Examples:
   sweep(10000, 12000, 0.5)     // 0.5 second baseband sweep from 10-12 kHz
   sweep(10000, 12000, 0.5, 0)  // 0.5 second passband sweep from 10-12 kHz
 
+- `wav` -- load a wav file
+
+Examples:
+
+  wav 'scripts/test.wav'      // loads a wav file
+
 - `save` -- save signal to a file in the scripts folder
 
 Example:
@@ -422,6 +344,44 @@ Example:
 Example:
 
   rmsleep '3bf9e744-b225-48f4'     // removes sleep schedule with given id
+
+=== Ranging commands
+
+'''
+
+*`ranging` -- access to ranging service*
+
+Examples:
+
+  ranging                            // display ranging parameters
+  ranging << new RangeReq(to: 27)    // get range to node 27
+  ranging << new BeaconReq()         // transmit a beacon out
+  ranging.lifetime = 30              // change sync validity to 30 seconds
+
+*Parameters:*
+
+- `ranging.lifetime` -- lifetime for sync info in seconds
+
+- `ranging.minRange` -- minimum valid range
+
+- `ranging.maxRange` -- maximum valid range
+
+- `ranging.maxBadRangeCnt` -- number of bad ranges before discarding sync info
+
+*Commands:*
+
+- `range` -- get ranging information from a node
+
+Examples:
+
+  range 21                 // get range to node 21
+  range 22, 15000          // get range to node 22 with a 15 second timeout
+
+- `beacon` -- send a timestamped beacon
+
+Examples:
+
+  beacon                   // broadcast a timestamped beacon
 
 === Physical commands
 
@@ -503,43 +463,91 @@ but lower data rates.
 List of available forward error correction code names (in order of
 increasing robustness).
 
-=== Ranging commands
+=== Unet commands
 
 '''
 
-*`ranging` -- access to ranging service*
-
-Examples:
-
-  ranging                            // display ranging parameters
-  ranging << new RangeReq(to: 27)    // get range to node 27
-  ranging << new BeaconReq()         // transmit a beacon out
-  ranging.lifetime = 30              // change sync validity to 30 seconds
-
-*Parameters:*
-
-- `ranging.lifetime` -- lifetime for sync info in seconds
-
-- `ranging.minRange` -- minimum valid range
-
-- `ranging.maxRange` -- maximum valid range
-
-- `ranging.maxBadRangeCnt` -- number of bad ranges before discarding sync info
+*`unet` -- basic unet commands*
 
 *Commands:*
 
-- `range` -- get ranging information from a node
+- `ver` -- version information
+
+- `time` -- current platform time
+
+- `ls` -- list script files
+
+- `free` -- show free disk space
+
+- `dashboards` -- show list of dashboards
+
+- `iface` -- display/enable interfaces
+
+Usage:
+
+  iface [iftype, port[, baud] [, settings]]
 
 Examples:
 
-  range 21                 // get range to node 21
-  range 22, 15000          // get range to node 22 with a 15 second timeout
+  // show all interfaces
+  iface
 
-- `beacon` -- send a timestamped beacon
+  // enable AT commands on TCP port 5001
+  iface ATScriptEngine, 5001
+
+  // enable Groovy shell on TCP port 5002
+  iface GroovyScriptEngine, 5002
+
+  // enable AT commands on serial port /dev/ttyS0 at 9600 baud
+  iface ATScriptEngine, '/dev/ttyS0'
+
+  // enable Groovy shell on serial port /dev/ttyS0 at 115200 baud
+  iface GroovyScriptEngine, '/dev/ttyS0', 115200
+
+  // enable API connector on serial port /dev/ttyS0 at 115200 baud
+  // with settings: no partity, 8 bits, 1 stop bit
+  iface API, '/dev/ttyS0', 115200, 'N81'
+
+  // alternate syntax to enable AT commands on TCP port 5001
+  iface new ATScriptEngine(), 5001
+
+- `distance` -- compute distance between two points
+
+Example:
+
+  distance([0,0], [100,100])   // distance between origin and (100,100)
+
+- `logs` -- list log files
+
+Only log files with the default settings (logs/*.txt) are listed.
+
+Example:
+
+  logs                        // list log files
+
+- `clrlogs` -- clear old log files
+
+Old log files (logs/*.txt) are deleted. The currently active log files
+(logs/*-0.txt) are not deleted.
+
+Example:
+
+  clrlogs                     // clear old log files
+
+- `tail` -- show the last few lines of the current log file
 
 Examples:
 
-  beacon                   // broadcast a timestamped beacon
+  tail                        // show last 10 lines of the current log file
+  tail 20                     // show last 20 lines of the current log file
+
+- `file` -- file in the scripts folder
+
+Example:
+
+  file('a.groovy').size()     // get size of script file a.groovy
+  file('a.groovy').delete()   // delete script file a.groovy
+  file('a.groovy').text       // show contents of file a.groovy
 
 === Mac commands
 
@@ -933,6 +941,7 @@ Examples:
   staticIP                       // check current static IP address
   staticIP '192.168.1.214'       // set static IP address
   staticIP none                  // remove static IP address
+  staticIP auto                  // automatic static IP in 192.168.42.0/256
 
 - `fan` -- cooling fan control
 

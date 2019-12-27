@@ -212,6 +212,8 @@ OK
 AGREE
 ----
 
+CAUTION: A poor acoustic connection between modems can lead to multiple retransmits that can take many tens of seconds before successful delivery of message, or eventual delivery failure.
+
 If all goes well, you should see the message on node B:
 
 [source]

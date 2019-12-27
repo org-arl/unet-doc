@@ -6,6 +6,7 @@ Prerequisites
 * `gem install asciidoctor-pdf --pre`
 * `gem install rouge`
 * `pip install beautifulsoup4`
+* `pip install lxml`
 
 One-time installation
 ---------------------
