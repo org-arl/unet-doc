@@ -14,8 +14,8 @@ v3.0.3
 :source-highlighter: rouge
 :source-language: unet
 :url-unetstack: https://www.unetstack.net
-:url-editions: https://www.unetstack.net/editions.html
-:url-downloads: https://www.unetstack.net/downloads.html
+:url-editions: https://unetstack.net/#editions
+:url-downloads: https://unetstack.net/#downloads
 :url-groovy: https://groovy-lang.org
 :url-pdf: https://org-arl.github.io/unet-doc/handbook/unet-handbook.pdf
 :url-html-1: https://org-arl.github.io/unet-doc/handbook/unet-handbook.html
