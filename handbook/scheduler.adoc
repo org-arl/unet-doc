@@ -19,7 +19,7 @@ The following messages are used by the SCHEDULER service:
 
 Only parameter is required by the SCHEDULER service:
 
-* {url-unet-javadoc}org/arl/unet/scheduler/SchedulerParam.html#rtc[`etc`^] -- current date/time
+* {url-unet-javadoc}org/arl/unet/scheduler/SchedulerParam.html#rtc[`rtc`^] -- current date/time
 
 === Sleep/wake scheduling
 
