@@ -296,9 +296,9 @@ When node locations are not accurately known, we can opt not to define any coord
 UnetStack supports all 4 options through a set of simple conventions:
 
 No coordinates:: `node.origin = []`, `node.location = []` for all nodes.
-Local coordinates:: `node.origin = [Float.NaN, Float.NaN]` for all nodes. `node.location = [x, y, z]` is specified as a 3-tuple in meters. The _z_ axis points downwards (with sealevel being considered 0 m), but the _x_ and _y_ axes are arbitrarily chosen.
-Georeferenced local coordinates:: `node.origin = [latitude, longitude]` for all nodes, with latitude and longitude being the commonly agreed origin location. `node.location = [x, y, z]` is specified as a 3-tuple in meters. The _x_ axis points east, _y_ axis points north, and the _z_ axis points downwards (with sealevel being considered 0 m).
-GPS coordinates:: `node.origin = []` for all nodes, and `node.location = [latitude, longitude, z]` where the _z_ axis points downwards (with sealevel being considered 0 m).
+Local coordinates:: `node.origin = [Float.NaN, Float.NaN]` for all nodes. `node.location = [x, y, z]` is specified as a 3-tuple in meters. The _z_ axis points upwards (with sealevel being considered 0 m, and the half-space underwater having negative _z_ coordinates), but the _x_ and _y_ axes are arbitrarily chosen.
+Georeferenced local coordinates:: `node.origin = [latitude, longitude]` for all nodes, with latitude and longitude being the commonly agreed origin location. `node.location = [x, y, z]` is specified as a 3-tuple in meters. The _x_ axis points east, _y_ axis points north, and the _z_ axis points upwards (with sealevel being considered 0 m, and the half-space underwater having negative _z_ coordinates).
+GPS coordinates:: `node.origin = []` for all nodes, and `node.location = [latitude, longitude, z]` where the _z_ axis points upwards (with sealevel being considered 0 m, and the half-space underwater having negative _z_ coordinates).
 
 NOTE: The Unet simulator requires a local coordinate system to be defined, and so only local coordinates or georeferenced local coordinates must be used in the simulator.
 

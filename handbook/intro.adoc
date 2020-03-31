@@ -14,7 +14,7 @@ A Unet consists of many _Unet nodes_ (e.g. underwater sensor nodes, Autonomous U
 
 * *Acoustic links* are typically used for mid-to-long range communication underwater. These links usually offer low data rates and long propagation delay due to the slow speed of sound in water (as compared to EM waves).
 * *Optical links* are used for short range high data rate communications in water.
-* *RF links* are used for mid range communication in air.
+* *RF links* are used for mid-range communication in air.
 * *GSM links* are used for near-shore connectivity through air.
 * *Satellite links* are used for nodes that are far out at sea, and cannot be reached through GSM or RF links. These links usually are expensive and offer relatively low data rates.
 * *Wired links* (Ethernet, serial, fiber optic) are used for long-term static deployments underwater, or over short distances where cabling is feasible.
@@ -50,7 +50,7 @@ UnetStack has a several components, as depicted in <<fig_unetstack>>:
 * The *Unet premium stack* is a collection of agents providing advanced functionality and/or higher performance. Many of the premium agents provide similar services as the basic ones, but used advanced techniques for better performance and bandwidth efficiency.
 * The *Unet simulator* is able to simulate Unets with many nodes on a single computer. It can run in _realtime simulation mode_ for interactive testing of agents and protocols, working to provide the user with the same user experience as in a real Unet. It can also be run in _discrete event simulation mode_ to perform a large number of simulations in a short time, allowing Monte Carlo testing and performance evaluation of network protocols.
 * The *Unet IDE* is an integrated development environment (IDE) for developers to develop, simulate and test Unet agents and protocols. It also enables the developer to visualize and interact with simulated networks.
-* *Unet audio* is a sound card based realtime software defined open architecture acoustic modem (SDOAM) that runs on desktop, laptop or single-board computers, and can be used to build and test simple Unets. It is a great tool for not only developing and testing network protocols, but also developing acoustic communication techniques.
+* *Unet audio* is a soundcard-based realtime software defined open architecture acoustic modem (SDOAM) that runs on desktop, laptop or single-board computers, and can be used to build and test simple Unets. It is a great tool for not only developing and testing network protocols, but also developing acoustic communication techniques.
 
 The components are packaged into various {url-editions}[editions]. The *community edition* is {url-downloads}[downloadable] free of charge for educational and research purposes. It has all the components required to develop, simulate, test and deploy Unets. The commercial and OEM editions package offer advanced functionality, better performance and tighter integration with vendor-specific hardware.
 

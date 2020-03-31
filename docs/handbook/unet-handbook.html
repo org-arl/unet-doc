@@ -867,7 +867,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
           <strong>
            RF links
           </strong>
-          are used for mid range communication in air.
+          are used for mid-range communication in air.
          </p>
         </li>
         <li>
@@ -1248,7 +1248,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
           <strong>
            Unet audio
           </strong>
-          is a sound card based realtime software defined open architecture acoustic modem (SDOAM) that runs on desktop, laptop or single-board computers, and can be used to build and test simple Unets. It is a great tool for not only developing and testing network protocols, but also developing acoustic communication techniques.
+          is a soundcard-based realtime software defined open architecture acoustic modem (SDOAM) that runs on desktop, laptop or single-board computers, and can be used to build and test simple Unets. It is a great tool for not only developing and testing network protocols, but also developing acoustic communication techniques.
          </p>
         </li>
        </ul>
@@ -3791,7 +3791,11 @@ remote &gt;&gt; RemoteSuccessNtf:INFORM[RemoteExecReq:REQUEST[to:31 command:plvl
           <em>
            z
           </em>
-          axis points downwards (with sealevel being considered 0 m), but the
+          axis points upwards (with sealevel being considered 0 m, and the half-space underwater having negative
+          <em>
+           z
+          </em>
+          coordinates), but the
           <em>
            x
           </em>
@@ -3826,7 +3830,11 @@ remote &gt;&gt; RemoteSuccessNtf:INFORM[RemoteExecReq:REQUEST[to:31 command:plvl
           <em>
            z
           </em>
-          axis points downwards (with sealevel being considered 0 m).
+          axis points upwards (with sealevel being considered 0 m, and the half-space underwater having negative
+          <em>
+           z
+          </em>
+          coordinates).
          </p>
         </dd>
         <dt class="hdlist1">
@@ -3845,7 +3853,11 @@ remote &gt;&gt; RemoteSuccessNtf:INFORM[RemoteExecReq:REQUEST[to:31 command:plvl
           <em>
            z
           </em>
-          axis points downwards (with sealevel being considered 0 m).
+          axis points upwards (with sealevel being considered 0 m, and the half-space underwater having negative
+          <em>
+           z
+          </em>
+          coordinates).
          </p>
         </dd>
        </dl>
@@ -13859,7 +13871,7 @@ AddressResolutionRsp:INFORM[address:232 name:A]
         </li>
         <li>
          <p>
-          MAC on node A sends a RTS PDU with the payload to the MAC on node B.
+          MAC on node A sends an RTS PDU with the payload to the MAC on node B.
          </p>
         </li>
         <li>
@@ -15983,7 +15995,7 @@ phy.signalPowerLevel = -40.0</code></pre>
           <p>
            <a href="https://unetstack.net/javadoc/3.0/index.html?org/arl/unet/scheduler/SchedulerParam.html#rtc" rel="noopener" target="_blank">
             <code>
-             etc
+             rtc
             </code>
            </a>
            — current date/time
@@ -19446,9 +19458,12 @@ Simulator IDE: http://localhost:8080/</code></pre>
         This should open the IDE in your default browser:
        </p>
       </div>
-      <div class="imageblock text-center">
+      <div class="imageblock text-center" id="fig_ide">
        <div class="content">
         <img alt="ide" src="images/ide.png" width="80%"/>
+       </div>
+       <div class="title">
+        Figure 10. Integrated development environment (IDE) for Unet simulator.
        </div>
       </div>
       <div class="paragraph">
@@ -19559,9 +19574,12 @@ Node B: tcp://localhost:1102, http://localhost:8082/</code></pre>
         button, and you’ll see the 2 nodes in our simulation on a map:
        </p>
       </div>
-      <div class="imageblock text-center">
+      <div class="imageblock text-center" id="fig_map1">
        <div class="content">
         <img alt="ide map1" src="images/ide-map1.png" width="80%"/>
+       </div>
+       <div class="title">
+        Figure 11. 2-node network simulation visualized using the simulator IDE.
        </div>
       </div>
       <div class="paragraph">
@@ -19613,9 +19631,12 @@ Node B: tcp://localhost:1102, http://localhost:8082/</code></pre>
         , and you’ll get a much nicer map of the network deployed in southern Singapore waters:
        </p>
       </div>
-      <div class="imageblock text-center">
+      <div class="imageblock text-center" id="fig_map2">
        <div class="content">
         <img alt="ide map2" src="images/ide-map2.png" width="80%"/>
+       </div>
+       <div class="title">
+        Figure 12. A network simulation visualized on a world map using the simulator IDE.
        </div>
       </div>
       <div class="paragraph">
@@ -20156,9 +20177,12 @@ Node C: tcp://localhost:1103, http://localhost:8083/
         Starting the simulation and opening the map shows the nodes on the map, since the origin allows the IDE to geolocate the nodes:
        </p>
       </div>
-      <div class="imageblock text-center">
+      <div class="imageblock text-center" id="fig_map3">
        <div class="content">
         <img alt="ide map3" src="images/ide-map3.png" width="80%"/>
+       </div>
+       <div class="title">
+        Figure 13. The 3-node network simulation visualized on a map using the simulator IDE.
        </div>
       </div>
       <div class="paragraph">
@@ -20396,9 +20420,12 @@ MISSION 2013 network
         folder and run it. Open the map, and watch your AUV nodes move!
        </p>
       </div>
-      <div class="imageblock text-center">
+      <div class="imageblock text-center" id="fig_map4">
        <div class="content">
         <img alt="ide map4" src="images/ide-map4.png" width="80%"/>
+       </div>
+       <div class="title">
+        Figure 14. AUV node motion visualized using the simulator IDE.
        </div>
       </div>
      </div>
@@ -20827,7 +20854,7 @@ TX Count        RX Count        Offered Load    Throughput
         </code>
         ) in
         <a href="#fig_aloha">
-         Figure 10
+         Figure 15
         </a>
         .
        </p>
@@ -20837,7 +20864,7 @@ TX Count        RX Count        Offered Load    Throughput
         <img alt="aloha" src="images/aloha.png" width="600"/>
        </div>
        <div class="title">
-        Figure 10. Simulated and theoretical ALOHA performance.
+        Figure 15. Simulated and theoretical ALOHA performance.
        </div>
       </div>
      </div>

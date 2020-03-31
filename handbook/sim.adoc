@@ -16,6 +16,8 @@ Simulator IDE: http://localhost:8080/
 
 This should open the IDE in your default browser:
 
+[[fig_ide]]
+.Integrated development environment (IDE) for Unet simulator.
 image::ide.png[width=80%,align="center"]
 
 The IDE provides you with a fairly common 3-panel layout, with a file browser in the left panel, a simulation shell at the bottom, and a file editor occupying most of the window. At the top, you see several buttons. The key buttons to note are the `icon:play[]` button that starts/stops simulations, the `Map` button that shows the current simulated nodes on a map, the 'Logs' button that allows you to view simulation logs, and a `Shells` dropdown that lists all the shells of simulated nodes. You can select any of the nodes from the list to connect to the shell of that node. The `Map` and `Shells` buttons are activated only once a simulation is running.
@@ -39,6 +41,8 @@ To access node A shell, either control-click the URL for node A shell (displayed
 
 Next, try out the `Map` button, and you'll see the 2 nodes in our simulation on a map:
 
+[[fig_map1]]
+.2-node network simulation visualized using the simulator IDE.
 image::ide-map1.png[width=80%,align="center"]
 
 This map doesn't look like much, with just 2 nodes 1 km apart on a blue background. The 2-node network simulation isn't geolocated, so the map doesn't have much to show. Let's stop this simulation by pressing the `icon:stop[]` button, and start the `scripts/mission2013-network.groovy` simulation instead.
@@ -47,6 +51,8 @@ TIP: You can either press the `icon:stop[]` button or type `sim.stop` in the sim
 
 Now open the `Map`, and you'll get a much nicer map of the network deployed in southern Singapore waters:
 
+[[fig_map2]]
+.A network simulation visualized on a world map using the simulator IDE.
 image::ide-map2.png[width=80%,align="center"]
 
 Clicking on each node shows some information about that node, and provides a link to opening that node's shell (if it has a shell agent running). In case of mobile nodes (<<Node mobility>>), you'll see the nodes moving on the map.
@@ -224,6 +230,8 @@ simulate {
 
 Starting the simulation and opening the map shows the nodes on the map, since the origin allows the IDE to geolocate the nodes:
 
+[[fig_map3]]
+.The 3-node network simulation visualized on a map using the simulator IDE.
 image::ide-map3.png[width=80%,align="center"]
 
 The `icon:plus[]` icon on the map marks the origin location.
@@ -357,4 +365,6 @@ simulate {
 
 Save this `auv-network.groovy` in your `scripts` folder and run it. Open the map, and watch your AUV nodes move!
 
+[[fig_map4]]
+.AUV node motion visualized using the simulator IDE.
 image::ide-map4.png[width=80%,align="center"]

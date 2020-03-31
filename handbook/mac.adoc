@@ -27,6 +27,10 @@ Agents supporting the MAC service provide messages to request, grant and cancel 
 * {url-unet-javadoc}org/arl/unet/mac/TxAckReq.html[`TxAckReq`^] => `AGREE` / `REFUSE` -- request transmission of acknowledgement payload
 * {url-unet-javadoc}org/arl/unet/mac/ReservationStatusNtf.html[`ReservationStatusNtf`^] -- sent to requestor or agent's topic when a reservation-related events occur
 
+While we use the term _reservation_ for all MAC agents, it is important to understand that MAC agents are typically unable to guarantee that no other nodes transmit during the reservation period. The reservation is on a best-effort basis, and the probability of collision is dependent on the underlying MAC protocol in use. For example, a handshake-based MAC (using RTS/CTS) might be able to inform other nodes' MAC agents about a reservation, while carrier-sensing MAC agents may rely on hearing the transmission from another node to backoff reservations at their node. A MAC agent must, however, guarantee that no two agents on the same node are granted reservation at the same time.
+
+Agents providing the MAC service are able to queue reservation requests from multiple agents, and grant reservations in order of arrival of request (or priority, or some other measure of fairness). It is, however, recommended that one agent only make one request to the MAC at a time, and submit its next request after the previous reservation is completed. An agent providing the MAC service may choose to refuse reservation requests from an agent that has pending reservation requests already in the queue.
+
 ==== Parameters
 
 Agents offering the MAC service support the following parameters:
@@ -36,6 +40,8 @@ Agents offering the MAC service support the following parameters:
 * {url-unet-javadoc}org/arl/unet/mac/MacParam.html#ackPayloadSize[`ackPayloadSize`^] -- maximum size of acknowledgement (bytes) that can be included in an ACK PDU
 * {url-unet-javadoc}org/arl/unet/mac/MacParam.html#maxReservationDuration[`maxReservationDuration`^] -- maximum duration of reservation in seconds
 * {url-unet-javadoc}org/arl/unet/mac/MacParam.html#recommendedReservationDuration[`recommendedReservationDuration`^] -- recommended duration of reservation in seconds (null, if unspecified)
+
+A MAC agent advertises the maximum supported reservation duration (`maxReservationDuration`), and must honor reservation requests for up to this duration. However, the network performance might suffer if all agents use very long reservations. To address this, the MAC agent also advertises a shorter recommendation for reservation duration (`recommendedReservationDuration`). Most agents should request reservations of this duration (or shorter) unless unavoidable.
 
 ==== Capabilities
 
@@ -94,7 +100,7 @@ image::mac.png[]
 For a MAC reservation initiated by node A with node B, we elaborate on the steps for a full reservation lifecycle with payloads:
 
 1. On node A, the client (agent) sends a `ReservationReq` to the MAC (agent), with an optional payload. The MAC accepts the request.
-2. MAC on node A sends a RTS PDU with the payload to the MAC on node B.
+2. MAC on node A sends an RTS PDU with the payload to the MAC on node B.
 3. MAC on node B generates a `ReservationStatusNtf[status: REQUEST]` message and publishes it on its topic. A client subscribing to this topic receives the notification.
 4. If the client on node B wants to send back some payload with the CTS PDU, it immediately sends a `ReservationAcceptReq` to the MAC, with the payload.
 5. The MAC accepts the request and responds to node A's MAC with a clients PDU containing the payload.
