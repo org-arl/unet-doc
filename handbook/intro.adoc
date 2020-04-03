@@ -56,6 +56,6 @@ The components are packaged into various {url-editions}[editions]. The *communit
 
 [[fig_unetstack]]
 .An overview of UnetStack components.
-image::UnetStack3.png[]
+image::UnetStack3.svg[]
 
 In the next few chapters, we will learn how to use UnetStack and how to customize it to meet our networking needs. In some cases, it may be necessary to prototype and simulate a Unet before it is actually implemented. We will also learn how to do that using the Unet simulator.
