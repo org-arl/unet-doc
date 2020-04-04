@@ -189,6 +189,8 @@ Examples:
 
 - `transport.MTU` -- maximum data transfer size
 
+- `transport.RTU` -- recommended data transfer size
+
 *Commands:*
 
 - `abort` -- abort all transport datagram transfers
@@ -296,9 +298,9 @@ Examples:
 
 - `node.nodeName` -- Node name
 
-- `node.origin` -- origin (lat,long,depth)
+- `node.origin` -- origin [lat,long]
 
-- `node.location` -- Location of the node in [x,y,z] meters
+- `node.location` -- Location of the node in [x,y,z] meters or [lat,long,z]
 
 - `node.speed` -- speed (meter/second)
 
@@ -345,44 +347,6 @@ Example:
 
   rmsleep '3bf9e744-b225-48f4'     // removes sleep schedule with given id
 
-=== Ranging commands
-
-'''
-
-*`ranging` -- access to ranging service*
-
-Examples:
-
-  ranging                            // display ranging parameters
-  ranging << new RangeReq(to: 27)    // get range to node 27
-  ranging << new BeaconReq()         // transmit a beacon out
-  ranging.lifetime = 30              // change sync validity to 30 seconds
-
-*Parameters:*
-
-- `ranging.lifetime` -- lifetime for sync info in seconds
-
-- `ranging.minRange` -- minimum valid range
-
-- `ranging.maxRange` -- maximum valid range
-
-- `ranging.maxBadRangeCnt` -- number of bad ranges before discarding sync info
-
-*Commands:*
-
-- `range` -- get ranging information from a node
-
-Examples:
-
-  range 21                 // get range to node 21
-  range 22, 15000          // get range to node 22 with a 15 second timeout
-
-- `beacon` -- send a timestamped beacon
-
-Examples:
-
-  beacon                   // broadcast a timestamped beacon
-
 === Physical commands
 
 '''
@@ -398,6 +362,8 @@ Examples:
   phy.rxEnable = false          // disable reception of frames
 
 *Commands:*
+
+- `pclr` -- clear PHY queues
 
 - `plvl` -- get/set TX power level for all PHY channel types
 
@@ -415,6 +381,8 @@ dependent parameters are also available. For information on these
 parameters type "help modem".
 
 - `phy.MTU` -- maximum transmission unit (MTU) in bytes
+
+- `phy.RTU` -- recommended data transfer size in bytes
 
 - `phy.rxEnable` -- true if reception enabled
 
@@ -440,6 +408,8 @@ parameters type "help modem".
 
 - `phy[].MTU` -- maximum transmission unit (MTU) in bytes
 
+- `phy[].RTU` -- recommended data transfer size in bytes
+
 - `phy[].dataRate` -- effective frame data rate (bps)
 
 - `phy[].frameDuration` -- frame duration (seconds)
@@ -454,14 +424,22 @@ parameters type "help modem".
 
 - `phy[].fec` -- forward error correction code
 
-A value of 0 indicates no error correction. Other values are
-settable from the phy[].fecList in order of increasing robustness,
-but lower data rates.
+A value of 0 indicates no error correction. Other values represent various FEC codes
+from the phy[].fecList. For example, a value of 1 means the first FEC code from the
+phy[].fecList, and a value of 2 means the second FEC code from that list.
 
 - `phy[].fecList` -- list of available forward error correction codes
 
-List of available forward error correction code names (in order of
-increasing robustness).
+LDPC1 - 1-rate LDPC FEC code
+LDPC2 - 1/2-rate LDPC FEC code
+LDPC3 - 1/3-rate LDPC FEC code
+LDPC4 - 1/4-rate LDPC FEC code
+LDPC5 - 1/5-rate LDPC FEC code
+LDPC6 - 1/6-rate LDPC FEC code
+ICONV2 - 1/2-rate interleaved convolution code
+
+The 1-rate LDPC code is only useful for OFDM, where unused bits in the last OFDM
+block are used to provide FEC redundancy without loss in data rate.
 
 === Unet commands
 
@@ -587,6 +565,85 @@ Examples:
   host 'redstar'         // get address for host named "redstar"
   rs = host('redstar')   // save address of "redstar" in variable "rs"
 
+=== Ranging commands
+
+'''
+
+*`ranging` -- access to ranging service*
+
+Examples:
+
+  ranging                            // show ranging parameters
+  ranging[2]                         // show parameters for ranging to node 2
+  ranging << new RangeReq(to: 27)    // get range to node 27
+  ranging << new BeaconReq()         // transmit a beacon out
+
+*Parameters:*
+
+- `ranging.phy` -- physical agent for ranging
+
+- `ranging.mac` -- MAC agent or null to disable MAC
+
+- `ranging.maxRange` -- default maximum range to peer node (m)
+
+- `ranging.channel` -- default channel for interrogation (CONTROL/DATA)
+
+- `ranging.ipreamble` -- default interrogation preamble (0 = none)
+
+- `ranging.rpreamble` -- default response preamble (0 = none)
+
+- `ranging.rsignal` -- default baseband response signal ([] = none)
+
+- `ranging.rdelay` -- default response delay (seconds)
+
+- `ranging.respond` -- automatically respond to an interrogation
+
+- `ranging.threshold` -- threshold for signal detection (0 to 1)
+
+*Node-specific parameters:*
+
+- `ranging[].address` -- peer node address
+
+- `ranging[].channel` -- channel for interrogation (CONTROL/DATA)
+
+- `ranging[].ipreamble` -- interrogation preamble (0 = none)
+
+- `ranging[].isignal` -- baseband interrogation signal ([] = none)
+
+- `ranging[].rpreamble` -- response preamble (0 = none)
+
+- `ranging[].rsignal` -- baseband response signal ([] = none)
+
+- `ranging[].rdelay` -- response delay (seconds)
+
+- `ranging[].sync` -- PHY clock synchronization valid
+
+- `ranging[].lastSync` -- time of last synchronization (epoch milliseconds)
+
+- `ranging[].offset` -- PHY clock offset to peer node (microseconds)
+
+- `ranging[].lifetime` -- synchronization validity lifetime (seconds)
+
+- `ranging[].maxRange` -- maximum range to peer node (m)
+
+- `ranging[].data` -- payload data to piggyback on interrogation/response frame
+
+- `ranging[].threshold` -- threshold for signal detection (0 to 1)
+
+*Commands:*
+
+- `range` -- get ranging information from a node
+
+Examples:
+
+  range 21                 // get range to node 21
+
+- `beacon` -- send a timestamped beacon
+
+Examples:
+
+  beacon                   // broadcast a timestamped beacon
+
 === Remote commands
 
 '''
@@ -655,7 +712,8 @@ Examples:
   routes              // display routing table
   routes 2            // display routes to node 2
   addroute 27, 29     // add a route to node 27 via node 29
-  delroute 2          // delete route number 2
+  delroute 'as7623'   // delete route with UUID as7623
+  editroute 'as7623', metric: 5.0 // edit route to change metric
   delroutesto 27      // delete all routes to node 27
   delroutes           // delete all routes
   trace 27            // trace route to node 27
@@ -664,6 +722,8 @@ Examples:
 *Parameters:*
 
 - `router.MTU` -- maximum data transfer size
+
+- `router.RTU` -- recommended data transfer size
 
 - `router.auto1hop` -- automatically assume single hop routes
 
@@ -684,15 +744,26 @@ Example:
 
   addroute 27, 29                // add a route to node 27 via node 29
   addroute 27, 29, link2, false  // add route on link2 with no reliability
+  addroute to: 27, metric: 3.2   // add route to 27 with metric 3.2
 
-- `delroute` -- delete a route from the routing table
+- `editroute` -- edit a route in the routing table
 
-The route number can be obtained by displaying the routing table
+The route UUID can be obtained by displaying the routing table
 using the 'routes' command.
 
 Example:
 
-  delroute 2          // delete route number 2
+  editroute 'as731', metric: 2.1 // edit route to change metric
+  editroute 'as731', nextHop: 21 // edit route to change next hop
+
+- `delroute` -- delete a route from the routing table
+
+The route UUID can be obtained by displaying the routing table
+using the 'routes' command.
+
+Example:
+
+  delroute 'as7623'   // delete route with UUID as7623
 
 - `delroutesto` -- delete all routes to specified node from the routing table
 
@@ -783,7 +854,7 @@ Examples:
 
 '''
 
-*`state` -- access to state manager service*
+*`statemanager` -- access to state manager service*
 
 *Commands:*
 
@@ -835,6 +906,8 @@ Note that reliability is only supported on unicast datagrams.
 *Parameters:*
 
 - `uwlink.MTU` -- maximum data transfer size
+
+- `uwlink.RTU` -- recommended data transfer size
 
 - `uwlink.maxRetries` -- maximum retries for reliable delivery
 
@@ -895,6 +968,8 @@ Note that reliability is only supported on unicast datagrams.
 *Parameters:*
 
 - `uwlink.MTU` -- maximum data transfer size
+
+- `uwlink.RTU` -- recommended data transfer size
 
 - `uwlink.mac` -- medium access control (MAC) agent name to use (or 'none')
 

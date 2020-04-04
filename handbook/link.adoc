@@ -16,11 +16,25 @@ LINK service providers using the PHYSICAL service should also consult the MAC se
 
 In a typical Unet, gateway nodes may have several LINK service providers, with the ROUTING service (<<Routing service>>) provider forwarding datagrams across links.
 
+==== Messages
+
+The LINK service defines only one optional message, used only by agents advertising the LINK_STATUS capability.
+
+* {url-unet-javadoc}org/arl/unet/link/LinkStatusNtf.html[`LinkStatusNtf`^] -- link up/down or quality notification
+
 ==== Parameters
 
 Agents offering the LINK service may support the following parameter:
 
 * {url-unet-javadoc}org/arl/unet/link/LinkParam.html#dataRate[`dataRate`^] -- nominal data rate of link in bps (0 if unknown)
+
+==== Capabilities
+
+Agents may support several optional capability:
+
+* {url-unet-javadoc}org/arl/unet/link/LinkCapability.html#LINK_STATUS[LINK_STATUS^]*
+
+Agents advertising this capability will send `LinkStatusNtf` messages on its topic, when a link becomes active, is lost, or has significant change in quality.
 
 === ReliableLink
 
@@ -32,13 +46,16 @@ Start the 2-node network and connect to node A:
 [uwlink]
 
 > uwlink
-<<< ReliableLink >>>
+« Reliable acoustic link »
+
+Link protocol with support for reliability and fragementation-reassembly.
 
 [org.arl.unet.DatagramParam]
-  MTU = 848
+  MTU ⤇ 848
+  RTU ⤇ 848
 
 [org.arl.unet.link.LinkParam]
-  dataRate = 731.4286
+  dataRate ⤇ 731.4286
 
 [org.arl.unet.link.ReliableLinkParam]
   acks = 2
@@ -49,9 +66,12 @@ Start the 2-node network and connect to node A:
   maxRetries = 2
   phy = phy
   reservationGuardTime = 0.5
+
+> uwlink << new CapabilityReq()
+CapabilityListRsp:INFORM[FRAGMENTATION,RELIABILITY,LINK_STATUS]
 ----
 
-We see that in the 2-node network simulation, the only agent that provides the link service is the `uwlink` agent of type `ReliableLink`. This agent fragments large datagrams, and transmits a batch of frames at a time, before waiting for an acknowledgement from the peer node. Unacknowledged frames are retransmitted until all frames are delivered, or there are too many retries. Once all frames are received, the peer node's `uwlink` agent reassembles the datagram and delivers it.
+We see that in the 2-node network simulation, the only agent that provides the link service is the `uwlink` agent of type `ReliableLink`. This agent fragments large datagrams, and transmits a batch of frames at a time, before waiting for an acknowledgement from the peer node. Unacknowledged frames are retransmitted until all frames are delivered, or there are too many retries. Once all frames are received, the peer node's `uwlink` agent reassembles the datagram and delivers it. The agent also provides link status notifications.
 
 NOTE: `ReliableLink` provides the LINK service for all underwater links in Unet basic stack that ships as part of the community edition.
 
@@ -86,16 +106,20 @@ If you have a modem with the commercial version of UnetStack3, it'll have `ECLin
 [source, groovy]
 ----
 > uwlink
-<<< ECLink >>>
+« Erasure coded link »
+
+Link protocol based on erasure coding, for fast large data transfers over a single hop.
 
 [org.arl.unet.DatagramParam]
-  MTU = 3145632
+  MTU ⤇ 3145584
+  RTU ⤇ 1450
 
 [org.arl.unet.link.ECLinkParam]
+  compress = true
   controlChannel = 1
   dataChannel = 2
   mac = mac
-  maxBatchSize = 65534
+  maxBatchSize = 65533
   maxPropagationDelay = 3.0
   maxRetries = 2
   minBatchSize = 3
@@ -105,10 +129,13 @@ If you have a modem with the commercial version of UnetStack3, it'll have `ECLin
   unreliableExtra = 0.3
 
 [org.arl.unet.link.LinkParam]
-  dataRate = 731.4286
+  dataRate ⤇ 731.4286
+
+> uwlink << new CapabilityReq()
+CapabilityListRsp:INFORM[COMPRESSION,RELIABILITY,CANCELLATION,FRAGMENTATION,LINK_STATUS]
 ----
 
-We see that the `MTU` for `ECLink` is quite large (as compared to `ReliableLink`), as `ECLink` can efficiently transfer large amounts of data. While the `dataRate` parameter advertises a similar nominal rate as with `ReliableLink`, you'll find that `ECLink` yields better practical performance when transferring large files, and in poor channel conditions.
+We see that the `MTU` for `ECLink` is quite large (as compared to `ReliableLink`), as `ECLink` can efficiently transfer large amounts of data. While the `dataRate` parameter advertises a similar nominal rate as with `ReliableLink`, you'll find that `ECLink` yields better practical performance when transferring large files, and in poor channel conditions. `ECLink` also supports data compression, and link status notifications.
 
 The `phy`, `controlChannel`, `dataChannel`, `mac`, `maxRetries`, and `maxPropagationDelay` parameters of `ECLink` are similar to the ones in `ReliableLink`. However, `ECLink` has several additional parameters that control performance:
 
@@ -121,3 +148,5 @@ The `phy`, `controlChannel`, `dataChannel`, `mac`, `maxRetries`, and `maxPropaga
 `reliableExtra`:: Fraction of extra frames to transmit for erasure correction, during reliable datagram transfer (using acknowledgements to determine retries). A value of 0.2 indicates 20% extra frames are transmitted. This allows for 20% frame loss without the need for retries.
 
 `unreliableExtra`:: Fraction of extra frames to transmit for erasure correction, during unreliable datagram transfer (no acknowledgement or retries). A value of 0.3 indicates 30% extra frames are transmitted. This allows for successful datagram transfer with as much as 30% frame loss.
+
+`compress`:: Enable/disable data compression.

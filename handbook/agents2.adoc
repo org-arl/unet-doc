@@ -73,6 +73,7 @@ While the above code implements a fully functional MAC agent, it needs to respon
 [source, groovy]
 ----
 import org.arl.fjage.*
+import org.arl.fjage.param.Parameter
 import org.arl.unet.*
 import org.arl.unet.mac.*
 
@@ -179,14 +180,14 @@ router: org.arl.unet.net.Router - IDLE
 mac: MySimplestMac - IDLE
 
 > mac
-<<< MySimplestMac >>>
+« MySimplestMac »
 
 [org.arl.unet.mac.MacParam]
-  ackPayloadSize = 0
-  channelBusy = false
-  maxReservationDuration = Infinity
-  recommendedReservationDuration = null
-  reservationPayloadSize = 0
+  ackPayloadSize ⤇ 0
+  channelBusy ⤇ false
+  maxReservationDuration ⤇ Infinity
+  recommendedReservationDuration ⤇ null
+  reservationPayloadSize ⤇ 0
 ----
 
 It's loaded and working!
@@ -247,6 +248,7 @@ Here's the updated code with some bells and whistles:
 [source, groovy]
 ----
 import org.arl.fjage.*
+import org.arl.fjage.param.Parameter
 import org.arl.unet.*
 import org.arl.unet.phy.*
 import org.arl.unet.mac.*
@@ -686,14 +688,13 @@ Let's try out this MAC. The steps are similar to <<Testing our simple MAC>>, but
 true
 > container.add 'mac', new MySimpleHandshakeMac();
 > mac
-<<< MySimpleHandshakeMac >>>
+« MySimpleHandshakeMac »
 
 [org.arl.unet.mac.MacParam]
-  ackPayloadSize = 0
-  channelBusy = false
-  maxReservationDuration = 65.535
-  recommendedReservationDuration = 0.7
-  reservationPayloadSize = 0
+  ackPayloadSize ⤇ 0
+  maxReservationDuration ⤇ 65.535
+  recommendedReservationDuration ⤇ 0.7
+  reservationPayloadSize ⤇ 0
 ----
 
 Since the handshaking involves exchange of PDUs between nodes, it is instructive to see the PDUs being exchanged by subscribing to `phy`. You can make a reservation request on node A:

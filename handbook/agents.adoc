@@ -123,8 +123,8 @@ Now start the 2-node network simulation that we have been using as a testbed, an
 ----
 > container.add 'echo', new EchoDaemon();             //<1>
 > ps
+statemanager: org.arl.unet.state.StateManager - IDLE
 remote: org.arl.unet.remote.RemoteControl - IDLE
-state: org.arl.unet.state.StateManager - IDLE
 rdp: org.arl.unet.net.RouteDiscoveryProtocol - IDLE
 ranging: org.arl.unet.phy.Ranging - IDLE
 uwlink: org.arl.unet.link.ECLink - IDLE
@@ -211,7 +211,7 @@ In Java, you'll first need to compile the Java code. Create a `EchoDaemon.java` 
 
 [source, shell]
 ----
-$ javac -cp lib/fjage-1.6.jar:lib/unet-framework-3.0.2.jar EchoDaemon.java
+$ javac -cp lib/fjage-1.7.jar:lib/unet-framework-3.1.0.jar EchoDaemon.java
 ----
 
 You should now have a `EchoDaemon.class` file which you copy to the `classes` folder. To avoid duplicate classes, remember to first delete the `EchoDaemon.groovy` file!
@@ -297,6 +297,7 @@ Let's add a title, description and one `delay` parameter to our daemon:
 [source, groovy]
 ----
 import org.arl.fjage.*
+import org.arl.fjage.param.Parameter
 import org.arl.unet.*
 
 class EchoDaemon extends UnetAgent {
