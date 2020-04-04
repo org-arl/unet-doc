@@ -13,7 +13,9 @@ To check the current address size on your node:
 [source]
 ----
 > node
-<<< NodeInfo >>>
+« Node information »
+
+Manages and maintains node information and attributes.
 
 [org.arl.unet.nodeinfo.NodeInfoParam]
   nodeName = A
@@ -34,7 +36,9 @@ Address 0 is a broadcast address. All other addresses may be assigned to nodes i
 > node.nodeName = 'buoy_A'
 buoy_A
 > node
-<<< NodeInfo >>>
+« Node information »
+
+Manages and maintains node information and attributes.
 
 [org.arl.unet.nodeinfo.NodeInfoParam]
   nodeName = buoy_A
@@ -42,8 +46,8 @@ buoy_A
   addressSize = 8
   canForward = true
   mobility = false
-  location = [1000.0, 0.0, -15.0]
-  origin = []
+  location = [0.0, 0.0, -15.0]
+  origin = [NaN, NaN]
 ----
 
 It is recommended that, if descriptive node names are used, the corresponding node addresses be set using the ADDRESS_RESOLUTION service. This ensures that name-to-address resolution leads to the correct address for the node. The ADDRESS_RESOLUTION service can be accessed via the `host()` shell command:
@@ -81,7 +85,7 @@ On node B, type:
 [source]
 ----
 > s = new UnetSocket(this);
-> s.bind(Protocol.USER)                 // listen for datagrams with Protocol.USER
+> s.bind(Protocol.USER);                // listen for datagrams with Protocol.USER
 > rx = s.receive()
 ----
 
@@ -92,11 +96,10 @@ On node A, type:
 [source]
 ----
 > s = new UnetSocket(this);
-> s.connect(host('B'), Protocol.DATA)  // send datagrams with Protocol.DATA
-> s.send('hi!' as byte[])
-> s.connect(host('B'), Protocol.USER)  // send datagrams with Protocol.USER
-> s.send('hello!' as byte[])
-true
+> s.connect(host('B'), Protocol.DATA); // send datagrams with Protocol.DATA
+> s.send('hi!' as byte[]);
+> s.connect(host('B'), Protocol.USER); // send datagrams with Protocol.USER
+> s.send('hello!' as byte[]);
 > s.close()
 ----
 

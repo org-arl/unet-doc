@@ -32,7 +32,9 @@ We start off by checking the configuration of each node:
 [source]
 ----
 > node
-<<< NodeInfo >>>
+« Node information »
+
+Manages and maintains node information and attributes.
 
 [org.arl.unet.nodeinfo.NodeInfoParam]
   address = 232
@@ -47,7 +49,9 @@ We start off by checking the configuration of each node:
 [source]
 ----
 > node
-<<< NodeInfo >>>
+« Node information »
+
+Manages and maintains node information and attributes.
 
 [org.arl.unet.nodeinfo.NodeInfoParam]
   address = 31
@@ -62,7 +66,9 @@ We start off by checking the configuration of each node:
 [source]
 ----
 > node
-<<< NodeInfo >>>
+« Node information »
+
+Manages and maintains node information and attributes.
 
 [org.arl.unet.nodeinfo.NodeInfoParam]
   address = 74
@@ -136,20 +142,20 @@ We can also make range measurements (in meters) between the nodes:
 > range host('A')
 0.0
 > range host('B')
-370.98
+371.08856
 > range host('C')
-529.87
+530.0323
 ----
 
 .`Node B`
 [source]
 ----
 > range host('A')
-370.98
+371.08856
 > range host('B')
 0.0
 > range host('C')
-615.9
+616.0877
 ----
 
 === Sending text messages
@@ -181,15 +187,17 @@ Data is often stored in files. Transferring files between nodes is a common requ
 [source]
 ----
 > remote
-<<< RemoteControl >>>
+« Remote control »
+
+Text messaging and remote command execution service.
 
 [org.arl.unet.remote.RemoteControlParam]
-  cwd = /Users/mandar/Projects/unet/scripts
+  cwd = unet-3.1.0/scripts
   dsp = transport
   enable = false
+  groovy = true
   reliability = true
   shell = websh
-  groovy = true
 
 > remote.enable = true
 true
@@ -242,7 +250,7 @@ AGREE
 remote >> RemoteFailureNtf:INFORM[RemoteFileGetReq:REQUEST[to:31 filename:def.txt] reason:no-file]
 ----
 
-The last command failed to get file `def.txt`, as it does not exist on node B.
+The last command failed to get file `def.txt` , as it does not exist on node B.
 
 When we send commands to execute on a remote node, they are usually silently executed and the output is not sent back. If we want the output to be shown to us, we need to explicity ask for it using `tell`. Since this is often required, we have a simple Groovy extensions shortcut `?` to do this for us:
 
@@ -258,7 +266,7 @@ AGREE
 > rsh B, '?ls'
 AGREE
 [31]: abc.txt [4 bytes]
-README.md [96 bytes]
+README.md [759 bytes]
 > rsh B, '?1+2'
 AGREE
 [31]: 3
@@ -267,7 +275,7 @@ AGREE
 [31]: You are 232, I am 31
 > rsh B, '?range '+host('C')
 AGREE
-[31]: 615.9
+[31]: 616.0877
 ----
 
 Sometimes we are not interested in the output, but simply want an acknowledgement that the command was successfully executed. For example, if we set the transmission power on a remote node, we want to know that it was set. That can be requested using the `ack` function.
@@ -317,7 +325,7 @@ and then compute the distance to it on node B:
 [source]
 ----
 > distance(node.location, [121.0, 137.0, -10.0])
-371.09
+371.0889
 ----
 
 We see that it agrees well with the acoustic range!
@@ -327,10 +335,10 @@ It is often necessary to convert between the GPS coordinate system and the local
 .`Node A`
 [source]
 ----
-> gps = new org.arl.unet.utils.GpsLocalFrame(node.origin);   // set origin GPS coordinates
-> gps.toGps(node.location[0..1])                             // local to GPS
-[1.217238981, 103.8520872]                                   // GPS coordinates of node A
-> gps.toLocal(1.21723898, 103.8520872)                       // GPS to local
+> gps = new org.arl.unet.utils.GpsLocalFrame(node.origin);   // set origin GPS
+> gps.toGps(node.location[0..1])           // local to GPS
+[1.217239, 103.852087]                     // GPS coordinates of node A
+> gps.toLocal(1.21723898, 103.8520872)     // GPS to local
 [120.9994, 136.9999]
 > node.location
 [121.0, 137.0, -10.0]

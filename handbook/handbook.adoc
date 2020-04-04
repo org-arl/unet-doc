@@ -78,6 +78,8 @@ include::socket.adoc[]
 
 include::portals.adoc[]
 
+include::wormholes.adoc[]
+
 include::atc.adoc[]
 
 = *Part IV: Understanding UnetStack services*

@@ -79,14 +79,16 @@ We can now direct all our requests to the `phy` agent. Let's check the baseband 
 [source]
 ----
 > phy
-<<< Physical >>>
+« Physical layer »
+
+Provides software-defined physical layer communication services (including error detection & correction).
 
 [org.arl.unet.bb.BasebandParam]
-  basebandRate = 12000.0
+  basebandRate ⤇ 12000.0
   carrierFrequency = 12000.0
-  maxPreambleID = 4
-  maxSignalLength = 2147483647
-  signalPowerLevel = -10.0
+  maxPreambleID ⤇ 4
+  maxSignalLength ⤇ 2147483647
+  signalPowerLevel = -42.0
 ----
 
 We see that the Unet audio SDOAM operates at a carrier frequency of 12 kHz and a bandband sampling rate of 12 kSa/s. Let's create a DC signal of length 12000 complex baseband samples (24000 floats) and transmit it. A DC signal of length 12000 complex samples with a carrier frequency of 12 kHz is a sinusoidal 12 kHz signal for 1 second.
@@ -206,6 +208,8 @@ Preambles 1 and 2 are used by the CONTROL and DATA channel respectively. It's be
 ----
 > phy[3].threshold = 0.25
 0.25
+> phy[3].modulation = none
+none
 > phy << new TxBasebandSignalReq(preamble: 3)
 AGREE
 phy >> TxFrameStartNtf:INFORM[txTime:6011688016 txDuration:170916]
@@ -213,7 +217,7 @@ phy >> TxFrameNtf:INFORM[txTime:6011686599]
 phy >> RxFrameStartNtf:INFORM[type:#3 rxTime:6011700270 rxDuration:170500 detector:0.73]
 ----
 
-We see the `RxFrameStartNtf` of type #3 indicating that preamble 3 was detected. Since `phy[3]` is not associated with any modulation scheme, the modem did not generate a `BadFrameNtf` as it did with preamble 1.
+We see the `RxFrameStartNtf` of type #3 indicating that preamble 3 was detected. Since `phy[3]` is not associated with any modulation scheme (we set the `modulation` parameter to `none`), the modem did not generate a `BadFrameNtf` as it did with preamble 1.
 
 TIP: Preambles 1, 2 and 3 are preconfigured on the Unet audio SDOAM to be short signals with good autocorrelation properties. You can change these, if you wish, by setting the `preamble` indexed parameter (type `help phy[].preamble` for details).
 

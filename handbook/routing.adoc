@@ -50,28 +50,28 @@ During the MISSION 2013 experiment, node 21 was a gateway node with surface expr
 ----
 > ping 22
 PING 22
-Response from 22: seq=0 rthops=2 time=10609 ms
-Response from 22: seq=1 rthops=2 time=2656 ms
-Response from 22: seq=2 rthops=2 time=2739 ms
+Response from 22: seq=0 rthops=2 time=2892 ms
+Response from 22: seq=1 rthops=2 time=2912 ms
+Response from 22: seq=2 rthops=2 time=3143 ms
 3 packets transmitted, 3 packets received, 0% packet loss
 > ping 27
 PING 27
 Request timeout for seq 0
-Response from 27: seq=1 rthops=2 time=2960 ms
-Request timeout for seq 2
+Request timeout for seq 1
+Response from 27: seq=2 rthops=2 time=11075 ms
 3 packets transmitted, 1 packets received, 67% packet loss
 > ping 28
 PING 28
-Response from 28: seq=0 rthops=2 time=2725 ms
-Response from 28: seq=1 rthops=2 time=3036 ms
-Response from 28: seq=2 rthops=2 time=3158 ms
+Response from 28: seq=0 rthops=2 time=2952 ms
+Response from 28: seq=1 rthops=2 time=3110 ms
+Response from 28: seq=2 rthops=2 time=3031 ms
 3 packets transmitted, 3 packets received, 0% packet loss
 > ping 29
 PING 29
-Response from 29: seq=0 rthops=2 time=3456 ms
-Response from 29: seq=1 rthops=2 time=3298 ms
-Response from 29: seq=2 rthops=2 time=3515 ms
-3 packets transmitted, 3 packets received, 0% packet loss
+Response from 29: seq=0 rthops=2 time=3355 ms
+Response from 29: seq=1 rthops=2 time=18720 ms
+Request timeout for seq 2
+3 packets transmitted, 2 packets received, 33% packet loss
 > ping 31
 PING 31
 Request timeout for seq 0
@@ -81,12 +81,12 @@ Request timeout for seq 2
 > ping 34
 PING 34
 Request timeout for seq 0
-Response from 34: seq=1 rthops=2 time=19603 ms
-Request timeout for seq 2
-3 packets transmitted, 1 packets received, 67% packet loss
+Response from 34: seq=1 rthops=2 time=3294 ms
+Response from 34: seq=2 rthops=2 time=3434 ms
+3 packets transmitted, 2 packets received, 33% packet loss
 ----
 
-We see that the connectivity to nodes 22, 28 and 29 is good, that to nodes 27 and 34 is poor, and to node 31 is non-existent.
+We see that the connectivity to nodes 22 and 28 is good, that to nodes 27, 29 and 34 is poorer, and to node 31 is non-existent. Since the simulation is probabilistic, your exact results may differ.
 
 === Static routing
 
@@ -101,28 +101,42 @@ On node 21, we add routes to nodes 31 and 34:
 [source]
 ----
 > addroute 31, 28
+OK
 > addroute 34, 28
+OK
 > routes
-1: to 31 via uwlink/28 [reliable, hops: 0, metric: 1.0]
-2: to 34 via uwlink/28 [reliable, hops: 0, metric: 1.0]
+    uuid      to nextHop         link reliability hops metric enabled
+---------------------------------------------------------------------
+  riddcc      31      28       uwlink        true    0    0.0    true
+  fkxbqm      34      28       uwlink        true    0    0.0    true
 ----
 
-On nodes 31 and 34, we add routes to node 21 via node 28:
+On nodes 31 and 34, we add routes to node 21 via node 28, and enable remote access:
 
 .`Node 31`
 [source]
 ----
 > addroute 21, 28
+OK
 > routes
-1: to 21 via uwlink/28 [reliable, hops: 0, metric: 1.0]
+    uuid      to nextHop         link reliability hops metric enabled
+---------------------------------------------------------------------
+  b7m7w9      21      28       uwlink        true    0    0.0    true
+> remote.enable = true
+true
 ----
 
 .`Node 34`
 [source]
 ----
 > addroute 21, 28
+OK
 > routes
-1: to 21 via uwlink/28 [reliable, hops: 0, metric: 1.0]
+    uuid      to nextHop         link reliability hops metric enabled
+---------------------------------------------------------------------
+  s6pjtb      21      28       uwlink        true    0    0.0    true
+> remote.enable = true
+true
 ----
 
 Now, we can check out connectivity from node 21 to nodes 31 and 34 again:
@@ -132,26 +146,15 @@ Now, we can check out connectivity from node 21 to nodes 31 and 34 again:
 ----
 > ping 31
 PING 31
-Response from 31: seq=0 rthops=4 time=15245 ms
-Response from 31: seq=1 rthops=4 time=10673 ms
-Response from 31: seq=2 rthops=4 time=10779 ms
+Response from 31: seq=0 rthops=4 time=18930 ms
+Response from 31: seq=1 rthops=4 time=10680 ms
+Response from 31: seq=2 rthops=4 time=46139 ms
 3 packets transmitted, 3 packets received, 0% packet loss
 > ping 34
-Response from 34: seq=0 rthops=4 time=26878 ms
-Request timeout for seq 1
-Request timeout for seq 2
-3 packets transmitted, 1 packets received, 67% packet loss
-----
-
-While the connectivity to node 31 seems okay, the connectivity to node 34 is still poor. We notice that the `seq=0` round-trip time is very close to the timeout of 30 seconds, and so try a ping with a longer timeout of 60 seconds:
-
-.`Node 21`
-[source]
-----
-> ping 34, 3, 60000
-Response from 34: seq=0 rthops=4 time=38505 ms
-Response from 34: seq=1 rthops=4 time=34393 ms
-Response from 34: seq=0 rthops=4 time=22521 ms
+PING 34
+Response from 34: seq=0 rthops=4 time=26760 ms
+Response from 34: seq=1 rthops=4 time=34408 ms
+Response from 34: seq=2 rthops=4 time=21660 ms
 3 packets transmitted, 3 packets received, 0% packet loss
 ----
 
@@ -192,7 +195,7 @@ To see how to do this, let us restart our MISSION 2013 simulation so that the ro
 [source]
 ----
 > routes
->
+No routes available
 ----
 
 Now, start a route discovery to node 31:
@@ -210,35 +213,37 @@ Patiently wait for a minute or two before checking the routing table on node 21:
 [source]
 ----
 > routes
-1: to 29 via uwlink/29 [reliable, hops: 1, metric: 2.0]
-2: to 34 via uwlink/34 [reliable, hops: 1, metric: 2.0]
-3: to 22 via uwlink/22 [reliable, hops: 1, metric: 3.0]
-4: to 28 via uwlink/28 [reliable, hops: 1, metric: 5.0]
-5: to 31 via uwlink/28 [reliable, hops: 2, metric: 0.85]
-6: to 27 via uwlink/27 [reliable, hops: 1, metric: 1.0]
+    uuid      to nextHop         link reliability hops metric enabled
+---------------------------------------------------------------------
+  69gnxp      22      22       uwlink        true    1    0.0    true
+  ib3goj      28      28       uwlink        true    1    0.0    true
+  68ozs5      29      29       uwlink        true    1    0.0    true
+  gkfin2      31      29       uwlink        true    2   -1.0    true
 ----
 
-Your routing table may differ, as the route discovery process is stochastic. We see that we now have a route to node 31 via node 28. Let us check the routing table on node 31 as well, to see if it has a corresponding entry for a route to node 21:
+Your routing table may differ, as the route discovery process is probabilistic. We see that we now have a route to node 31 via node 29. Let us check the routing table on node 31 as well, to see if it has a corresponding entry for a route to node 21:
 
 .`Node 31`
 [source]
 ----
 > routes
-1: to 29 via uwlink/29 [reliable, hops: 1, metric: 2.0]
-2: to 21 via uwlink/29 [reliable, hops: 2, metric: 1.7]
-3: to 28 via uwlink/28 [reliable, hops: 1, metric: 5.0]
-4: to 21 via uwlink/28 [reliable, hops: 2, metric: 4.2]
-5: to 34 via uwlink/34 [reliable, hops: 1, metric: 2.0]
-6: to 21 via uwlink/34 [reliable, hops: 3, metric: 1.6]
+    uuid      to nextHop         link reliability hops metric enabled
+---------------------------------------------------------------------
+  1hveg6      28      28       uwlink        true    1    0.0    true
+  pjfhin      21      28       uwlink        true    3   -1.0    true
+  n5eqll      34      34       uwlink        true    1    0.0    true
+  8jlzj3      21      34       uwlink        true    3   -2.0    true
+   f6dit      29      29       uwlink        true    1    0.0    true
+  qqtwvd      21      29       uwlink        true    3   -2.0    true
 ----
 
-Indeed it does! In fact, it has 3 routes back to node 21, one via node 29, another via node 28 and the last via node 34. Of these routes, the route via node 28 has the largest metric, and so will be the route that is used. We can verify that by issuing a trace from node 21:
+Indeed it does! In fact, it has 3 routes back to node 21, one via node 29, and two more via nodes 28 and 34. Of these routes, the route via node 28 has the largest metric, and so will be the route that is used. We can verify that by issuing a trace from node 21:
 
 .`Node 21`
 [source]
 ----
 > trace 31
-[21, 28, 31, 28, 21]
+[21, 29, 31, 28, 21]
 ----
 
-TIP: Since the route discovery process is stochastic, it may be useful to repeat the route discovery if good routes are not established after a single try. The `rreq` command can also be called with parameters to control the repetition. For example `rreq 31, 3, 6, 30` will initiate 6 route discoveries to node 31 looking for up to 3-hop routes spaced by 30 seconds between discoveries.
+TIP: Since the route discovery process is probabilistic, it may be useful to repeat the route discovery if good routes are not established after a single try. The `rreq` command can also be called with parameters to control the repetition. For example `rreq 31, 3, 6, 30` will initiate 6 route discoveries to node 31 looking for up to 3-hop routes spaced by 30 seconds between discoveries.

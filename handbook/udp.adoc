@@ -17,26 +17,31 @@ Fire up the `mission2013-network.groovy` network simulation (or if you already h
 ----
 > container.add 'udplink', new UdpLink();
 > udplink
-<<< UdpLink >>>
+« UDP/IP Link »
+
+Link protocol over UDP/IP for use over wired/wireless IP networks.
 
 [org.arl.unet.DatagramParam]
-  MTU = 1450
+  MTU ⤇ 65535
+  RTU ⤇ 1450
 
 [org.arl.unet.link.LinkParam]
   dataRate = 0.0
 
 [org.arl.unet.link.UdpLinkParam]
+  advertise = 30
+  broadcastAddress = 192.168.1.255
   monitorTimeout = 200
-  multicastAddr = 239.0.0.1
-  multicastIface = en0
-  multicastPort = 5100
-  multicastTTL = 1
+  port = 5100
   retries = 2
   timeout = 0.5
 
 > addroute 31, 31, udplink
+OK
 > routes
-1: to 31 via udplink/31 [reliable, hops: 1, metric: 1.0]
+    uuid      to nextHop         link reliability hops metric enabled
+---------------------------------------------------------------------
+  dhlx8t      31      31      udplink        true    1    0.0    true
 ----
 
 Similarly, connect to node 31's shell and add the `UdpLink` agent as well as a route to node 21 via the UDP link:
@@ -46,8 +51,11 @@ Similarly, connect to node 31's shell and add the `UdpLink` agent as well as a r
 ----
 > container.add 'udplink', new UdpLink();
 > addroute 21, 21, udplink
+OK
 > routes
-1: to 21 via udplink/21 [reliable, hops: 1, metric: 1.0]
+    uuid      to nextHop         link reliability hops metric enabled
+---------------------------------------------------------------------
+  lbouxd      21      21      udplink        true    1    0.0    true
 ----
 
 Go back to node 21's shell and see if you can communicate to node 31 via the UDP link:
@@ -57,9 +65,9 @@ Go back to node 21's shell and see if you can communicate to node 31 via the UDP
 ----
 > ping 31
 PING 31
-Response from 31: seq=0 rthops=2 time=18 ms
-Response from 31: seq=1 rthops=2 time=1 ms
-Response from 31: seq=2 rthops=2 time=2 ms
+Response from 31: seq=0 rthops=2 time=27 ms
+Response from 31: seq=1 rthops=2 time=5 ms
+Response from 31: seq=2 rthops=2 time=4 ms
 3 packets transmitted, 3 packets received, 0% packet loss
 
 > ack on
@@ -96,21 +104,29 @@ Now, let's see what the route discovery agent does when we ask it to discover ro
 > rreq 31
 OK
 > routes      //<1>
-1: to 31 via udplink/31 [reliable, hops: 1, metric: 1.0]
+    uuid      to nextHop         link reliability hops metric enabled
+---------------------------------------------------------------------
+  w7iayp      31      31      udplink        true    1    0.0    true
+
 > routes      //<2>
-1: to 29 via uwlink/29 [reliable, hops: 1, metric: 1.0]
-2: to 31 via uwlink/29 [reliable, hops: 2, metric: 0.85]
-3: to 22 via uwlink/22 [reliable, hops: 1, metric: 1.0]
-4: to 31 via udplink/31 [reliable, hops: 1, metric: 3.0]
-5: to 28 via uwlink/28 [reliable, hops: 1, metric: 2.0]
+    uuid      to nextHop         link reliability hops metric enabled
+---------------------------------------------------------------------
+  w7iayp      31      31      udplink        true    1    0.0    true
+  6gji1z      22      22       uwlink        true    1    0.0    true
+  8zhn5v      28      28       uwlink        true    1    0.0    true
+  mjhfaw      31      28       uwlink        true    2   -1.0    true
+  fj4g2j      34      34       uwlink        true    1    0.0    true
+  2r1ymj      28      22       uwlink        true    2   -1.0    true
+  ii73zj      31      22       uwlink        true    3   -2.0    true
+
 > trace 31    //<3>
 [21, 31, 21]
 ----
 <1> Checking routes within a few seconds after the `rreq`, we see that the route via the `udplink` is discovered very quickly.
-<2> After a few minutes, we see that additional acoustic routes are also discovered (your routes may vary, as the route discovery is a stochastic process).
+<2> After a few minutes, we see that additional acoustic routes are also discovered (your routes may vary, as the route discovery is a probabilistic process).
 <3> The route used for data transfer is the single-hop `udplink` route to node 31 and back.
 
-Note that the route discovery resulted in 2 routes to node 31 in this case. The first one is an acoustic route (using `uwlink`) via node 29. The second one is a single-hop UDP (`udplink`) route. We can see that the metric for the 2-hop acoustic route is lower than that of the UDP route, and so the latter is used for data transfer. The metric is computed based on a combination of number of hops and the packet loss on a route.
+Note that the route discovery resulted in 3 routes to node 31 in this case. The first one is a single-hop UDP (`udplink`) route. The second one is an acoustic route (using `uwlink`) via node 28, and the third one is a 3-hop acoustic route via node 22. We can see that the metric for the 2-hop and 3-hop acoustic routes is lower than that of the UDP route, and so the UDP route is used for data transfer. The metric is computed based on a combination of number of hops and the packet loss on a route.
 
 You can check the routing table on node 31:
 
@@ -118,11 +134,13 @@ You can check the routing table on node 31:
 [source]
 ----
 > routes
-1: to 29 via uwlink/29 [reliable, hops: 1, metric: 1.0]
-2: to 21 via uwlink/29 [reliable, hops: 2, metric: 0.85]
-3: to 21 via udplink/21 [reliable, hops: 1, metric: 3.0]
-4: to 28 via uwlink/28 [reliable, hops: 1, metric: 2.0]
-5: to 21 via uwlink/28 [reliable, hops: 2, metric: 1.7]
+    uuid      to nextHop         link reliability hops metric enabled
+---------------------------------------------------------------------
+   v5lej      21      21      udplink        true    1    0.0    true
+  uxl8yr      28      28       uwlink        true    1    0.0    true
+  bvsu21      21      28       uwlink        true    2   -1.0    true
+  9q9x91      34      34       uwlink        true    1    0.0    true
+  vvzke2      21      34       uwlink        true    3   -2.0    true
 ----
 
-We see 3 routes (via node 29/`uwlink`, via node 28/`uwlink` and direct/`udplink`), and the route with the largest metric is still the `udplink` direct route.
+We see 3 routes (direct/`udplink`, via node 28/`uwlink` and via node 34/`uwlink`), and the route with the largest metric is still the `udplink` direct route.

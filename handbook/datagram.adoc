@@ -32,6 +32,8 @@ Agents offering the DATAGRAM service support the following parameter:
 
 * {url-unet-javadoc}org/arl/unet/DatagramParam.html#MTU[`MTU`^] -- maximum datagram size in bytes
 
+* {url-unet-javadoc}org/arl/unet/DatagramParam.html#RTU[`RTU`^] -- recommended datagram size in bytes
+
 ==== Capabilities
 
 Agents may support several optional capabilities:
@@ -66,6 +68,10 @@ Agents advertising this capability prioritize datagrams with higher `priority` i
 *{url-unet-javadoc}org/arl/unet/DatagramCapability.html#TTL[TTL^]*
 
 Agents that spool `DatagramReq` over extended periods of time usually advertise this capability. They discard `DatagramReq` that are undelivered after the time-to-live (`ttl` attribute of the `DatagramReq`) has expired.
+
+*{url-unet-javadoc}org/arl/unet/DatagramCapability.html#COMPRESSION[COMPRESSION^]*
+
+Agents advertising this capability may apply data compression to incoming `DatagramReq` messages. If it does so, the peer agent will decompress the data before sending the `DatagramNtf`.
 
 === Examples
 

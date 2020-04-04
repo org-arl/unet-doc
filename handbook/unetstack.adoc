@@ -11,10 +11,10 @@ On node A, we can ask for a list of agents running:
 [source]
 ----
 > ps
+statemanager: org.arl.unet.state.StateManager - IDLE
 remote: org.arl.unet.remote.RemoteControl - IDLE
-state: org.arl.unet.state.StateManager - IDLE
 rdp: org.arl.unet.net.RouteDiscoveryProtocol - IDLE
-ranging: org.arl.unet.phy.Ranging - IDLE
+ranging: org.arl.unet.localization.Ranging - IDLE
 uwlink: org.arl.unet.link.ReliableLink - IDLE
 node: org.arl.unet.nodeinfo.NodeInfo - IDLE
 websh: org.arl.fjage.shell.ShellAgent - RUNNING
@@ -32,33 +32,35 @@ We can further ask for more details of a specific agent:
 [source]
 ----
 > phy
-<<< HalfDuplexModem >>>
+« Half-duplex modem »
+
+Generic half duplex modem simulator.
 
 [org.arl.unet.DatagramParam]
-  MTU = 56
+  MTU ⤇ 56
+  RTU ⤇ 56
 
 [org.arl.unet.bb.BasebandParam]
   basebandRate = 12000.0
   carrierFrequency = 12000.0
-  maxPreambleID = 4
+  maxPreambleID ⤇ 4
   maxSignalLength = 65536
-  preambleDuration = 0.2
   signalPowerLevel = -10.0
 
 [org.arl.unet.phy.PhysicalParam]
-  busy = false
+  busy ⤇ false
   maxPowerLevel = 0.0
   minPowerLevel = -96.0
-  propagationSpeed = 1534.4574
+  propagationSpeed ⤇ 1534.4574
   refPowerLevel = 185.0
   rxEnable = true
   rxSensitivity = -200.0
-  time = 3283592429
+  time ⤇ 3074996380
   timestampedTxDelay = 1.0
 
 [org.arl.unet.sim.HalfDuplexModemParam]
   basebandRxDuration = 1.0
-  clockOffset = 3248.3442
+  clockOffset = 2932.3245
 ----
 
 We asked for details of the agent `phy`, and we got a list of parameters supported by the agent. We can get or set individual parameters of the agent:
@@ -103,6 +105,7 @@ Examples:
 
 Commands:
 
+- pclr - clear PHY queues
 - plvl - get/set TX power level for all PHY channel types
 
 Parameters:
@@ -112,6 +115,7 @@ dependent parameters are also available. For information on these
 parameters type "help modem".
 
 - phy.MTU - maximum transmission unit (MTU) in bytes
+- phy.RTU - recommended data transfer size in bytes
 - phy.rxEnable - true if reception enabled
 - phy.propagationSpeed - propagation speed in m/s
 - phy.timestampedTxDelay - delay before TX of timestamped frames
@@ -128,6 +132,7 @@ dependent parameters are also available. For information on these
 parameters type "help modem".
 
 - phy[].MTU - maximum transmission unit (MTU) in bytes
+- phy[].RTU - recommended data transfer size in bytes
 - phy[].dataRate - effective frame data rate (bps)
 - phy[].frameDuration - frame duration (seconds)
 - phy[].powerLevel - powel level used for transmission (relative to reference)
@@ -143,38 +148,40 @@ From this help, we see that `phy` agent also supports channel parameters (also k
 [source]
 ----
 > phy[CONTROL]
-<<< PHY >>>
+« PHY »
 
 [org.arl.unet.DatagramParam]
-  MTU = 16
+  MTU ⤇ 16
+  RTU ⤇ 16
 
 [org.arl.unet.phy.PhysicalChannelParam]
-  dataRate = 256.0
-  errorDetection = 1
-  fec = 0
-  fecList = null
-  frameDuration = 0.95
+  dataRate = 202.10527
+  errorDetection ⤇ 1
+  fec ⤇ 0
+  fecList ⤇ null
+  frameDuration ⤇ 0.95
   frameLength = 24
   janus = false
-  llr = false
+  llr ⤇ false
   maxFrameLength = 128
   powerLevel = -10.0
 
 > phy[DATA]
-<<< PHY >>>
+« PHY »
 
 [org.arl.unet.DatagramParam]
-  MTU = 56
+  MTU ⤇ 56
+  RTU ⤇ 56
 
 [org.arl.unet.phy.PhysicalChannelParam]
-  dataRate = 1024.0
-  errorDetection = 1
-  fec = 0
-  fecList = null
-  frameDuration = 0.7
+  dataRate = 731.4286
+  errorDetection ⤇ 1
+  fec ⤇ 0
+  fecList ⤇ null
+  frameDuration ⤇ 0.7
   frameLength = 64
   janus = false
-  llr = false
+  llr ⤇ false
   maxFrameLength = 512
   powerLevel = -10.0
 

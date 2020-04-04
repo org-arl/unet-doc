@@ -43,15 +43,14 @@ Open browser windows for shell access to each of the nodes. On node A, create a 
 ----
 > container.add 'portal', new org.arl.unet.portal.UdpPortal(port:7000, peer:host('B'));
 > portal
-<<< UdpPortal >>>
+« UDP Portal »
 
-[org.arl.unet.DatagramParam]
-  MTU = 1500
+Transparent transport for UDP frames through a network.
 
 [org.arl.unet.portal.UdpPortalParam]
   clientIP = 255.255.255.255
   clientPort = 7778
-  link = uwlink
+  dsp = uwlink
   peer = 31
   port = 7000
   priority = NORMAL
@@ -67,15 +66,14 @@ On node B, create the other end-point of the UDP portal to send the UDP datagram
 ----
 > container.add 'portal', new org.arl.unet.portal.UdpPortal(clientIP: 'localhost', clientPort: 7778);
 > portal
-<<< UdpPortal >>>
+« UDP Portal »
 
-[org.arl.unet.DatagramParam]
-  MTU = 1500
+Transparent transport for UDP frames through a network.
 
 [org.arl.unet.portal.UdpPortalParam]
   clientIP = localhost
   clientPort = 7778
-  link = uwlink
+  dsp = uwlink
   peer = 0
   port = 7777
   priority = NORMAL
@@ -150,14 +148,13 @@ Restart your 2-node network, and on node A set up a TCP portal listening on port
 ----
 > container.add 'portal', new org.arl.unet.portal.Portal(7000);
 > portal
-<<< Portal >>>
+« Portal »
 
-[org.arl.unet.DatagramParam]
-  MTU = 128
+Transparent transport for TCP/IP or serial connections through a network.
 
 [org.arl.unet.portal.PortalParam]
   delimiters = [10, 13]
-  link = uwlink
+  dsp = uwlink
   peer = 0
   priority = NORMAL
   protocol = 0

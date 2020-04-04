@@ -115,62 +115,67 @@ Fire up the 2-node network simulation and connect to node A's shell. If you simp
 [source]
 ----
 > phy
-<<< HalfDuplexModem >>>
+« Half-duplex modem »
+
+Generic half duplex modem simulator.
 
 [org.arl.unet.DatagramParam]
-  MTU = 56
+  MTU ⤇ 56
+  RTU ⤇ 56
 
 [org.arl.unet.phy.PhysicalParam]
-  busy = false
+  busy ⤇ false
   maxPowerLevel = 0.0
   minPowerLevel = -96.0
-  propagationSpeed = 1534.4574
+  propagationSpeed ⤇ 1534.4574
   refPowerLevel = 185.0
   rxEnable = true
   rxSensitivity = -200.0
-  time = 9615673299
+  time ⤇ 2178921675
   timestampedTxDelay = 1.0
 ----
 
-The `phy.MTU` parameter tells us the maximum amount of user data that can be transmitted in a single frame (56 bytes in this case). This is based on the DATA channel, as we will see shortly, since `DatagramReq` are fulfilled using the DATA channel. The `PhysicalParam` parameters provide us information on whether the channel is busy, transmission power levels supported, receiver sensitivity, and propagation speed of the signal (e.g. speed of sound for underwater modems). The `phy.time` parameter is a microsecond resolution clock that is used to timestamp all physical layer events such as frame transmission, reception, etc.
+The `phy.MTU` and `phy.RTU` parameters tells us the maximum and recommended amount of user data that can be transmitted in a single frame (56 bytes in this case) respectively. This is based on the DATA channel, as we will see shortly, since `DatagramReq` are fulfilled using the DATA channel. The `PhysicalParam` parameters provide us information on whether the channel is busy, transmission power levels supported, receiver sensitivity, and propagation speed of the signal (e.g. speed of sound for underwater modems). The `phy.time` parameter is a microsecond resolution clock that is used to timestamp all physical layer events such as frame transmission, reception, etc.
 
 We can dig deeper into the parameters for the CONTROL and DATA channel separately:
 
 [source]
 ----
 > phy[CONTROL]
-<<< PHY >>>
+« PHY »
 
 [org.arl.unet.DatagramParam]
-  MTU = 16
+  MTU ⤇ 16
+  RTU ⤇ 16
 
 [org.arl.unet.phy.PhysicalChannelParam]
   dataRate = 202.10527
-  errorDetection = 1
-  fec = 0
-  fecList = null
-  frameDuration = 0.95
+  errorDetection ⤇ 1
+  fec ⤇ 0
+  fecList ⤇ null
+  frameDuration ⤇ 0.95
   frameLength = 24
   janus = false
-  llr = false
+  llr ⤇ false
   maxFrameLength = 128
   powerLevel = -10.0
 
 > phy[DATA]
-<<< PHY >>>
+« PHY »
 
 [org.arl.unet.DatagramParam]
-  MTU = 56
+  MTU ⤇ 56
+  RTU ⤇ 56
 
 [org.arl.unet.phy.PhysicalChannelParam]
   dataRate = 731.4286
-  errorDetection = 1
-  fec = 0
-  fecList = null
-  frameDuration = 0.7
+  errorDetection ⤇ 1
+  fec ⤇ 0
+  fecList ⤇ null
+  frameDuration ⤇ 0.7
   frameLength = 64
   janus = false
-  llr = false
+  llr ⤇ false
   maxFrameLength = 512
   powerLevel = -10.0
 ----
@@ -202,40 +207,44 @@ On the web shell for the modem:
 [source]
 ----
 > phy
-<<< Physical >>>
+« Physical layer »
+
+Provides software-defined physical layer communication services (including error detection & correction).
 
 [org.arl.unet.DatagramParam]
-  MTU = 13
+  MTU ⤇ 31
+  RTU ⤇ 31
 
 [org.arl.unet.phy.PhysicalParam]
-  busy = false
-  maxPowerLevel = 0.0
-  minPowerLevel = -138.0
+  busy ⤇ false
+  maxPowerLevel ⤇ 0.0
+  minPowerLevel ⤇ -138.0
   propagationSpeed = 1500.0
-  refPowerLevel = 0.0
+  refPowerLevel ⤇ 0.0
   rxEnable = true
-  rxSensitivity = 0.0
-  time = 51530438
-  timestampedTxDelay = 1000
+  rxSensitivity ⤇ 0.0
+  time = 4167772
+  timestampedTxDelay = 1.0
 
 [org.arl.yoda.ModemParam]
-  adcrate = 48000.0
-  bbsblk = 6000
+  adcrate ⤇ 48000.0
+  bbsblk ⤇ 6000
   bbscnt = 0
   bpfilter = true
   clockCalib = 1.0
-  dacrate = 96000.0
+  dacrate ⤇ 96000.0
   downconvRatio = 4.0
   fan = false
   fanctl = 45.0
   fullduplex = false
   gain = 0.0
+  hpc = false
   inhibit = 120
   isc = true
   loopback = false
-  model = portaudio
+  model ⤇ Unet audio
   mute = true
-  noise = -62.0
+  noise ⤇ -105.6
   npulses = 1
   pbsblk = 65536
   pbscnt = 0
@@ -243,11 +252,11 @@ On the web shell for the modem:
   poweramp = false
   preamp = true
   pulsedelay = 0
-  serial = portaudio
+  serial ⤇ unetaudio
   standby = 15
-  upconvRatio = 8.0
-  vendor = Subnero
-  voltage = 0.0
+  upconvRatio ⤇ 8.0
+  vendor ⤇ UnetStack
+  voltage ⤇ 0.0
   wakeupdelay = 400
   wakeuplen = 8000
 ----
@@ -259,22 +268,23 @@ Further, let's look at the indexed parameters for the CONTROL channel:
 [source]
 ----
 > phy[CONTROL]
-<<< PHY >>>
+« PHY »
 
 [org.arl.unet.DatagramParam]
-  MTU = 13
+  MTU ⤇ 13
+  RTU ⤇ 13
 
 [org.arl.unet.phy.PhysicalChannelParam]
-  dataRate = 70.588234
-  errorDetection = true
+  dataRate ⤇ 70.588234
+  errorDetection ⤇ true
   fec = 1
-  fecList = [ICONV2]
-  frameDuration = 2.04
+  fecList ⤇ [ICONV2]
+  frameDuration ⤇ 2.04
   frameLength = 18
   janus = false
   llr = false
-  maxFrameLength = 396
-  powerLevel = -10.0
+  maxFrameLength ⤇ 796
+  powerLevel = -42.0
 
 [org.arl.yoda.FhbfskParam]
   chiplen = 1
@@ -292,7 +302,7 @@ Further, let's look at the indexed parameters for the CONTROL channel:
   preamble = (480 samples)
   test = false
   threshold = 0.25
-  valid = true
+  valid ⤇ true
 ----
 
 Again, we cannot cover all the parameters in detail here, but will draw your attention to a few important ones. You see that the `modulation` for the CONTROL channel is set to `'fhbfsk'` (frequency-hopping binary frequency shift keying). Depending on your modem, different modulations may be supported. Once a modulation scheme is chosen, you see additional modulation-dependent parameters. In this case, these are the `org.arl.yoda.FhbfskParam` parameters such as `fmin`, `fstep`, `hops`, `chiplen`, `tukey`, etc. These parameters allow you to control the modulation's frequency band, number of hops, chip duration, windowing, etc.

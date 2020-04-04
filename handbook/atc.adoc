@@ -19,6 +19,17 @@ The AT command interpreter is available as a script engine that can be loaded us
 > iface ATScriptEngine, 5001
 ----
 
+Once started, you can connect to port 5001 (assuming you started the interpreter on TCP port 5001 as shown above) using a terminal window:
+
+[source, shell]
+----
+$ nc localhost 5001
+----
+
+Now you can interact with the AT command interpreter.
+
+NOTE: You can also bind the AT command interpreter to a serial port, if desired. See `help iface` for details.
+
 === Basic AT commands
 
 A small set of basic AT commands are honored by the interpreter:

@@ -26,7 +26,7 @@ ws://192.168.1.9:8081/ws [API]
 websh: ws://192.168.1.9:8081/fjage/shell/ws [GroovyScriptEngine]
 ----
 
-The first entry starting with `tcp://` is the API connector available over TCP/IP. The IP address and port number in this case are `192.168.1.9` and `1102` respectively. The IP address on your setup might differ, so remember to replace it in the example code below when you try it.
+The first entry starting with `tcp://` is the API connector available over TCP/IP. The IP address and port number in this case are `192.168.1.9` and `1101` respectively. The IP address on your setup might differ, so remember to replace it in the example code below when you try it.
 
 To connect to UnetStack from a Groovy application, typical code might look something like this:
 
@@ -34,7 +34,7 @@ To connect to UnetStack from a Groovy application, typical code might look somet
 ----
 import org.arl.unet.api.UnetSocket
 
-def sock = new UnetSocket('192.168.1.9', 1102)    //<1>
+def sock = new UnetSocket('192.168.1.9', 1101)    //<1>
 // do things with sock here
 sock.close()
 ----
@@ -111,8 +111,9 @@ This will print the value of parameter `MTU` (maximum transfer unit) of the phys
 [source, groovy]
 ----
 println(phy[2].frameLength)
-phy[1].frameLength = 64
+phy[2].frameLength = 32
 println(phy[2].frameLength)
+phy[2].frameLength = 64
 ----
 
 TIP: Developers may wish to consider using constants `org.arl.unet.phy.Physical.CONTROL` and `org.arl.unet.phy.Physical.DATA` instead of hard coding 1 and 2, for readability.

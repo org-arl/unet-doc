@@ -73,10 +73,10 @@ On node A, type:
 [source]
 ----
 > range host('B')
-999.7
+999.99976
 ----
 
-You got an estimate of 999.7 m for the range between the two nodes.
+You got an estimate of 1000 m for the range between the two nodes.
 
 === Sending & receiving application data
 

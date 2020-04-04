@@ -101,7 +101,7 @@ org.arl.unet.Services.DATAGRAM: transport router uwlink phy
 org.arl.unet.Services.BASEBAND: phy
 org.arl.unet.Services.LINK: uwlink
 org.arl.unet.Services.ROUTING: router
-org.arl.unet.Services.STATE_MANAGER: state
+org.arl.unet.Services.STATE_MANAGER: statemanager
 org.arl.unet.Services.ROUTE_MAINTENANCE: rdp
 ----
 
