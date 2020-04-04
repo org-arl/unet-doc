@@ -1,4 +1,5 @@
 import org.arl.fjage.*
+import org.arl.fjage.param.Parameter
 import org.arl.unet.*
 import org.arl.unet.phy.*
 import org.arl.unet.mac.*
