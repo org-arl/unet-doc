@@ -19,7 +19,7 @@ v3.1.0
 :url-groovy: https://groovy-lang.org
 :url-pdf: https://org-arl.github.io/unet-doc/handbook/unet-handbook.pdf
 :url-html-1: https://org-arl.github.io/unet-doc/handbook/unet-handbook.html
-:url-unet-javadoc: https://unetstack.net/javadoc/3.0/index.html?
+:url-unet-javadoc: https://unetstack.net/javadoc/3.1/index.html?
 :url-fjage-javadoc: https://org-arl.github.io/fjage/javadoc/index.html?
 :url-fjage-doc: https://fjage.readthedocs.io/en/latest
 ifdef::backend-html5[]

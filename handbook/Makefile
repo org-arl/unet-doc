@@ -1,5 +1,5 @@
 BUILD=../docs/handbook
-TMP=/tmp/unet-doc
+TMP=../tmp
 ADOCS=$(shell find . -name '*.adoc')
 HTML_OPTS=
 UNET_LIB=../../unet/lib
@@ -11,7 +11,12 @@ pdf: ${BUILD}/unet-handbook.pdf
 
 ${BUILD}/unet-handbook.pdf: handbook.adoc ${ADOCS}
 	mkdir -p ${BUILD}
-	asciidoctor-pdf -a pdf-style=custom-theme.yml -o $@ $<
+	mkdir -p ${TMP} ${TMP}/images
+	cp custom-theme.yml ${TMP}
+	rsync -a ${ADOCS} ${TMP}
+	rsync -a images ${TMP}
+	cd ${TMP}; sed -i -- 's/⤇/⇒/g' *.adoc
+	cd ${TMP}; asciidoctor-pdf -a pdf-style=custom-theme.yml -o $@ $<
 
 ${BUILD}/unet-handbook.html: handbook.adoc ${ADOCS}
 	mkdir -p ${BUILD}
@@ -34,4 +39,4 @@ install:
 	cp unet.rb $$RPATH/../lib/rouge/lexers/
 
 clean:
-	rm -rf ${BUILD}
+	rm -rf ${BUILD} ${TMP}

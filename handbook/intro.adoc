@@ -54,8 +54,16 @@ UnetStack has a several components, as depicted in <<fig_unetstack>>:
 
 The components are packaged into various {url-editions}[editions]. The *community edition* is {url-downloads}[downloadable] free of charge for educational and research purposes. It has all the components required to develop, simulate, test and deploy Unets. The commercial and OEM editions package offer advanced functionality, better performance and tighter integration with vendor-specific hardware.
 
+ifdef::backend-html5[]
 [[fig_unetstack]]
 .An overview of UnetStack components.
 image::UnetStack3.svg[]
+endif::backend-html5[]
+
+ifndef::backend-html5[]
+[[fig_unetstack]]
+.An overview of UnetStack components.
+image::UnetStack3.png[]
+endif::backend-html5[]
 
 In the next few chapters, we will learn how to use UnetStack and how to customize it to meet our networking needs. In some cases, it may be necessary to prototype and simulate a Unet before it is actually implemented. We will also learn how to do that using the Unet simulator.
