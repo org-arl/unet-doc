@@ -129,12 +129,13 @@ We'll assume you have Python 3.x already installed. Let us start by installing t
 ----
 $ pip install unetpy
 Collecting unetpy
-  Using cached https://files.pythonhosted.org/packages/eb/f1/0efa3cff9c25322169041d3d804691ad24ccd732d6e284e209d20a89336f/unetpy-3.0.2-py3-none-any.whl
-Collecting fjagepy>=1.6 (from unetpy)
-  Using cached https://files.pythonhosted.org/packages/3d/38/159338ad451218652aec30ebd9513d6e26ea4679903c47df10def1457652/fjagepy-1.6-py3-none-any.whl
-Requirement already satisfied: numpy>=1.11 in /Users/anjangi/Documents/python-env/publish-env/lib/python3.7/site-packages (from unetpy) (1.17.2)
-Installing collected packages: fjagepy, unetpy
-Successfully installed fjagepy-1.6 unetpy-3.0.2
+  Using cached unetpy-3.1.0-py3-none-any.whl (6.9 kB)
+Collecting fjagepy>=1.7.0
+  Using cached fjagepy-1.7.0-py3-none-any.whl (12 kB)
+Collecting numpy>=1.11
+  Using cached numpy-1.18.2-cp37-cp37m-macosx_10_9_x86_64.whl (15.1 MB)
+Installing collected packages: numpy, fjagepy, unetpy
+Successfully installed fjagepy-1.7.0 numpy-1.18.2 unetpy-3.1.0
 ----
 
 We will now write `tx.py` and `rx.py` scripts to transmit and receive a datagram respectively. We assume that you have the two-node network setup from the previous section with node A and B available on `localhost` API port 1101 and 1102 respectively.
@@ -170,7 +171,7 @@ First run `python rx.py` to start reception. Then, on a separate terminal window
 [source, shell]
 ----
 $ python rx.py
-from node 1 : hello!
+from node 232 : hello!
 ----
 
 TIP: Once you are done with your testing, it is time to shutdown the simulation. You can do that by pressing `Ctrl-C` on the terminal where you started the simulator. Alternatively, you can go to the shell of one of the nodes, and type: `shutdown`.
