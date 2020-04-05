@@ -353,20 +353,19 @@ Out[3]:  'phy'
 
 In[4]:   # transmit preamble 3 -- you should be able to hear it
          bb << TxBasebandSignalReq(preamble=3)
-Out[4]:  AGREE
+Out[4]:  Message:AGREE[sentAt:1586066631250]
 
 In[5]:   # discard old notifications to get ready for a recording
          gw.flush()
 
 In[6]:   # request a recording
          bb << RecordBasebandSignalReq()
-Out[6]:  AGREE
+Out[6]:  Message:AGREE[sentAt:1586066756231]
 
 In[7]:   # obtain the recording notification and check that it's of the correct type
          ntf = gw.receive(timeout=5000)
          ntf
-Out[7]:  RxBasebandSignalNtf:INFORM[rxTime:203329687 rssi:-68.847565 adc:1 fc:12000.0 fs:12000.0 channels:1 preamble:0 (65536 samples)]
-
+Out[7]:  RxBasebandSignalNtf:INFORM[rxTime:153625687 rssi:-60.704174 adc:1 fc:12000.0 fs:12000.0 channels:1 preamble:0 sentAt:1586066761705  ... (65536 samples)]
 In[8]:   # close the connection
          sock.close()
 
