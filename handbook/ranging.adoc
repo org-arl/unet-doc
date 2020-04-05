@@ -6,32 +6,63 @@ It is common to use underwater acoustic modems for range estimation, as the trav
 
 Ranging is closely related to time synchronization, since travel time measurement between two nodes requires some sort of synchronization between the nodes. If the nodes are synchronized, one-way travel time (OWTT) can be directly measured and used to estimate range. If the nodes are not synchronized, two-way travel time (TWTT) can be used to measure range and synchronize the nodes simultaneously. The RANGING service supports both modes of ranging, and manages synchronization information between nodes.
 
+The RANGING service also supports ranging to commercial-off-the-shelf (COTS) transponders.
+
 === Overview
 
-The RANGING service provides messages and parameters to support OWTT and TWTT ranging, and to manage synchronization information between the nodes.
+The RANGING service provides messages and parameters to support OWTT and TWTT ranging to other Unet nodes or COTS transponders, and to manage synchronization information between the nodes.
 
 ==== Messages
 
 The following messages are defined by the RANGING service:
 
-* {url-unet-javadoc}org/arl/unet/phy/RangeReq.html[`RangeReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- measure range to peer node via OWTT or TWTT
-* {url-unet-javadoc}org/arl/unet/phy/BeaconReq.html[`BeaconReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- transmit beacon message for OWTT
-* {url-unet-javadoc}org/arl/unet/phy/SyncInfoReq.html[`SyncInfoReq`^] => {url-unet-javadoc}org/arl/unet/phy/SyncInfoRsp.html[`SyncInfoRsp`^] / `REFUSE` / `FAILURE` -- get synchronization information for peer node
-* {url-unet-javadoc}org/arl/unet/phy/ClearSyncReq.html[`ClearSyncReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- clear synchronization information for peer node
-* {url-unet-javadoc}org/arl/unet/phy/RangeNtf.html[`RangeNtf`^] -- sent to the requestor or the agent's topic when range information for peer node becomes available
-* {url-unet-javadoc}org/arl/unet/phy/BadRangeNtf.html[`BadRangeNtf`^] -- sent to the requestor or the agent's topic when invalid range information for peer node indicates potentially outdated synchronization with that node
+* {url-unet-javadoc}org/arl/unet/localization/RangeReq.html[`RangeReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- measure range to peer node via OWTT or TWTT
+* {url-unet-javadoc}org/arl/unet/localization/BeaconReq.html[`BeaconReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- transmit beacon message for OWTT
+* {url-unet-javadoc}org/arl/unet/localization/RangeNtf.html[`RangeNtf`^] -- sent when a range to another node is measured, typically in response to `RangeReq` on current node (sent to requester), or `BeaconReq` on peer node (sent to agent's topic)
+* {url-unet-javadoc}org/arl/unet/localization/InterrogationNtf.html[`InterrogationNtf`^] -- sent on agent's topic when a ranging interrogration frame is recevied from peer, before a response is sent back
+* {url-unet-javadoc}org/arl/unet/localization/RespondReq.html[`RespondReq`^] => `AGREE` / `REFUSE` -- if automatic response is disabled, request to respond to interrogation frame (with optional payload)
 
 The use of these messages will become clearer through examples below.
 
 ==== Parameters
 
-A few parameters control the behavior of the RANGING service provider:
+The RANGING service does not define any parameters, but the default RANGING agent provides several useful parameters to control its behavior, and to provide status information.
 
-* {url-unet-javadoc}org/arl/unet/phy/RangeParam.html#channel[`channel`^] -- channel (DATA/CONTROL) to use for ranging
-* {url-unet-javadoc}org/arl/unet/phy/RangeParam.html#lifetime[`lifetime`^] -- lifetime or validity for synchronization information (seconds)
-* {url-unet-javadoc}org/arl/unet/phy/RangeParam.html#minRange[`minRange`^] -- minimum valid range (m)
-* {url-unet-javadoc}org/arl/unet/phy/RangeParam.html#maxRange[`maxRange`^] -- maximum valid range (m)
-* {url-unet-javadoc}org/arl/unet/phy/RangeParam.html#maxBadRangeCnt[`maxBadRangeCnt`^] -- number of `BadRangeNtf` for peer node to discard synchronization information
+=== Ranging agent
+
+==== Parameters
+
+A few parameters control the behavior of the default ranging agent:
+
+* {url-unet-javadoc}org/arl/unet/localization/RangingParam.html#phy[`phy`^] -- physical agent to use for ranging
+* {url-unet-javadoc}org/arl/unet/localization/RangingParam.html#mac[`mac`^] -- MAC agent to use for channel reservations
+* {url-unet-javadoc}org/arl/unet/localization/RangingParam.html#respond[`respond`^] -- true if the agent should automatically respond to interrogation frames from peers, false if it should generate a `InterrogationNtf` and wait for another agent to request a response using `RespondReq`
+
+In addition, the following parameters provide defaults for ranging:
+
+* {url-unet-javadoc}org/arl/unet/localization/RangingParam.html#channel[`channel`^] -- channel (DATA/CONTROL) to use for ranging
+* {url-unet-javadoc}org/arl/unet/localization/RangingParam.html#maxRange[`maxRange`^] -- maximum expected range to peer (m)
+* {url-unet-javadoc}org/arl/unet/localization/RangingParam.html#ipreamble[`ipreamble`^] -- interrogation preamble to transmit
+* {url-unet-javadoc}org/arl/unet/localization/RangingParam.html#rpreamble[`rpreamble`^] -- response preamble to expect after interrogation
+* {url-unet-javadoc}org/arl/unet/localization/RangingParam.html#rsignal[`rsignal`^] -- response baseband signal to expect after interrogation
+* {url-unet-javadoc}org/arl/unet/localization/RangingParam.html#rdelay[`rdelay`^] -- response delay (seconds)
+* {url-unet-javadoc}org/arl/unet/localization/RangingParam.html#threshold[`threshold`^] -- threshold (0-1) for signal detection, when response is specified as an arbitrary acoustic signal
+
+==== Indexed parameters
+
+Some parameters can be additionally specified (or overridden) on a per-link basis, using indexed parameters (indexed by the node address of the peer node on the link):
+
+* {url-unet-javadoc}org/arl/unet/localization/RangingNodeParam.html#address[`address`^] -- peer node address
+* {url-unet-javadoc}org/arl/unet/localization/RangingParam.html#channel[`channel`^] -- channel (DATA/CONTROL) to use for ranging
+* {url-unet-javadoc}org/arl/unet/localization/RangingNodeParam.html#maxRange[`maxRange`^] -- maximum expected range to peer (m)
+* {url-unet-javadoc}org/arl/unet/localization/RangingNodeParam.html#ipreamble[`ipreamble`^] -- interrogation preamble to transmit
+* {url-unet-javadoc}org/arl/unet/localization/RangingNodeParam.html#isignal[`isignal`^] -- interrogation baseband signal to transmit
+* {url-unet-javadoc}org/arl/unet/localization/RangingNodeParam.html#rpreamble[`rpreamble`^] -- response preamble to expect after interrogation
+* {url-unet-javadoc}org/arl/unet/localization/RangingNodeParam.html#rsignal[`rsignal`^] -- response baseband signal to expect after interrogation
+* {url-unet-javadoc}org/arl/unet/localization/RangingNodeParam.html#rdelay[`rdelay`^] -- response delay (seconds)
+* {url-unet-javadoc}org/arl/unet/localization/RangingNodeParam.html#data[`data`^] -- payload data to automatically include in response frame
+* {url-unet-javadoc}org/arl/unet/localization/RangingParam.html#threshold[`threshold`^] -- threshold (0-1) for signal detection, when response is specified as an arbitrary acoustic signal
+* {url-unet-javadoc}org/arl/unet/localization/RangingParam.html#lifetime[`lifetime`^] -- synchronization validity lifetime (seconds)
 
 The _lifetime_ of syncrhonization information should be set based on the expected drift of modem clocks. Lifetime is defined as the time for the expected clock drift (scaled by speed of sound in water) to exceed the required range estimation accuracy. If a network uses modems with low-drift clocks (such as oven-controlled oscillators), the lifetime can be quite long (hours to days). Without low-drift clocks, reasonable lifetimes may only be in the order of several minutes to tens of minutes.
 
@@ -42,7 +73,11 @@ Most electronics use crystal oscillators for timekeeping. A crystal oscillator i
 For applications where drift is undesirable, temperature-compensated crystal oscillators (TCXO) or oven-controlled crystal oscillators (OCXO) may be used. TCXOs try to adjust their oscillation frequency electronically, to compensate for temperature changes. OCXOs, on the other hand, try to maintain a constant temperature with a mini-oven around the crystal. For very sensitive applications, atomic clocks may be used for even lower drift. But given long enough time, even the most precise of these oscillators will accumulate tiny errors and the clocks will eventually drift!
 ****
 
-The minimum and maximum valid range settings control what the RANGING service considers to be a _bad range_ -- a range measurement that is unlikely to occur in reality (e.g. negative values, or ranges much further than the communication ability of the modems). Frequent bad ranges to a node are used to detect that the node synchronization information is invalid and should be discarded. The number of `BadRangeNtf` before discarding the synchronization information is specified as `maxBadRangeCnt`.
+A few more read-only per-link parameters provide synchronization information about the link, when available:
+
+* {url-unet-javadoc}org/arl/unet/localization/RangingParam.html#sync[`sync`^] -- availability of synchronization information on link
+* {url-unet-javadoc}org/arl/unet/localization/RangingParam.html#lastSync[`lastSync`^] -- time of last synchronization (epoch milliseconds)
+* {url-unet-javadoc}org/arl/unet/localization/RangingParam.html#offset[`offset`^] -- clock offset between current node and peer node (microseconds)
 
 === Examples
 
@@ -53,29 +88,34 @@ In order to understand how the RANGING service provides OWTT and TWTT ranging, i
 > agentsForService(org.arl.unet.Services.RANGING)  //<1>
 [ranging]
 > ranging
-<<< Ranging >>>
+« Range estimator »
 
-[org.arl.unet.phy.RangeParam]
-  channel = 1                                      //<2>
-  lifetime = 0                                     //<3>
-  maxBadRangeCnt = 10
-  maxRange = 6500.0
-  minRange = -10.0
+Provides time synchronization and range estimation services.
 
-> range host('B')                                  //<4>
-370.98
-> ranging << new RangeReq(to: host('B'))           //<5>
+[org.arl.unet.localization.RangingParam]
+  channel = 2                                      //<2>
+  ipreamble = 0
+  mac = mac
+  maxRange = 3000.0
+  phy = phy
+  rdelay = 1.95
+  respond = true
+  rpreamble = 0
+  rsignal = []
+  threshold = 0.3
+
+> range host('B')                                  //<3>
+371.09
+> ranging << new RangeReq(to: host('B'))           //<4>
 AGREE
-ranging >> RangeNtf:INFORM[from:31 to:232 range:371.0 offset:-256067128]
-> ntf.range                                        //<6>
-370.98
+ranging >> RangeNtf:INFORM[from:232 to:31 range:371.08856 offset:-1523892589 rxTime:1860655032]
+> ntf.range
+371.09
 ----
 <1> We see that the `ranging` agent provides the RANGING service on the node.
-<2> The CONTROL channel (channel 1) is being used for ranging.
-<3> The `lifetime` is set to 0, indicating that the node clocks may have a large drift.
-<4> The `range` command provides us the range to node B of almost 1 km.
-<5> The `range` command is implemented by sending a `RangeReq` to the `ranging` agent. We directly send that message. As expected, it leads to a `RangeNtf` message that gives us the same range estimate as the `range` command. The `RangeNtf` also provides us time synchronization information between the nodes (as time difference between the nodes, or `offset`, in microseconds).
-<6> While the `RangeNtf` showed a range of 371.0 m, this was just due to rounding off for display. The actual value in the message is 370.98 m, as reported previously by the `range` command.
+<2> The DATA channel (channel 2) is being used for ranging.
+<3> The `range` command provides us the range to node B of about 371 m.
+<4> The `range` command is implemented by sending a `RangeReq` to the `ranging` agent. We directly send that message. As expected, it leads to a `RangeNtf` message that gives us the same range estimate as the `range` command. The `RangeNtf` also provides us time synchronization information between the nodes (as time difference between the nodes, or `offset`, in microseconds).
 
 ==== Two-way travel time ranging
 
@@ -88,13 +128,13 @@ The range measurement above used TWTT ranging. While node B participated in the 
 > subscribe ranging
 > ranging << new RangeReq(to: host('B'))
 AGREE
-phy >> TxFrameStartNtf:INFORM[type:CONTROL txTime:2546485580 txDuration:950]
-phy >> RxFrameStartNtf:INFORM[type:CONTROL rxTime:2548827417]
-phy >> RxFrameNtf:INFORM[type:CONTROL from:31 to:232 protocol:1 rxTime:2548827417 txTime:2292518452 (7 bytes)]
-ranging >> RangeNtf:INFORM[from:31 to:232 range:371.0 offset:-256067128]
+phy >> TxFrameStartNtf:INFORM[type:DATA txTime:2048652195 txDuration:700]
+phy >> RxFrameStartNtf:INFORM[type:DATA rxTime:2051086032]
+phy >> RxFrameNtf:INFORM[type:DATA from:31 to:232 protocol:1 rxTime:2051086032 txTime:526951606 (7 bytes)]
+ranging >> RangeNtf:INFORM[from:232 to:31 range:371.08856 offset:-1523892589 rxTime:2051086032]
 ----
 
-We see that node A transmitted a CONTROL frame. It then received a timestamped CONTROL frame back from node B. The timing information in both frames was used to compute the range and time offset between the nodes. This was sent back to us as a `RangeNtf`. This is the frame exchange that implements TWTT ranging.
+We see that node A transmitted a DATA frame. It then received a timestamped DATA frame back from node B. The timing information in both frames was used to compute the range and time offset between the nodes. This was sent back to us as a `RangeNtf`. This is the frame exchange that implements TWTT ranging.
 
 If we look at node B's shell at the same time:
 
@@ -103,168 +143,169 @@ If we look at node B's shell at the same time:
 ----
 > subscribe phy
 > subscribe ranging
-phy >> RxFrameStartNtf:INFORM[type:CONTROL rxTime:2290660289]
-phy >> RxFrameNtf:INFORM[type:CONTROL from:232 to:31 protocol:1 rxTime:2290660289 (1 byte)]
-phy >> TxFrameStartNtf:INFORM[type:CONTROL txTime:2292518452 txDuration:950]
+phy >> RxFrameStartNtf:INFORM[type:DATA rxTime:525001443]
+phy >> RxFrameNtf:INFORM[type:DATA from:232 to:31 protocol:1 rxTime:525001443 (1 byte)]
+ranging >> InterrogationNtf:INFORM[type:DATA from:232 to:31 rxTime:525001443 responded:true]
+phy >> TxFrameStartNtf:INFORM[type:DATA txTime:526951606 txDuration:700]
 ----
 
-We see that node B received a CONTROL frame and responded back with a CONTROL frame.
+We see that node B received a DATA frame and responded back with a DATA frame. It generated a `InterrogationNtf` with `responded` set to `true` to indicate that it received an interrogation and responded to it. This is because `ranging.respond = true`, as seen above. If `ranging.respond` was set to `false`, the agent would have simply generated the `InterrogationNtf` without responding. This allows another agent to study the intorrogation, and optionally send back payload data as part of the response, using the `RespondReq` message.
 
-We can ask node A for the synchronization information it has gathered:
+==== Synchronization
+
+We can ask node A for the synchronization information it has gathered from previous ranging exchanges:
 
 .Node A:
 [source]
 ----
-> ranging << new SyncInfoReq(to: host('B'))
-SyncInfoRsp:INFORM[to:31 offset:-256067128 validTill:1568557167512]
+> ranging[host('B')]
+« RANGING »
+
+[org.arl.unet.localization.RangingNodeParam]
+  address ⤇ 31
+  channel = 2
+  data = []
+  ipreamble = 0
+  isignal = []
+  lastSync ⤇ 1586070856974
+  lifetime = 0
+  maxRange = 3000.0
+  offset = -1523892589
+  rdelay = 1.95
+  rpreamble = 0
+  rsignal = []
+  sync ⤇ false
+  threshold = 0.3
 ----
 
-We see that it has stored the time offset to node B, along with a validity. However, you'll find that the validity has already expired, since the `lifetime` parameter was set to 0. If you ask for synchronization information on node B, you'll find that it does not have any:
+We see that it has stored the time offset to node B, along with the information on when the synchronization information was last updated. However, you'll find that the `sync` flag is `false`, since the `lifetime` parameter was set to 0, and hence the synchronization is considered expired. If you ask for synchronization information on node B, you'll find that it does not have any:
 
 .Node B:
 [source]
 ----
-> ranging << new SyncInfoReq(to: host('A'))
-REFUSE: Information unavailable
+> ranging[host('A')]
+« RANGING »
+
+[org.arl.unet.localization.RangingNodeParam]
+  address ⤇ 232
+  channel = 2
+  data = []
+  ipreamble = 0
+  isignal = []
+  lastSync ⤇ 0
+  lifetime = 0
+  maxRange = 3000.0
+  offset = 0
+  rdelay = 1.95
+  rpreamble = 0
+  rsignal = []
+  sync ⤇ false
+  threshold = 0.3
 ----
 
 Without synchronization information, OWTT ranging cannot be performed.
 
-==== Synchronization
+If we have low-drift clocks on all our nodes, we can set the `lifetime` parameter for all the links to a larger value. Let's do that on node A for link A-B. Also unsubscribe from `phy` to avoid too much clutter:
 
-If we have low-drift clocks on all our nodes, we can set the `lifetime` parameter of the `ranging` agent to a larger value. Let's do that on all nodes. Also unsubscribe from `phy` to avoid too much clutter, but ensure that you're subscribed to `ranging` on all 3 nodes (node A, node B and node C):
-
-.Nodes A, B and C:
+.Nodes A:
 [source]
 ----
-> ranging.lifetime = 3600
+> ranging[host('B')].lifetime = 3600
 3600
 > unsubscribe phy
-> subscribe ranging
 ----
 
-Now, initiate TWTT ranging to from node A to node B again:
+Now check the synchronization information for link A-B again:
 
 .Node A:
 [source]
 ----
-> ranging << new RangeReq(to: host('B'))
-AGREE
-ranging >> RangeNtf:INFORM[from:31 to:232 range:371.0 offset:-256067128]
+> ranging[host('B')]
+« RANGING »
+
+[org.arl.unet.localization.RangingNodeParam]
+  address ⤇ 31
+  channel = 2
+  data = []
+  ipreamble = 0
+  isignal = []
+  lastSync ⤇ 1586070856974
+  lifetime = 0
+  maxRange = 3000.0
+  offset = -1523892589
+  rdelay = 1.95
+  rpreamble = 0
+  rsignal = []
+  sync ⤇ true            //<1>
+  threshold = 0.3
 ----
-
-Not much of a difference here, but if you look at the shell for node B, you'll see a notification:
-
-.Node B:
-[source]
-----
-ranging >> RangeNtf:INFORM[from:232 to:31 range:371.0 offset:256067128]
-----
-
-The information in this `RangeNtf` is the same as the `RangeNtf` on node A, except that the `to` and `from` fields are exchanged, and the `offset` has the opposite sign. This makes sense, since the `RangeNtf` on node B is from node B's perspective.
-
-But why did node B receive this `RangeNtf`? If we did a TWTT from node A, node A transmitted a frame, node B responded, and node A computed the two-way travel time. How did node B get that information to generate the `RangeNtf`? Now that the `lifetime` is non-zero, node A transmits the range and time offset to node B to synchronize the nodes. We can verify this by asking node B for the synchronization information it has gleaned:
-
-.Node B:
-[source]
-----
-> ranging << new SyncInfoReq(to: host('A'))
-SyncInfoRsp:INFORM[to:232 offset:256067128 validTill:1568562001976]
-----
-
-In fact, if you look at the shell for node C, you'll see that it hears this information as well, but it does not have any synchronization information to either node A or B:
-
-.Node C:
-[source]
-----
-> ranging << new SyncInfoReq(to: host('A'))
-REFUSE: Information unavailable
-> ranging << new SyncInfoReq(to: host('B'))
-REFUSE: Information unavailable
-----
-
-Let's try TWTT ranging from node A to node C:
-
-.Node A:
-[source]
-----
-> ranging << new RangeReq(to: host('C'))
-AGREE
-ranging >> RangeNtf:INFORM[from:74 to:232 range:529.9 offset:630715082]
-----
-
-Now, if you check node C, you'll see that it has not only gotten the `RangeNtf`, but also has stored the synchronization information:
-
-.Node C:
-[source]
-----
-ranging >> RangeNtf:INFORM[from:232 to:74 range:529.9 offset:-630715082]
-> ranging << new SyncInfoReq(to: host('A'))
-SyncInfoRsp:INFORM[to:232 offset:-630715082 validTill:1568562266302]
-----
-
-Checking node B, we find that it has also heard the exchange between nodes A and C, and gotten a `RangeNtf` for it. More interestingly, it has synchronization information (time offset) for node C, although we did not ever do a TWTT exchange between nodes B and C! It has inferred the time offset to node C because it knew the time offset to node A, and overheard the time offset between node A and node C!
-
-.Node B:
-[source]
-----
-ranging >> RangeNtf:INFORM[from:74 to:232 range:529.9]
-> ranging << new SyncInfoReq(to: host('C'))
-SyncInfoRsp:INFORM[to:74 offset:886782210 validTill:1568562266192]
-----
-
-Based on two TWTT exchanges, node A knows time offset to nodes B and C, node B knows time offset to nodes A and C, node C knows time offet to node A. Now that we have the nodes somewhat synchronized, we are in a position to try out OWTT now.
+<1> We see that `sync` is now true, indicating that we have valid synchronization information on this link.
 
 ==== One-way travel time ranging
 
-Let's transmit a ranging beacon from node A:
+Now, let's transmit a ranging beacon from node B:
 
-.Node A
+.Node B
 [source]
 ----
 > ranging << new BeaconReq()
 AGREE
 ----
 
-On node B and C, we see `RangeNtf` from the OWTT ranging:
-
-.Node B
-[source]
-----
-ranging >> RangeNtf:INFORM[from:232 to:31 range:371.0]
-----
-
-.Node C
-[source]
-----
-ranging >> RangeNtf:INFORM[from:232 to:74 range:529.9]
-----
-
-TIP: Any timestamped frame transmission from node A will generate `RangeNtf` on nodes B and C. This can be used to piggyback data (e.g. 42) along with the beacon: `phy << new TxFrameReq(timestamped: true, data: [42])`. This will generate a `RxFrameNtf`
-on nodes B and C, if you subscribe to `phy`, in addition to the `RangeNtf` messages. This works with both CONTROL and DATA frames.
-
-We can also get node A to request node C to transmit a beacon:
+On node A, we see `RangeNtf` from the OWTT ranging:
 
 .Node A
 [source]
 ----
-> ranging << new RangeReq(to: host('C'), reqBeacon: true)
-AGREE
-ranging >> RangeNtf:INFORM[from:74 to:232 range:529.9]
+ranging >> RangeNtf:INFORM[from:232 to:31 range:371.08856 rxTime:1039174911]
 ----
 
-This yeilds a `RangeNtf` back on node A, giving range from node C to node A. But since node B hears the beacon, and has synchronization information for node C, it also produces a `RangeNtf` with the range from node C to node B:
+TIP: Any timestamped frame transmission from node B will generate `RangeNtf` on node A now. This can be used to piggyback data (e.g. 42) along with the beacon: `phy << new TxFrameReq(timestamped: true, data: [42])`. This will generate a `RxFrameNtf`
+on node A, if you subscribe to `phy`, in addition to the `RangeNtf` messages. This works with both CONTROL and DATA frames.
 
-.Node B
+==== Ranging to COTS transponders
+
+The ranging agent provides a lot of flexibility for configuration. To see the power of this, let's consider a scenario in which we want to use a UnetStack-based modem to measure range to a COTS transponder that is configured to respond to a 22 kHz 2 ms long pulse with a 30 kHz 2 ms pulse, after a delay of 30 ms.
+
+First, we welcome the COTS transponder into our network as a Unet _guest_ node by assigning it a name and address. Let's call it node T with address `host('T') = 152`. On our modem node, we set up details of the link to the transponder:
+
 [source]
 ----
-ranging >> RangeNtf:INFORM[from:74 to:31 range:615.9]
+> T = host('T')
+152
+> ranging[T].isignal = cw(22.kHz, 2.ms);
+> ranging[T].rsignal = cw(30.kHz, 2.ms);
+> ranging[T].rdelay = 30.ms;
+> ranging
+« RANGING »
+
+[org.arl.unet.localization.RangingNodeParam]
+  address ⤇ 152
+  channel = 2
+  data = []
+  ipreamble = 0
+  isignal = [0.0, -0.0, 0.8660254, -0.5, 0.5 ... 0.5, 0.8660254, 0.8660254, 0.5]
+  lastSync ⤇ 0
+  lifetime = 0
+  maxRange = 3000.0
+  offset = 0
+  rdelay = 0.03
+  rpreamble = 0
+  rsignal = [0.0, 0.0, 6.123234E-17, 1.0, -1 ... 6022E-15, -3.1847007E-15, -1.0]
+  sync ⤇ false
+  threshold = 0.3
 ----
 
-Once you have network time synchronization, you can have a lot of fun with OWTT ranging and beacons!
+Now, we are all setup. To range to the transponder, all we need to do is:
 
-==== Expired synchronization information
+[source]
+----
+> range T
+235.7
+----
 
-What happens once synchronization information expires? Does the `ranging` agent no longer get the OWTT `RangeNtf` messages?
+Assuming you have the UnetStack-based modem in the water, along with the COTS transponder, you'll get a range estimate back after just a short delay.
 
-The `RangeNtf` messages are still produced, but the message attribute `valid` is set to `false`. This attribute can be used by client agents to initiate a TWTT exchange to renew synchronization information, if necessary. So, if you work with OWTT ranging, remember to check the `valid` attribute of `RangeNtf` messages that you receive, to ensure that they are based on unexpired synchronization information and therefore accurate.
+TIP: If you don't have a UnetStack-based modem, you can still try out the above example on Unet audio, and hear the interrogation pulse. However, because the default operating band of Unet audio SDOAM is 6-18 kHz, you'll need to pick interrogation and response frequencies in this band. Also, you may want to make the interrogation pulse longer (say 200 ms), so you can hear it when you try ranging with this in air.
+
+We have hardly scratched the surface of what the RANGING service and the ranging agent is capable of. For example, with multiple nodes connected over wormholes (<<Wormholes>>) and ranging to a mobile node, you can easily deploy a simple long-baseline (LBL) navigation system!
