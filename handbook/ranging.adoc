@@ -248,7 +248,7 @@ Now, let's transmit a ranging beacon from node B:
 .Node B
 [source]
 ----
-> ranging << new BeaconReq()
+> beacon      // equivalent to: ranging << new BeaconReq()
 AGREE
 ----
 
@@ -308,4 +308,6 @@ Assuming you have the UnetStack-based modem in the water, along with the COTS tr
 
 TIP: If you don't have a UnetStack-based modem, you can still try out the above example on Unet audio, and hear the interrogation pulse. However, because the default operating band of Unet audio SDOAM is 6-18 kHz, you'll need to pick interrogation and response frequencies in this band. Also, you may want to make the interrogation pulse longer (say 200 ms), so you can hear it when you try ranging with this in air.
 
-We have hardly scratched the surface of what the RANGING service and the ranging agent is capable of. For example, with multiple nodes connected over wormholes (<<Wormholes>>) and ranging to a mobile node, you can easily deploy a simple long-baseline (LBL) navigation system!
+We have hardly scratched the surface of what the RANGING service and the ranging agent is capable of. There's a lot you can do with it!
+
+TIP: For an example of how to build a simple long-baseline (LBL) navigation system with multiple nodes connected over wormholes amd ranging to a mobile node, see  <<Wormholes>>.

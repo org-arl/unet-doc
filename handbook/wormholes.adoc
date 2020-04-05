@@ -1,3 +1,195 @@
 == Wormholes
 
-TODO
+Portals (<<Portals>>) provide a way to transparently tunnel data through a Unet. Wormholes, on the other hand, provide a way to easily communicate between agents in different Unet nodes.
+
+The fjåge agent framework forms the inter-agent communication backbone of a Unet node. All agents in one Unet node live in one fjåge _universe_, and can seamlessly communicate with each other. However, agents in different nodes live in different fjåge universes, and typically only communicate with peer agents on other nodes using protocols implemented over Unet links. _Wormholes_ connect multiple fjåge universes over Unet links, allowing all agents in multiple nodes to transparently talk to each other!
+
+[[fig_wormhole]]
+.Wormholes transparently connect agents across Unet nodes.
+image::wormhole.png[]
+
+Why would we want to do this? The usefulness of this is best understood through an application that we explore next.
+
+=== Diver tracking application ===
+
+Imagine a network with gateway node A (a standalone buoy), surface node B (deployed from a boat), and an underwater node C (diver). Nodes A and B have underwater acoustic modems and in-air WiFi connectivity. Node C is fully submerged, and only has acoustic connectivity to nodes A and B. An diver tracking script on node B wishes to track the location of diver node C. This requires the script on node B to make range measurements btween node B and node C (easy to do!), but also between node A and node C (not so easy!). The traditional approach to this problem would be to deploy a helper agent on node A to make the range measurement, and have the script communicate with the agent using a custom protocol over a UDP link over WiFi. Another approach would be to enable remote access (<<Remote access>>) on node A, and use `rsh` to execute the ranging commands on node A, and send back the results using `tell`. While this would work, it would be quite fragile. Wormholes provide a much simpler and robust way to do this.
+
+We'll use the Netiquette 3-node network to demonstrate how to do this:
+
+[source, shell]
+----
+$ bin/unet samples/netq-network.groovy
+
+Netiquette 3-node network
+-------------------------
+
+Node A: tcp://localhost:1101, http://localhost:8081/
+Node B: tcp://localhost:1102, http://localhost:8082/
+Node C: tcp://localhost:1103, http://localhost:8083/
+----
+
+Nodes A and B are assumed to be connected over an in-air WiFi network, and so we can enable `UdpLink` on both nodes and establish connectivity over it:
+
+.Node A:
+[source]
+----
+> container.add 'udplink', new UdpLink();
+> addroute host('B'), host('B'), udplink
+OK
+----
+
+.Node B:
+[source]
+----
+> container.add 'udplink', new UdpLink();
+> addroute host('A'), host('A'), udplink
+OK
+> ping host('A')
+PING 232
+Response from 232: seq=0 rthops=2 time=3 ms
+Response from 232: seq=1 rthops=2 time=4 ms
+Response from 232: seq=2 rthops=2 time=3 ms
+3 packets transmitted, 3 packets received, 0% packet loss
+----
+
+Next, we enable the `Wormhole` agent on both nodes, and set it up to use the `udplink` for connectivity:
+
+.Nodes A and B:
+[source]
+----
+> container.add 'wh', new org.arl.unet.wormhole.Wormhole();
+> wh.dsp = udplink;
+> wh
+« Wormhole »
+
+[org.arl.unet.wormhole.WormholeParam]
+  compression = true
+  dsp = udplink
+  publish = []
+  publishTo = 0
+----
+
+That's it for the setup! We're now ready to prototype out our application over the wormhole.
+
+The functionality we needed was to make range measurements between nodes B and C, and nodes A and C, from a script on node B. Let's start off measuring range to node C from node B and call it `r1`:
+
+.Node B:
+[source]
+----
+> ranging << new RangeReq(to: host('C'))
+AGREE
+ranging >> RangeNtf:INFORM[from:31 to:74 range:616.0877 offset:-1751533450 rxTime:4096892937]
+> r1 = ntf.range
+616.0877
+----
+
+In a script, you'd probably want to use `ntf = receive(RangeNtf, 5000)` to access the `RangeNtf` that comes back, but we'll stick to doing this just in the shell for the demonstration. Now comes the _magic_. From the shell on node B, we want to ask the ranging agent on node A (address 232) to make a range measurement to node C for us:
+
+.Node B:
+[source]
+----
+> agent('ranging@232') << new RangeReq(to: host('C'))
+AGREE
+ranging@232 >> RangeNtf:INFORM[from:232 to:74 range:530.0323 offset:636287273 rxTime:1806486132]
+> r2 = ntf.range
+530.0323
+----
+
+TIP: We are able to communicate with agents on other nodes connected through the wormhole by simply adding a suffix `@999` where `999` is the node address. So `ranging@232` refers to the agent `ranging` on node with address `232`.
+
+Now that we have `r1` and `r2`, we can use it to compute the location of the diver in our script.
+
+=== Publishing and subscribing over wormholes ===
+
+In the diver tracking application above, we performed two-way travel-time (TWTT) ranging from nodes A and B to node C. While this works well, each diver location measurement required transmission of 4 frames. With one-way travel-time (OWTT) ranging (see <<Ranging and synchronization>>), we could make each measurement in just one transmission from diver node C, as long as we had accurate clocks at all nodes.
+
+First, let us enable OWTT ranging by synchronizing clocks between nodes A and C, and nodes B and C (see <<Synchronization>> for details):
+
+.Node A:
+[source]
+----
+> ranging[host('C')].lifetime = 3600
+3600
+> range host('C')
+530.0323
+> ranging[host('C')].sync    // verify that the sync was achieved
+true
+> subscribe ranging
+----
+
+.Node B:
+[source]
+----
+> ranging[host('C')].lifetime = 3600
+3600
+> range host('C')
+616.0877
+> ranging[host('C')].sync    // verify that the sync was achieved
+true
+> subscribe ranging
+----
+
+OWTT is now enabled. To send out a beacon on node C, we use the `beacon` command (or equivalently send a `BeaconReq` message):
+
+.Node C:
+[source]
+----
+> beacon
+AGREE
+----
+
+On nodes A and B, you'll see the `RangeNtf` notifications:
+
+.Node A:
+[source]
+----
+ranging >> RangeNtf:INFORM[from:232 to:74 range:530.0323 rxTime:3059430132]
+----
+
+.Node B:
+[source]
+----
+ranging >> RangeNtf:INFORM[from:31 to:74 range:616.0877 rxTime:5447306937]
+----
+
+Diver node C can now send out a beacon transmission regularly, and ranging agents on node A and node B will publish `RangeNtf` notifications on their respective agent topics. On node B, we would then want to subscribe to the ranging agent topics on both nodes. We are already subscribed to node B's ranging agent, and connected over the wormhole (established in the previous section) to node A. Since we can refer to the ranging agent on node A as `agent('ranging@232')`, we should be able to subscribe to it:
+
+.Node B:
+[source]
+----
+> subscribe agent('ranging@232')
+----
+
+Now, try sending a `beacon` again from node C, and see what we get at node B:
+
+.Node B:
+[source]
+----
+ranging >> RangeNtf:INFORM[from:31 to:74 range:616.0877 rxTime:6152654937]
+----
+
+We got the notification from node B's agent, but nothing from node A! 😕
+
+By default, wormholes do not publish messages on topics. However, it is easy to enable certain topics to be published. To enable this, we set the `wh.publish` parameter on node A:
+
+.Node B:
+[source]
+----
+> wh.publish = [topic(ranging)]
+[ranging__ntf]
+----
+
+TIP: We can restrict the publication of the topic to only certain peer nodes, if we wish, by setting the `wh.publishTo` parameter to the address of the target node. By default, it is set to 0 (broadcast).
+
+Now, try sending a `beacon` again from node C, and see what we get at node B:
+
+.Node B:
+[source]
+----
+ranging@232 >> RangeNtf:INFORM[from:232 to:74 range:530.0323 rxTime:4129955132]
+ranging >> RangeNtf:INFORM[from:31 to:74 range:616.0877 rxTime:6517831937]
+----
+
+Cool! We got both ranges on node B now.  🙂
+
+We can now write our application script to call `receive(RangeNtf)` to get the ranges, and computes the position of the diver everytime the diver node transmits a beacon.
