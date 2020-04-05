@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
     </span>
     <br/>
     <span id="revnumber">
-     version 3.0.3
+     version 3.1.0
     </span>
    </div>
    <div class="toc2" id="toc">
@@ -540,8 +540,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
         </a>
        </li>
        <li>
+        <a href="unet-handbook_wormholes.html">
+         11. Wormholes
+        </a>
+       </li>
+       <li>
         <a href="unet-handbook_at_script_engine.html">
-         11. AT script engine
+         12. AT script engine
         </a>
        </li>
       </ul>
@@ -555,77 +560,77 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       <ul class="sectlevel1">
        <li>
         <a href="unet-handbook_services_and_capabilities.html">
-         12. Services and capabilities
+         13. Services and capabilities
         </a>
        </li>
        <li>
         <a href="unet-handbook_datagram_service.html">
-         13. Datagram service
+         14. Datagram service
         </a>
        </li>
        <li>
         <a href="unet-handbook_physical_service.html">
-         14. Physical service
+         15. Physical service
         </a>
        </li>
        <li>
         <a href="unet-handbook_baseband_service.html">
-         15. Baseband service
+         16. Baseband service
         </a>
        </li>
        <li>
         <a href="unet-handbook_ranging_and_synchronization.html">
-         16. Ranging and synchronization
+         17. Ranging and synchronization
         </a>
        </li>
        <li>
         <a href="unet-handbook_node_information.html">
-         17. Node information
+         18. Node information
         </a>
        </li>
        <li>
         <a href="unet-handbook_address_resolution.html">
-         18. Address resolution
+         19. Address resolution
         </a>
        </li>
        <li>
         <a href="unet-handbook_medium_access_control.html">
-         19. Medium access control
+         20. Medium access control
         </a>
        </li>
        <li>
         <a href="unet-handbook_single_hop_links.html">
-         20. Single-hop links
+         21. Single-hop links
         </a>
        </li>
        <li>
         <a href="unet-handbook_routing_and_route_maintenance.html">
-         21. Routing and route maintenance
+         22. Routing and route maintenance
         </a>
        </li>
        <li>
         <a href="unet-handbook_transport_service.html">
-         22. Transport service
+         23. Transport service
         </a>
        </li>
        <li>
         <a href="unet-handbook_remote_access.html">
-         23. Remote access
+         24. Remote access
         </a>
        </li>
        <li>
         <a href="unet-handbook_state_persistence.html">
-         24. State persistence
+         25. State persistence
         </a>
        </li>
        <li>
         <a href="unet-handbook_scheduler.html">
-         25. Scheduler
+         26. Scheduler
         </a>
        </li>
        <li>
         <a href="unet-handbook_shell.html">
-         26. Shell
+         27. Shell
         </a>
        </li>
       </ul>
@@ -639,12 +644,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       <ul class="sectlevel1">
        <li>
         <a href="unet-handbook_developing_your_own_agents.html">
-         27. Developing your own agents
+         28. Developing your own agents
         </a>
        </li>
        <li>
         <a href="unet-handbook_implementing_network_protocols.html">
-         28. Implementing network protocols
+         29. Implementing network protocols
         </a>
        </li>
       </ul>
@@ -658,17 +663,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       <ul class="sectlevel1">
        <li>
         <a href="unet-handbook_writing_simulation_scripts.html">
-         29. Writing simulation scripts
+         30. Writing simulation scripts
         </a>
        </li>
        <li>
         <a href="unet-handbook_discrete_event_simulation.html">
-         30. Discrete event simulation
+         31. Discrete event simulation
         </a>
        </li>
        <li>
         <a href="unet-handbook_modems_and_channel_models.html">
-         31. Modems and channel models
+         32. Modems and channel models
         </a>
        </li>
       </ul>
@@ -1273,6 +1278,14 @@ transport &lt;&lt; new DatagramReq(to: 2, data: [1,2,3], reliability: true)
           — maximum data transfer size
          </p>
         </li>
+        <li>
+         <p>
+          <code>
+           transport.RTU
+          </code>
+          — recommended data transfer size
+         </p>
+        </li>
        </ul>
       </div>
       <div class="paragraph">
@@ -1631,7 +1644,7 @@ node.address = 5          // change node address</pre>
           <code>
            node.origin
           </code>
-          — origin (lat,long,depth)
+          — origin [lat,long]
          </p>
         </li>
         <li>
@@ -1639,7 +1652,7 @@ node.address = 5          // change node address</pre>
           <code>
            node.location
           </code>
-          — Location of the node in [x,y,z] meters
+          — Location of the node in [x,y,z] meters or [lat,long,z]
          </p>
         </li>
         <li>
@@ -1796,132 +1809,8 @@ addsleep                         // sleep immediately forever</pre>
       </div>
      </div>
      <div class="sect2">
-      <h3 id="_ranging_commands">
-       C.6. Ranging commands
-      </h3>
-      <hr/>
-      <div class="paragraph">
-       <p>
-        <strong>
-         <code>
-          ranging
-         </code>
-         — access to ranging service
-        </strong>
-       </p>
-      </div>
-      <div class="paragraph">
-       <p>
-        Examples:
-       </p>
-      </div>
-      <div class="literalblock">
-       <div class="content">
-        <pre>ranging                            // display ranging parameters
-ranging &lt;&lt; new RangeReq(to: 27)    // get range to node 27
-ranging &lt;&lt; new BeaconReq()         // transmit a beacon out
-ranging.lifetime = 30              // change sync validity to 30 seconds</pre>
-       </div>
-      </div>
-      <div class="paragraph">
-       <p>
-        <strong>
-         Parameters:
-        </strong>
-       </p>
-      </div>
-      <div class="ulist">
-       <ul>
-        <li>
-         <p>
-          <code>
-           ranging.lifetime
-          </code>
-          — lifetime for sync info in seconds
-         </p>
-        </li>
-        <li>
-         <p>
-          <code>
-           ranging.minRange
-          </code>
-          — minimum valid range
-         </p>
-        </li>
-        <li>
-         <p>
-          <code>
-           ranging.maxRange
-          </code>
-          — maximum valid range
-         </p>
-        </li>
-        <li>
-         <p>
-          <code>
-           ranging.maxBadRangeCnt
-          </code>
-          — number of bad ranges before discarding sync info
-         </p>
-        </li>
-       </ul>
-      </div>
-      <div class="paragraph">
-       <p>
-        <strong>
-         Commands:
-        </strong>
-       </p>
-      </div>
-      <div class="ulist">
-       <ul>
-        <li>
-         <p>
-          <code>
-           range
-          </code>
-          — get ranging information from a node
-         </p>
-        </li>
-       </ul>
-      </div>
-      <div class="paragraph">
-       <p>
-        Examples:
-       </p>
-      </div>
-      <div class="literalblock">
-       <div class="content">
-        <pre>range 21                 // get range to node 21
-range 22, 15000          // get range to node 22 with a 15 second timeout</pre>
-       </div>
-      </div>
-      <div class="ulist">
-       <ul>
-        <li>
-         <p>
-          <code>
-           beacon
-          </code>
-          — send a timestamped beacon
-         </p>
-        </li>
-       </ul>
-      </div>
-      <div class="paragraph">
-       <p>
-        Examples:
-       </p>
-      </div>
-      <div class="literalblock">
-       <div class="content">
-        <pre>beacon                   // broadcast a timestamped beacon</pre>
-       </div>
-      </div>
-     </div>
-     <div class="sect2">
       <h3 id="_physical_commands">
-       C.7. Physical commands
+       C.6. Physical commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -1957,6 +1846,14 @@ phy.rxEnable = false          // disable reception of frames</pre>
       </div>
       <div class="ulist">
        <ul>
+        <li>
+         <p>
+          <code>
+           pclr
+          </code>
+          — clear PHY queues
+         </p>
+        </li>
         <li>
          <p>
           <code>
@@ -2002,6 +1899,14 @@ parameters type "help modem".
            phy.MTU
           </code>
           — maximum transmission unit (MTU) in bytes
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy.RTU
+          </code>
+          — recommended data transfer size in bytes
          </p>
         </li>
         <li>
@@ -2097,6 +2002,14 @@ parameters type "help modem".
         <li>
          <p>
           <code>
+           phy[].RTU
+          </code>
+          — recommended data transfer size in bytes
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
            phy[].dataRate
           </code>
           — effective frame data rate (bps)
@@ -2154,9 +2067,9 @@ parameters type "help modem".
       </div>
       <div class="paragraph">
        <p>
-        A value of 0 indicates no error correction. Other values are
-settable from the phy[].fecList in order of increasing robustness,
-but lower data rates.
+        A value of 0 indicates no error correction. Other values represent various FEC codes
+from the phy[].fecList. For example, a value of 1 means the first FEC code from the
+phy[].fecList, and a value of 2 means the second FEC code from that list.
        </p>
       </div>
       <div class="ulist">
@@ -2173,14 +2086,25 @@ but lower data rates.
       </div>
       <div class="paragraph">
        <p>
-        List of available forward error correction code names (in order of
-increasing robustness).
+        LDPC1 - 1-rate LDPC FEC code
+LDPC2 - 1/2-rate LDPC FEC code
+LDPC3 - 1/3-rate LDPC FEC code
+LDPC4 - 1/4-rate LDPC FEC code
+LDPC5 - 1/5-rate LDPC FEC code
+LDPC6 - 1/6-rate LDPC FEC code
+ICONV2 - 1/2-rate interleaved convolution code
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        The 1-rate LDPC code is only useful for OFDM, where unused bits in the last OFDM
+block are used to provide FEC redundancy without loss in data rate.
        </p>
       </div>
      </div>
      <div class="sect2">
       <h3 id="_unet_commands">
-       C.8. Unet commands
+       C.7. Unet commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -2441,7 +2365,7 @@ file('a.groovy').text       // show contents of file a.groovy</pre>
      </div>
      <div class="sect2">
       <h3 id="_mac_commands">
-       C.9. Mac commands
+       C.8. Mac commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -2519,7 +2443,7 @@ mac &lt;&lt; new ReservationReq(to: 27, duration: 1) // channel reservation requ
      </div>
      <div class="sect2">
       <h3 id="_arp_commands">
-       C.10. Arp commands
+       C.9. Arp commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -2560,6 +2484,300 @@ mac &lt;&lt; new ReservationReq(to: 27, duration: 1) // channel reservation requ
        <div class="content">
         <pre>host 'redstar'         // get address for host named "redstar"
 rs = host('redstar')   // save address of "redstar" in variable "rs"</pre>
+       </div>
+      </div>
+     </div>
+     <div class="sect2">
+      <h3 id="_ranging_commands">
+       C.10. Ranging commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          ranging
+         </code>
+         — access to ranging service
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>ranging                            // show ranging parameters
+ranging[2]                         // show parameters for ranging to node 2
+ranging &lt;&lt; new RangeReq(to: 27)    // get range to node 27
+ranging &lt;&lt; new BeaconReq()         // transmit a beacon out</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           ranging.phy
+          </code>
+          — physical agent for ranging
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging.mac
+          </code>
+          — MAC agent or null to disable MAC
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging.maxRange
+          </code>
+          — default maximum range to peer node (m)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging.channel
+          </code>
+          — default channel for interrogation (CONTROL/DATA)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging.ipreamble
+          </code>
+          — default interrogation preamble (0 = none)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging.rpreamble
+          </code>
+          — default response preamble (0 = none)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging.rsignal
+          </code>
+          — default baseband response signal ([] = none)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging.rdelay
+          </code>
+          — default response delay (seconds)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging.respond
+          </code>
+          — automatically respond to an interrogation
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging.threshold
+          </code>
+          — threshold for signal detection (0 to 1)
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Node-specific parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           ranging[].address
+          </code>
+          — peer node address
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging[].channel
+          </code>
+          — channel for interrogation (CONTROL/DATA)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging[].ipreamble
+          </code>
+          — interrogation preamble (0 = none)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging[].isignal
+          </code>
+          — baseband interrogation signal ([] = none)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging[].rpreamble
+          </code>
+          — response preamble (0 = none)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging[].rsignal
+          </code>
+          — baseband response signal ([] = none)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging[].rdelay
+          </code>
+          — response delay (seconds)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging[].sync
+          </code>
+          — PHY clock synchronization valid
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging[].lastSync
+          </code>
+          — time of last synchronization (epoch milliseconds)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging[].offset
+          </code>
+          — PHY clock offset to peer node (microseconds)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging[].lifetime
+          </code>
+          — synchronization validity lifetime (seconds)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging[].maxRange
+          </code>
+          — maximum range to peer node (m)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging[].data
+          </code>
+          — payload data to piggyback on interrogation/response frame
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           ranging[].threshold
+          </code>
+          — threshold for signal detection (0 to 1)
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Commands:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           range
+          </code>
+          — get ranging information from a node
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>range 21                 // get range to node 21</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           beacon
+          </code>
+          — send a timestamped beacon
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>beacon                   // broadcast a timestamped beacon</pre>
        </div>
       </div>
      </div>
@@ -2755,7 +2973,8 @@ ack             // check current setting for acknowldegements</pre>
         <pre>routes              // display routing table
 routes 2            // display routes to node 2
 addroute 27, 29     // add a route to node 27 via node 29
-delroute 2          // delete route number 2
+delroute 'as7623'   // delete route with UUID as7623
+editroute 'as7623', metric: 5.0 // edit route to change metric
 delroutesto 27      // delete all routes to node 27
 delroutes           // delete all routes
 trace 27            // trace route to node 27
@@ -2777,6 +2996,14 @@ ping 27             // check if node 27 is accessible</pre>
            router.MTU
           </code>
           — maximum data transfer size
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           router.RTU
+          </code>
+          — recommended data transfer size
          </p>
         </li>
         <li>
@@ -2847,7 +3074,37 @@ routes 2            // display routes to node 2</pre>
       <div class="literalblock">
        <div class="content">
         <pre>addroute 27, 29                // add a route to node 27 via node 29
-addroute 27, 29, link2, false  // add route on link2 with no reliability</pre>
+addroute 27, 29, link2, false  // add route on link2 with no reliability
+addroute to: 27, metric: 3.2   // add route to 27 with metric 3.2</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           editroute
+          </code>
+          — edit a route in the routing table
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        The route UUID can be obtained by displaying the routing table
+using the 'routes' command.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>editroute 'as731', metric: 2.1 // edit route to change metric
+editroute 'as731', nextHop: 21 // edit route to change next hop</pre>
        </div>
       </div>
       <div class="ulist">
@@ -2864,7 +3121,7 @@ addroute 27, 29, link2, false  // add route on link2 with no reliability</pre>
       </div>
       <div class="paragraph">
        <p>
-        The route number can be obtained by displaying the routing table
+        The route UUID can be obtained by displaying the routing table
 using the 'routes' command.
        </p>
       </div>
@@ -2875,7 +3132,7 @@ using the 'routes' command.
       </div>
       <div class="literalblock">
        <div class="content">
-        <pre>delroute 2          // delete route number 2</pre>
+        <pre>delroute 'as7623'   // delete route with UUID as7623</pre>
        </div>
       </div>
       <div class="ulist">
@@ -3159,7 +3416,7 @@ bbmon.enable = false     // disable recording of baseband signals</pre>
        <p>
         <strong>
          <code>
-          state
+          statemanager
          </code>
          — access to state manager service
         </strong>
@@ -3318,6 +3575,14 @@ uwlink &lt;&lt; new DatagramReq(to: 2, data: [1,2,3], reliability: true)
            uwlink.MTU
           </code>
           — maximum data transfer size
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.RTU
+          </code>
+          — recommended data transfer size
          </p>
         </li>
         <li>
@@ -3511,6 +3776,14 @@ uwlink &lt;&lt; new DatagramReq(to: 2, data: [1,2,3], reliability: true)
            uwlink.MTU
           </code>
           — maximum data transfer size
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           uwlink.RTU
+          </code>
+          — recommended data transfer size
          </p>
         </li>
         <li>
@@ -4355,9 +4628,9 @@ BER is computed for the frame.
   </div>
   <div id="footer">
    <div id="footer-text">
-    Version 3.0.3
+    Version 3.1.0
     <br/>
-    Last updated 2020-02-07 16:49:19 +0800
+    Last updated 2020-04-05 19:06:39 +0800
    </div>
    <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

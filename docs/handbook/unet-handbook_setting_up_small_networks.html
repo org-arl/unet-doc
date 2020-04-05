@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
     </span>
     <br/>
     <span id="revnumber">
-     version 3.0.3
+     version 3.1.0
     </span>
    </div>
    <div class="toc2" id="toc">
@@ -540,8 +540,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
         </a>
        </li>
        <li>
+        <a href="unet-handbook_wormholes.html">
+         11. Wormholes
+        </a>
+       </li>
+       <li>
         <a href="unet-handbook_at_script_engine.html">
-         11. AT script engine
+         12. AT script engine
         </a>
        </li>
       </ul>
@@ -555,77 +560,77 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       <ul class="sectlevel1">
        <li>
         <a href="unet-handbook_services_and_capabilities.html">
-         12. Services and capabilities
+         13. Services and capabilities
         </a>
        </li>
        <li>
         <a href="unet-handbook_datagram_service.html">
-         13. Datagram service
+         14. Datagram service
         </a>
        </li>
        <li>
         <a href="unet-handbook_physical_service.html">
-         14. Physical service
+         15. Physical service
         </a>
        </li>
        <li>
         <a href="unet-handbook_baseband_service.html">
-         15. Baseband service
+         16. Baseband service
         </a>
        </li>
        <li>
         <a href="unet-handbook_ranging_and_synchronization.html">
-         16. Ranging and synchronization
+         17. Ranging and synchronization
         </a>
        </li>
        <li>
         <a href="unet-handbook_node_information.html">
-         17. Node information
+         18. Node information
         </a>
        </li>
        <li>
         <a href="unet-handbook_address_resolution.html">
-         18. Address resolution
+         19. Address resolution
         </a>
        </li>
        <li>
         <a href="unet-handbook_medium_access_control.html">
-         19. Medium access control
+         20. Medium access control
         </a>
        </li>
        <li>
         <a href="unet-handbook_single_hop_links.html">
-         20. Single-hop links
+         21. Single-hop links
         </a>
        </li>
        <li>
         <a href="unet-handbook_routing_and_route_maintenance.html">
-         21. Routing and route maintenance
+         22. Routing and route maintenance
         </a>
        </li>
        <li>
         <a href="unet-handbook_transport_service.html">
-         22. Transport service
+         23. Transport service
         </a>
        </li>
        <li>
         <a href="unet-handbook_remote_access.html">
-         23. Remote access
+         24. Remote access
         </a>
        </li>
        <li>
         <a href="unet-handbook_state_persistence.html">
-         24. State persistence
+         25. State persistence
         </a>
        </li>
        <li>
         <a href="unet-handbook_scheduler.html">
-         25. Scheduler
+         26. Scheduler
         </a>
        </li>
        <li>
         <a href="unet-handbook_shell.html">
-         26. Shell
+         27. Shell
         </a>
        </li>
       </ul>
@@ -639,12 +644,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       <ul class="sectlevel1">
        <li>
         <a href="unet-handbook_developing_your_own_agents.html">
-         27. Developing your own agents
+         28. Developing your own agents
         </a>
        </li>
        <li>
         <a href="unet-handbook_implementing_network_protocols.html">
-         28. Implementing network protocols
+         29. Implementing network protocols
         </a>
        </li>
       </ul>
@@ -658,17 +663,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       <ul class="sectlevel1">
        <li>
         <a href="unet-handbook_writing_simulation_scripts.html">
-         29. Writing simulation scripts
+         30. Writing simulation scripts
         </a>
        </li>
        <li>
         <a href="unet-handbook_discrete_event_simulation.html">
-         30. Discrete event simulation
+         31. Discrete event simulation
         </a>
        </li>
        <li>
         <a href="unet-handbook_modems_and_channel_models.html">
-         31. Modems and channel models
+         32. Modems and channel models
         </a>
        </li>
       </ul>
@@ -792,7 +797,9 @@ Node C: tcp://localhost:1103, http://localhost:8083/</code></pre>
        </div>
        <div class="content">
         <pre class="rouge highlight"><code data-lang="unet">&gt; node
-&lt;&lt;&lt; NodeInfo &gt;&gt;&gt;
+« Node information »
+
+Manages and maintains node information and attributes.
 
 [org.arl.unet.nodeinfo.NodeInfoParam]
   address = 232
@@ -811,7 +818,9 @@ Node C: tcp://localhost:1103, http://localhost:8083/</code></pre>
        </div>
        <div class="content">
         <pre class="rouge highlight"><code data-lang="unet">&gt; node
-&lt;&lt;&lt; NodeInfo &gt;&gt;&gt;
+« Node information »
+
+Manages and maintains node information and attributes.
 
 [org.arl.unet.nodeinfo.NodeInfoParam]
   address = 31
@@ -830,7 +839,9 @@ Node C: tcp://localhost:1103, http://localhost:8083/</code></pre>
        </div>
        <div class="content">
         <pre class="rouge highlight"><code data-lang="unet">&gt; node
-&lt;&lt;&lt; NodeInfo &gt;&gt;&gt;
+« Node information »
+
+Manages and maintains node information and attributes.
 
 [org.arl.unet.nodeinfo.NodeInfoParam]
   address = 74
@@ -994,9 +1005,9 @@ Response from 74: seq=2 rthops=2 time=2742 ms
         <pre class="rouge highlight"><code data-lang="unet">&gt; range host('A')
 0.0
 &gt; range host('B')
-370.98
+371.08856
 &gt; range host('C')
-529.87</code></pre>
+530.0323</code></pre>
        </div>
       </div>
       <div class="listingblock">
@@ -1007,11 +1018,11 @@ Response from 74: seq=2 rthops=2 time=2742 ms
        </div>
        <div class="content">
         <pre class="rouge highlight"><code data-lang="unet">&gt; range host('A')
-370.98
+371.08856
 &gt; range host('B')
 0.0
 &gt; range host('C')
-615.9</code></pre>
+616.0877</code></pre>
        </div>
       </div>
      </div>
@@ -1081,15 +1092,17 @@ AGREE</code></pre>
        </div>
        <div class="content">
         <pre class="rouge highlight"><code data-lang="unet">&gt; remote
-&lt;&lt;&lt; RemoteControl &gt;&gt;&gt;
+« Remote control »
+
+Text messaging and remote command execution service.
 
 [org.arl.unet.remote.RemoteControlParam]
-  cwd = /Users/mandar/Projects/unet/scripts
+  cwd = unet-3.1.0/scripts
   dsp = transport
   enable = false
+  groovy = true
   reliability = true
   shell = websh
-  groovy = true
 
 &gt; remote.enable = true
 true</code></pre>
@@ -1312,7 +1325,7 @@ AGREE
 &gt; rsh B, '?ls'
 AGREE
 [31]: abc.txt [4 bytes]
-README.md [96 bytes]
+README.md [759 bytes]
 &gt; rsh B, '?1+2'
 AGREE
 [31]: 3
@@ -1321,7 +1334,7 @@ AGREE
 [31]: You are 232, I am 31
 &gt; rsh B, '?range '+host('C')
 AGREE
-[31]: 615.9</code></pre>
+[31]: 616.0877</code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -1557,7 +1570,7 @@ remote &gt;&gt; RemoteSuccessNtf:INFORM[RemoteExecReq:REQUEST[to:31 command:plvl
        </div>
        <div class="content">
         <pre class="rouge highlight"><code data-lang="unet">&gt; distance(node.location, [121.0, 137.0, -10.0])
-371.09</code></pre>
+371.0889</code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -1577,10 +1590,10 @@ remote &gt;&gt; RemoteSuccessNtf:INFORM[RemoteExecReq:REQUEST[to:31 command:plvl
         </code>
        </div>
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="unet">&gt; gps = new org.arl.unet.utils.GpsLocalFrame(node.origin);   // set origin GPS coordinates
-&gt; gps.toGps(node.location[0..1])                             // local to GPS
-[1.217238981, 103.8520872]                                   // GPS coordinates of node A
-&gt; gps.toLocal(1.21723898, 103.8520872)                       // GPS to local
+        <pre class="rouge highlight"><code data-lang="unet">&gt; gps = new org.arl.unet.utils.GpsLocalFrame(node.origin);   // set origin GPS
+&gt; gps.toGps(node.location[0..1])           // local to GPS
+[1.217239, 103.852087]                     // GPS coordinates of node A
+&gt; gps.toLocal(1.21723898, 103.8520872)     // GPS to local
 [120.9994, 136.9999]
 &gt; node.location
 [121.0, 137.0, -10.0]</code></pre>
@@ -1614,9 +1627,9 @@ remote &gt;&gt; RemoteSuccessNtf:INFORM[RemoteExecReq:REQUEST[to:31 command:plvl
   </div>
   <div id="footer">
    <div id="footer-text">
-    Version 3.0.3
+    Version 3.1.0
     <br/>
-    Last updated 2020-02-07 16:49:19 +0800
+    Last updated 2020-04-05 19:06:39 +0800
    </div>
    <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

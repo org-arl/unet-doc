@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
     </span>
     <br/>
     <span id="revnumber">
-     version 3.0.3
+     version 3.1.0
     </span>
    </div>
    <div class="toc2" id="toc">
@@ -540,8 +540,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
         </a>
        </li>
        <li>
+        <a href="unet-handbook_wormholes.html">
+         11. Wormholes
+        </a>
+       </li>
+       <li>
         <a href="unet-handbook_at_script_engine.html">
-         11. AT script engine
+         12. AT script engine
         </a>
        </li>
       </ul>
@@ -555,77 +560,77 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       <ul class="sectlevel1">
        <li>
         <a href="unet-handbook_services_and_capabilities.html">
-         12. Services and capabilities
+         13. Services and capabilities
         </a>
        </li>
        <li>
         <a href="unet-handbook_datagram_service.html">
-         13. Datagram service
+         14. Datagram service
         </a>
        </li>
        <li>
         <a href="unet-handbook_physical_service.html">
-         14. Physical service
+         15. Physical service
         </a>
        </li>
        <li>
         <a href="unet-handbook_baseband_service.html">
-         15. Baseband service
+         16. Baseband service
         </a>
        </li>
        <li>
         <a href="unet-handbook_ranging_and_synchronization.html">
-         16. Ranging and synchronization
+         17. Ranging and synchronization
         </a>
        </li>
        <li>
         <a href="unet-handbook_node_information.html">
-         17. Node information
+         18. Node information
         </a>
        </li>
        <li>
         <a href="unet-handbook_address_resolution.html">
-         18. Address resolution
+         19. Address resolution
         </a>
        </li>
        <li>
         <a href="unet-handbook_medium_access_control.html">
-         19. Medium access control
+         20. Medium access control
         </a>
        </li>
        <li>
         <a href="unet-handbook_single_hop_links.html">
-         20. Single-hop links
+         21. Single-hop links
         </a>
        </li>
        <li>
         <a href="unet-handbook_routing_and_route_maintenance.html">
-         21. Routing and route maintenance
+         22. Routing and route maintenance
         </a>
        </li>
        <li>
         <a href="unet-handbook_transport_service.html">
-         22. Transport service
+         23. Transport service
         </a>
        </li>
        <li>
         <a href="unet-handbook_remote_access.html">
-         23. Remote access
+         24. Remote access
         </a>
        </li>
        <li>
         <a href="unet-handbook_state_persistence.html">
-         24. State persistence
+         25. State persistence
         </a>
        </li>
        <li>
         <a href="unet-handbook_scheduler.html">
-         25. Scheduler
+         26. Scheduler
         </a>
        </li>
        <li>
         <a href="unet-handbook_shell.html">
-         26. Shell
+         27. Shell
         </a>
        </li>
       </ul>
@@ -639,12 +644,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       <ul class="sectlevel1">
        <li>
         <a href="unet-handbook_developing_your_own_agents.html">
-         27. Developing your own agents
+         28. Developing your own agents
         </a>
        </li>
        <li>
         <a href="unet-handbook_implementing_network_protocols.html">
-         28. Implementing network protocols
+         29. Implementing network protocols
         </a>
        </li>
       </ul>
@@ -658,17 +663,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       <ul class="sectlevel1">
        <li>
         <a href="unet-handbook_writing_simulation_scripts.html">
-         29. Writing simulation scripts
+         30. Writing simulation scripts
         </a>
        </li>
        <li>
         <a href="unet-handbook_discrete_event_simulation.html">
-         30. Discrete event simulation
+         31. Discrete event simulation
         </a>
        </li>
        <li>
         <a href="unet-handbook_modems_and_channel_models.html">
-         31. Modems and channel models
+         32. Modems and channel models
         </a>
        </li>
       </ul>
@@ -1131,28 +1136,28 @@ Node 34: tcp://localhost:1134, http://localhost:8034/</code></pre>
        <div class="content">
         <pre class="rouge highlight"><code data-lang="unet">&gt; ping 22
 PING 22
-Response from 22: seq=0 rthops=2 time=10609 ms
-Response from 22: seq=1 rthops=2 time=2656 ms
-Response from 22: seq=2 rthops=2 time=2739 ms
+Response from 22: seq=0 rthops=2 time=2892 ms
+Response from 22: seq=1 rthops=2 time=2912 ms
+Response from 22: seq=2 rthops=2 time=3143 ms
 3 packets transmitted, 3 packets received, 0% packet loss
 &gt; ping 27
 PING 27
 Request timeout for seq 0
-Response from 27: seq=1 rthops=2 time=2960 ms
-Request timeout for seq 2
+Request timeout for seq 1
+Response from 27: seq=2 rthops=2 time=11075 ms
 3 packets transmitted, 1 packets received, 67% packet loss
 &gt; ping 28
 PING 28
-Response from 28: seq=0 rthops=2 time=2725 ms
-Response from 28: seq=1 rthops=2 time=3036 ms
-Response from 28: seq=2 rthops=2 time=3158 ms
+Response from 28: seq=0 rthops=2 time=2952 ms
+Response from 28: seq=1 rthops=2 time=3110 ms
+Response from 28: seq=2 rthops=2 time=3031 ms
 3 packets transmitted, 3 packets received, 0% packet loss
 &gt; ping 29
 PING 29
-Response from 29: seq=0 rthops=2 time=3456 ms
-Response from 29: seq=1 rthops=2 time=3298 ms
-Response from 29: seq=2 rthops=2 time=3515 ms
-3 packets transmitted, 3 packets received, 0% packet loss
+Response from 29: seq=0 rthops=2 time=3355 ms
+Response from 29: seq=1 rthops=2 time=18720 ms
+Request timeout for seq 2
+3 packets transmitted, 2 packets received, 33% packet loss
 &gt; ping 31
 PING 31
 Request timeout for seq 0
@@ -1162,14 +1167,14 @@ Request timeout for seq 2
 &gt; ping 34
 PING 34
 Request timeout for seq 0
-Response from 34: seq=1 rthops=2 time=19603 ms
-Request timeout for seq 2
-3 packets transmitted, 1 packets received, 67% packet loss</code></pre>
+Response from 34: seq=1 rthops=2 time=3294 ms
+Response from 34: seq=2 rthops=2 time=3434 ms
+3 packets transmitted, 2 packets received, 33% packet loss</code></pre>
        </div>
       </div>
       <div class="paragraph">
        <p>
-        We see that the connectivity to nodes 22, 28 and 29 is good, that to nodes 27 and 34 is poor, and to node 31 is non-existent.
+        We see that the connectivity to nodes 22 and 28 is good, that to nodes 27, 29 and 34 is poorer, and to node 31 is non-existent. Since the simulation is probabilistic, your exact results may differ.
        </p>
       </div>
      </div>
@@ -1217,15 +1222,19 @@ Request timeout for seq 2
        </div>
        <div class="content">
         <pre class="rouge highlight"><code data-lang="unet">&gt; addroute 31, 28
+OK
 &gt; addroute 34, 28
+OK
 &gt; routes
-1: to 31 via uwlink/28 [reliable, hops: 0, metric: 1.0]
-2: to 34 via uwlink/28 [reliable, hops: 0, metric: 1.0]</code></pre>
+    uuid      to nextHop         link reliability hops metric enabled
+---------------------------------------------------------------------
+  riddcc      31      28       uwlink        true    0    0.0    true
+  fkxbqm      34      28       uwlink        true    0    0.0    true</code></pre>
        </div>
       </div>
       <div class="paragraph">
        <p>
-        On nodes 31 and 34, we add routes to node 21 via node 28:
+        On nodes 31 and 34, we add routes to node 21 via node 28, and enable remote access:
        </p>
       </div>
       <div class="listingblock">
@@ -1236,8 +1245,13 @@ Request timeout for seq 2
        </div>
        <div class="content">
         <pre class="rouge highlight"><code data-lang="unet">&gt; addroute 21, 28
+OK
 &gt; routes
-1: to 21 via uwlink/28 [reliable, hops: 0, metric: 1.0]</code></pre>
+    uuid      to nextHop         link reliability hops metric enabled
+---------------------------------------------------------------------
+  b7m7w9      21      28       uwlink        true    0    0.0    true
+&gt; remote.enable = true
+true</code></pre>
        </div>
       </div>
       <div class="listingblock">
@@ -1248,8 +1262,13 @@ Request timeout for seq 2
        </div>
        <div class="content">
         <pre class="rouge highlight"><code data-lang="unet">&gt; addroute 21, 28
+OK
 &gt; routes
-1: to 21 via uwlink/28 [reliable, hops: 0, metric: 1.0]</code></pre>
+    uuid      to nextHop         link reliability hops metric enabled
+---------------------------------------------------------------------
+  s6pjtb      21      28       uwlink        true    0    0.0    true
+&gt; remote.enable = true
+true</code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -1266,37 +1285,15 @@ Request timeout for seq 2
        <div class="content">
         <pre class="rouge highlight"><code data-lang="unet">&gt; ping 31
 PING 31
-Response from 31: seq=0 rthops=4 time=15245 ms
-Response from 31: seq=1 rthops=4 time=10673 ms
-Response from 31: seq=2 rthops=4 time=10779 ms
+Response from 31: seq=0 rthops=4 time=18930 ms
+Response from 31: seq=1 rthops=4 time=10680 ms
+Response from 31: seq=2 rthops=4 time=46139 ms
 3 packets transmitted, 3 packets received, 0% packet loss
 &gt; ping 34
-Response from 34: seq=0 rthops=4 time=26878 ms
-Request timeout for seq 1
-Request timeout for seq 2
-3 packets transmitted, 1 packets received, 67% packet loss</code></pre>
-       </div>
-      </div>
-      <div class="paragraph">
-       <p>
-        While the connectivity to node 31 seems okay, the connectivity to node 34 is still poor. We notice that the
-        <code>
-         seq=0
-        </code>
-        round-trip time is very close to the timeout of 30 seconds, and so try a ping with a longer timeout of 60 seconds:
-       </p>
-      </div>
-      <div class="listingblock">
-       <div class="title">
-        <code>
-         Node 21
-        </code>
-       </div>
-       <div class="content">
-        <pre class="rouge highlight"><code data-lang="unet">&gt; ping 34, 3, 60000
-Response from 34: seq=0 rthops=4 time=38505 ms
-Response from 34: seq=1 rthops=4 time=34393 ms
-Response from 34: seq=0 rthops=4 time=22521 ms
+PING 34
+Response from 34: seq=0 rthops=4 time=26760 ms
+Response from 34: seq=1 rthops=4 time=34408 ms
+Response from 34: seq=2 rthops=4 time=21660 ms
 3 packets transmitted, 3 packets received, 0% packet loss</code></pre>
        </div>
       </div>
@@ -1404,7 +1401,7 @@ AGREE
        </div>
        <div class="content">
         <pre class="rouge highlight"><code data-lang="unet">&gt; routes
-&gt;</code></pre>
+No routes available</code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -1436,17 +1433,17 @@ OK</code></pre>
        </div>
        <div class="content">
         <pre class="rouge highlight"><code data-lang="unet">&gt; routes
-1: to 29 via uwlink/29 [reliable, hops: 1, metric: 2.0]
-2: to 34 via uwlink/34 [reliable, hops: 1, metric: 2.0]
-3: to 22 via uwlink/22 [reliable, hops: 1, metric: 3.0]
-4: to 28 via uwlink/28 [reliable, hops: 1, metric: 5.0]
-5: to 31 via uwlink/28 [reliable, hops: 2, metric: 0.85]
-6: to 27 via uwlink/27 [reliable, hops: 1, metric: 1.0]</code></pre>
+    uuid      to nextHop         link reliability hops metric enabled
+---------------------------------------------------------------------
+  69gnxp      22      22       uwlink        true    1    0.0    true
+  ib3goj      28      28       uwlink        true    1    0.0    true
+  68ozs5      29      29       uwlink        true    1    0.0    true
+  gkfin2      31      29       uwlink        true    2   -1.0    true</code></pre>
        </div>
       </div>
       <div class="paragraph">
        <p>
-        Your routing table may differ, as the route discovery process is stochastic. We see that we now have a route to node 31 via node 28. Let us check the routing table on node 31 as well, to see if it has a corresponding entry for a route to node 21:
+        Your routing table may differ, as the route discovery process is probabilistic. We see that we now have a route to node 31 via node 29. Let us check the routing table on node 31 as well, to see if it has a corresponding entry for a route to node 21:
        </p>
       </div>
       <div class="listingblock">
@@ -1457,17 +1454,19 @@ OK</code></pre>
        </div>
        <div class="content">
         <pre class="rouge highlight"><code data-lang="unet">&gt; routes
-1: to 29 via uwlink/29 [reliable, hops: 1, metric: 2.0]
-2: to 21 via uwlink/29 [reliable, hops: 2, metric: 1.7]
-3: to 28 via uwlink/28 [reliable, hops: 1, metric: 5.0]
-4: to 21 via uwlink/28 [reliable, hops: 2, metric: 4.2]
-5: to 34 via uwlink/34 [reliable, hops: 1, metric: 2.0]
-6: to 21 via uwlink/34 [reliable, hops: 3, metric: 1.6]</code></pre>
+    uuid      to nextHop         link reliability hops metric enabled
+---------------------------------------------------------------------
+  1hveg6      28      28       uwlink        true    1    0.0    true
+  pjfhin      21      28       uwlink        true    3   -1.0    true
+  n5eqll      34      34       uwlink        true    1    0.0    true
+  8jlzj3      21      34       uwlink        true    3   -2.0    true
+   f6dit      29      29       uwlink        true    1    0.0    true
+  qqtwvd      21      29       uwlink        true    3   -2.0    true</code></pre>
        </div>
       </div>
       <div class="paragraph">
        <p>
-        Indeed it does! In fact, it has 3 routes back to node 21, one via node 29, another via node 28 and the last via node 34. Of these routes, the route via node 28 has the largest metric, and so will be the route that is used. We can verify that by issuing a trace from node 21:
+        Indeed it does! In fact, it has 3 routes back to node 21, one via node 29, and two more via nodes 28 and 34. Of these routes, the route via node 28 has the largest metric, and so will be the route that is used. We can verify that by issuing a trace from node 21:
        </p>
       </div>
       <div class="listingblock">
@@ -1478,7 +1477,7 @@ OK</code></pre>
        </div>
        <div class="content">
         <pre class="rouge highlight"><code data-lang="unet">&gt; trace 31
-[21, 28, 31, 28, 21]</code></pre>
+[21, 29, 31, 28, 21]</code></pre>
        </div>
       </div>
       <div class="admonitionblock tip">
@@ -1489,7 +1488,7 @@ OK</code></pre>
           </i>
          </td>
          <td class="content">
-          Since the route discovery process is stochastic, it may be useful to repeat the route discovery if good routes are not established after a single try. The
+          Since the route discovery process is probabilistic, it may be useful to repeat the route discovery if good routes are not established after a single try. The
           <code>
            rreq
           </code>
@@ -1521,9 +1520,9 @@ OK</code></pre>
   </div>
   <div id="footer">
    <div id="footer-text">
-    Version 3.0.3
+    Version 3.1.0
     <br/>
-    Last updated 2020-02-07 16:49:19 +0800
+    Last updated 2020-04-05 19:06:39 +0800
    </div>
    <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

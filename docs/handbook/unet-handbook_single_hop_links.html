@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
     </span>
     <br/>
     <span id="revnumber">
-     version 3.0.3
+     version 3.1.0
     </span>
    </div>
    <div class="toc2" id="toc">
@@ -540,8 +540,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
         </a>
        </li>
        <li>
+        <a href="unet-handbook_wormholes.html">
+         11. Wormholes
+        </a>
+       </li>
+       <li>
         <a href="unet-handbook_at_script_engine.html">
-         11. AT script engine
+         12. AT script engine
         </a>
        </li>
       </ul>
@@ -555,77 +560,77 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       <ul class="sectlevel1">
        <li>
         <a href="unet-handbook_services_and_capabilities.html">
-         12. Services and capabilities
+         13. Services and capabilities
         </a>
        </li>
        <li>
         <a href="unet-handbook_datagram_service.html">
-         13. Datagram service
+         14. Datagram service
         </a>
        </li>
        <li>
         <a href="unet-handbook_physical_service.html">
-         14. Physical service
+         15. Physical service
         </a>
        </li>
        <li>
         <a href="unet-handbook_baseband_service.html">
-         15. Baseband service
+         16. Baseband service
         </a>
        </li>
        <li>
         <a href="unet-handbook_ranging_and_synchronization.html">
-         16. Ranging and synchronization
+         17. Ranging and synchronization
         </a>
        </li>
        <li>
         <a href="unet-handbook_node_information.html">
-         17. Node information
+         18. Node information
         </a>
        </li>
        <li>
         <a href="unet-handbook_address_resolution.html">
-         18. Address resolution
+         19. Address resolution
         </a>
        </li>
        <li>
         <a href="unet-handbook_medium_access_control.html">
-         19. Medium access control
+         20. Medium access control
         </a>
        </li>
        <li>
         <a href="unet-handbook_single_hop_links.html">
-         20. Single-hop links
+         21. Single-hop links
         </a>
        </li>
        <li>
         <a href="unet-handbook_routing_and_route_maintenance.html">
-         21. Routing and route maintenance
+         22. Routing and route maintenance
         </a>
        </li>
        <li>
         <a href="unet-handbook_transport_service.html">
-         22. Transport service
+         23. Transport service
         </a>
        </li>
        <li>
         <a href="unet-handbook_remote_access.html">
-         23. Remote access
+         24. Remote access
         </a>
        </li>
        <li>
         <a href="unet-handbook_state_persistence.html">
-         24. State persistence
+         25. State persistence
         </a>
        </li>
        <li>
         <a href="unet-handbook_scheduler.html">
-         25. Scheduler
+         26. Scheduler
         </a>
        </li>
        <li>
         <a href="unet-handbook_shell.html">
-         26. Shell
+         27. Shell
         </a>
        </li>
       </ul>
@@ -639,12 +644,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       <ul class="sectlevel1">
        <li>
         <a href="unet-handbook_developing_your_own_agents.html">
-         27. Developing your own agents
+         28. Developing your own agents
         </a>
        </li>
        <li>
         <a href="unet-handbook_implementing_network_protocols.html">
-         28. Implementing network protocols
+         29. Implementing network protocols
         </a>
        </li>
       </ul>
@@ -658,17 +663,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       <ul class="sectlevel1">
        <li>
         <a href="unet-handbook_writing_simulation_scripts.html">
-         29. Writing simulation scripts
+         30. Writing simulation scripts
         </a>
        </li>
        <li>
         <a href="unet-handbook_discrete_event_simulation.html">
-         30. Discrete event simulation
+         31. Discrete event simulation
         </a>
        </li>
        <li>
         <a href="unet-handbook_modems_and_channel_models.html">
-         31. Modems and channel models
+         32. Modems and channel models
         </a>
        </li>
       </ul>
@@ -708,7 +713,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
   <div id="content">
    <div class="sect1">
     <h2 id="_single_hop_links">
-     20. Single-hop links
+     21. Single-hop links
     </h2>
     <div class="sectionbody">
      <div class="paragraph">
@@ -722,7 +727,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
      </div>
      <div class="sect2">
       <h3 id="_overview_8">
-       20.1. Overview
+       21.1. Overview
       </h3>
       <div class="paragraph">
        <p>
@@ -738,7 +743,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
        <p>
         All agents supporting the LINK service must also support the DATAGRAM service (
         <a href="unet-handbook_datagram_service.html">
-         Chapter 13
+         Chapter 14
         </a>
         ).
        </p>
@@ -757,14 +762,38 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
        <p>
         In a typical Unet, gateway nodes may have several LINK service providers, with the ROUTING service (
         <a href="unet-handbook_routing_and_route_maintenance.html#_routing_service">
-         Section 21.2
+         Section 22.2
         </a>
         ) provider forwarding datagrams across links.
        </p>
       </div>
       <div class="sect3">
-       <h4 id="_parameters_7">
-        20.1.1. Parameters
+       <h4 id="_messages_7">
+        21.1.1. Messages
+       </h4>
+       <div class="paragraph">
+        <p>
+         The LINK service defines only one optional message, used only by agents advertising the LINK_STATUS capability.
+        </p>
+       </div>
+       <div class="ulist">
+        <ul>
+         <li>
+          <p>
+           <a href="https://unetstack.net/javadoc/3.1/index.html?org/arl/unet/link/LinkStatusNtf.html" rel="noopener" target="_blank">
+            <code>
+             LinkStatusNtf
+            </code>
+           </a>
+           — link up/down or quality notification
+          </p>
+         </li>
+        </ul>
+       </div>
+      </div>
+      <div class="sect3">
+       <h4 id="_parameters_8">
+        21.1.2. Parameters
        </h4>
        <div class="paragraph">
         <p>
@@ -775,7 +804,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
         <ul>
          <li>
           <p>
-           <a href="https://unetstack.net/javadoc/3.0/index.html?org/arl/unet/link/LinkParam.html#dataRate" rel="noopener" target="_blank">
+           <a href="https://unetstack.net/javadoc/3.1/index.html?org/arl/unet/link/LinkParam.html#dataRate" rel="noopener" target="_blank">
             <code>
              dataRate
             </code>
@@ -786,10 +815,41 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
         </ul>
        </div>
       </div>
+      <div class="sect3">
+       <h4 id="_capabilities_5">
+        21.1.3. Capabilities
+       </h4>
+       <div class="paragraph">
+        <p>
+         Agents may support several optional capability:
+        </p>
+       </div>
+       <div class="ulist">
+        <ul>
+         <li>
+          <p>
+           <a href="https://unetstack.net/javadoc/3.1/index.html?org/arl/unet/link/LinkCapability.html#LINK_STATUS" rel="noopener" target="_blank">
+            LINK_STATUS
+           </a>
+           *
+          </p>
+         </li>
+        </ul>
+       </div>
+       <div class="paragraph">
+        <p>
+         Agents advertising this capability will send
+         <code>
+          LinkStatusNtf
+         </code>
+         messages on its topic, when a link becomes active, is lost, or has significant change in quality.
+        </p>
+       </div>
+      </div>
      </div>
      <div class="sect2">
       <h3 id="_reliablelink">
-       20.2. ReliableLink
+       21.2. ReliableLink
       </h3>
       <div class="paragraph">
        <p>
@@ -802,13 +862,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 [uwlink]
 
 &gt; uwlink
-&lt;&lt;&lt; ReliableLink &gt;&gt;&gt;
+« Reliable acoustic link »
+
+Link protocol with support for reliability and fragementation-reassembly.
 
 [org.arl.unet.DatagramParam]
-  MTU = 848
+  MTU ⤇ 848
+  RTU ⤇ 848
 
 [org.arl.unet.link.LinkParam]
-  dataRate = 731.4286
+  dataRate ⤇ 731.4286
 
 [org.arl.unet.link.ReliableLinkParam]
   acks = 2
@@ -818,7 +881,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
   maxPropagationDelay = 2.5
   maxRetries = 2
   phy = phy
-  reservationGuardTime = 0.5</code></pre>
+  reservationGuardTime = 0.5
+
+&gt; uwlink &lt;&lt; new CapabilityReq()
+CapabilityListRsp:INFORM[FRAGMENTATION,RELIABILITY,LINK_STATUS]</code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -835,7 +901,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
         <code>
          uwlink
         </code>
-        agent reassembles the datagram and delivers it.
+        agent reassembles the datagram and delivers it. The agent also provides link status notifications.
        </p>
       </div>
       <div class="admonitionblock note">
@@ -959,7 +1025,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
      </div>
      <div class="sect2">
       <h3 id="_eclink">
-       20.3. ECLink
+       21.3. ECLink
       </h3>
       <div class="admonitionblock note">
        <table>
@@ -1006,16 +1072,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       <div class="listingblock">
        <div class="content">
         <pre class="rouge highlight"><code data-lang="groovy"><span class="o">&gt;</span> <span class="n">uwlink</span>
-<span class="o">&lt;&lt;&lt;</span> <span class="n">ECLink</span> <span class="o">&gt;&gt;&gt;</span>
+<span class="err">«</span> <span class="n">Erasure</span> <span class="n">coded</span> <span class="n">link</span> <span class="err">»</span>
+
+<span class="n">Link</span> <span class="n">protocol</span> <span class="n">based</span> <span class="n">on</span> <span class="n">erasure</span> <span class="n">coding</span><span class="o">,</span> <span class="k">for</span> <span class="n">fast</span> <span class="n">large</span> <span class="n">data</span> <span class="n">transfers</span> <span class="n">over</span> <span class="n">a</span> <span class="n">single</span> <span class="n">hop</span><span class="o">.</span>
 
 <span class="o">[</span><span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">DatagramParam</span><span class="o">]</span>
-  <span class="n">MTU</span> <span class="o">=</span> <span class="mi">3145632</span>
+  <span class="n">MTU</span> <span class="err">⤇</span> <span class="mi">3145584</span>
+  <span class="n">RTU</span> <span class="err">⤇</span> <span class="mi">1450</span>
 
 <span class="o">[</span><span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">link</span><span class="o">.</span><span class="na">ECLinkParam</span><span class="o">]</span>
+  <span class="n">compress</span> <span class="o">=</span> <span class="kc">true</span>
   <span class="n">controlChannel</span> <span class="o">=</span> <span class="mi">1</span>
   <span class="n">dataChannel</span> <span class="o">=</span> <span class="mi">2</span>
   <span class="n">mac</span> <span class="o">=</span> <span class="n">mac</span>
-  <span class="n">maxBatchSize</span> <span class="o">=</span> <span class="mi">65534</span>
+  <span class="n">maxBatchSize</span> <span class="o">=</span> <span class="mi">65533</span>
   <span class="n">maxPropagationDelay</span> <span class="o">=</span> <span class="mf">3.0</span>
   <span class="n">maxRetries</span> <span class="o">=</span> <span class="mi">2</span>
   <span class="n">minBatchSize</span> <span class="o">=</span> <span class="mi">3</span>
@@ -1025,7 +1095,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
   <span class="n">unreliableExtra</span> <span class="o">=</span> <span class="mf">0.3</span>
 
 <span class="o">[</span><span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">link</span><span class="o">.</span><span class="na">LinkParam</span><span class="o">]</span>
-  <span class="n">dataRate</span> <span class="o">=</span> <span class="mf">731.4286</span></code></pre>
+  <span class="n">dataRate</span> <span class="err">⤇</span> <span class="mf">731.4286</span>
+
+<span class="o">&gt;</span> <span class="n">uwlink</span> <span class="o">&lt;&lt;</span> <span class="k">new</span> <span class="n">CapabilityReq</span><span class="o">()</span>
+<span class="nl">CapabilityListRsp:</span><span class="n">INFORM</span><span class="o">[</span><span class="n">COMPRESSION</span><span class="o">,</span><span class="n">RELIABILITY</span><span class="o">,</span><span class="n">CANCELLATION</span><span class="o">,</span><span class="n">FRAGMENTATION</span><span class="o">,</span><span class="n">LINK_STATUS</span><span class="o">]</span></code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -1059,6 +1132,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
          ECLink
         </code>
         yields better practical performance when transferring large files, and in poor channel conditions.
+        <code>
+         ECLink
+        </code>
+        also supports data compression, and link status notifications.
        </p>
       </div>
       <div class="paragraph">
@@ -1162,6 +1239,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
           Fraction of extra frames to transmit for erasure correction, during unreliable datagram transfer (no acknowledgement or retries). A value of 0.3 indicates 30% extra frames are transmitted. This allows for successful datagram transfer with as much as 30% frame loss.
          </p>
         </dd>
+        <dt class="hdlist1">
+         <code>
+          compress
+         </code>
+        </dt>
+        <dd>
+         <p>
+          Enable/disable data compression.
+         </p>
+        </dd>
        </dl>
       </div>
      </div>
@@ -1183,9 +1270,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
   </div>
   <div id="footer">
    <div id="footer-text">
-    Version 3.0.3
+    Version 3.1.0
     <br/>
-    Last updated 2020-02-07 16:49:19 +0800
+    Last updated 2020-04-05 19:06:39 +0800
    </div>
    <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

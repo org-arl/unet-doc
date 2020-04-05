@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
     </span>
     <br/>
     <span id="revnumber">
-     version 3.0.3
+     version 3.1.0
     </span>
    </div>
    <div class="toc2" id="toc">
@@ -540,8 +540,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
         </a>
        </li>
        <li>
+        <a href="unet-handbook_wormholes.html">
+         11. Wormholes
+        </a>
+       </li>
+       <li>
         <a href="unet-handbook_at_script_engine.html">
-         11. AT script engine
+         12. AT script engine
         </a>
        </li>
       </ul>
@@ -555,77 +560,77 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       <ul class="sectlevel1">
        <li>
         <a href="unet-handbook_services_and_capabilities.html">
-         12. Services and capabilities
+         13. Services and capabilities
         </a>
        </li>
        <li>
         <a href="unet-handbook_datagram_service.html">
-         13. Datagram service
+         14. Datagram service
         </a>
        </li>
        <li>
         <a href="unet-handbook_physical_service.html">
-         14. Physical service
+         15. Physical service
         </a>
        </li>
        <li>
         <a href="unet-handbook_baseband_service.html">
-         15. Baseband service
+         16. Baseband service
         </a>
        </li>
        <li>
         <a href="unet-handbook_ranging_and_synchronization.html">
-         16. Ranging and synchronization
+         17. Ranging and synchronization
         </a>
        </li>
        <li>
         <a href="unet-handbook_node_information.html">
-         17. Node information
+         18. Node information
         </a>
        </li>
        <li>
         <a href="unet-handbook_address_resolution.html">
-         18. Address resolution
+         19. Address resolution
         </a>
        </li>
        <li>
         <a href="unet-handbook_medium_access_control.html">
-         19. Medium access control
+         20. Medium access control
         </a>
        </li>
        <li>
         <a href="unet-handbook_single_hop_links.html">
-         20. Single-hop links
+         21. Single-hop links
         </a>
        </li>
        <li>
         <a href="unet-handbook_routing_and_route_maintenance.html">
-         21. Routing and route maintenance
+         22. Routing and route maintenance
         </a>
        </li>
        <li>
         <a href="unet-handbook_transport_service.html">
-         22. Transport service
+         23. Transport service
         </a>
        </li>
        <li>
         <a href="unet-handbook_remote_access.html">
-         23. Remote access
+         24. Remote access
         </a>
        </li>
        <li>
         <a href="unet-handbook_state_persistence.html">
-         24. State persistence
+         25. State persistence
         </a>
        </li>
        <li>
         <a href="unet-handbook_scheduler.html">
-         25. Scheduler
+         26. Scheduler
         </a>
        </li>
        <li>
         <a href="unet-handbook_shell.html">
-         26. Shell
+         27. Shell
         </a>
        </li>
       </ul>
@@ -639,12 +644,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       <ul class="sectlevel1">
        <li>
         <a href="unet-handbook_developing_your_own_agents.html">
-         27. Developing your own agents
+         28. Developing your own agents
         </a>
        </li>
        <li>
         <a href="unet-handbook_implementing_network_protocols.html">
-         28. Implementing network protocols
+         29. Implementing network protocols
         </a>
        </li>
       </ul>
@@ -658,17 +663,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       <ul class="sectlevel1">
        <li>
         <a href="unet-handbook_writing_simulation_scripts.html">
-         29. Writing simulation scripts
+         30. Writing simulation scripts
         </a>
        </li>
        <li>
         <a href="unet-handbook_discrete_event_simulation.html">
-         30. Discrete event simulation
+         31. Discrete event simulation
         </a>
        </li>
        <li>
         <a href="unet-handbook_modems_and_channel_models.html">
-         31. Modems and channel models
+         32. Modems and channel models
         </a>
        </li>
       </ul>
@@ -708,12 +713,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
   <div id="content">
    <div class="sect1">
     <h2 id="_routing_and_route_maintenance">
-     21. Routing and route maintenance
+     22. Routing and route maintenance
     </h2>
     <div class="sectionbody">
      <div class="sect2">
       <h3 id="_overview_9">
-       21.1. Overview
+       22.1. Overview
       </h3>
       <div class="paragraph">
        <p>
@@ -731,13 +736,22 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       </div>
       <div class="paragraph">
        <p>
-        Both services are described below.
+        The ROUTING service provider also typically listens for
+        <code>
+         LinkStatusNtf
+        </code>
+        messages from the LINK service agents. These messages allow it to keep track of link availability and link quality.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Both ROUTING and ROUTE_MAINTENANCE services are described below.
        </p>
       </div>
      </div>
      <div class="sect2">
       <h3 id="_routing_service">
-       21.2. Routing service
+       22.2. Routing service
       </h3>
       <div class="paragraph">
        <p>
@@ -757,7 +771,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
        <p>
         All agents supporting the ROUTING service must also support the DATAGRAM service (
         <a href="unet-handbook_datagram_service.html">
-         Chapter 13
+         Chapter 14
         </a>
         ).
        </p>
@@ -767,47 +781,130 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
         It is recommended that agents offering the ROUTING service provide reliability, when requested. Agents that are able to provide reliability, do so by advertising the DATAGRAM service capability RELIABILITY.
        </p>
       </div>
-      <div class="admonitionblock note">
-       <table>
-        <tr>
-         <td class="icon">
-          <i class="fa icon-note" title="Note">
-          </i>
-         </td>
-         <td class="content">
-          The ROUTING service currently does not define a way to add, update or delete static routes in the routing table. Dynamic routes may be added/updated using the
-          <code>
-           RouteDiscoveryNtf
-          </code>
-          messages. An agent implementing this service may choose to provide agent-specific messages or parameters to manage the routes. The agent should provide
-          <code>
-           routes
-          </code>
-          ,
-          <code>
-           addroute
-          </code>
-          ,
-          <code>
-           delroute
-          </code>
-          and
-          <code>
-           delroutesto
-          </code>
-          commands (see
-          <a href="unet-handbook_routing_in_larger_networks.html#_static_routing">
-           Section 6.3
-          </a>
-          ) for user interaction from the shell.
-         </td>
-        </tr>
-       </table>
+      <div class="sect3">
+       <h4 id="_messages_8">
+        22.2.1. Messages
+       </h4>
+       <div class="paragraph">
+        <p>
+         Agents providing the ROUTING service support the following messages:
+        </p>
+       </div>
+       <div class="ulist">
+        <ul>
+         <li>
+          <p>
+           <a href="https://unetstack.net/javadoc/3.1/index.html?org/arl/unet/net/GetRouteReq.html" rel="noopener" target="_blank">
+            <code>
+             GetRouteReq
+            </code>
+           </a>
+           ⇒
+           <a href="https://unetstack.net/javadoc/3.1/index.html?org/arl/unet/net/RouteRsp.html" rel="noopener" target="_blank">
+            <code>
+             RouteRsp
+            </code>
+           </a>
+           /
+           <code>
+            AGREE
+           </code>
+           /
+           <code>
+            REFUSE
+           </code>
+           — find route or a list of routes
+          </p>
+         </li>
+         <li>
+          <p>
+           <a href="https://unetstack.net/javadoc/3.1/index.html?org/arl/unet/net/EditRouteReq.html" rel="noopener" target="_blank">
+            <code>
+             EditRouteReq
+            </code>
+           </a>
+           ⇒
+           <code>
+            AGREE
+           </code>
+           /
+           <code>
+            REFUSE
+           </code>
+           — add, delete or change routing table entry
+          </p>
+         </li>
+         <li>
+          <p>
+           <a href="https://unetstack.net/javadoc/3.1/index.html?org/arl/unet/net/RouteChangeNtf.html" rel="noopener" target="_blank">
+            <code>
+             RouteChangeNtf
+            </code>
+           </a>
+           — sent to agent’s topic when a routing table entry is added, removed or changed
+          </p>
+         </li>
+        </ul>
+       </div>
+       <div class="paragraph">
+        <p>
+         The
+         <code>
+          GetRouteReq
+         </code>
+         message may be used to request a single route (
+         <code>
+          all = false
+         </code>
+         ), or a list of routes (
+         <code>
+          all = true
+         </code>
+         ). When a single route is requested, the response is either a
+         <code>
+          RouteRsp
+         </code>
+         (with route information) or a
+         <code>
+          REFUSE
+         </code>
+         (if no route available). When multiple routes are requested, the response is a series of
+         <code>
+          RouteRsp
+         </code>
+         messages, followed by an
+         <code>
+          AGREE
+         </code>
+         message to indicate end of the list. If no routes available, a
+         <code>
+          REFUSE
+         </code>
+         message is sent back instead of the
+         <code>
+          AGREE
+         </code>
+         message.
+        </p>
+       </div>
+       <div class="paragraph">
+        <p>
+         While the above messages may be used programmatically to manipulate the routing table, typically users interact with the router via the shell commands described in
+         <a href="unet-handbook_routing_in_larger_networks.html">
+          Chapter 6
+         </a>
+         and
+         <a href="unet-handbook_routing_and_route_maintenance.html#_router_and_the_route_discovery_protocol">
+          Section 22.4
+         </a>
+         below.
+        </p>
+       </div>
       </div>
      </div>
      <div class="sect2">
       <h3 id="_route_maintenance_service">
-       21.3. Route maintenance service
+       22.3. Route maintenance service
       </h3>
       <div class="paragraph">
        <p>
@@ -828,8 +925,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
        </p>
       </div>
       <div class="sect3">
-       <h4 id="_messages_7">
-        21.3.1. Messages
+       <h4 id="_messages_9">
+        22.3.1. Messages
        </h4>
        <div class="paragraph">
         <p>
@@ -840,7 +937,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
         <ul>
          <li>
           <p>
-           <a href="https://unetstack.net/javadoc/3.0/index.html?org/arl/unet/net/RouteDiscoveryReq.html" rel="noopener" target="_blank">
+           <a href="https://unetstack.net/javadoc/3.1/index.html?org/arl/unet/net/RouteDiscoveryReq.html" rel="noopener" target="_blank">
             <code>
              RouteDiscoveryReq
             </code>
@@ -862,7 +959,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
          </li>
          <li>
           <p>
-           <a href="https://unetstack.net/javadoc/3.0/index.html?org/arl/unet/net/RouteTraceReq.html" rel="noopener" target="_blank">
+           <a href="https://unetstack.net/javadoc/3.1/index.html?org/arl/unet/net/RouteTraceReq.html" rel="noopener" target="_blank">
             <code>
              RouteTraceReq
             </code>
@@ -884,7 +981,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
          </li>
          <li>
           <p>
-           <a href="https://unetstack.net/javadoc/3.0/index.html?org/arl/unet/net/RouteDiscoveryNtf.html" rel="noopener" target="_blank">
+           <a href="https://unetstack.net/javadoc/3.1/index.html?org/arl/unet/net/RouteDiscoveryNtf.html" rel="noopener" target="_blank">
             <code>
              RouteDiscoveryNtf
             </code>
@@ -894,7 +991,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
          </li>
          <li>
           <p>
-           <a href="https://unetstack.net/javadoc/3.0/index.html?org/arl/unet/net/RouteTraceNtf.html" rel="noopener" target="_blank">
+           <a href="https://unetstack.net/javadoc/3.1/index.html?org/arl/unet/net/RouteTraceNtf.html" rel="noopener" target="_blank">
             <code>
              RouteTraceNtf
             </code>
@@ -908,7 +1005,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
      </div>
      <div class="sect2">
       <h3 id="_router_and_the_route_discovery_protocol">
-       21.4. Router and the route discovery protocol
+       22.4. Router and the route discovery protocol
       </h3>
       <div class="paragraph">
        <p>
@@ -943,7 +1040,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
        <ul>
         <li>
          <p>
-          <a href="https://unetstack.net/javadoc/3.0/index.html?org/arl/unet/net/RouterParam.html#auto1hop">
+          <a href="https://unetstack.net/javadoc/3.1/index.html?org/arl/unet/net/RouterParam.html#auto1hop">
            <code>
             auto1hop
            </code>
@@ -953,7 +1050,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
         </li>
         <li>
          <p>
-          <a href="https://unetstack.net/javadoc/3.0/index.html?org/arl/unet/net/RouterParam.html#defaultLink">
+          <a href="https://unetstack.net/javadoc/3.1/index.html?org/arl/unet/net/RouterParam.html#defaultLink">
            <code>
             defaultLink
            </code>
@@ -979,10 +1076,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       <div class="listingblock">
        <div class="content">
         <pre class="rouge highlight"><code data-lang="unet">&gt; router
-&lt;&lt;&lt; Router &gt;&gt;&gt;
+« Router »
+
+Routes datagrams in the network, based on a routing table.
 
 [org.arl.unet.DatagramParam]
-  MTU = 3145630
+  MTU = 3145581
+  RTU = 1447
 
 [org.arl.unet.net.RouterParam]
   auto1hop = true
@@ -1024,7 +1124,8 @@ Examples:
   routes              // display routing table
   routes 2            // display routes to node 2
   addroute 27, 29     // add a route to node 27 via node 29
-  delroute 2          // delete route number 2
+  delroute 'as7623'   // delete route with UUID as7623
+  editroute 'as7623', metric: 5.0 // edit route to change metric
   delroutesto 27      // delete all routes to node 27
   delroutes           // delete all routes
   trace 27            // trace route to node 27
@@ -1033,6 +1134,7 @@ Examples:
 Parameters:
 
 - router.MTU - maximum data transfer size
+- router.RTU - recommended data transfer size
 - router.auto1hop - automatically assume single hop routes
 - router.defaultLink - default link to use
 
@@ -1040,6 +1142,7 @@ Commands:
 
 - routes - print routing table
 - addroute - add a route to the routing table
+- editroute - edit a route in the routing table
 - delroute - delete a route from the routing table
 - delroutesto - delete all routes to specified node from the routing table
 - delroutes - delete all routes from the routing table</code></pre>
@@ -1073,9 +1176,9 @@ Commands:
   </div>
   <div id="footer">
    <div id="footer-text">
-    Version 3.0.3
+    Version 3.1.0
     <br/>
-    Last updated 2020-02-07 16:49:19 +0800
+    Last updated 2020-04-05 19:06:39 +0800
    </div>
    <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

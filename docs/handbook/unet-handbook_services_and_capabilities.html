@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
     </span>
     <br/>
     <span id="revnumber">
-     version 3.0.3
+     version 3.1.0
     </span>
    </div>
    <div class="toc2" id="toc">
@@ -540,8 +540,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
         </a>
        </li>
        <li>
+        <a href="unet-handbook_wormholes.html">
+         11. Wormholes
+        </a>
+       </li>
+       <li>
         <a href="unet-handbook_at_script_engine.html">
-         11. AT script engine
+         12. AT script engine
         </a>
        </li>
       </ul>
@@ -555,77 +560,77 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       <ul class="sectlevel1">
        <li>
         <a href="unet-handbook_services_and_capabilities.html">
-         12. Services and capabilities
+         13. Services and capabilities
         </a>
        </li>
        <li>
         <a href="unet-handbook_datagram_service.html">
-         13. Datagram service
+         14. Datagram service
         </a>
        </li>
        <li>
         <a href="unet-handbook_physical_service.html">
-         14. Physical service
+         15. Physical service
         </a>
        </li>
        <li>
         <a href="unet-handbook_baseband_service.html">
-         15. Baseband service
+         16. Baseband service
         </a>
        </li>
        <li>
         <a href="unet-handbook_ranging_and_synchronization.html">
-         16. Ranging and synchronization
+         17. Ranging and synchronization
         </a>
        </li>
        <li>
         <a href="unet-handbook_node_information.html">
-         17. Node information
+         18. Node information
         </a>
        </li>
        <li>
         <a href="unet-handbook_address_resolution.html">
-         18. Address resolution
+         19. Address resolution
         </a>
        </li>
        <li>
         <a href="unet-handbook_medium_access_control.html">
-         19. Medium access control
+         20. Medium access control
         </a>
        </li>
        <li>
         <a href="unet-handbook_single_hop_links.html">
-         20. Single-hop links
+         21. Single-hop links
         </a>
        </li>
        <li>
         <a href="unet-handbook_routing_and_route_maintenance.html">
-         21. Routing and route maintenance
+         22. Routing and route maintenance
         </a>
        </li>
        <li>
         <a href="unet-handbook_transport_service.html">
-         22. Transport service
+         23. Transport service
         </a>
        </li>
        <li>
         <a href="unet-handbook_remote_access.html">
-         23. Remote access
+         24. Remote access
         </a>
        </li>
        <li>
         <a href="unet-handbook_state_persistence.html">
-         24. State persistence
+         25. State persistence
         </a>
        </li>
        <li>
         <a href="unet-handbook_scheduler.html">
-         25. Scheduler
+         26. Scheduler
         </a>
        </li>
        <li>
         <a href="unet-handbook_shell.html">
-         26. Shell
+         27. Shell
         </a>
        </li>
       </ul>
@@ -639,12 +644,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       <ul class="sectlevel1">
        <li>
         <a href="unet-handbook_developing_your_own_agents.html">
-         27. Developing your own agents
+         28. Developing your own agents
         </a>
        </li>
        <li>
         <a href="unet-handbook_implementing_network_protocols.html">
-         28. Implementing network protocols
+         29. Implementing network protocols
         </a>
        </li>
       </ul>
@@ -658,17 +663,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       <ul class="sectlevel1">
        <li>
         <a href="unet-handbook_writing_simulation_scripts.html">
-         29. Writing simulation scripts
+         30. Writing simulation scripts
         </a>
        </li>
        <li>
         <a href="unet-handbook_discrete_event_simulation.html">
-         30. Discrete event simulation
+         31. Discrete event simulation
         </a>
        </li>
        <li>
         <a href="unet-handbook_modems_and_channel_models.html">
-         31. Modems and channel models
+         32. Modems and channel models
         </a>
        </li>
       </ul>
@@ -708,7 +713,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
   <div id="content">
    <div class="sect1">
     <h2 id="_services_and_capabilities">
-     12. Services and capabilities
+     13. Services and capabilities
     </h2>
     <div class="sectionbody">
      <div class="paragraph">
@@ -722,7 +727,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
      </div>
      <div class="sect2">
       <h3 id="_terminology">
-       12.1. Terminology
+       13.1. Terminology
       </h3>
       <div class="paragraph">
        <p>
@@ -958,7 +963,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
      </div>
      <div class="sect2">
       <h3 id="_finding_service_providers">
-       12.2. Finding service providers
+       13.2. Finding service providers
       </h3>
       <div class="paragraph">
        <p>
@@ -1109,14 +1114,14 @@ org.arl.unet.Services.DATAGRAM: transport router uwlink phy
 org.arl.unet.Services.BASEBAND: phy
 org.arl.unet.Services.LINK: uwlink
 org.arl.unet.Services.ROUTING: router
-org.arl.unet.Services.STATE_MANAGER: state
+org.arl.unet.Services.STATE_MANAGER: statemanager
 org.arl.unet.Services.ROUTE_MAINTENANCE: rdp</code></pre>
        </div>
       </div>
      </div>
      <div class="sect2">
       <h3 id="_checking_capabilities">
-       12.3. Checking capabilities
+       13.3. Checking capabilities
       </h3>
       <div class="paragraph">
        <p>
@@ -1248,7 +1253,7 @@ CapabilityListRsp:INFORM[PROGRESS,RELIABILITY,FRAGMENTATION,CANCELLATION]</code>
      </div>
      <div class="sect2">
       <h3 id="_service_list">
-       12.4. Service list
+       13.4. Service list
       </h3>
       <div class="paragraph">
        <p>
@@ -1300,7 +1305,7 @@ CapabilityListRsp:INFORM[PROGRESS,RELIABILITY,FRAGMENTATION,CANCELLATION]</code>
          <td class="tableblock halign-left valign-top">
           <p class="tableblock">
            <a href="unet-handbook_datagram_service.html">
-            Chapter 13
+            Chapter 14
            </a>
           </p>
          </td>
@@ -1326,7 +1331,7 @@ CapabilityListRsp:INFORM[PROGRESS,RELIABILITY,FRAGMENTATION,CANCELLATION]</code>
          <td class="tableblock halign-left valign-top">
           <p class="tableblock">
            <a href="unet-handbook_physical_service.html">
-            Chapter 14
+            Chapter 15
            </a>
           </p>
          </td>
@@ -1352,7 +1357,7 @@ CapabilityListRsp:INFORM[PROGRESS,RELIABILITY,FRAGMENTATION,CANCELLATION]</code>
          <td class="tableblock halign-left valign-top">
           <p class="tableblock">
            <a href="unet-handbook_baseband_service.html">
-            Chapter 15
+            Chapter 16
            </a>
           </p>
          </td>
@@ -1378,7 +1383,7 @@ CapabilityListRsp:INFORM[PROGRESS,RELIABILITY,FRAGMENTATION,CANCELLATION]</code>
          <td class="tableblock halign-left valign-top">
           <p class="tableblock">
            <a href="unet-handbook_ranging_and_synchronization.html">
-            Chapter 16
+            Chapter 17
            </a>
           </p>
          </td>
@@ -1404,7 +1409,7 @@ CapabilityListRsp:INFORM[PROGRESS,RELIABILITY,FRAGMENTATION,CANCELLATION]</code>
          <td class="tableblock halign-left valign-top">
           <p class="tableblock">
            <a href="unet-handbook_node_information.html">
-            Chapter 17
+            Chapter 18
            </a>
           </p>
          </td>
@@ -1430,7 +1435,7 @@ CapabilityListRsp:INFORM[PROGRESS,RELIABILITY,FRAGMENTATION,CANCELLATION]</code>
          <td class="tableblock halign-left valign-top">
           <p class="tableblock">
            <a href="unet-handbook_address_resolution.html">
-            Chapter 18
+            Chapter 19
            </a>
           </p>
          </td>
@@ -1456,7 +1461,7 @@ CapabilityListRsp:INFORM[PROGRESS,RELIABILITY,FRAGMENTATION,CANCELLATION]</code>
          <td class="tableblock halign-left valign-top">
           <p class="tableblock">
            <a href="unet-handbook_single_hop_links.html">
-            Chapter 20
+            Chapter 21
            </a>
           </p>
          </td>
@@ -1482,7 +1487,7 @@ CapabilityListRsp:INFORM[PROGRESS,RELIABILITY,FRAGMENTATION,CANCELLATION]</code>
          <td class="tableblock halign-left valign-top">
           <p class="tableblock">
            <a href="unet-handbook_medium_access_control.html">
-            Chapter 19
+            Chapter 20
            </a>
           </p>
          </td>
@@ -1508,7 +1513,7 @@ CapabilityListRsp:INFORM[PROGRESS,RELIABILITY,FRAGMENTATION,CANCELLATION]</code>
          <td class="tableblock halign-left valign-top">
           <p class="tableblock">
            <a href="unet-handbook_routing_and_route_maintenance.html">
-            Chapter 21
+            Chapter 22
            </a>
           </p>
          </td>
@@ -1534,7 +1539,7 @@ CapabilityListRsp:INFORM[PROGRESS,RELIABILITY,FRAGMENTATION,CANCELLATION]</code>
          <td class="tableblock halign-left valign-top">
           <p class="tableblock">
            <a href="unet-handbook_routing_and_route_maintenance.html">
-            Chapter 21
+            Chapter 22
            </a>
           </p>
          </td>
@@ -1586,7 +1591,7 @@ CapabilityListRsp:INFORM[PROGRESS,RELIABILITY,FRAGMENTATION,CANCELLATION]</code>
          <td class="tableblock halign-left valign-top">
           <p class="tableblock">
            <a href="unet-handbook_remote_access.html">
-            Chapter 23
+            Chapter 24
            </a>
           </p>
          </td>
@@ -1612,7 +1617,7 @@ CapabilityListRsp:INFORM[PROGRESS,RELIABILITY,FRAGMENTATION,CANCELLATION]</code>
          <td class="tableblock halign-left valign-top">
           <p class="tableblock">
            <a href="unet-handbook_state_persistence.html">
-            Chapter 24
+            Chapter 25
            </a>
           </p>
          </td>
@@ -1638,7 +1643,7 @@ CapabilityListRsp:INFORM[PROGRESS,RELIABILITY,FRAGMENTATION,CANCELLATION]</code>
          <td class="tableblock halign-left valign-top">
           <p class="tableblock">
            <a href="unet-handbook_scheduler.html">
-            Chapter 25
+            Chapter 26
            </a>
           </p>
          </td>
@@ -1664,7 +1669,7 @@ CapabilityListRsp:INFORM[PROGRESS,RELIABILITY,FRAGMENTATION,CANCELLATION]</code>
          <td class="tableblock halign-left valign-top">
           <p class="tableblock">
            <a href="unet-handbook_shell.html">
-            Chapter 26
+            Chapter 27
            </a>
           </p>
          </td>
@@ -1695,9 +1700,9 @@ CapabilityListRsp:INFORM[PROGRESS,RELIABILITY,FRAGMENTATION,CANCELLATION]</code>
   </div>
   <div id="footer">
    <div id="footer-text">
-    Version 3.0.3
+    Version 3.1.0
     <br/>
-    Last updated 2020-02-07 16:49:19 +0800
+    Last updated 2020-04-05 19:06:39 +0800
    </div>
    <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

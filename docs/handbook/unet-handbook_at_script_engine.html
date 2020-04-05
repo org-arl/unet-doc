@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
     </span>
     <br/>
     <span id="revnumber">
-     version 3.0.3
+     version 3.1.0
     </span>
    </div>
    <div class="toc2" id="toc">
@@ -540,8 +540,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
         </a>
        </li>
        <li>
+        <a href="unet-handbook_wormholes.html">
+         11. Wormholes
+        </a>
+       </li>
+       <li>
         <a href="unet-handbook_at_script_engine.html">
-         11. AT script engine
+         12. AT script engine
         </a>
        </li>
       </ul>
@@ -555,77 +560,77 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       <ul class="sectlevel1">
        <li>
         <a href="unet-handbook_services_and_capabilities.html">
-         12. Services and capabilities
+         13. Services and capabilities
         </a>
        </li>
        <li>
         <a href="unet-handbook_datagram_service.html">
-         13. Datagram service
+         14. Datagram service
         </a>
        </li>
        <li>
         <a href="unet-handbook_physical_service.html">
-         14. Physical service
+         15. Physical service
         </a>
        </li>
        <li>
         <a href="unet-handbook_baseband_service.html">
-         15. Baseband service
+         16. Baseband service
         </a>
        </li>
        <li>
         <a href="unet-handbook_ranging_and_synchronization.html">
-         16. Ranging and synchronization
+         17. Ranging and synchronization
         </a>
        </li>
        <li>
         <a href="unet-handbook_node_information.html">
-         17. Node information
+         18. Node information
         </a>
        </li>
        <li>
         <a href="unet-handbook_address_resolution.html">
-         18. Address resolution
+         19. Address resolution
         </a>
        </li>
        <li>
         <a href="unet-handbook_medium_access_control.html">
-         19. Medium access control
+         20. Medium access control
         </a>
        </li>
        <li>
         <a href="unet-handbook_single_hop_links.html">
-         20. Single-hop links
+         21. Single-hop links
         </a>
        </li>
        <li>
         <a href="unet-handbook_routing_and_route_maintenance.html">
-         21. Routing and route maintenance
+         22. Routing and route maintenance
         </a>
        </li>
        <li>
         <a href="unet-handbook_transport_service.html">
-         22. Transport service
+         23. Transport service
         </a>
        </li>
        <li>
         <a href="unet-handbook_remote_access.html">
-         23. Remote access
+         24. Remote access
         </a>
        </li>
        <li>
         <a href="unet-handbook_state_persistence.html">
-         24. State persistence
+         25. State persistence
         </a>
        </li>
        <li>
         <a href="unet-handbook_scheduler.html">
-         25. Scheduler
+         26. Scheduler
         </a>
        </li>
        <li>
         <a href="unet-handbook_shell.html">
-         26. Shell
+         27. Shell
         </a>
        </li>
       </ul>
@@ -639,12 +644,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       <ul class="sectlevel1">
        <li>
         <a href="unet-handbook_developing_your_own_agents.html">
-         27. Developing your own agents
+         28. Developing your own agents
         </a>
        </li>
        <li>
         <a href="unet-handbook_implementing_network_protocols.html">
-         28. Implementing network protocols
+         29. Implementing network protocols
         </a>
        </li>
       </ul>
@@ -658,17 +663,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
       <ul class="sectlevel1">
        <li>
         <a href="unet-handbook_writing_simulation_scripts.html">
-         29. Writing simulation scripts
+         30. Writing simulation scripts
         </a>
        </li>
        <li>
         <a href="unet-handbook_discrete_event_simulation.html">
-         30. Discrete event simulation
+         31. Discrete event simulation
         </a>
        </li>
        <li>
         <a href="unet-handbook_modems_and_channel_models.html">
-         31. Modems and channel models
+         32. Modems and channel models
         </a>
        </li>
       </ul>
@@ -708,7 +713,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
   <div id="content">
    <div class="sect1">
     <h2 id="_at_script_engine">
-     11. AT script engine
+     12. AT script engine
     </h2>
     <div class="sectionbody">
      <div class="admonitionblock caution">
@@ -782,7 +787,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
      </div>
      <div class="sect2">
       <h3 id="_starting_the_at_command_interpreter">
-       11.1. Starting the AT command interpreter
+       12.1. Starting the AT command interpreter
       </h3>
       <div class="paragraph">
        <p>
@@ -794,10 +799,42 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
         <pre class="rouge highlight"><code data-lang="unet">&gt; iface ATScriptEngine, 5001</code></pre>
        </div>
       </div>
+      <div class="paragraph">
+       <p>
+        Once started, you can connect to port 5001 (assuming you started the interpreter on TCP port 5001 as shown above) using a terminal window:
+       </p>
+      </div>
+      <div class="listingblock">
+       <div class="content">
+        <pre class="rouge highlight"><code data-lang="shell"><span class="nv">$ </span>nc localhost 5001</code></pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        Now you can interact with the AT command interpreter.
+       </p>
+      </div>
+      <div class="admonitionblock note">
+       <table>
+        <tr>
+         <td class="icon">
+          <i class="fa icon-note" title="Note">
+          </i>
+         </td>
+         <td class="content">
+          You can also bind the AT command interpreter to a serial port, if desired. See
+          <code>
+           help iface
+          </code>
+          for details.
+         </td>
+        </tr>
+       </table>
+      </div>
      </div>
      <div class="sect2">
       <h3 id="_basic_at_commands">
-       11.2. Basic AT commands
+       12.2. Basic AT commands
       </h3>
       <div class="paragraph">
        <p>
@@ -875,7 +912,7 @@ OK</code></pre>
      </div>
      <div class="sect2">
       <h3 id="_shell_extensions">
-       11.3. Shell extensions
+       12.3. Shell extensions
       </h3>
       <div class="paragraph">
        <p>
@@ -983,7 +1020,7 @@ OK</code></pre>
      </div>
      <div class="sect2">
       <h3 id="_agent_parameter_access_commands">
-       11.4. Agent parameter access commands
+       12.4. Agent parameter access commands
       </h3>
       <div class="paragraph">
        <p>
@@ -1071,7 +1108,7 @@ OK</code></pre>
      </div>
      <div class="sect2">
       <h3 id="_sending_and_receiving_messages">
-       11.5. Sending and receiving messages
+       12.5. Sending and receiving messages
       </h3>
       <div class="paragraph">
        <p>
@@ -1308,7 +1345,7 @@ OK
      </div>
      <div class="sect2">
       <h3 id="_managing_the_data_buffer">
-       11.6. Managing the data buffer
+       12.6. Managing the data buffer
       </h3>
       <div class="paragraph">
        <p>
@@ -1464,8 +1501,8 @@ OK
    <table width="100%">
     <tr>
      <td align="left" width="50%">
-      <a href="unet-handbook_portals.html" style="text-decoration: none;">
-       &lt;&lt;&lt; [Portals]
+      <a href="unet-handbook_wormholes.html" style="text-decoration: none;">
+       &lt;&lt;&lt; [Wormholes]
       </a>
      </td>     <td align="right" width="50%">
       <a href="unet-handbook_services_and_capabilities.html" style="text-decoration: none;">
@@ -1477,9 +1514,9 @@ OK
   </div>
   <div id="footer">
    <div id="footer-text">
-    Version 3.0.3
+    Version 3.1.0
     <br/>
-    Last updated 2020-02-07 16:49:19 +0800
+    Last updated 2020-04-05 19:06:39 +0800
    </div>
    <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
