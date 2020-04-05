@@ -6,7 +6,9 @@ The ROUTING and ROUTE_MAINTENANCE services work closely to provide multi-hop com
 
 If a network only requires static routes, the ROUTING service provider is sufficient to provide the functionality. In case of networks with dynamic route discovery, a ROUTE_MAINTENANCE service provider discovers routes (or route changes) and publishes `RouteDiscoveryNtf` messages. The ROUTING service provider subscribes to these messages and updates its routing tables.
 
-Both services are described below.
+The ROUTING service provider also typically listens for `LinkStatusNtf` messages from the LINK service agents. These messages allow it to keep track of link availability and link quality.
+
+Both ROUTING and ROUTE_MAINTENANCE services are described below.
 
 === Routing service
 
@@ -18,7 +20,17 @@ All agents supporting the ROUTING service must also support the DATAGRAM service
 
 It is recommended that agents offering the ROUTING service provide reliability, when requested. Agents that are able to provide reliability, do so by advertising the DATAGRAM service capability RELIABILITY.
 
-NOTE: The ROUTING service currently does not define a way to add, update or delete static routes in the routing table. Dynamic routes may be added/updated using the `RouteDiscoveryNtf` messages. An agent implementing this service may choose to provide agent-specific messages or parameters to manage the routes. The agent should provide `routes`, `addroute`, `delroute` and `delroutesto` commands (see <<Static routing>>) for user interaction from the shell.
+==== Messages
+
+Agents providing the ROUTING service support the following messages:
+
+* {url-unet-javadoc}org/arl/unet/net/GetRouteReq.html[`GetRouteReq`^] => {url-unet-javadoc}org/arl/unet/net/RouteRsp.html[`RouteRsp`^] / `AGREE` / `REFUSE` -- find route or a list of routes
+* {url-unet-javadoc}org/arl/unet/net/EditRouteReq.html[`EditRouteReq`^] => `AGREE` / `REFUSE` -- add, delete or change routing table entry
+* {url-unet-javadoc}org/arl/unet/net/RouteChangeNtf.html[`RouteChangeNtf`^] -- sent to agent's topic when a routing table entry is added, removed or changed
+
+The `GetRouteReq` message may be used to request a single route (`all = false`), or a list of routes (`all = true`). When a single route is requested, the response is either a `RouteRsp` (with route information) or a `REFUSE` (if no route available). When multiple routes are requested, the response is a series of `RouteRsp` messages, followed by an `AGREE` message to indicate end of the list. If no routes available, a `REFUSE` message is sent back instead of the `AGREE` message.
+
+While the above messages may be used programmatically to manipulate the routing table, typically users interact with the router via the shell commands described in <<Routing in larger networks>> and <<Router and the route discovery protocol>> below.
 
 === Route maintenance service
 
@@ -47,10 +59,13 @@ Without `auto1hop` enabled, every route must be explicitly added to the routing 
 [source]
 ----
 > router
-<<< Router >>>
+« Router »
+
+Routes datagrams in the network, based on a routing table.
 
 [org.arl.unet.DatagramParam]
-  MTU = 3145630
+  MTU = 3145581
+  RTU = 1447
 
 [org.arl.unet.net.RouterParam]
   auto1hop = true
@@ -70,7 +85,8 @@ Examples:
   routes              // display routing table
   routes 2            // display routes to node 2
   addroute 27, 29     // add a route to node 27 via node 29
-  delroute 2          // delete route number 2
+  delroute 'as7623'   // delete route with UUID as7623
+  editroute 'as7623', metric: 5.0 // edit route to change metric
   delroutesto 27      // delete all routes to node 27
   delroutes           // delete all routes
   trace 27            // trace route to node 27
@@ -79,6 +95,7 @@ Examples:
 Parameters:
 
 - router.MTU - maximum data transfer size
+- router.RTU - recommended data transfer size
 - router.auto1hop - automatically assume single hop routes
 - router.defaultLink - default link to use
 
@@ -86,6 +103,7 @@ Commands:
 
 - routes - print routing table
 - addroute - add a route to the routing table
+- editroute - edit a route in the routing table
 - delroute - delete a route from the routing table
 - delroutesto - delete all routes to specified node from the routing table
 - delroutes - delete all routes from the routing table
