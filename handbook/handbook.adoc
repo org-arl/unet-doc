@@ -22,6 +22,12 @@ v3.1.0
 :url-unet-javadoc: https://unetstack.net/javadoc/3.1/index.html?
 :url-fjage-javadoc: https://org-arl.github.io/fjage/javadoc/index.html?
 :url-fjage-doc: https://fjage.readthedocs.io/en/latest
+:url-youtube-intro: https://www.youtube.com/watch?v=A7q7-v-dfrA
+:url-youtube-overview: https://www.youtube.com/watch?v=6MfzduLRFv8
+:url-youtube-quickstart1: https://www.youtube.com/watch?v=eBlu4SPR4Eo
+:url-youtube-quickstart2: https://www.youtube.com/watch?v=4DU1B_5HfXs
+:url-youtube-unetstack: https://www.youtube.com/watch?v=MNTx1pQpJP0
+:url-youtube-unet: https://www.youtube.com/watch?v=MpqhRhpwAh4
 ifdef::backend-html5[]
 :rouge-style: thankful_eyes
 endif::backend-html5[]

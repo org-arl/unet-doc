@@ -1,5 +1,11 @@
 == Unet basics
 
+ifdef::backend-html5[]
+****
+TIP: The material in this chapter is also available as a {url-youtube-unet}[short video].
+****
+endif::backend-html5[]
+
 Now that we have a basic understanding of how UnetStack works, it is time to take the next step into setting up and configuring underwater networks, or simply _Unets_.
 
 === Node names and addresses

@@ -1,5 +1,11 @@
 == UnetStack basics
 
+ifdef::backend-html5[]
+****
+TIP: The material in this chapter is also available as a {url-youtube-unetstack}[short video].
+****
+endif::backend-html5[]
+
 UnetStack is an _agent-based network stack_. Each _agent_ is similar to a _layer_ in a traditional network stack, but has more flexibility to use the scarce resources (bandwidth, energy, etc) in the Unet more efficiently. In order to develop Unet applications, we need to understand some basic concepts in UnetStack.
 
 === The command shell

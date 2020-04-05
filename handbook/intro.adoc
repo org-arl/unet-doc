@@ -2,6 +2,12 @@
 
 === What is a Unet?
 
+ifdef::backend-html5[]
+****
+TIP: The material in this section is also available as a {url-youtube-intro}[short video].
+****
+endif::backend-html5[]
+
 The Internet has changed our lives beyond anyone's wildest expectations, fundamentally changing the way we interact, the way we learn, and the way we work. More recently, devices have started connecting to the Internet, and communicating with other devices. This _Internet of Things_ (IoT) has the potential to have a huge impact on the way we understand our environment, and interact with it. Given that most of our planet's surface is covered with water, would it then not make sense that at least some of these devices might be in water? Some devices might measure ocean temperature and acidification to give us a handle on climate change, while other devices might monitor fresh water quality to ensure safe drinking water for us. Autonomous underwater vehicles (AUVs) may patrol our coastal waters looking for intruders, or tracking down sources of pollution or nutients that encourage harmful algal blooms. Be it static sensors or mobile AUVs, we need a way to connect them into a network that we can communicate and interact with. The _Unet project_ strives to develop technologies that allow us to do precisely this. In this handbook, we explore how to use {url-unetstack}[UnetStack3], a technology developed as part of the Unet project, to build communication networks that extend underwater.
 
 Most wireless technologies today rely on electromagnetic waves that don't propagate well underwater. Therefore, to extend IoT underwater, we typically need a mix of technologies -- cabled links where possible, otherwise radio frequency (RF) wireless links above water, and mid-to-long range wireless acoustic or short-range wireless optical links underwater. A "Unet" network (which we will simply call _Unet_ henceforth) consists of several nodes (underwater, on the surface of water, or above water) that communicate over various types of links, as shown in <<fig_network>>.
@@ -40,6 +46,12 @@ A link is simply a logical connection between two nodes, often provided by equip
 |===
 
 === UnetStack
+
+ifdef::backend-html5[]
+****
+TIP: The material in this section is also available as a {url-youtube-overview}[short video].
+****
+endif::backend-html5[]
 
 Unet nodes are equipped with one or more network interfaces that allow communication over some of these links. For example, to communicate over an underwater acoustic link, we need an _underwater acoustic modem_. For an underwater optical link, we use an _underwater optical modem_. Most RF, GSM, satellite or wired links would be accessed over a standard TCP/IP network interface. In all cases, each Unet node would run the _UnetStack_ software that allows us to effectively communicate over all of these types of links using a common Application Programming Interface (API). UnetStack API bindings are available for several languages including Java, Groovy, Python, Julia, C, Javascript, etc.
 
