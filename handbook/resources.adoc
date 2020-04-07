@@ -3,10 +3,11 @@
 
 === Frequently asked questions (FAQs)
 
-* https://blog.unetstack.net/whats-new-in-UnetStack3[What's new in UnetStack3?^]
+* https://blog.unetstack.net/whats-new-in-UnetStack3.1[What's new in UnetStack 3.1?^]
 * https://blog.unetstack.net/using-idea-with-unetstack[Can I use UnetStack with IntelliJ IDEA?^]
 * https://blog.unetstack.net/developing-modem-drivers-for-unetstack[How do I write a modem driver for my modem?^]
 * https://blog.unetstack.net/on-underwater-localization-using-unetstack[Can I use UnetStack to localize underwater nodes?^]
+* https://blog.unetstack.net/exploting-spatial-diversity-using-unetstack3[How do I exploit spatial diversity across multiple Unet nodes?^]
 
 === Useful resources
 
