@@ -1666,6 +1666,19 @@ AGREE</code></pre>
          The ranging agent provides a lot of flexibility for configuration. To see the power of this, let’s consider a scenario in which we want to use a UnetStack-based modem to measure range to a COTS transponder that is configured to respond to a 22 kHz 2 ms long pulse with a 30 kHz 2 ms pulse, after a delay of 30 ms.
         </p>
        </div>
+       <div class="admonitionblock tip">
+        <table>
+         <tr>
+          <td class="icon">
+           <i class="fa icon-tip" title="Tip">
+           </i>
+          </td>
+          <td class="content">
+           The example below is meant to run on a UnetStack-based modem. If you don’t have one, you can still try out the example on Unet audio and hear the interrogation pulse. However, because the default operating band of Unet audio SDOAM is 6-18 kHz, you’ll need to pick interrogation and response frequencies in this band. Also, you may want to make the interrogation pulse longer (say 200 ms), so you can hear it when you try ranging with this in air.
+          </td>
+         </tr>
+        </table>
+       </div>
        <div class="paragraph">
         <p>
          First, we welcome the COTS transponder into our network as a Unet
@@ -1721,19 +1734,6 @@ AGREE</code></pre>
         <p>
          Assuming you have the UnetStack-based modem in the water, along with the COTS transponder, you’ll get a range estimate back after just a short delay.
         </p>
-       </div>
-       <div class="admonitionblock tip">
-        <table>
-         <tr>
-          <td class="icon">
-           <i class="fa icon-tip" title="Tip">
-           </i>
-          </td>
-          <td class="content">
-           If you don’t have a UnetStack-based modem, you can still try out the above example on Unet audio, and hear the interrogation pulse. However, because the default operating band of Unet audio SDOAM is 6-18 kHz, you’ll need to pick interrogation and response frequencies in this band. Also, you may want to make the interrogation pulse longer (say 200 ms), so you can hear it when you try ranging with this in air.
-          </td>
-         </tr>
-        </table>
        </div>
        <div class="paragraph">
         <p>
