@@ -2,7 +2,7 @@
 
 ifdef::backend-html5[]
 ****
-TIP: The material in this chapter is also available as a {url-youtube-unetstack}[short video].
+TIP: The material in this chapter is also available as a {url-youtube-unetstack}[short video^].
 ****
 endif::backend-html5[]
 

@@ -2,7 +2,7 @@
 
 ifdef::backend-html5[]
 ****
-TIP: The material in this chapter is also available as a two short videos: {url-youtube-quickstart1}[part 1], {url-youtube-quickstart2}[part 2].
+TIP: The material in this chapter is also available as a two short videos: {url-youtube-quickstart1}[part 1^], {url-youtube-quickstart2}[part 2^].
 ****
 endif::backend-html5[]
 

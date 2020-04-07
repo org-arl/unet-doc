@@ -4,7 +4,7 @@
 
 ifdef::backend-html5[]
 ****
-TIP: The material in this section is also available as a {url-youtube-intro}[short video].
+TIP: The material in this section is also available as a {url-youtube-intro}[short video^].
 ****
 endif::backend-html5[]
 
@@ -49,7 +49,7 @@ A link is simply a logical connection between two nodes, often provided by equip
 
 ifdef::backend-html5[]
 ****
-TIP: The material in this section is also available as a {url-youtube-overview}[short video].
+TIP: The material in this section is also available as a {url-youtube-overview}[short video^].
 ****
 endif::backend-html5[]
 
