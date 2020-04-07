@@ -168,11 +168,12 @@ Now, try sending a `beacon` again from node C, and see what we get at node B:
 ranging >> RangeNtf:INFORM[from:31 to:74 range:616.0877 rxTime:6152654937]
 ----
 
-We got the notification from node B's agent, but nothing from node A! 😕
+We got the notification from node B's agent, but nothing from node A!
+ifdef::backend-html5[😕]
 
 By default, wormholes do not publish messages on topics. However, it is easy to enable certain topics to be published. To enable this, we set the `wh.publish` parameter on node A:
 
-.Node B:
+.Node A:
 [source]
 ----
 > wh.publish = [topic(ranging)]
@@ -190,6 +191,7 @@ ranging@232 >> RangeNtf:INFORM[from:232 to:74 range:530.0323 rxTime:4129955132]
 ranging >> RangeNtf:INFORM[from:31 to:74 range:616.0877 rxTime:6517831937]
 ----
 
-Cool! We got both ranges on node B now.  🙂
+Cool! We got both ranges on node B now.
+ifdef::backend-html5[🙂]
 
 We can now write our application script to call `receive(RangeNtf)` to get the ranges, and computes the position of the diver everytime the diver node transmits a beacon.
