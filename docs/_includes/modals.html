@@ -74,9 +74,9 @@
                             </p>
                             <a id="download" href="" target="_blank" style="display:none;"></a>
                             <script>
-                            function download() {
+                            function download(ext) {
                                 {% capture version %}{% include_relative version.txt %}{% endcapture %}
-                                var url = 'downloads/unet-community-{{ version | strip_newlines }}.tgz';
+                                var url = 'downloads/unet-community-{{ version | strip_newlines }}.'+ext;
                                 const d = document.getElementById('download');
                                 d.href = url;
                                 d.click();
@@ -89,7 +89,8 @@
                                 $('#modal-download').modal('hide');
                             };
                             </script>
-                            <button type="button" class="btn btn-default" style="background-color: #47c0f7;" onclick="download();"><i class="fa fa-check"></i> Accept</button>
+                            <button type="button" class="btn btn-default" style="background-color: #47c0f7;" onclick="download('tgz');"><i class="fa fa-check"></i> Accept (download tgz)</button>
+                            <button type="button" class="btn btn-default" style="background-color: #47c0f7;" onclick="download('zip');"><i class="fa fa-check"></i> Accept (download zip)</button>
                             <button type="button" class="btn btn-default" style="background-color: #c7c0c7;" data-dismiss="modal"><i class="fa fa-times"></i> Decline</button>
                         </div>
                     </div>
