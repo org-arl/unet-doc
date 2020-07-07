@@ -103,7 +103,7 @@ NOTE: In the Unet premium stack, `ECLink` replaces `ReliableLink` as the default
 
 If you have a modem with the commercial version of UnetStack3, it'll have `ECLink` loaded as the default LINK service provider:
 
-[source, groovy]
+[source]
 ----
 > uwlink
 « Erasure coded link »
