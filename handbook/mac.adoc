@@ -49,7 +49,7 @@ Agents may support several optional capabilities:
 
 *{url-unet-javadoc}org/arl/unet/mac/MacCapability.html#RELIABILITY[RELIABILITY^]*
 
-An agent advertising this capability must be able to send acknowlegements as part of the MAC protocol. The agent must support the `TxAckReq` request to provide acknowledgement payload to be transmitted to the peer node at the end of the reservation. On reception, this should generate a `RxAckNtf` on the peer node.
+An agent advertising this capability must be able to send acknowlegements as part of the MAC protocol. The agent must support the `TxAckReq` request to provide acknowledgement payload to be transmitted to the peer node at the end of the reservation. On reception, this payload should be delivered in the `ReservationStatusNtf[status: END]` on the peer node.
 
 *{url-unet-javadoc}org/arl/unet/mac/MacCapability.html#PRIORITY[PRIORITY^]*
 

@@ -1006,9 +1006,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
          <code>
           TxAckReq
          </code>
-         request to provide acknowledgement payload to be transmitted to the peer node at the end of the reservation. On reception, this should generate a
+         request to provide acknowledgement payload to be transmitted to the peer node at the end of the reservation. On reception, this payload should be delivered in the
          <code>
-          RxAckNtf
+          ReservationStatusNtf[status: END]
          </code>
          on the peer node.
         </p>
@@ -1301,7 +1301,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
    <div id="footer-text">
     Version 3.1.0
     <br/>
-    Last updated 2020-04-07 15:04:23 +0800
+    Last updated 2020-07-15 00:21:43 +0800
    </div>
    <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

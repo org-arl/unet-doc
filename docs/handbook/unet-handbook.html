@@ -14544,9 +14544,9 @@ AddressResolutionRsp:INFORM[address:232 name:A]
          <code>
           TxAckReq
          </code>
-         request to provide acknowledgement payload to be transmitted to the peer node at the end of the reservation. On reception, this should generate a
+         request to provide acknowledgement payload to be transmitted to the peer node at the end of the reservation. On reception, this payload should be delivered in the
          <code>
-          RxAckNtf
+          ReservationStatusNtf[status: END]
          </code>
          on the peer node.
         </p>
@@ -15181,34 +15181,34 @@ CapabilityListRsp:INFORM[FRAGMENTATION,RELIABILITY,LINK_STATUS]</code></pre>
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="groovy"><span class="o">&gt;</span> <span class="n">uwlink</span>
-<span class="err">«</span> <span class="n">Erasure</span> <span class="n">coded</span> <span class="n">link</span> <span class="err">»</span>
+        <pre class="rouge highlight"><code data-lang="unet">&gt; uwlink
+« Erasure coded link »
 
-<span class="n">Link</span> <span class="n">protocol</span> <span class="n">based</span> <span class="n">on</span> <span class="n">erasure</span> <span class="n">coding</span><span class="o">,</span> <span class="k">for</span> <span class="n">fast</span> <span class="n">large</span> <span class="n">data</span> <span class="n">transfers</span> <span class="n">over</span> <span class="n">a</span> <span class="n">single</span> <span class="n">hop</span><span class="o">.</span>
+Link protocol based on erasure coding, for fast large data transfers over a single hop.
 
-<span class="o">[</span><span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">DatagramParam</span><span class="o">]</span>
-  <span class="n">MTU</span> <span class="err">⤇</span> <span class="mi">3145584</span>
-  <span class="n">RTU</span> <span class="err">⤇</span> <span class="mi">1450</span>
+[org.arl.unet.DatagramParam]
+  MTU ⤇ 3145584
+  RTU ⤇ 1450
 
-<span class="o">[</span><span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">link</span><span class="o">.</span><span class="na">ECLinkParam</span><span class="o">]</span>
-  <span class="n">compress</span> <span class="o">=</span> <span class="kc">true</span>
-  <span class="n">controlChannel</span> <span class="o">=</span> <span class="mi">1</span>
-  <span class="n">dataChannel</span> <span class="o">=</span> <span class="mi">2</span>
-  <span class="n">mac</span> <span class="o">=</span> <span class="n">mac</span>
-  <span class="n">maxBatchSize</span> <span class="o">=</span> <span class="mi">65533</span>
-  <span class="n">maxPropagationDelay</span> <span class="o">=</span> <span class="mf">3.0</span>
-  <span class="n">maxRetries</span> <span class="o">=</span> <span class="mi">2</span>
-  <span class="n">minBatchSize</span> <span class="o">=</span> <span class="mi">3</span>
-  <span class="n">phy</span> <span class="o">=</span> <span class="n">phy</span>
-  <span class="n">reliability</span> <span class="o">=</span> <span class="kc">false</span>
-  <span class="n">reliableExtra</span> <span class="o">=</span> <span class="mf">0.2</span>
-  <span class="n">unreliableExtra</span> <span class="o">=</span> <span class="mf">0.3</span>
+[org.arl.unet.link.ECLinkParam]
+  compress = true
+  controlChannel = 1
+  dataChannel = 2
+  mac = mac
+  maxBatchSize = 65533
+  maxPropagationDelay = 3.0
+  maxRetries = 2
+  minBatchSize = 3
+  phy = phy
+  reliability = false
+  reliableExtra = 0.2
+  unreliableExtra = 0.3
 
-<span class="o">[</span><span class="n">org</span><span class="o">.</span><span class="na">arl</span><span class="o">.</span><span class="na">unet</span><span class="o">.</span><span class="na">link</span><span class="o">.</span><span class="na">LinkParam</span><span class="o">]</span>
-  <span class="n">dataRate</span> <span class="err">⤇</span> <span class="mf">731.4286</span>
+[org.arl.unet.link.LinkParam]
+  dataRate ⤇ 731.4286
 
-<span class="o">&gt;</span> <span class="n">uwlink</span> <span class="o">&lt;&lt;</span> <span class="k">new</span> <span class="n">CapabilityReq</span><span class="o">()</span>
-<span class="nl">CapabilityListRsp:</span><span class="n">INFORM</span><span class="o">[</span><span class="n">COMPRESSION</span><span class="o">,</span><span class="n">RELIABILITY</span><span class="o">,</span><span class="n">CANCELLATION</span><span class="o">,</span><span class="n">FRAGMENTATION</span><span class="o">,</span><span class="n">LINK_STATUS</span><span class="o">]</span></code></pre>
+&gt; uwlink &lt;&lt; new CapabilityReq()
+CapabilityListRsp:INFORM[COMPRESSION,RELIABILITY,CANCELLATION,FRAGMENTATION,LINK_STATUS]</code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -27823,7 +27823,7 @@ BER is computed for the frame.
    <div id="footer-text">
     Version 3.1.0
     <br/>
-    Last updated 2020-04-07 15:04:23 +0800
+    Last updated 2020-07-15 00:21:43 +0800
    </div>
    <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
