@@ -51,7 +51,7 @@ Generic half duplex modem simulator.
   carrierFrequency = 12000.0
   maxPreambleID ⤇ 4
   maxSignalLength = 65536
-  signalPowerLevel = -10.0
+  signalPowerLevel = -42.0
 
 [org.arl.unet.phy.PhysicalParam]
   busy ⤇ false
@@ -170,7 +170,7 @@ From this help, we see that `phy` agent also supports channel parameters (also k
   janus = false
   llr ⤇ false
   maxFrameLength = 128
-  powerLevel = -10.0
+  powerLevel = -42.0
 
 > phy[DATA]
 « PHY »
@@ -189,7 +189,7 @@ From this help, we see that `phy` agent also supports channel parameters (also k
   janus = false
   llr ⤇ false
   maxFrameLength = 512
-  powerLevel = -10.0
+  powerLevel = -42.0
 
 > phy[CONTROL].MTU
 16
@@ -219,10 +219,10 @@ Examples:
   plvl = -10                 // alternative syntax
 
 > plvl
-phy[1].powerLevel = -10.0
-phy[2].powerLevel = -10.0
-phy[3].powerLevel = -10.0
-phy.signalPowerLevel = -10.0
+phy[1].powerLevel = -42.0
+phy[2].powerLevel = -42.0
+phy[3].powerLevel = -42.0
+phy.signalPowerLevel = -42.0
 > plvl -20
 OK
 > plvl

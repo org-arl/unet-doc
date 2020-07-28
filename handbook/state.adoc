@@ -24,11 +24,11 @@ Fire up Unet audio (`bin/unet audio`) to test out how state persistence works:
 [source]
 ----
 > plvl
-phy[1].powerLevel = -10.0
-phy[2].powerLevel = -10.0
-phy[3].powerLevel = -10.0
-phy[4].powerLevel = -10.0
-phy.signalPowerLevel = -10.0
+phy[1].powerLevel = -42.0
+phy[2].powerLevel = -42.0
+phy[3].powerLevel = -42.0
+phy[4].powerLevel = -42.0
+phy.signalPowerLevel = -42.0
 > plvl -40
 OK
 > shutdown
@@ -39,11 +39,11 @@ Now start Unet audio again, and you'll find that the `plvl` state was not retain
 [source]
 ----
 > plvl
-phy[1].powerLevel = -10.0
-phy[2].powerLevel = -10.0
-phy[3].powerLevel = -10.0
-phy[4].powerLevel = -10.0
-phy.signalPowerLevel = -10.0
+phy[1].powerLevel = -42.0
+phy[2].powerLevel = -42.0
+phy[3].powerLevel = -42.0
+phy[4].powerLevel = -42.0
+phy.signalPowerLevel = -42.0
 ----
 
 We can ask it to retain the state:
@@ -115,11 +115,11 @@ The help shows you that the `savestate` command can be used to save the state of
 [source]
 ----
 > plvl
-phy[1].powerLevel = -10.0
-phy[2].powerLevel = -10.0
-phy[3].powerLevel = -10.0
-phy[4].powerLevel = -10.0
-phy.signalPowerLevel = -10.0
+phy[1].powerLevel = -42.0
+phy[2].powerLevel = -42.0
+phy[3].powerLevel = -42.0
+phy[4].powerLevel = -42.0
+phy.signalPowerLevel = -42.0
 > plvl -40
 OK
 > savestate 'p40', phy            //<1>

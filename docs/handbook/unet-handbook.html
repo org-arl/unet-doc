@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
     </span>
     <br/>
     <span id="revnumber">
-     version 3.1.0
+     version 3.1.1
     </span>
    </div>
    <div class="toc2" id="toc">
@@ -2391,7 +2391,7 @@ Generic half duplex modem simulator.
   carrierFrequency = 12000.0
   maxPreambleID ⤇ 4
   maxSignalLength = 65536
-  signalPowerLevel = -10.0
+  signalPowerLevel = -42.0
 
 [org.arl.unet.phy.PhysicalParam]
   busy ⤇ false
@@ -2534,7 +2534,7 @@ parameters type "help modem".
   janus = false
   llr ⤇ false
   maxFrameLength = 128
-  powerLevel = -10.0
+  powerLevel = -42.0
 
 &gt; phy[DATA]
 « PHY »
@@ -2553,7 +2553,7 @@ parameters type "help modem".
   janus = false
   llr ⤇ false
   maxFrameLength = 512
-  powerLevel = -10.0
+  powerLevel = -42.0
 
 &gt; phy[CONTROL].MTU
 16
@@ -2609,10 +2609,10 @@ Examples:
   plvl = -10                 // alternative syntax
 
 &gt; plvl
-phy[1].powerLevel = -10.0
-phy[2].powerLevel = -10.0
-phy[3].powerLevel = -10.0
-phy.signalPowerLevel = -10.0
+phy[1].powerLevel = -42.0
+phy[2].powerLevel = -42.0
+phy[3].powerLevel = -42.0
+phy.signalPowerLevel = -42.0
 &gt; plvl -20
 OK
 &gt; plvl
@@ -7138,11 +7138,11 @@ ERROR
 AT~EXT=org.arl.unet.phy.PhysicalShellExt
 OK
 AT~PLVL
-PHY/1.POWERLEVEL=-10.0
-PHY/2.POWERLEVEL=-10.0
-PHY/3.POWERLEVEL=-10.0
-PHY/4.POWERLEVEL=-10.0
-PHY.SIGNALPOWERLEVEL=-10.0
+PHY/1.POWERLEVEL=-42.0
+PHY/2.POWERLEVEL=-42.0
+PHY/3.POWERLEVEL=-42.0
+PHY/4.POWERLEVEL=-42.0
+PHY.SIGNALPOWERLEVEL=-42.0
 OK
 AT~PLVL=-3
 OK
@@ -12236,7 +12236,7 @@ AGREE
 phy &gt;&gt; TxFrameStartNtf:INFORM[txTime:6992613349 txDuration:170916]
 phy &gt;&gt; TxFrameNtf:INFORM[txTime:6992598599]
 phy &gt;&gt; RxFrameStartNtf:INFORM[type:#3 rxTime:6992616269 rxDuration:170500 detector:0.78]
-phy &gt;&gt; RxBasebandSignalNtf:INFORM[adc:1 rxTime:6992616269 rssi:-22.0 preamble:3 fc:12000.0 fs:12000.0 (2046 baseband samples)]</code></pre>
+phy &gt;&gt; RxBasebandSignalNtf:INFORM[adc:1 rxTime:6992616269 rssi:-22.0 preamble:3 fc:12000.0 fs:12000.0 (2400 baseband samples)]</code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -12261,7 +12261,7 @@ AGREE
 phy &gt;&gt; TxFrameStartNtf:INFORM[txTime:7143093349 txDuration:170916]
 phy &gt;&gt; TxFrameNtf:INFORM[txTime:7143062599]
 phy &gt;&gt; RxFrameStartNtf:INFORM[type:#3 rxTime:7143081603 rxDuration:1170500 detector:0.78]
-phy &gt;&gt; RxBasebandSignalNtf:INFORM[adc:1 rxTime:7143081603 rssi:-36.7 preamble:3 fc:12000.0 fs:12000.0 (3246 baseband samples)]</code></pre>
+phy &gt;&gt; RxBasebandSignalNtf:INFORM[adc:1 rxTime:7143081603 rssi:-36.7 preamble:3 fc:12000.0 fs:12000.0 (3600 baseband samples)]</code></pre>
        </div>
       </div>
       <div class="colist arabic">
@@ -14047,15 +14047,15 @@ AGREE</code></pre>
 Manages and maintains node information and attributes.
 
 [org.arl.unet.nodeinfo.NodeInfoParam]
-  address = 1
+  address = 21
   addressSize = 8
   canForward = true
   diveRate = 0
   heading = 0
-  location = []
+  location = [-512.0, 248.8, -6.0]
   mobility = false
-  nodeName = 1
-  origin = []
+  nodeName = 21
+  origin = [1.217, 103.743]
   speed = 0
   time ⤇ Sat Apr 04 16:49:55 SGT 2020
   turnRate = 0</code></pre>
@@ -15973,7 +15973,8 @@ Multi-hop transport service based on the stop-and-wait protocol.
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="unet">&gt; transport &lt;&lt; new DatagramReq(to: 31, data: new float[2048], reliability: true)
+        <pre class="rouge highlight"><code data-lang="unet">&gt; transport.reportProgress = true;
+&gt; transport &lt;&lt; new DatagramReq(to: 31, data: new byte[2048], reliability: true)
 AGREE
 transport &gt;&gt; DatagramProgressNtf:INFORM[id:2 to:31 to:(838/2048 bytes, 40%)]
 transport &gt;&gt; DatagramProgressNtf:INFORM[id:2 to:31 to:(1676/2048 bytes, 81%)]
@@ -16578,11 +16579,11 @@ remote &gt;&gt; RemoteSuccessNtf:INFORM[RemoteTextReq:REQUEST[to:31 text:hello! 
       <div class="listingblock">
        <div class="content">
         <pre class="rouge highlight"><code data-lang="unet">&gt; plvl
-phy[1].powerLevel = -10.0
-phy[2].powerLevel = -10.0
-phy[3].powerLevel = -10.0
-phy[4].powerLevel = -10.0
-phy.signalPowerLevel = -10.0
+phy[1].powerLevel = -42.0
+phy[2].powerLevel = -42.0
+phy[3].powerLevel = -42.0
+phy[4].powerLevel = -42.0
+phy.signalPowerLevel = -42.0
 &gt; plvl -40
 OK
 &gt; shutdown</code></pre>
@@ -16600,11 +16601,11 @@ OK
       <div class="listingblock">
        <div class="content">
         <pre class="rouge highlight"><code data-lang="unet">&gt; plvl
-phy[1].powerLevel = -10.0
-phy[2].powerLevel = -10.0
-phy[3].powerLevel = -10.0
-phy[4].powerLevel = -10.0
-phy.signalPowerLevel = -10.0</code></pre>
+phy[1].powerLevel = -42.0
+phy[2].powerLevel = -42.0
+phy[3].powerLevel = -42.0
+phy[4].powerLevel = -42.0
+phy.signalPowerLevel = -42.0</code></pre>
        </div>
       </div>
       <div class="paragraph">
@@ -16739,11 +16740,11 @@ Example:
       <div class="listingblock">
        <div class="content">
         <pre class="rouge highlight"><code data-lang="unet">&gt; plvl
-phy[1].powerLevel = -10.0
-phy[2].powerLevel = -10.0
-phy[3].powerLevel = -10.0
-phy[4].powerLevel = -10.0
-phy.signalPowerLevel = -10.0
+phy[1].powerLevel = -42.0
+phy[2].powerLevel = -42.0
+phy[3].powerLevel = -42.0
+phy[4].powerLevel = -42.0
+phy.signalPowerLevel = -42.0
 &gt; plvl -40
 OK
 &gt; savestate 'p40', phy            <i class="conum" data-value="1"></i><b>(1)</b>
@@ -27821,9 +27822,9 @@ BER is computed for the frame.
   </div>
   <div id="footer">
    <div id="footer-text">
-    Version 3.1.0
+    Version 3.1.1
     <br/>
-    Last updated 2020-07-15 00:21:43 +0800
+    Last updated 2020-07-28 18:46:50 +0800
    </div>
    <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

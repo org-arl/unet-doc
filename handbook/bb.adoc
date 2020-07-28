@@ -236,7 +236,7 @@ AGREE
 phy >> TxFrameStartNtf:INFORM[txTime:6992613349 txDuration:170916]
 phy >> TxFrameNtf:INFORM[txTime:6992598599]
 phy >> RxFrameStartNtf:INFORM[type:#3 rxTime:6992616269 rxDuration:170500 detector:0.78]
-phy >> RxBasebandSignalNtf:INFORM[adc:1 rxTime:6992616269 rssi:-22.0 preamble:3 fc:12000.0 fs:12000.0 (2046 baseband samples)]
+phy >> RxBasebandSignalNtf:INFORM[adc:1 rxTime:6992616269 rssi:-22.0 preamble:3 fc:12000.0 fs:12000.0 (2400 baseband samples)]
 ----
 
 The `RxBasebandSignalNtf` notified us of the recorded signal (containing just the detected preamble). If we wanted a longer recording after the preamble, we can ask for that using the `basebandExtra` parameter, specifying the length of the recording (in samples) beyond the preamble:
@@ -250,7 +250,7 @@ AGREE
 phy >> TxFrameStartNtf:INFORM[txTime:7143093349 txDuration:170916]
 phy >> TxFrameNtf:INFORM[txTime:7143062599]
 phy >> RxFrameStartNtf:INFORM[type:#3 rxTime:7143081603 rxDuration:1170500 detector:0.78]
-phy >> RxBasebandSignalNtf:INFORM[adc:1 rxTime:7143081603 rssi:-36.7 preamble:3 fc:12000.0 fs:12000.0 (3246 baseband samples)]
+phy >> RxBasebandSignalNtf:INFORM[adc:1 rxTime:7143081603 rssi:-36.7 preamble:3 fc:12000.0 fs:12000.0 (3600 baseband samples)]
 ----
 <1> We are requesting 100 ms recording beyond the end of the preamble.
 

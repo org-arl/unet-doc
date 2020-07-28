@@ -49,7 +49,8 @@ Next, let's try a 2048-byte datagram transfer from node A to node B with progres
 
 [source]
 ----
-> transport << new DatagramReq(to: 31, data: new float[2048], reliability: true)
+> transport.reportProgress = true;
+> transport << new DatagramReq(to: 31, data: new byte[2048], reliability: true)
 AGREE
 transport >> DatagramProgressNtf:INFORM[id:2 to:31 to:(838/2048 bytes, 40%)]
 transport >> DatagramProgressNtf:INFORM[id:2 to:31 to:(1676/2048 bytes, 81%)]
