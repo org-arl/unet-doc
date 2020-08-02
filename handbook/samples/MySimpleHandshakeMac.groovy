@@ -47,11 +47,12 @@ class MySimpleHandshakeMac extends UnetAgent {
     int retryCount = 0
     float backoff = 0
     def rxInfo
+    def rnd = AgentLocalRandom.current()
 
     state(State.IDLE) {
       action {
         if (!queue.isEmpty()) {
-          after(rnd(0, BACKOFF_RANDOM)) {
+          after(rnd.nextDouble(0, BACKOFF_RANDOM)) {
             setNextState(State.RTS)
           }
         }

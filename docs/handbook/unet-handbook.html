@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
     </span>
     <br/>
     <span id="revnumber">
-     version 3.1.1
+     version 3.1.2
     </span>
    </div>
    <div class="toc2" id="toc">
@@ -20088,13 +20088,14 @@ mac &gt;&gt; ReservationStatusNtf:INFORM[to:31 status:END]</code></pre>
   <span class="kt">int</span> <span class="n">retryCount</span> <span class="o">=</span> <span class="mi">0</span>
   <span class="kt">float</span> <span class="n">backoff</span> <span class="o">=</span> <span class="mi">0</span>
   <span class="kt">def</span> <span class="n">rxInfo</span>
+  <span class="kt">def</span> <span class="n">rnd</span> <span class="o">=</span> <span class="n">AgentLocalRandom</span><span class="o">.</span><span class="na">current</span><span class="o">()</span>
 
-  <span class="nf">state</span><span class="o">(</span><span class="n">State</span><span class="o">.</span><span class="na">IDLE</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">state</span><span class="o">(</span><span class="n">State</span><span class="o">.</span><span class="na">IDLE</span><span class="o">)</span> <span class="o">{</span>
     <span class="n">action</span> <span class="o">{</span>
       <span class="k">if</span> <span class="o">(!</span><span class="n">queue</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
         <span class="c1">// add random backoff for each reservation to allow other nodes</span>
         <span class="c1">// a chance to reserve, especially in case of a heavily loaded network</span>
-        <span class="n">after</span><span class="o">(</span><span class="n">rnd</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">BACKOFF_RANDOM</span><span class="o">))</span> <span class="o">{</span>
+        <span class="n">after</span><span class="o">(</span><span class="n">rnd</span><span class="o">.</span><span class="na">nextDouble</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">BACKOFF_RANDOM</span><span class="o">))</span> <span class="o">{</span>
           <span class="n">setNextState</span><span class="o">(</span><span class="n">State</span><span class="o">.</span><span class="na">RTS</span><span class="o">)</span>
         <span class="o">}</span>
       <span class="o">}</span>
@@ -21675,7 +21676,7 @@ MISSION 2013 network
     <span class="n">myNode</span><span class="o">.</span><span class="na">startup</span> <span class="o">=</span> <span class="o">{</span>                      <span class="c1">// startup script to run on each node</span>
       <span class="kt">def</span> <span class="n">phy</span> <span class="o">=</span> <span class="n">agentForService</span><span class="o">(</span><span class="n">Services</span><span class="o">.</span><span class="na">PHYSICAL</span><span class="o">)</span>
       <span class="kt">def</span> <span class="n">arrivalRate</span> <span class="o">=</span> <span class="n">load</span><span class="s">/nodes.size()   /</span><span class="o">/</span> <span class="n">arrival</span> <span class="n">rate</span> <span class="n">per</span> <span class="n">node</span>
-      <span class="n">add</span> <span class="k">new</span> <span class="nf">PoissonBehavior</span><span class="o">(</span><span class="mi">1000</span><span class="s">/arrivalRate, {     /</span><span class="o">/</span> <span class="n">avg</span> <span class="n">time</span> <span class="n">between</span> <span class="n">events</span> <span class="k">in</span> <span class="n">ms</span>
+      <span class="n">add</span> <span class="k">new</span> <span class="nf">PoissonBehavior</span><span class="o">((</span><span class="kt">long</span><span class="o">)(</span><span class="mi">1000</span><span class="s">/arrivalRate), {  /</span><span class="o">/</span> <span class="n">avg</span> <span class="n">time</span> <span class="n">between</span> <span class="n">events</span> <span class="k">in</span> <span class="n">ms</span>
         <span class="kt">def</span> <span class="n">dst</span> <span class="o">=</span> <span class="n">rnditem</span><span class="o">(</span><span class="n">nodes</span><span class="o">-</span><span class="n">myAddr</span><span class="o">)</span>     <span class="c1">// choose destination randomly (excluding self)</span>
         <span class="n">phy</span> <span class="o">&lt;&lt;</span> <span class="k">new</span> <span class="n">ClearReq</span><span class="o">()</span>
         <span class="n">phy</span> <span class="o">&lt;&lt;</span> <span class="k">new</span> <span class="n">TxFrameReq</span><span class="o">(</span><span class="nl">to:</span> <span class="n">dst</span><span class="o">,</span> <span class="nl">type:</span> <span class="n">Physical</span><span class="o">.</span><span class="na">DATA</span><span class="o">)</span>
@@ -21692,7 +21693,7 @@ MISSION 2013 network
        <p>
         The script is easy to understand. In a 2-hour long simulation, we iterate over the list of nodes, and create each node at the origin. Each node adds a
         <code>
-         PoissonBheavior
+         PoissonBehavior
         </code>
         to generate random traffic at a rate corresponding to the offered
         <code>
@@ -21761,31 +21762,14 @@ MISSION 2013 network
       </div>
       <div class="listingblock">
        <div class="content">
-        <pre class="rouge highlight"><code data-lang="unet">[1398, 1080, 0.13631, 0.105]
+        <pre class="rouge highlight"><code data-lang="unet">[1459, 984, 0.2026, 0.1367]
 1 simulation completed in 2.817 seconds</code></pre>
        </div>
       </div>
       <div class="paragraph">
        <p>
-        Since this is a Monte-Carlo simulation driven by a random number generator, the statistics you see will be similar, but not identical. A total of 1398 frames were transmitted, and 1080 of them were successfully received. The measured offered load was 0.136, and the throughput was 0.105.
+        Since this is a Monte-Carlo simulation driven by a random number generator, the statistics you see will be similar, but not identical. A total of 1459 frames were transmitted, and 984 of them were successfully received. The measured offered load was 0.2026, and the throughput was 0.1367.
        </p>
-      </div>
-      <div class="admonitionblock tip">
-       <table>
-        <tr>
-         <td class="icon">
-          <i class="fa icon-tip" title="Tip">
-          </i>
-         </td>
-         <td class="content">
-          Wondering why the measured offered load of 0.136 is a little less than the 0.2 that we intended? When two transmissions arrive with a very small delay, the earlier transmission is dropped when the next transmission begins. Only fully completed transmissions are counted by the
-          <code>
-           trace
-          </code>
-          statistics collector, and hence it sees a slightly lower load.
-         </td>
-        </tr>
-       </table>
       </div>
       <div class="paragraph">
        <p>
@@ -21838,10 +21822,10 @@ TX Count\tRX Count\tOffered Load\tThroughput
       <span class="n">myNode</span><span class="o">.</span><span class="na">startup</span> <span class="o">=</span> <span class="o">{</span>                    <span class="c1">// startup script to run on each node</span>
         <span class="kt">def</span> <span class="n">phy</span> <span class="o">=</span> <span class="n">agentForService</span><span class="o">(</span><span class="n">Services</span><span class="o">.</span><span class="na">PHYSICAL</span><span class="o">)</span>
         <span class="kt">def</span> <span class="n">arrivalRate</span> <span class="o">=</span> <span class="n">load</span><span class="s">/nodes.size() /</span><span class="o">/</span> <span class="n">arrival</span> <span class="n">rate</span> <span class="n">per</span> <span class="n">node</span>
-        <span class="n">add</span> <span class="k">new</span> <span class="nf">PoissonBehavior</span><span class="o">(</span><span class="mi">1000</span><span class="s">/arrivalRate, {   /</span><span class="o">/</span> <span class="n">avg</span> <span class="n">time</span> <span class="n">between</span> <span class="n">events</span> <span class="k">in</span> <span class="n">ms</span>
+        <span class="n">add</span> <span class="k">new</span> <span class="nf">PoissonBehavior</span><span class="o">((</span><span class="kt">long</span><span class="o">)(</span><span class="mi">1000</span><span class="s">/arrivalRate), {   /</span><span class="o">/</span> <span class="n">avg</span> <span class="n">time</span> <span class="n">between</span> <span class="n">events</span> <span class="k">in</span> <span class="n">ms</span>
           <span class="kt">def</span> <span class="n">dst</span> <span class="o">=</span> <span class="n">rnditem</span><span class="o">(</span><span class="n">nodes</span><span class="o">-</span><span class="n">myAddr</span><span class="o">)</span>   <span class="c1">// choose destination randomly (excluding self)</span>
           <span class="n">phy</span> <span class="o">&lt;&lt;</span> <span class="k">new</span> <span class="n">ClearReq</span><span class="o">()</span>
-          <span class="n">phy</span> <span class="o">&lt;&lt;</span> <span class="k">new</span> <span class="n">TxFrameReq</span><span class="o">(</span><span class="nl">to:</span> <span class="n">dst</span><span class="o">,</span> <span class="nl">type:</span> <span class="n">Phyiscal</span><span class="o">.</span><span class="na">DATA</span><span class="o">)</span>
+          <span class="n">phy</span> <span class="o">&lt;&lt;</span> <span class="k">new</span> <span class="n">TxFrameReq</span><span class="o">(</span><span class="nl">to:</span> <span class="n">dst</span><span class="o">,</span> <span class="nl">type:</span> <span class="n">Physical</span><span class="o">.</span><span class="na">DATA</span><span class="o">)</span>
         <span class="o">})</span>
       <span class="o">}</span>
     <span class="o">}</span>
@@ -27630,11 +27614,12 @@ BER is computed for the frame.
     <span class="kt">int</span> <span class="n">retryCount</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="kt">float</span> <span class="n">backoff</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="kt">def</span> <span class="n">rxInfo</span>
+    <span class="kt">def</span> <span class="n">rnd</span> <span class="o">=</span> <span class="n">AgentLocalRandom</span><span class="o">.</span><span class="na">current</span><span class="o">()</span>
 
-    <span class="nf">state</span><span class="o">(</span><span class="n">State</span><span class="o">.</span><span class="na">IDLE</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">state</span><span class="o">(</span><span class="n">State</span><span class="o">.</span><span class="na">IDLE</span><span class="o">)</span> <span class="o">{</span>
       <span class="n">action</span> <span class="o">{</span>
         <span class="k">if</span> <span class="o">(!</span><span class="n">queue</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
-          <span class="n">after</span><span class="o">(</span><span class="n">rnd</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">BACKOFF_RANDOM</span><span class="o">))</span> <span class="o">{</span>
+          <span class="n">after</span><span class="o">(</span><span class="n">rnd</span><span class="o">.</span><span class="na">nextDouble</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">BACKOFF_RANDOM</span><span class="o">))</span> <span class="o">{</span>
             <span class="n">setNextState</span><span class="o">(</span><span class="n">State</span><span class="o">.</span><span class="na">RTS</span><span class="o">)</span>
           <span class="o">}</span>
         <span class="o">}</span>
@@ -27822,9 +27807,9 @@ BER is computed for the frame.
   </div>
   <div id="footer">
    <div id="footer-text">
-    Version 3.1.1
+    Version 3.1.2
     <br/>
-    Last updated 2020-07-28 18:46:50 +0800
+    Last updated 2020-08-02 12:28:20 +0800
    </div>
    <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

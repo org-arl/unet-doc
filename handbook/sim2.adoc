@@ -72,7 +72,7 @@ simulate 2.hours, {                         // simulate 2 hours of elapsed time
     myNode.startup = {                      // startup script to run on each node
       def phy = agentForService(Services.PHYSICAL)
       def arrivalRate = load/nodes.size()   // arrival rate per node
-      add new PoissonBehavior(1000/arrivalRate, {     // avg time between events in ms
+      add new PoissonBehavior((long)(1000/arrivalRate), {  // avg time between events in ms
         def dst = rnditem(nodes-myAddr)     // choose destination randomly (excluding self)
         phy << new ClearReq()
         phy << new TxFrameReq(to: dst, type: Physical.DATA)
@@ -85,7 +85,7 @@ simulate 2.hours, {                         // simulate 2 hours of elapsed time
 println([trace.txCount, trace.rxCount, trace.offeredLoad, trace.throughput])
 ----
 
-The script is easy to understand. In a 2-hour long simulation, we iterate over the list of nodes, and create each node at the origin. Each node adds a `PoissonBheavior` to generate random traffic at a rate corresponding to the offered `load` setting. The parameter of the Poisson behavior is the average time between events in milliseconds, which we compute based on the arrival rate. The destination for each transmission is randomly chosen from the list of nodes excluding the transmitting node. Once the simulation is completed, statistics are printed. The `trace` object is automatically defined by the simulator to collect typically required statistics.
+The script is easy to understand. In a 2-hour long simulation, we iterate over the list of nodes, and create each node at the origin. Each node adds a `PoissonBehavior` to generate random traffic at a rate corresponding to the offered `load` setting. The parameter of the Poisson behavior is the average time between events in milliseconds, which we compute based on the arrival rate. The destination for each transmission is randomly chosen from the list of nodes excluding the transmitting node. Once the simulation is completed, statistics are printed. The `trace` object is automatically defined by the simulator to collect typically required statistics.
 
 TIP: The `rnditem(list)` function allows a random item to be chosen from a list. Other convenience functions related to random number generation include `rnd(min, max)` which generates a uniformly distributed random number between `min` and `max`, and `rndint(n)` which generates a uniformly distributed random number between `0` and `n-1`.
 
@@ -93,13 +93,11 @@ Open Unet IDE (`bin/unet sim`), create a new simulation script in the `scripts` 
 
 [source]
 ----
-[1398, 1080, 0.13631, 0.105]
+[1459, 984, 0.2026, 0.1367]
 1 simulation completed in 2.817 seconds
 ----
 
-Since this is a Monte-Carlo simulation driven by a random number generator, the statistics you see will be similar, but not identical. A total of 1398 frames were transmitted, and 1080 of them were successfully received. The measured offered load was 0.136, and the throughput was 0.105.
-
-TIP: Wondering why the measured offered load of 0.136 is a little less than the 0.2 that we intended? When two transmissions arrive with a very small delay, the earlier transmission is dropped when the next transmission begins. Only fully completed transmissions are counted by the `trace` statistics collector, and hence it sees a slightly lower load.
+Since this is a Monte-Carlo simulation driven by a random number generator, the statistics you see will be similar, but not identical. A total of 1459 frames were transmitted, and 984 of them were successfully received. The measured offered load was 0.2026, and the throughput was 0.1367.
 
 Hang on a minute! The simulation was meant to run for 2 hours, but it finished in less than 3 seconds!!
 
@@ -138,10 +136,10 @@ for (def load = 0.1; load <= 1.5; load += 0.1) {
       myNode.startup = {                    // startup script to run on each node
         def phy = agentForService(Services.PHYSICAL)
         def arrivalRate = load/nodes.size() // arrival rate per node
-        add new PoissonBehavior(1000/arrivalRate, {   // avg time between events in ms
+        add new PoissonBehavior((long)(1000/arrivalRate), {   // avg time between events in ms
           def dst = rnditem(nodes-myAddr)   // choose destination randomly (excluding self)
           phy << new ClearReq()
-          phy << new TxFrameReq(to: dst, type: Phyiscal.DATA)
+          phy << new TxFrameReq(to: dst, type: Physical.DATA)
         })
       }
     }

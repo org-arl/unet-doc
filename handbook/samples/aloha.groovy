@@ -52,7 +52,7 @@ for (def load = minLoad; load <= maxLoad; load += loadStep) {
       myNode.startup = {                      // startup script to run on each node
         def phy = agentForService PHYSICAL
         def arrivalRate = load/nodes.size()   // arrival rate per node
-        add new PoissonBehavior(1000/arrivalRate, {     // avg time between events in ms
+        add new PoissonBehavior((long)(1000/arrivalRate), {   // avg time between events in ms
           // drop any ongoing TX/RX and then send frame to random node, except myself
           def dst = rnditem(nodes-myAddr)
           phy << new ClearReq()

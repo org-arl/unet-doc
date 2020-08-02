@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
     </span>
     <br/>
     <span id="revnumber">
-     version 3.1.1
+     version 3.1.2
     </span>
    </div>
    <div class="toc2" id="toc">
@@ -779,11 +779,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
     <span class="kt">int</span> <span class="n">retryCount</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="kt">float</span> <span class="n">backoff</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="kt">def</span> <span class="n">rxInfo</span>
+    <span class="kt">def</span> <span class="n">rnd</span> <span class="o">=</span> <span class="n">AgentLocalRandom</span><span class="o">.</span><span class="na">current</span><span class="o">()</span>
 
-    <span class="nf">state</span><span class="o">(</span><span class="n">State</span><span class="o">.</span><span class="na">IDLE</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">state</span><span class="o">(</span><span class="n">State</span><span class="o">.</span><span class="na">IDLE</span><span class="o">)</span> <span class="o">{</span>
       <span class="n">action</span> <span class="o">{</span>
         <span class="k">if</span> <span class="o">(!</span><span class="n">queue</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
-          <span class="n">after</span><span class="o">(</span><span class="n">rnd</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">BACKOFF_RANDOM</span><span class="o">))</span> <span class="o">{</span>
+          <span class="n">after</span><span class="o">(</span><span class="n">rnd</span><span class="o">.</span><span class="na">nextDouble</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">BACKOFF_RANDOM</span><span class="o">))</span> <span class="o">{</span>
             <span class="n">setNextState</span><span class="o">(</span><span class="n">State</span><span class="o">.</span><span class="na">RTS</span><span class="o">)</span>
           <span class="o">}</span>
         <span class="o">}</span>
@@ -981,9 +982,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
   </div>
   <div id="footer">
    <div id="footer-text">
-    Version 3.1.1
+    Version 3.1.2
     <br/>
-    Last updated 2020-07-28 18:46:50 +0800
+    Last updated 2020-08-02 12:28:20 +0800
    </div>
    <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

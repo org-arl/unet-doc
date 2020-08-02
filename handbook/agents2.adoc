@@ -473,13 +473,14 @@ FSMBehavior fsm = FSMBuilder.build {
   int retryCount = 0
   float backoff = 0
   def rxInfo
+  def rnd = AgentLocalRandom.current()
 
   state(State.IDLE) {
     action {
       if (!queue.isEmpty()) {
         // add random backoff for each reservation to allow other nodes
         // a chance to reserve, especially in case of a heavily loaded network
-        after(rnd(0, BACKOFF_RANDOM)) {
+        after(rnd.nextDouble(0, BACKOFF_RANDOM)) {
           setNextState(State.RTS)
         }
       }
