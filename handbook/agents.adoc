@@ -211,7 +211,7 @@ In Java, you'll first need to compile the Java code. Create a `EchoDaemon.java` 
 
 [source, shell]
 ----
-$ javac -cp lib/fjage-1.7.jar:lib/unet-framework-3.1.0.jar EchoDaemon.java
+$ javac -cp lib/fjage-1.8.0.jar:lib/unet-framework-3.2.0.jar EchoDaemon.java
 ----
 
 You should now have a `EchoDaemon.class` file which you copy to the `classes` folder. To avoid duplicate classes, remember to first delete the `EchoDaemon.groovy` file!

@@ -16,6 +16,7 @@ Agents supporting the baseband service provide messages for arbitrary signal tra
 
 * {url-unet-javadoc}org/arl/unet/bb/TxBasebandSignalReq.html[`TxBasebandSignalReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- transmit a signal
 * {url-unet-javadoc}org/arl/unet/bb/RecordBasebandSignalReq.html[`RecordBasebandSignalReq`^] => `AGREE` / `REFUSE` / `FAILURE` -- record a signal
+* {url-unet-javadoc}org/arl/unet/bb/GetPreambleSignalReq.html[`GetPreambleSignalReq`] => `REFUSE` / {url-unet-javadoc}org/arl/unet/bb/BasebandSignal.html[`BasebandSignal`^] -- get baseband preamble signal
 * {url-unet-javadoc}org/arl/unet/bb/RxBasebandSignalNtf.html[`RxBasebandSignalNtf`^] -- signal recording sent to requestor, or to agent's topic if the recording was not specifically requested
 
 During signal transmission, an agent implementing the baseband service sends out `TxFrameStartNtf` and `TxFrameNtf`, as described in the PHYSICAL service (<<Physical service>>). Similarly, if recording is triggered on a preamble detection, the agent sends out a `RxFrameStartNtf` as described in the PHYSICAL service.

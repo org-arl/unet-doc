@@ -21,7 +21,9 @@ An agent offering the NODE_INFO service supports several parameters:
 * {url-unet-javadoc}org/arl/unet/nodeinfo/NodeInfoParam.html#location[`location`^] -- location as (x, y, z) in meters if origin set, otherwise (latitude, longitude, z)
 * {url-unet-javadoc}org/arl/unet/nodeinfo/NodeInfoParam.html#mobility[`mobility`^] -- true if the node is mobile, false if it is fixed
 * {url-unet-javadoc}org/arl/unet/nodeinfo/NodeInfoParam.html#speed[`speed`^] -- speed in m/s, if mobile node
-* {url-unet-javadoc}org/arl/unet/nodeinfo/NodeInfoParam.html#heading[`heading`^] -- heading in degrees, 0 is North, measured clockwise, if mobile node
+* {url-unet-javadoc}org/arl/unet/nodeinfo/NodeInfoParam.html#heading[`heading`^] -- heading in degrees, 0 is North, measured clockwise
+* {url-unet-javadoc}org/arl/unet/nodeinfo/NodeInfoParam.html#pitch[`pitch`^] -- pitch angle in degrees, 0 is level, positive is nose down
+* {url-unet-javadoc}org/arl/unet/nodeinfo/NodeInfoParam.html#roll[`roll`^] -- roll angle in degrees, 0 is level, positive is rolling starboard
 * {url-unet-javadoc}org/arl/unet/nodeinfo/NodeInfoParam.html#turnRate[`turnRate`^] -- turn rate in degrees/s, measured clockwise, if mobile node
 * {url-unet-javadoc}org/arl/unet/nodeinfo/NodeInfoParam.html#diveRate[`diveRate`^] -- dive rate in m/s, if mobile node
 

@@ -35,7 +35,7 @@ Start the 2-node network and connect to node A:
 Text messaging and remote command execution service.
 
 [org.arl.unet.remote.RemoteControlParam]
-  cwd = /Users/mandar/tmp/unet-3.1.0/scripts
+  cwd = /Users/mandar/tmp/unet-3.2.0/scripts
   dsp = transport
   enable = false
   groovy = true
