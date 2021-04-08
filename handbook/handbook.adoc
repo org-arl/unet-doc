@@ -1,6 +1,6 @@
 = Underwater Networks Handbook
 Mandar Chitre
-v3.2.0
+v3.3.0
 :imagesdir: images
 :title-logo-image: image::unet.png[Unet,150,150]
 :doctype: book
@@ -19,7 +19,7 @@ v3.2.0
 :url-groovy: https://groovy-lang.org
 :url-pdf: https://org-arl.github.io/unet-doc/handbook/unet-handbook.pdf
 :url-html-1: https://org-arl.github.io/unet-doc/handbook/unet-handbook.html
-:url-unet-javadoc: https://unetstack.net/javadoc/3.2/index.html?
+:url-unet-javadoc: https://unetstack.net/javadoc/3.3/index.html?
 :url-fjage-javadoc: https://org-arl.github.io/fjage/javadoc/index.html?
 :url-fjage-doc: https://fjage.readthedocs.io/en/latest
 :url-youtube-intro: https://www.youtube.com/watch?v=A7q7-v-dfrA

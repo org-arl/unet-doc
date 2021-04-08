@@ -58,16 +58,18 @@ If you start the mission2013 network simulation (`bin/unet samples/mission2013-n
 Manages and maintains node information and attributes.
 
 [org.arl.unet.nodeinfo.NodeInfoParam]
-  address = 21
+  address = 232
   addressSize = 8
   canForward = true
   diveRate = 0
   heading = 0
-  location = [-512.0, 248.8, -6.0]
+  location = [0.0, 0.0, -15.0]
   mobility = false
-  nodeName = 21
-  origin = [1.217, 103.743]
+  nodeName = A
+  origin = [NaN, NaN]
+  pitch = 0
+  roll = 0
   speed = 0
-  time ⤇ Sat Apr 04 16:49:55 SGT 2020
+  time ⤇ Thu Apr 08 20:43:40 SGT 2021
   turnRate = 0
 ----

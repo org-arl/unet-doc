@@ -222,11 +222,50 @@ A typical extract of the log file is shown below:
 
 Note that the timestamp (first column) changes from the clock time to discrete event time when the simulation starts, and switches back to clock time when the simulation ends.
 
-=== Trace file
+=== Trace files
 
-A trace file contains information about all packet creation, transmission, reception and drop events. It also contains details of node motion.
+=== JSON trace file
 
-The default, the trace file format is similar to the NS2 NAM trace, and the trace filename is `logs/trace.nam`. The tracer also computes basic statistics including queued packet count, transmitted packet count, received packet count, dropped packet count, offered load, actual load, average packet latency and normalized throughput. An extract from the trace file is shown below:
+Since UnetStack 3.3.0, the default trace file is stored in a rich JSON format.
+
+When running a simulation, a JSON trace file `logs/trace.json` is automatically generated. This file contains a detailed trace for every event in the network stack, on each node. You can even enable trace file generation on real modems and other Unet nodes (using `EventTracer.enable()`), and later combine the traces from multiple nodes to analyze network protocol operation and performance.
+
+A small extract from a typical trace file is shown below:
+
+[source, text]
+----
+{"version": "1.0","group":"EventTrace","events":[
+ {"group":"SIMULATION 1","events":[
+  {"time":1617877446718,"component":"arp::org.arl.unet.addr.AddressResolution/B","threadID":"0bfb305d-4920-4df0-af95-5282b048b5ec","stimulus":{"clazz":"org.arl.unet.addr.AddressAllocReq","messageID":"0bfb305d-4920-4df0-af95-5282b048b5ec","performative":"REQUEST","sender":"node","recipient":"arp"},"response":{"clazz":"org.arl.unet.addr.AddressAllocRsp","messageID":"3e421e28-89ca-44ec-bc65-16cc404d3703","performative":"INFORM","recipient":"node"}},
+  {"time":1617877446718,"component":"arp::org.arl.unet.addr.AddressResolution/A","threadID":"04f5b1b9-9178-4e27-aae7-e2a0c4ffcd89","stimulus":{"clazz":"org.arl.unet.addr.AddressAllocReq","messageID":"04f5b1b9-9178-4e27-aae7-e2a0c4ffcd89","performative":"REQUEST","sender":"node","recipient":"arp"},"response":{"clazz":"org.arl.unet.addr.AddressAllocRsp","messageID":"e0fe806d-625d-4261-b24c-6655b90cc06a","performative":"INFORM","recipient":"node"}},
+      :
+      :
+ ]}
+]}
+----
+
+The trace is organized into a hierarchy of groups, each describing a simulation run or the execution of specific commands. A group consists of a sequence of events, with each event providing information on time of event, component (agent running on a node), thread ID, stimulus and response. The stimulus is typically a message received from another agent, and response a message sent to another agent. The thread ID ties multiple events, potentially across multiple agents and nodes, but with the same root cause together.
+
+An experimental https://github.com/org-arl/unet-contrib/tree/master/tools/viztrace[automated trace analysis tool^] can be used to produce sequence diagrams from JSON trace files.
+
+Integrating the event tracing framework into your own agents is simple. All you need to do is to wrap messages that you generate in response to a stimulus with a `trace()` call. Some examples:
+
+[source, groovy]
+----
+send trace(stimulus, new DatagramDeliveryNtf(stimulus))
+request trace(stimulus, req), timeout
+----
+
+=== Legacy trace file
+
+The legacy trace file format is similar to the NS2 NAM trace. Since UnetStack 3.3.0, this format is no longer the default, but can be enabled easily in your simulation script if you need it:
+
+[source, groovy]
+----
+trace.open(new File(home, 'logs/trace.nam'))
+----
+
+The trace file contains information about all packet creation, transmission, reception and drop events. It also contains details of node motion. The tracer also computes basic statistics including queued packet count, transmitted packet count, received packet count, dropped packet count, offered load, actual load, average packet latency and normalized throughput. An extract from the trace file is shown below:
 
 [source, text]
 ----
@@ -265,7 +304,7 @@ Lines starting with `n` log node locations/motion. Lines starting with `+` denot
 
 For more details on the trace file format, see http://nsnam.sourceforge.net/wiki/index.php/NS-2_Trace_Formats[NS2 NAM trace format^].
 
-TIP: While the trace provides a simple file format and collects statistics for you, the events monitored by the trace are currently limited to PHYSICAL service events. If you need to monitor or log events from other agents, you would want to use log files.
+TIP: While the trace provides a simple file format and collects statistics for you, the events monitored by the legacy trace are currently limited to PHYSICAL service events. If you need to monitor or log events from other agents, you would want to use the JSON trace file.
 
 .Customizing your trace file
 ****
