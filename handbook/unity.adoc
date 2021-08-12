@@ -1,0 +1,100 @@
+== Distributed spatial diversity
+
+Spatial diversity techniques that are used in terrestrial networks usually utilize multiple antennas on the same device to improve link quality and reliability. Similarly, having multiple hydrophones/transducers on the same underwater node might help with the same but comes with the cost of a significant increase in the size due to the spatial separation that might be needed between transducers. Can we exploit a similar technique to make underwater wireless networks faster and more reliable and make that long-range communication link “just work”? With the capability to exploit distributed spatial diversity, yes you can! In this chapter, we present how one can setup a distributed spatial diveristy enabled receiver in UnetStack.
+
+=== Key idea involved in distributed spatial diversity
+
+Multiple communication nodes deployed at spatially distinct locations can receive independent copies of the same information. This group of receiver nodes can act as a combined spatial diversity receiver when they cooperate by sharing copies of information. We term this distributed spatial diversity. The framework is implemented in UnetStack and is referred to as Unity.
+
+[[fig_unityoverview]]
+.Cooperating receivers exploiting spatial diversity.
+image::unity_overview.png[]
+
+An illustration of the general overview of such a receiver system is shown in Figure [[fig_unityoverview]] and few terminologies might help for further discussion:
+
+* *Transmitter*: A node which transmits information
+
+* *Main receiver*: A node that acts as the main receiver in a group of receiver nodes. It is the main receiver’s responsibility to decode the information.
+
+* *Assisting receiver*: A node that acts as an assisting receiver in a group of receiver nodes. It is the assisting receiver’s responsibility to forward the relevant information to the main receiver.
+
+The assisting receiver nodes are in cahoots with the main receiver to cooperatively share the information. This sharing of information usually happens over a short-range wired or wireless network (e.g., WiFi, TCP/IP, UDP/IP). Although, nothing stops one from using a different technology for sharing information.
+
+=== Immediate practical advantage
+
+Consider a case where you are on a ship with a modem deployed and you’ve been receiving status updates from a deployed AUV every few minutes. The AUV moves into an area where the connectivity is poor, and you can no longer successfully receive the status reports. We’ve all experienced being in that situation where the underwater communication link breaks, haven’t we?
+
+If you have a second modem available on the ship, you deploy it from another part of the ship. Or maybe there is a gateway buoy deployed nearby with a modem, and you can connect to its modem. Either way, the distributed spatial diversity technique (Unity) magically uses the information from both modems to recover connectivity to the AUV!
+
+=== How to use Unity in UnetStack3 ?
+
+`Unity` is available as a premium agent and requires UnetStack 3.1 and higher.
+
+Configuring and using Unity agent to exploit spatial diversity is easy with just two simple steps:
+
+1. Setup the receiver nodes to cooperate.
+2. Add the Unity agent on the main receiver.
+
+==== Set up for receiver nodes to cooperate
+
+To set up the group of receivers to cooperate over a short-range network, we use Wormhole (<<Wormholes>>) agent provided in UnetStack. Transmitter node makes a transmission that is heard at all the receiver nodes. However, none of the nodes are able to successfully recover the information received, as the communication link is noisy. In order to share the received noisy signals among the receivers, we can connect the receiver nodes using a Wormhole. A UDP connection between the two receiver nodes, over any IP based network (Ethernet, WiFi), can be established by adding just a few lines of code on the receiver nodes as shown below:
+
+[source]
+----
+container.add 'udp', new org.arl.unet.link.UdpLink()              //<1>
+container.add 'wormhole', new org.arl.unet.wormhole.Wormhole()    //<2>
+wormhole.dsp = 'udp'                                              //<3>
+----
+
+<1> Adds a UdpLink(<<Wired and over-the-air links>>) agent that implements a link protocol over UDP/IP for use over wired/wireless IP networks. 
+<2> Adds a Wormhole agent which allows the fjåge messages to be sent between containers over a Unet link. 
+<3> Tells the Wormhole agent to use the UdpLink as the Unet link to share information.
+
+*Additional set up on the assisting receiver*:
+
+We may not want to share the information from all agents, instead, we are interested in messages that are published on the Physical agent’s topic on the main receiver.
+
+[source]
+----
+wormhole.publish = [topic(phy), topic(phy, Physical.SNOOP)]       //<1>
+----
+
+<1> Added only on the assisting receivers to forward only the messages received on the `Physical` agent’s topic to be sent over the Wormhole link.
+
+That’s all there is to set up the receiver nodes to share the information and cooperate (in this case over a `UdpLink`). With this set up any message received on the `Physical` agent’s topic on the assisting receiver will also be available at the main receiver.
+
+==== Add the Unity agent on the main receiver
+
+If you happen to have access to the Unity agent, it will be added by default to the stack and you don't have to add this agent to the container. A user can take a look at the parameters of the Unity agent, type unity on the node’s web shell interface: 
+
+[source]
+----
+> unity
+« Spatial diversity agent »
+
+Combines copies of information received from multiple
+receivers to decode packets.
+
+[org.arl.unet.unity.UnityParam]
+  assisters = []
+  enable = false
+  maxAssisterRange = 100.0
+  phy = phy
+----
+
+The `assisters` parameter is used to store the `Physical` agent names running on the assisting receivers that are assisting the main receiver. The user might also want to change the default value of `maxAssisterRange` if the furthest assisting receiver to the main receiver is at a distance larger than 100 m.
+
+For example, if the node address of the assisting receiver is 31 and we should set:
+
+[source]
+----
+unity.assisters = ['phy@31']   //<1>
+unity.enable = true            //<2>
+----
+
+<1> `assisters` parameter is a list of `Physical` agent names. If the assisting receiver's node address is 31 and the `Physical` agent's name is `phy` then the wormhole publishes the messages from this agent on `phy@31`'s topic on main receiver. Therefore, the assisters list contains one item 'phy@31'.
+<2> Unity agent is enabled.
+
+Once the assisters node addresses are set, as shown above, the Unity agent is enabled. And voila, you are ready to see the benefits of cooperating receivers in terms of reliability and effective data rate.
+
+
