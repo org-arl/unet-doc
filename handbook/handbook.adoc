@@ -76,6 +76,8 @@ include::routing.adoc[]
 
 include::udp.adoc[]
 
+include::unity.adoc[]
+
 = *Part III: Building Unet applications*
 
 include::app.adoc[]
