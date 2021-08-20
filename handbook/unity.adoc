@@ -4,7 +4,7 @@ We have studied setting up networks which have links underwater as well as above
 
 === Key idea involved in distributed spatial diversity
 
-Multiple communication nodes deployed at spatially distinct locations can receive independent copies of the same information. This group of receiver nodes can act as a combined spatial diversity receiver when they cooperate by sharing copies of information. We term this distributed spatial diversity. The framework is implemented in UnetStack and is referred to as Unity.
+Multiple communication nodes deployed at spatially distinct locations can receive independent copies of the same information. This group of receiver nodes can act as a combined spatial diversity receiver when they cooperate by sharing copies of information. We term this distributed spatial diversity. This framework is implemented in UnetStack as an agent and is referred to as Unity.
 
 [[fig_unityoverview]]
 .Cooperating receivers exploiting spatial diversity.
