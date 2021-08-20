@@ -28,7 +28,7 @@ If you have a second modem available on the ship, you deploy it from another par
 
 === How to use Unity in UnetStack3 ?
 
-Unity is available as a premium agent and requires UnetStack 3.1 and higher. Configuring and using `Unity` agent to exploit spatial diversity is easy with just two simple steps:
+Unity is available as a premium agent and requires UnetStack 3.1 or higher. Configuring and using `Unity` agent to exploit spatial diversity is easy with just two simple steps:
 
 1. Setup the receiver nodes to cooperate.
 2. Add the Unity agent on the main receiver.
