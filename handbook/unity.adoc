@@ -1,6 +1,6 @@
 == Distributed spatial diversity
 
-We have studied setting up networks which have links underwater as well as above-the-air. This enables us to develop useful systems such as distributed spatial diversity enabled receiver. Spatial diversity techniques that are used in terrestrial networks usually utilize multiple antennas on the same device to improve link quality and reliability. Similarly, having multiple hydrophones/transducers on the same underwater node might help with the same but comes with the cost of a significant increase in the size due to the spatial separation that might be needed between transducers. Can we exploit a similar technique to make underwater wireless networks faster and more reliable and make that long-range communication link “just work”? With the capability to exploit distributed spatial diversity, yes you can! In this chapter, we present how one can setup a distributed spatial diveristy enabled receiver in UnetStack.
+We have studied setting up networks which have underwater as well as over-the-air links. This enables us to develop useful systems such as distributed spatial diversity enabled receiver. Spatial diversity techniques that are used in terrestrial networks usually utilize multiple antennas on the same device to improve link quality and reliability. Similarly, having multiple hydrophones/transducers on the same underwater node might help with the same but comes with the cost of a significant increase in the size due to the spatial separation that might be needed between transducers. Can we exploit a similar technique to make underwater wireless networks faster and more reliable and make that long-range communication link “just work”? With the capability to exploit distributed spatial diversity, yes you can! In this chapter, we present how one can setup a distributed spatial diveristy enabled receiver in UnetStack.
 
 === Key idea involved in distributed spatial diversity
 
@@ -28,7 +28,7 @@ If you have a second modem available on the ship, you deploy it from another par
 
 === How to use Unity in UnetStack3 ?
 
-Unity is available as a premium agent and requires UnetStack 3.1 or higher. Configuring and using `Unity` agent to exploit spatial diversity is easy with just two simple steps:
+Unity is available as a {url-editions}[premium] agent and requires UnetStack 3.1 or higher. Configuring and using `Unity` agent to exploit spatial diversity is easy with just two simple steps:
 
 1. Setup the receiver nodes to cooperate.
 2. Add the Unity agent on the main receiver.
