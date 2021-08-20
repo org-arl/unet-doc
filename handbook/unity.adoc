@@ -121,7 +121,7 @@ Since we are trying to demonstrate the advantage of `Unity` here, we would like 
 subscribe phy; subscribe topic(phy, Physical.SNOOP)
 ----
 
-On the main receiver (Node C), run the following caommand:
+On the main receiver (Node C), run the following command:
 
 [source]
 ----
