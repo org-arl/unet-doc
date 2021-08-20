@@ -18,7 +18,7 @@ An illustration of the general overview of such a receiver system is shown in <<
 
 * *Assisting receiver*: A node that acts as an assisting receiver in a group of receiver nodes. It is the assisting receiver’s responsibility to forward the relevant information to the main receiver.
 
-The assisting receiver nodes are in cahoots with the main receiver to cooperatively share the information. This sharing of information usually happens over a short-range wired or wireless network (e.g., WiFi, TCP/IP, UDP/IP). Although, nothing stops one from using a different technology for sharing information.
+The assisting receiver nodes are in cahoots with the main receiver to cooperatively share the information. This sharing of information usually happens over a short-range high-speed wired or wireless link (e.g., WiFi, Ethernet). Although, nothing stops one from using a different technology for sharing information.
 
 === Immediate practical advantage
 
