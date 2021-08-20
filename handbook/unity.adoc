@@ -46,7 +46,7 @@ container.add 'wormhole', new org.arl.unet.wormhole.Wormhole()    //<2>
 wormhole.dsp = 'udp'                                              //<3>
 ----
 
-<1> Adds a UdpLink(<<Wired and over-the-air links>>) agent that implements a link protocol over UDP/IP for use over wired/wireless IP networks. 
+<1> Adds a UdpLink(<<Wired or over-the-air links>>) agent that implements a link protocol over UDP/IP for use over wired/wireless IP networks. 
 <2> Adds a Wormhole agent which allows the fjåge messages to be sent between containers over a Unet link. 
 <3> Tells the Wormhole agent to use the UdpLink as the Unet link to share information.
 
