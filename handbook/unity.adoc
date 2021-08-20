@@ -65,7 +65,7 @@ wormhole.publish = [topic(phy), topic(phy, Physical.SNOOP)]       //<1>
 
 Run the above one line of code on the assiting receiver (Node B).
 
-That’s all there is to set up the receiver nodes to share the information and cooperate (in this case over a `UdpLink`). With this set up any message received on the `Physical` agent’s topic on the assisting receivers will also be available at the main receiver.
+That’s all there is to set up the receiver nodes to share the information and cooperate (in this case over a `UdpLink`). With this set up any message received on the `Physical` agent’s topic on the assisting receivers will also be available at the main receiver. 
 
 ==== Add the Unity agent on the main receiver
 
@@ -109,6 +109,8 @@ unity.enable = true            //<2>
 <2> `Unity` agent is enabled.
 
 Once the assisters parameter is set, as shown above, and the `Unity` agent is enabled, you are all set and ready to see the benefits of cooperating receivers in terms of reliability and effective data rate.
+
+NOTE: The `Unity` agent only needs to be added on the main receiver and not on the assisting receivers. 
 
 === An example run
 
