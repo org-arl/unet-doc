@@ -1,23 +1,16 @@
-# UnetStack v3.3.0 Release Notes
+# UnetStack v3.4.0 Release Notes
 
 ## New features
 
-- New JSON event tracing framework added to aid automated analysis of multi-agent protocols
-- Added NodeInfo parameters for `roll` and `pitch`
-- UnetSim `HalfDuplexModem` now supports reporting of RSSI and ambient noise levels
-- On modems supporting low power "sleep" mode, a `AboutToSleepNtf` message is broadcasted before a modem goes to sleep
-- Add support for 32x upsampling and 16x decimation to support additional frequency bands of operation
+- User customizable logging setup on UnetStack-based modems (honors logging.properties file in scripts directory)
+- Allow list of closures for stack setup in simulation scripts
 
-## New features (experimental - beta release)
+## Improvements & bug fixes
 
-- Trace analysis script to automatically generate sequence diagrams from JSON trace files
-- Support for Julia agents
-
-## Minor improvements & bug fixes
-
-- Add `eternity` as an alias for `forever` for sleep scheduling shell commands
-- Improve resolution of agent names in shell
-- Bug fix in PDU encoder/decoder that caused `PDU.withFormat` syntax to fail with statically compiled Groovy
-- Stability improvements for UdpLink
-- Stability improvements in OFDM implementation
-- Numerous minor bug fixes, documentation improvements and web UI improvements
+- Fixed bug in JANUS implementation that caused hop sequence to be reset after preamble
+- Avoid sending ParamChangeNtf when the node.location parameter is written to, but remains unchanged
+- Increase resolution of voltage reporting on UnetStack-based modems
+- Improve wav file loading speed for large wav files
+- Improved handling of broadcast and multicast UDP links in UDPLink
+- Stability improvements in ECLink, Ranging and UDPLink agents
+- Web interface improvements and stability fixes for large file upload/download
