@@ -112,28 +112,53 @@
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2">
                         <div class="modal-body" align="left">
-                            <h2>Editions</h2>
+                            <h2>Frequently Asked Questions</h2>
                             <hr class="star-primary">
-                            <p>The components are packaged into various editions:</p>
+
+                            <h4>1. What are the various editions of UnetStack and how can I get them?</h4>
+​
+                            <p> UnetStack comes in 4 editions:
+                            <ul>
+                              <li>Community Edition</li>
+                              <li>Commercial Edition</li>
+                              <li>OEM Edition</li>
+                              <li>Commercial (Dev-tools) Edition</li>
+                            </ul>
+                            ​
                             <table class="table table-bordered">
                             <thead>
-                            <tr><th scope="col"><b>Component</b></th><th scope="col"><b>Community edition</b></th><th scope="col"><b>Commercial edition</b></th><th scope="col"><b>OEM edition</b></th></tr>
+                            <tr><th scope="col"><b>Component</b></th><th scope="col"><b>Community edition</b></th><th scope="col"><b>Commercial edition</b></th><th scope="col"><b>OEM edition</b></th><th scope="col"><b>Commercial (Dev-tools) Edition</b></th></tr>
                             </thead><tbody>
-                            <tr><td>Unet framework</td><td align="center">✔︎</td><td align="center">✔︎</td><td align="center">✔︎</td></tr>
-                            <tr><td>Unet basic stack</td><td align="center">✔︎</td><td align="center">✔︎</td><td align="center">✔︎</td></tr>
-                            <tr><td>Unet premium stack</td><td align="center">✘</td><td align="center">optional</td><td align="center">optional</td></tr>
-                            <tr><td>Unet simulator</td><td align="center">✔︎</td><td align="center">✔︎</td><td align="center">✘</td></tr>
-                            <tr><td>Unet IDE</td><td align="center">✔︎</td><td align="center">✔︎</td><td align="center">✔︎</td></tr>
-                            <tr><td>Unet audio</td><td align="center">basic</td><td align="center">✔︎</td><td align="center">optional</td></tr>
+                            <tr><td>Unet framework</td><td align="center">✔︎</td><td align="center">✔︎</td><td align="center">✔︎</td><td align="center">✔︎</td></tr>
+                            <tr><td>Unet basic stack</td><td align="center">✔︎</td><td align="center">✔︎</td><td align="center">✔︎</td><td align="center">✔︎</td></tr>
+                            <tr><td>Unet premium stack</td><td align="center">✘</td><td align="center">optional</td><td align="center">optional</td><td align="center">optional</td></tr>
+                            <tr><td>Unet simulator</td><td align="center">✔︎</td><td align="center">✔︎</td><td align="center">✘</td><td align="center">✔︎</td></tr>
+                            <tr><td>Unet IDE</td><td align="center">✔︎</td><td align="center">✔︎</td><td align="center">✔︎</td><td align="center">✔︎</td></tr>
+                            <tr><td>Unet audio</td><td align="center">basic</td><td align="center">✔︎</td><td align="center">optional</td><td align="center">✔︎</td></tr>
                             </tbody>
                             </table>
-                            <p>
-                            The <i>community edition</i> is downloadable free of charge for educational and research purposes. It has all the components required to develop, simulate, test and deploy Unets. Commercial use of UnetStack requires purchase of the <i>commercial edition</i>. The <i>OEM edition</i> is used by modem manufacturers who bundle it as part of their modems.
-                            </p><p>
-                            Although the community edition only ships with the Unet audio modem, modem drivers can be developed for 3rd party modems for research and educational purposes.
-                            </p><p>
-                            The Unet premium stack is optionally available in the commercial and OEM editions, providing advanced functionality and/or performance based on the application. The Unet audio functionality in the community edition is limited to FH-BFSK modulation, basic recevier algorithms, and convolution error control codes only. For the OEM edition, the Unet audio functionality includes advanced modulation schemes (e.g. OFDM), more powerful receiver algorithms, and stronger error control codes (e.g. LDPC). Unet audio can also be customized to use the modem hardware instead of a generic sound card.
-                            </p>
+                            <br>The <b>Community</b> edition is available for download on the <a href="index.html" target="_blank">UnetStack website</a> and is free for non-commercial use. If you are developing and/or simulating underwater networks for educational or other non-commercial purposes, this edition is for you. This edition contains the <a href="handbook/unet-handbook_part_vi_simulating_underwater_networks.html" target="_blank">UnetStack simulator</a> as well as the <a href="handbook/unet-handbook_getting_started.html#_transmitting_and_recording_arbitrary_acoustic_waveforms" target="_blank">Unet audio</a>.
+                            ​
+                            <br>
+                            <br>The <b>Commercial</b> edition of UnetStack is similar to the <b>Community</b> edition except you may use it in commercial applications. For more information about licensing the <b>Commercial</b> edition of UnetStack, contact <a href="mailto:info@subnero.com">info@subnero.com</a>.
+                            ​
+                            <br>
+                            <br>The <b>OEM</b> edition is the version of UnetStack installed onto devices by the original equipment manufacture. For example, SDOAM (Software Defined Open-Architecture Modems) from our commercial partners have an OEM edition of UnetStack pre-installed on them. You can access the complete power of an OEM version of UnetStack installed on such devices using the various <a href="/handbook/unet-handbook_part_iii_building_unet_applications.html" target="_blank">UnetStack APIs</a> and <a href="https://github.com/org-arl/unet-contrib" target="_blank">open source Gateway and UnetSocket libraries</a> from any other device or computer without needing a separate license.
+                            ​
+                            <br>
+                            <br>The <b>Commercial (Dev-tools)</b> edition of UnetStack is similar to the <b>Commercial</b> edition but it is tagged to a specific OEM device that you own. You can use this edition of UnetStack to simulate and develop software for that OEM device, as well as to run UnetStack on your workstations to connect to and control the OEM device for development and testing of any applications involving the OEM device. For more information about licensing the <b>Commercial (Dev-tools)</b> edition of UnetStack, contact <a href="mailto:info@subnero.com">info@subnero.com</a>.
+
+                            <br>
+                            ​
+                            <h4>2. Can I use the UnetStack <b>Community</b> edition in commercial deployment (for example, to control a UnetStack <b>OEM</b> device)?</h4>
+                            ​
+                            <p>You may <b>NOT</b> use the UnetStack <b>Community</b> edition to access a device that has UnetStack <b>OEM</b> pre-installed on it in a commercial use-case, as the <b>Community</b> edition is only available for educational or other non-commercial purposes. You may, however, use any of the <a href="https://github.com/org-arl/unet-contrib" target="_blank">open-source Gateway and UnetSocket libraries</a> to connect to a UnetStack <b>OEM</b> device. The open-source gateway libraries provide all of the functionality required to configure and control a UnetStack <b>OEM</b> device.
+                            ​
+                            <br>
+                            <br>Additionally, your UnetStack OEM device may have an associated <b>Commercial (Dev-tools)</b> edition. Contact your UnetStack OEM device manufacturer for more information on the <b>Commercial (Dev-tools)</b> license.
+                            ​
+                            <br>
+                            <br>If you want to run UnetStack in your commercial application, please contact <a href="mailto:info@subnero.com">info@subnero.com</a> for more details about licensing the UnetStack <b>Commercial</b> edition.</p>
                             <button type="button" class="btn btn-default" style="background-color: #47c0f7;" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                         </div>
                     </div>
