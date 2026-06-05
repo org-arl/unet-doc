@@ -333,6 +333,7 @@ Examples:
   addsleep 10.s.later, 20.s.later  // sleep 10s later and wake up 20s later
   addsleep 20.s.later              // sleep immediately and wake up 20s later
   addsleep 20.s.later, forever     // sleep 20s later forever
+  addsleep 20.s.later, eternity    // sleep 20s later forever
   addsleep                         // sleep immediately forever
 
 - `showsleep` -- shows sleep/wakeup schedule
@@ -849,6 +850,41 @@ Examples:
 *Parameters:*
 
 - `bbmon.enable` -- enable/disable monitoring of baseband signals
+
+=== SpeedTest commands
+
+'''
+
+*`speedtest` -- link speed test utility*
+
+This agent calculates and reports the effective data rate achieved over a
+specified number of frames transferred between two modems. It also calculates
+"nowput", which is the effective data rate seen by the user over the last
+"nowDuration" seconds. The data rate is calculated from the start of the first
+transmission till the end of the last transmission. It includes missed frames
+as well as the delay between packet transmissions (duty cycle).
+
+Note: The per-frame signaling rate and frame length can be found from the PHY
+modulation scheme parameters.
+
+Examples:
+
+  speedtest             // show speed test parameters
+  speedtest.tx = 100    // run speed test with 100 frames
+
+*Parameters:*
+
+- `speedtest.tx` -- test transmit count
+
+- `speedtest.rx` -- test receive count
+
+- `speedtest.throughput` -- test data rate (bps)
+
+- `speedtest.dutyCycle` -- test duty cycle (0-1, dafault: 0.5)
+
+- `speedtest.nowput` -- moving window data rate (bps)
+
+- `speedtest.nowDuration` -- window size to be considered "now" (s, default: 10)
 
 === StateManager commands
 

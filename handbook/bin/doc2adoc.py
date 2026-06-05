@@ -8,11 +8,12 @@ header = '''
 lib = sys.argv[1]
 
 def get_jar(pattern):
-  cmd = "find {} -print | grep '{}'".format(lib, pattern)
-  s = os.popen(cmd).read().splitlines()
+  # Match only versioned jars like <pattern>-<version>.jar.
+  rx = re.compile(r'^{}-[0-9].*\.jar$'.format(re.escape(pattern)))
+  s = [os.path.join(lib, f) for f in os.listdir(lib) if rx.match(f)]
   if len(s) != 1:
     print('ERROR: '+pattern+' did not have a unique match')
-    print('> '+cmd)
+    print('> looking in '+lib)
     print('\n'.join(s))
     sys.exit(1)
   return s[0]
@@ -20,7 +21,7 @@ def get_jar(pattern):
 fjar = get_jar('fjage')
 
 def get_shell_extensions(jar):
-  cmd = "jar -tf {} | grep ShellExt.class | sed 's/\.class$//' | sed 's/\//./g'".format(jar)
+  cmd = "jar -tf {} | grep ShellExt.class | sed 's/\\.class$//' | sed 's/\\//./g'".format(jar)
   return os.popen(cmd).read().splitlines()
 
 def get_doc(cp, clazz):
