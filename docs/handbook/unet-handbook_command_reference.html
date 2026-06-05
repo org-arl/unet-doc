@@ -1936,6 +1936,7 @@ addsleep 1507014558              // sleep immediately until 1507014548
 addsleep 10.s.later, 20.s.later  // sleep 10s later and wake up 20s later
 addsleep 20.s.later              // sleep immediately and wake up 20s later
 addsleep 20.s.later, forever     // sleep 20s later forever
+addsleep 20.s.later, eternity    // sleep 20s later forever
 addsleep                         // sleep immediately forever</pre>
        </div>
       </div>
@@ -3584,8 +3585,110 @@ bbmon.enable = false     // disable recording of baseband signals</pre>
       </div>
      </div>
      <div class="sect2">
+      <h3 id="_speedtest_commands">
+       C.15. SpeedTest commands
+      </h3>
+      <hr/>
+      <div class="paragraph">
+       <p>
+        <strong>
+         <code>
+          speedtest
+         </code>
+         — link speed test utility
+        </strong>
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        This agent calculates and reports the effective data rate achieved over a
+specified number of frames transferred between two modems. It also calculates
+"nowput", which is the effective data rate seen by the user over the last
+"nowDuration" seconds. The data rate is calculated from the start of the first
+transmission till the end of the last transmission. It includes missed frames
+as well as the delay between packet transmissions (duty cycle).
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Note: The per-frame signaling rate and frame length can be found from the PHY
+modulation scheme parameters.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Examples:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>speedtest             // show speed test parameters
+speedtest.tx = 100    // run speed test with 100 frames</pre>
+       </div>
+      </div>
+      <div class="paragraph">
+       <p>
+        <strong>
+         Parameters:
+        </strong>
+       </p>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           speedtest.tx
+          </code>
+          — test transmit count
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           speedtest.rx
+          </code>
+          — test receive count
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           speedtest.throughput
+          </code>
+          — test data rate (bps)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           speedtest.dutyCycle
+          </code>
+          — test duty cycle (0-1, dafault: 0.5)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           speedtest.nowput
+          </code>
+          — moving window data rate (bps)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           speedtest.nowDuration
+          </code>
+          — window size to be considered "now" (s, default: 10)
+         </p>
+        </li>
+       </ul>
+      </div>
+     </div>
+     <div class="sect2">
       <h3 id="_statemanager_commands">
-       C.15. StateManager commands
+       C.16. StateManager commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -3657,7 +3760,7 @@ savestate                   // save changed parameters</pre>
      </div>
      <div class="sect2">
       <h3 id="_csma_commands">
-       C.16. CSMA commands
+       C.17. CSMA commands
       </h3>
       <div class="paragraph">
        <p>
@@ -3705,7 +3808,7 @@ savestate                   // save changed parameters</pre>
      </div>
      <div class="sect2">
       <h3 id="_reliablelink_commands">
-       C.17. ReliableLink commands
+       C.18. ReliableLink commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -3822,7 +3925,7 @@ uwlink &lt;&lt; new DatagramReq(to: 2, data: [1,2,3], reliability: true)
      </div>
      <div class="sect2">
       <h3 id="_remotecontrol_commands">
-       C.18. RemoteControl commands
+       C.19. RemoteControl commands
       </h3>
       <div class="paragraph">
        <p>
@@ -3905,7 +4008,7 @@ rsh 3, '?ls'                 // ask node 3 to send me the list of files</pre>
      </div>
      <div class="sect2">
       <h3 id="_eclink_commands">
-       C.19. ECLink commands
+       C.20. ECLink commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -4063,7 +4166,7 @@ uwlink &lt;&lt; new DatagramReq(to: 2, data: [1,2,3], reliability: true)
      </div>
      <div class="sect2">
       <h3 id="_unet_audio_commands">
-       C.20. Unet audio commands
+       C.21. Unet audio commands
       </h3>
       <hr/>
       <div class="paragraph">
@@ -4449,6 +4552,43 @@ A value of -1 enable streaming forever.
       <div class="literalblock">
        <div class="content">
         <pre>phy.pbscnt = 10       // stream 10 blocks of pasband data</pre>
+       </div>
+      </div>
+      <div class="ulist">
+       <ul>
+        <li>
+         <p>
+          <code>
+           phy.bbsblk
+          </code>
+          — baseband streaming block size (samples)
+         </p>
+        </li>
+        <li>
+         <p>
+          <code>
+           phy.bbscnt
+          </code>
+          — number of baseband data blocks to stream
+         </p>
+        </li>
+       </ul>
+      </div>
+      <div class="paragraph">
+       <p>
+        Setting this parameter starts streaming of baseband data for
+a specified number of blocks. A value of 0 stops streaming.
+A value of -1 enable streaming forever.
+       </p>
+      </div>
+      <div class="paragraph">
+       <p>
+        Example:
+       </p>
+      </div>
+      <div class="literalblock">
+       <div class="content">
+        <pre>phy.bbscnt = 10       // stream 10 blocks of baseband data</pre>
        </div>
       </div>
       <div class="ulist">
