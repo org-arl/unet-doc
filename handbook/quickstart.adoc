@@ -133,15 +133,15 @@ We'll assume you have Python 3.x already installed. Let us start by installing t
 
 [source, shell]
 ----
-$ pip install unetpy
-Collecting unetpy
-  Using cached unetpy-3.1.0-py3-none-any.whl (6.9 kB)
-Collecting fjagepy>=1.7.0
-  Using cached fjagepy-1.7.0-py3-none-any.whl (12 kB)
-Collecting numpy>=1.11
-  Using cached numpy-1.18.2-cp37-cp37m-macosx_10_9_x86_64.whl (15.1 MB)
+$ pip install unetpy==3.1.2
+Collecting unetpy==3.1.2
+  Using cached unetpy-3.1.2-py3-none-any.whl.metadata (1.7 kB)
+Collecting fjagepy>=1.7.2 (from unetpy==3.1.2)
+  Using cached fjagepy-2.1.2-py3-none-any.whl.metadata (8.0 kB)
+Collecting numpy>=1.11 (from unetpy==3.1.2)
+  Using cached numpy-2.4.6-cp314-cp314-macosx_14_0_arm64.whl.metadata (6.6 kB)
 Installing collected packages: numpy, fjagepy, unetpy
-Successfully installed fjagepy-1.7.0 numpy-1.18.2 unetpy-3.1.0
+Successfully installed fjagepy-2.1.2 numpy-2.4.6 unetpy-3.1.2
 ----
 
 We will now write `tx.py` and `rx.py` scripts to transmit and receive a datagram respectively. We assume that you have the two-node network setup from the previous section with node A and B available on `localhost` API port 1101 and 1102 respectively.
