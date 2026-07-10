@@ -1,0 +1,82 @@
+<!-- ===== ARCHITECTURE ===== -->
+<section id="architecture" class="architecture">
+  <div class="container">
+    <div class="architecture__head">
+      <div class="eyebrow">Architecture</div>
+      <h2>Inside the stack</h2>
+      <p>A layered, agent-based architecture, from hardware drivers and the Unet framework up through the network stack to applications and developer tools, all reachable through a single set of APIs.</p>
+      <div class="architecture__ctas">
+        <a href="https://subnero.com/brochures/unlocking-underwater-connectivity.pdf" target="_blank" rel="noopener" class="btn btn--primary">Read the UnetStack whitepaper (PDF) →</a>
+      </div>
+    </div>
+
+    <div class="architecture__diagrams">
+      <!-- the layered stack -->
+      <div class="diagram-panel">
+        <div class="diagram-panel__head">
+          <div class="diagram-panel__label">The layered stack</div>
+          <a href="https://subnero.com/products/wnc/unetstack/" target="_blank" rel="noopener" class="diagram-panel__link">View on Subnero →</a>
+        </div>
+        <div class="stack">
+          <div class="stack__side">
+            <span>Unet Socket APIs</span>
+          </div>
+
+          <div class="stack__main">
+            <div class="stack__group">Applications &amp; developer tools</div>
+            <div class="stack__row stack__row--3">
+              <div class="block block--cyan">UI / Dashboards</div>
+              <div class="block block--cyan">Shell</div>
+              <div class="block block--green">Simulator &amp; Developer Tools</div>
+            </div>
+            <div class="stack__row stack__row--2">
+              <div class="block block--cyan">Data Analytics</div>
+              <div class="block block--cyan">Remote Management</div>
+            </div>
+
+            <div class="stack__group stack__group--spaced">Networking &amp; communication</div>
+            <div class="block--net">
+              <span class="name">Network Stack</span>
+              <span class="tag">core</span>
+            </div>
+            <div class="stack__row stack__row--2">
+              <div class="block block--cyan">Communication Algorithms</div>
+              <div class="block block--cyan">Localization</div>
+            </div>
+            <div class="block block--cyan block--net-full">Baseband Service</div>
+
+            <div class="stack__group stack__group--spaced">Core framework</div>
+            <div class="block block--grey">Unet framework + fjåge</div>
+
+            <div class="stack__group stack__group--spaced">Hardware &amp; physical</div>
+            <div class="stack__row stack__row--2">
+              <div class="block block--red">Hardware Drivers</div>
+              <div class="block block--cyan">Device &amp; Sensor Management</div>
+            </div>
+            <div class="stack__row stack__row--2">
+              <div class="block block--orange block--icon"><img src="img/subnero-mark.png" alt="Subnero" /><span>Subnero Modems</span></div>
+              <div class="block block--orange">Unet Audio</div>
+            </div>
+          </div>
+
+          <div class="stack__links">
+            <div class="stack__group">Media-agnostic links</div>
+            <div class="stack__links-list">
+              <div class="block block--orange-soft">S1000N <span class="sub">· acoustic</span></div>
+              <div class="block block--orange-soft">Optical Modem</div>
+              <div class="block block--orange-soft">UDP Link over LTE / WiFi / Ethernet</div>
+              <div class="block block--orange-soft">Satellite</div>
+            </div>
+            <div class="stack__note">The <span>Network Stack</span> runs transparently over any of these physical links.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- capabilities across the stack -->
+      <div class="capabilities-panel">
+        <div class="capabilities-panel__label">Capabilities across the stack</div>
+        <img src="img/arch-capabilities-dark.png" alt="UnetStack capability groups arranged around the Unet logo: Communication &amp; Networking, Positioning &amp; Localization, Device Management, Sensor Management, Data Analytics, and Dashboard &amp; Developer Tools" />
+      </div>
+    </div>
+  </div>
+</section>

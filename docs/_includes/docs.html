@@ -1,64 +1,88 @@
-<!-- Documentation Section -->
-    <section id="docs">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2 class="section-heading">Documentation</h2>
-                    <h3 class="section-subheading text-muted">Everything you ever need to know about UnetStack3</h3>
-                </div>
-            </div>
-            <div class="row text-center">
-                <div class="col-md-4">
-                    <a href="javadoc/3.4/" target="_unet_api"><span class="fa-stack fa-4x">
-                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                        <i class="fa fa-bookmark fa-stack-1x fa-inverse"></i>
-                    </span></a>
-                    <h4 class="service-heading">UnetStack 3.4.0 javadoc</h4>
-                    <p class="text-muted">UnetStack programmer's reference<br />
-                    (archived: <a href="javadoc/3.0/" target="_unet_api">v3.0.2 javadoc</a>, <a href="javadoc/3.1/" target="_unet_api">v3.1.0 javadoc</a>, <a href="javadoc/3.2/" target="_unet_api">v3.2.0 javadoc</a>, <a href="javadoc/3.3/" target="_unet_api">v3.3.0 javadoc</a>)</p>
-                </div>
-                <div class="col-md-4">
-                    <a href="handbook" target="_unet_handbook"><span class="fa-stack fa-4x">
-                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                        <i class="fa fa-book fa-stack-1x fa-inverse"></i>
-                    </span></a>
-                    <h4 class="service-heading">Unet handbook</h4>
-                    <p class="text-muted">Learn to design, simulate and deploy underwater networks with UnetStack3</p>
-                </div>
-                <div class="col-md-4">
-                    <a href="https://www.youtube.com/channel/UCnwSva23AuUCFPqgI0kPvdw" target="_unet_videos"><span class="fa-stack fa-4x">
-                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                        <i class="fa fa-video-camera fa-stack-1x fa-inverse"></i>
-                    </span></a>
-                    <h4 class="service-heading">Video tutorials</h4>
-                    <p class="text-muted">Prefer to watch rather than read?</p>
-                </div>
-            </div>
-            <div class="row text-center">
-                <div class="col-md-4">
-                    <a href="http://org-arl.github.io/fjage/javadoc/" target="_fjage_api"><span class="fa-stack fa-4x">
-                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                        <i class="fa fa-bookmark fa-stack-1x fa-inverse"></i>
-                    </span></a>
-                    <h4 class="service-heading">fjåge javadoc</h4>
-                    <p class="text-muted">fjåge programmer's reference</p>
-                </div>
-                <div class="col-md-4">
-                    <a href="https://fjage.readthedocs.io/en/latest/" target="_fjage_docs"><span class="fa-stack fa-4x">
-                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                        <i class="fa fa-file-text fa-stack-1x fa-inverse"></i>
-                    </span></a>
-                    <h4 class="service-heading">fjåge developer's guide</h4>
-                    <p class="text-muted">UnetStack is based on the<br>fjåge agent-based framework</p>
-                </div>
-                <div class="col-md-4">
-                    <a href="#modal-languages" class="portfolio-link" data-toggle="modal"><span class="fa-stack fa-4x">
-                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                        <i class="fa fa-language fa-stack-1x fa-inverse"></i>
-                    </span></a>
-                    <h4 class="service-heading">Language APIs</h4>
-                    <p class="text-muted">Groovy, Java, Python,<br>Javascript, Julia, C</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- ===== DOCUMENTATION ===== -->
+<section id="docs" class="docs">
+  <div class="container">
+    <div class="section-head--center">
+      <div class="eyebrow">Documentation</div>
+      <h2 class="section-title">Everything you need to know about UnetStack</h2>
+    </div>
+
+    <div class="docs__grid">
+      <a href="https://org-arl.github.io/unet/handbook/" target="_blank" rel="noopener" class="doc-card">
+        <h3>Unet handbook</h3>
+        <p>Learn to design, simulate and deploy underwater networks with UnetStack.</p>
+        <span class="doc-card__link">Read →</span>
+      </a>
+      <a href="https://org-arl.github.io/unet/api/overview-summary.html" target="_blank" rel="noopener" class="doc-card">
+        <h3>Javadoc</h3>
+        <p>The UnetStack programmer's reference.</p>
+        <span class="doc-card__link">Browse →</span>
+      </a>
+      <a href="https://github.com/org-arl/unetsockets" target="_blank" rel="noopener" class="doc-card doc-card--feature">
+        <h3>Language APIs</h3>
+        <p>Build Unet applications in Groovy, Java, Python, Javascript, Julia and C.</p>
+        <span class="doc-card__link">Browse →</span>
+      </a>
+      <a href="http://org-arl.github.io/fjage/javadoc/" target="_blank" rel="noopener" class="doc-card">
+        <h3>fjåge javadoc</h3>
+        <p>Programmer's reference for fjåge, the agent framework UnetStack is built on.</p>
+        <span class="doc-card__link">Browse →</span>
+      </a>
+      <a href="https://fjage.readthedocs.io/en/latest/" target="_blank" rel="noopener" class="doc-card">
+        <h3>fjåge developer's guide</h3>
+        <p>UnetStack is based on the fjåge agent-based framework — learn how it works.</p>
+        <span class="doc-card__link">Read →</span>
+      </a>
+    </div>
+
+    <div class="api-table-wrap">
+      <table class="api-table">
+        <thead>
+          <tr>
+            <th>Language</th>
+            <th>Support for</th>
+            <th>Status</th>
+            <th>UnetSocket API</th>
+            <th>Gateway API</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Java / Groovy</td>
+            <td>UnetSocket · API docs · Agent development</td>
+            <td><span class="status">Stable</span></td>
+            <td><a href="#downloads">download</a></td>
+            <td><a href="https://org-arl.github.io/fjage/javadoc/" target="_blank" rel="noopener">fjåge javadoc</a></td>
+          </tr>
+          <tr>
+            <td>Python 3</td>
+            <td>UnetSocket · Gateway</td>
+            <td><span class="status">Stable</span></td>
+            <td><a href="https://pypi.org/project/unetpy/" target="_blank" rel="noopener">unetpy</a></td>
+            <td><a href="https://pypi.org/project/fjagepy/" target="_blank" rel="noopener">fjagepy</a></td>
+          </tr>
+          <tr>
+            <td>Javascript</td>
+            <td>UnetSocket · Gateway</td>
+            <td><span class="status">Stable</span></td>
+            <td><a href="https://github.com/org-arl/unetsockets/tree/master/js" target="_blank" rel="noopener">unetsocket.js</a></td>
+            <td><a href="https://github.com/org-arl/fjage/tree/master/gateways/js" target="_blank" rel="noopener">fjage.js</a></td>
+          </tr>
+          <tr>
+            <td>Julia</td>
+            <td>UnetSocket · Gateway</td>
+            <td><span class="status">Stable</span></td>
+            <td><a href="https://github.com/org-arl/UnetSockets.jl" target="_blank" rel="noopener">UnetSockets.jl</a></td>
+            <td><a href="https://github.com/org-arl/Fjage.jl" target="_blank" rel="noopener">Fjage.jl</a></td>
+          </tr>
+          <tr>
+            <td>C</td>
+            <td>UnetSocket · Gateway</td>
+            <td><span class="status">Stable</span></td>
+            <td><a href="https://github.com/org-arl/unetsockets/tree/master/c" target="_blank" rel="noopener">unet.c</a></td>
+            <td><a href="https://github.com/org-arl/fjage/tree/master/gateways/c" target="_blank" rel="noopener">fjage C gateway</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

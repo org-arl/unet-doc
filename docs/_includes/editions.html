@@ -1,79 +1,46 @@
-<!-- Downloads Section -->
-    <section id="editions">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2 class="section-heading">Editions</h2>
-                    <!--h3 class="section-subheading text-muted">Download UnetStack community edition</h3-->
-                </div>
-            </div>
-            <div class="row text-center">
-                <div class="col-md-4">
-                    <a href="#modal-community" class="portfolio-link" data-toggle="modal"><span class="fa-stack fa-4x">
-                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                        <i class="fa fa-users fa-stack-1x fa-inverse"></i>
-                    </span></a>
-                    <h4 class="service-heading">Community edition</h4>
-                    <p class="text-muted">
-                        Free (non-commercial use)<br>
-                        Design, develop & simulate underwater networks
-                    </p>
-                </div>
-                <div class="col-md-4">
-                    <a href="#modal-commercial" class="portfolio-link" data-toggle="modal"><span class="fa-stack fa-4x">
-                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                        <i class="fa fa-industry fa-stack-1x fa-inverse"></i>
-                    </span></a>
-                    <h4 class="service-heading">Commercial edition</h4>
-                    <p class="text-muted">
-                        License (commercial use)<br>
-                        Use UnetStack in commercial deployments
-                    </p>
-                </div>
-                <div class="col-md-4">
-                    <a href="#modal-oem" class="portfolio-link" data-toggle="modal"><span class="fa-stack fa-4x">
-                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                        <i class="fa fa-rss-square fa-stack-1x fa-inverse"></i>
-                    </span></a>
-                    <h4 class="service-heading">OEM edition</h4>
-                    <p class="text-muted">
-                        License (OEM)<br>
-                        Make UnetStack a part of your product!
-                    </p>
-                </div>
-            </div>
-            <div class="row text-center">
-                <div class="col-md-4">
-                    <a href="#modal-editions" class="portfolio-link" data-toggle="modal"><span class="fa-stack fa-4x">
-                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                        <i class="fa fa-question-circle fa-stack-1x fa-inverse"></i>
-                    </span></a>
-                    <h4 class="service-heading">FAQs</h4>
-                    <p class="text-muted">
-                        Frequently Asked Questions about<br>
-                        UnetStack, bundled agents, editions & licensing
-                    </p>
-                </div>
-                <div class="col-md-4">
-                    <a href="#modal-components" class="portfolio-link" data-toggle="modal"><span class="fa-stack fa-4x">
-                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                        <i class="fa fa-list fa-stack-1x fa-inverse"></i>
-                    </span></a>
-                    <h4 class="service-heading">Components</h4>
-                    <p class="text-muted">
-                        Unet framework, basic/premium agents,<br>software-defined modem, network simulator, IDE
-                    </p>
-                </div>
-                <div class="col-md-4">
-                    <a href="https://subnero.com/products/modem.html" target="_blank"><span class="fa-stack fa-4x">
-                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                        <i class="fa fa-wifi fa-stack-1x fa-inverse"></i>
-                    </span></a>
-                    <h4 class="service-heading">Modems</h4>
-                    <p class="text-muted">
-                        Need modems with UnetStack inside?
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- ===== EDITIONS ===== -->
+<section id="editions" class="editions">
+  <div class="container">
+    <div class="section-head--center">
+      <div class="eyebrow">Editions</div>
+      <h2 class="section-title">Choose the edition that fits you</h2>
+      <p class="section-lead">The same core components are packaged into editions for research, commercial deployment and OEM integration.</p>
+    </div>
+
+    <div class="editions__grid">
+      <div class="edition edition--featured">
+        <div class="edition__badge edition__badge--free">FREE</div>
+        <h3>Community</h3>
+        <p class="edition__mode edition__mode--free">Non-commercial use</p>
+        <p>Design, develop &amp; simulate underwater networks for educational and research purposes.</p>
+        <a href="#downloads" class="edition__link edition__link--accent">Download now →</a>
+      </div>
+      <div class="edition">
+        <div class="edition__badge edition__badge--license">LICENSE</div>
+        <h3>Commercial</h3>
+        <p class="edition__mode edition__mode--license">Commercial use</p>
+        <p>The same components as Community, licensed for commercial applications.</p>
+        <a href="https://support.unetstack.net/" target="_blank" rel="noopener" class="edition__link edition__link--plain">Contact for licensing →</a>
+      </div>
+      <div class="edition">
+        <div class="edition__badge edition__badge--oem">OEM</div>
+        <h3>OEM</h3>
+        <p class="edition__mode edition__mode--oem">OEM licensing</p>
+        <p>Pre-installed on devices by original equipment manufacturers, such as software-defined modems. Accessible via UnetStack APIs with no separate license.</p>
+        <a href="https://support.unetstack.net/" target="_blank" rel="noopener" class="edition__link edition__link--plain">Contact for licensing →</a>
+      </div>
+    </div>
+
+    <div class="faq">
+      <div class="faq__label">Frequently asked questions</div>
+      <details>
+        <summary>What editions are available? <span class="sign"></span></summary>
+        <p>UnetStack comes in three editions namely Community, Commercial and OEM, each packaging the core components for a different audience, from free academic research to OEM device integration.</p>
+      </details>
+      <details>
+        <summary>Can I use Community in a commercial deployment? <span class="sign"></span></summary>
+        <p>No. The Community edition is for educational and non-commercial use only. To connect to an OEM device you can use the open-source Gateway and UnetSocket libraries; for commercial applications, license the Commercial edition.</p>
+      </details>
+    </div>
+  </div>
+</section>
