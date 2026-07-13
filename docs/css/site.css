@@ -449,6 +449,7 @@ summary::-webkit-details-marker { display: none; }
   border-radius: 16px; padding: 30px;
 }
 a.legacy-card { display: block; transition: transform .15s, border-color .15s; }
+.legacy-card--wide { grid-column: 1 / -1; }
 a.legacy-card:hover { transform: translateY(-3px); border-color: rgba(43,196,230,0.4); }
 .legacy-card__kicker {
   font-family: var(--font-head); font-size: 12px; font-weight: 600;
