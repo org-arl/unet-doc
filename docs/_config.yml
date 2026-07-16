@@ -1,11 +1,12 @@
 title: Unet
 longname: UnetStack
-description: UnetStack3 is a collection of technologies that allows us to extend communication networks underwater
+description: The Underwater Networks Project. Design, simulate, test and deploy underwater acoustic networks with an agent-based network stack and simulator.
 url: "https://unetstack.net"
 website: "https://unetstack.net"
 markdown: kramdown
 theme: minima
 twitter: unetstack
+image_path: img/logo.png
 sass:
   style: compressed
   sourcemap: false
