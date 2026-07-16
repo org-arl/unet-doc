@@ -1,4 +1,6 @@
 <!-- ===== DOWNLOADS ===== -->
+{% capture version %}{% include_relative version.txt %}{% endcapture %}
+{% assign version = version | strip_newlines %}
 <section id="downloads" class="downloads">
   <div class="container">
     <div class="downloads__head">
@@ -11,7 +13,7 @@
       <div class="dl-panel">
         <h3>Prerequisites</h3>
         <ul class="prereqs">
-          <li><span class="marker">▸</span>OS X / Linux (x86_64) / Windows*</li>
+          <li><span class="marker">▸</span>OS X / Linux (x86_64) / Windows</li>
           <li><span class="marker">▸</span><a href="https://www.java.com/en/download/" target="_blank" rel="noopener">Java 8 runtime environment</a></li>
           <li><span class="marker">▸</span>Chrome 61+ / Firefox 60+ / Safari 10.1+</li>
         </ul>
@@ -22,17 +24,42 @@
         <h3>UnetStack 7</h3>
         <p>Community edition. Everything you need to start building and simulating underwater networks.</p>
         <div class="dl-card__actions">
-          <a href="https://unetstack.net/downloads" target="_blank" rel="noopener" class="btn btn--primary">Download .zip</a>
-          <a href="https://unetstack.net/downloads" target="_blank" rel="noopener" class="btn btn--ghost">Download .tgz</a>
+          <button type="button" class="btn btn--primary" onclick="document.getElementById('dl-modal').classList.add('is-open')">Download</button>
         </div>
       </div>
 
       <div class="dl-panel">
         <h3>Terms of use</h3>
         <p>The community edition may be freely used only for academic teaching and research purposes.</p>
-        <p>Commercial use requires licensing.</p>
+        <p>Commercial use requires <a href="mailto:info@subnero.com">licensing</a>.</p>
       </div>
     </div>
-    <p class="downloads__note">* Unet audio (legacy, v3 only) is not supported on the Windows platform.</p>
+
+    <div class="legacy-strip">
+      <div>
+        <h3>Older releases</h3>
+        <p>Looking for a previous version of UnetStack? All earlier community edition releases are <a href="https://github.com/org-arl/unet-doc/tree/master/docs/downloads" target="_blank" rel="noopener">archived and available for download</a>.
+        Archived documentation: <a href="handbook/" target="_blank">v3 handbook</a> · javadocs <a href="javadoc/3.0/" target="_blank">v3.0</a> · <a href="javadoc/3.1/" target="_blank">v3.1</a> · <a href="javadoc/3.2/" target="_blank">v3.2</a> · <a href="javadoc/3.3/" target="_blank">v3.3</a> · <a href="javadoc/3.4/" target="_blank">v3.4</a></p>
+      </div>
+    </div>
   </div>
 </section>
+
+<!-- download modal -->
+<div id="dl-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="dl-modal-title">
+  <div class="modal__backdrop" onclick="document.getElementById('dl-modal').classList.remove('is-open')"></div>
+  <div class="modal__panel">
+    <button type="button" class="modal__close" aria-label="Close" onclick="document.getElementById('dl-modal').classList.remove('is-open')">×</button>
+    <h3 id="dl-modal-title">Download UnetStack</h3>
+    <p>Community edition · version {{ version }}</p>
+    <div class="modal__actions">
+      <a href="downloads/unet-community-{{ version }}.zip" class="btn btn--primary">Download .zip</a>
+      <a href="downloads/unet-community-{{ version }}.tgz" class="btn btn--ghost">Download .tgz</a>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') document.getElementById('dl-modal').classList.remove('is-open');
+  });
+</script>
