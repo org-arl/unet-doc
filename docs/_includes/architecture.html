@@ -17,7 +17,44 @@
       </div>
       <div class="diagram-panel">
         <div class="diagram-panel__label">The layered stack</div>
-        <img src="img/arch-stack.png" alt="UnetStack layered architecture: UnetStack interfaces (Shell, Web UI, Unet Socket APIs) connect to UnetStack agents (Data Analytics, Remote Management, Network Stack, Communication Algorithms, Localization, Baseband Service, Device & Sensor Management), built on the messaging fabric, framework and Unet simulator (Unet framework + fjåge, Simulator), running on supported hardware (Subnero Modems, UnetCube, Unet Audio, S1000N, Satellite, Optical Modem)" />
+        <div class="lstack">
+          <div class="lstack__top">
+            <div class="lstack__rail">
+              <div class="lstack__vpill lstack__vpill--red"><span>Shell</span></div>
+              <div class="lstack__vpill lstack__vpill--red"><span>Web UI</span></div>
+              <div class="lstack__vpill lstack__vpill--red lstack__vpill--tall"><span>Unet Socket APIs</span></div>
+            </div>
+            <div class="lstack__main">
+              <div class="lstack__agents">
+                <div class="lstack__agents-grid">
+                  <div class="lstack__row2">
+                    <div class="pill pill--cyan">Data Analytics</div>
+                    <div class="pill pill--cyan">Remote Management</div>
+                  </div>
+                  <div class="pill pill--cyan-strong">Network Stack</div>
+                  <div class="lstack__row2">
+                    <div class="pill pill--cyan">Communication Algorithms</div>
+                    <div class="pill pill--cyan">Localization</div>
+                  </div>
+                  <div class="pill pill--cyan">Baseband Service</div>
+                </div>
+                <div class="lstack__vpill lstack__vpill--orange"><span>Device &amp; Sensor Management</span></div>
+              </div>
+              <div class="lstack__fw">
+                <div class="pill pill--green pill--green-strong pill--icon"><img src="img/logo.png" alt="" class="pill__logo" /><span>Unet framework + fjåge</span></div>
+                <div class="pill pill--green pill--lead-icon"><span class="pill__ic"><img src="img/icon-simulator.png" alt="" class="pill__ic--invert" style="width:22px;height:22px;" /></span><span class="pill__label">Simulator</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="lstack__hw">
+            <div class="pill pill--orange pill--lead-icon"><span class="pill__ic"><img src="img/icon-subnero-modem.png" alt="" style="width:8px;height:22px;" /></span><span class="pill__label">Subnero Modems</span></div>
+            <div class="pill pill--orange pill--lead-icon"><span class="pill__ic"><img src="img/icon-unetcube.png" alt="" style="width:24px;height:24px;" /></span><span class="pill__label">UnetCube</span></div>
+            <div class="pill pill--orange pill--lead-icon"><span class="pill__ic"><img src="img/icon-audio.png" alt="" style="width:22px;height:22px;" /></span><span class="pill__label">Unet audio</span></div>
+            <div class="pill pill--orange pill--lead-icon"><span class="pill__ic"><img src="img/icon-thirdparty-modem.png" alt="" style="width:22px;height:12px;" /></span><span class="pill__label">Third Party Modems</span></div>
+            <div class="pill pill--orange pill--lead-icon"><span class="pill__ic"><img src="img/icon-satellite.png" alt="" style="width:20px;height:20px;" /></span><span class="pill__label">Satellite/RF</span></div>
+            <div class="pill pill--orange pill--lead-icon"><span class="pill__ic"><img src="img/subnero-mark.png" alt="" style="width:20px;height:20px;" /></span><span class="pill__label">Optical Modem</span></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
