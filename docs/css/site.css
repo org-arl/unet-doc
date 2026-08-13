@@ -404,24 +404,43 @@ summary::-webkit-details-marker { display: none; }
 .legacy-strip h3 { font-family: var(--font-head); font-size: 18px; font-weight: 600; margin: 0 0 10px; }
 .legacy-strip p { font-size: 14.5px; line-height: 1.7; color: var(--body-3); margin: 0; }
 .legacy-strip a { color: var(--accent-light); font-weight: 600; }
+.docs .legacy-strip { margin: -20px 0 44px; }
 
-/* download modal */
+/* link-styled button */
+.linklike {
+  background: none; border: 0; padding: 0; font: inherit; cursor: pointer;
+  color: var(--accent); font-weight: 600;
+}
+.linklike:hover { text-decoration: underline; }
+
+/* terms of use / download modal */
 .modal { position: fixed; inset: 0; z-index: 100; display: none; }
-.modal.is-open { display: block; }
+.modal.is-open { display: block; overflow-y: auto; }
+body.modal-open { overflow: hidden; }
 .modal__backdrop {
-  position: absolute; inset: 0; background: rgba(4,10,17,0.72);
+  position: fixed; inset: 0; background: rgba(4,10,17,0.72);
   backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
 }
 .modal__panel {
-  position: relative; max-width: 400px; margin: 22vh auto 0;
+  position: relative; max-width: 620px; margin: 7vh auto;
   background: #0a2032; border: 1px solid rgba(43,196,230,0.3);
   border-radius: 18px; padding: 32px; z-index: 1;
   box-shadow: 0 30px 80px -20px rgba(0,0,0,0.7);
 }
 .modal__panel h3 { font-family: var(--font-head); font-size: 22px; font-weight: 700; margin: 0 0 6px; }
 .modal__panel p { font-size: 14.5px; color: var(--body); margin: 0 0 22px; }
-.modal__actions { display: flex; flex-direction: column; gap: 11px; }
-.modal__actions .btn { justify-content: center; font-size: 15px; padding: 14px; }
+.modal__sub { color: var(--body-3) !important; margin: 0 0 18px !important; }
+.modal__terms {
+  max-height: 44vh; overflow-y: auto; margin: 0 0 24px; padding: 18px 16px 4px 0;
+  border-top: 1px solid rgba(255,255,255,0.09);
+  border-bottom: 1px solid rgba(255,255,255,0.09);
+}
+.modal__terms p { font-size: 13.5px; line-height: 1.7; color: var(--body-3); margin: 0 0 14px; }
+.modal__terms ul { margin: 0 0 14px; padding-left: 20px; }
+.modal__terms li { font-size: 13.5px; line-height: 1.7; color: var(--body-3); margin-bottom: 4px; }
+.modal__terms a { color: var(--accent-light); font-weight: 600; }
+.modal__actions { display: flex; gap: 11px; }
+.modal__actions .btn { flex: 1; justify-content: center; font-size: 15px; padding: 14px; }
 .modal__close {
   position: absolute; top: 12px; right: 16px; background: none; border: 0;
   color: #7e98ad; font-size: 24px; line-height: 1; cursor: pointer; padding: 4px;
@@ -511,4 +530,7 @@ summary::-webkit-details-marker { display: none; }
   .hero__title { font-size: 46px; }
   .about, .architecture, .editions, .downloads, .docs { padding-left: 20px; padding-right: 20px; }
   .footer { padding-left: 20px; padding-right: 20px; }
+  .modal__panel { margin: 3vh 16px; padding: 26px 22px; }
+  .modal__terms { max-height: 50vh; }
+  .modal__actions { flex-direction: column; }
 }

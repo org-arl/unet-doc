@@ -24,7 +24,7 @@
         <h3>UnetStack 7</h3>
         <p>Community edition. Everything you need to start building and simulating underwater networks.</p>
         <div class="dl-card__actions">
-          <button type="button" class="btn btn--primary" onclick="document.getElementById('dl-modal').classList.add('is-open')">Download</button>
+          <button type="button" class="btn btn--primary" onclick="openDlModal()">Download</button>
         </div>
       </div>
 
@@ -32,33 +32,55 @@
         <h3>Terms of use</h3>
         <p>The community edition may be freely used only for academic teaching and research purposes.</p>
         <p>Commercial use requires <a href="mailto:info@subnero.com">licensing</a>.</p>
+        <p><button type="button" class="linklike" onclick="openDlModal()">Read the full terms →</button></p>
       </div>
     </div>
 
     <div class="legacy-strip">
       <div>
         <h3>Older releases</h3>
-        <p>Looking for a previous version of UnetStack? All earlier community edition releases are <a href="https://github.com/org-arl/unet-doc/tree/master/docs/downloads" target="_blank" rel="noopener">archived and available for download</a>.
-        Archived documentation: <a href="handbook/" target="_blank">v3 handbook</a> · javadocs <a href="javadoc/3.0/" target="_blank">v3.0</a> · <a href="javadoc/3.1/" target="_blank">v3.1</a> · <a href="javadoc/3.2/" target="_blank">v3.2</a> · <a href="javadoc/3.3/" target="_blank">v3.3</a> · <a href="javadoc/3.4/" target="_blank">v3.4</a></p>
+        <p>Looking for a previous version of UnetStack? All earlier community edition releases are <a href="https://github.com/org-arl/unet-doc/tree/master/docs/downloads" target="_blank" rel="noopener">archived and available for download</a>.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- download modal -->
+<!-- terms of use / download modal -->
 <div id="dl-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="dl-modal-title">
-  <div class="modal__backdrop" onclick="document.getElementById('dl-modal').classList.remove('is-open')"></div>
+  <div class="modal__backdrop" onclick="closeDlModal()"></div>
   <div class="modal__panel">
-    <button type="button" class="modal__close" aria-label="Close" onclick="document.getElementById('dl-modal').classList.remove('is-open')">×</button>
-    <h3 id="dl-modal-title">Download UnetStack</h3>
-    <p>Community edition · version {{ version }}</p>
+    <button type="button" class="modal__close" aria-label="Close" onclick="closeDlModal()">×</button>
+    <h3 id="dl-modal-title">Terms of use</h3>
+    <p class="modal__sub">UnetStack community edition · version {{ version }}</p>
+    <div class="modal__terms" tabindex="0" role="region" aria-label="Terms of use">
+      <p>Copyright © {{ 'now' | date: "%Y" }}, Acoustic Research Laboratory, National University of Singapore, and Subnero Pte Ltd. All rights reserved.</p>
+      <p>The UnetStack community edition software may be freely used for academic teaching and research purposes only. The software may NOT be used for any commercial activity, such as (but not limited to):</p>
+      <ul>
+        <li>Commercial deployment of underwater networks.</li>
+        <li>Commercial demonstrations.</li>
+        <li>Commercial research.</li>
+        <li>Consulting work performed by academic students, faculty or research staff.</li>
+        <li>Training of commercial company employees.</li>
+      </ul>
+      <p>This software is provided by the copyright holders and contributors &ldquo;as is&rdquo; and any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall the copyright holder or contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this software, even if advised of the possibility of such damage.</p>
+      <p>For commercial licensing, please contact <a href="mailto:info@subnero.com">info@subnero.com</a>.</p>
+    </div>
     <div class="modal__actions">
-      <a href="downloads/unet-community-{{ version }}.tgz" class="btn btn--primary">Download .tgz</a>
+      <a href="downloads/unet-community-{{ version }}.tgz" class="btn btn--primary" onclick="closeDlModal()">Accept &amp; download .tgz</a>
+      <button type="button" class="btn btn--ghost" onclick="closeDlModal()">Decline</button>
     </div>
   </div>
 </div>
 <script>
+  function openDlModal() {
+    document.getElementById('dl-modal').classList.add('is-open');
+    document.body.classList.add('modal-open');
+  }
+  function closeDlModal() {
+    document.getElementById('dl-modal').classList.remove('is-open');
+    document.body.classList.remove('modal-open');
+  }
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') document.getElementById('dl-modal').classList.remove('is-open');
+    if (e.key === 'Escape') closeDlModal();
   });
 </script>
