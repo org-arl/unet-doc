@@ -1,4 +1,6 @@
 <!-- ===== HERO ===== -->
+{% capture version %}{% include_relative version.txt %}{% endcapture %}
+{% assign version = version | strip_newlines %}
 <header class="hero">
   <div class="hero__bg"></div>
   <div class="hero__scrim"></div>
@@ -6,7 +8,7 @@
     <img src="img/logo.png" alt="UnetStack" class="hero__logo" />
     <div class="hero__badge">
       <span class="dot"></span>
-      Latest release · 7.0
+      Latest release · {{ version }}
     </div>
     <h1 class="hero__title">UnetStack</h1>
     <p class="hero__tagline">The Underwater Networks Project</p>
