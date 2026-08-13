@@ -32,7 +32,7 @@
         <h3>Terms of use</h3>
         <p>The community edition may be freely used only for academic teaching and research purposes.</p>
         <p>Commercial use requires <a href="mailto:info@subnero.com">licensing</a>.</p>
-        <p><button type="button" class="linklike" onclick="openDlModal()">Read the full terms →</button></p>
+        <p><button type="button" class="linklike" onclick="openTermsModal()">Read the full terms →</button></p>
       </div>
     </div>
 
@@ -65,17 +65,25 @@
       <p>This software is provided by the copyright holders and contributors &ldquo;as is&rdquo; and any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall the copyright holder or contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this software, even if advised of the possibility of such damage.</p>
       <p>For commercial licensing, please contact <a href="mailto:info@subnero.com">info@subnero.com</a>.</p>
     </div>
-    <div class="modal__actions">
+    <div class="modal__actions" data-mode="download">
       <a href="downloads/unet-community-{{ version }}.tgz" class="btn btn--primary" onclick="closeDlModal()">Accept &amp; download .tgz</a>
       <button type="button" class="btn btn--ghost" onclick="closeDlModal()">Decline</button>
+    </div>
+    <div class="modal__actions" data-mode="read">
+      <button type="button" class="btn btn--primary" onclick="closeDlModal()">Close</button>
     </div>
   </div>
 </div>
 <script>
-  function openDlModal() {
-    document.getElementById('dl-modal').classList.add('is-open');
+  function openModal(mode) {
+    var m = document.getElementById('dl-modal');
+    m.classList.remove('mode-download', 'mode-read');
+    m.classList.add('is-open', 'mode-' + mode);
+    m.querySelector('.modal__terms').scrollTop = 0;
     document.body.classList.add('modal-open');
   }
+  function openDlModal() { openModal('download'); }
+  function openTermsModal() { openModal('read'); }
   function closeDlModal() {
     document.getElementById('dl-modal').classList.remove('is-open');
     document.body.classList.remove('modal-open');

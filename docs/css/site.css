@@ -439,7 +439,9 @@ body.modal-open { overflow: hidden; }
 .modal__terms ul { margin: 0 0 14px; padding-left: 20px; }
 .modal__terms li { font-size: 13.5px; line-height: 1.7; color: var(--body-3); margin-bottom: 4px; }
 .modal__terms a { color: var(--accent-light); font-weight: 600; }
-.modal__actions { display: flex; gap: 11px; }
+.modal__actions { display: none; gap: 11px; }
+.modal.mode-download .modal__actions[data-mode="download"],
+.modal.mode-read .modal__actions[data-mode="read"] { display: flex; }
 .modal__actions .btn { flex: 1; justify-content: center; font-size: 15px; padding: 14px; }
 .modal__close {
   position: absolute; top: 12px; right: 16px; background: none; border: 0;
