@@ -23,8 +23,22 @@
         <div class="dl-card__badge">VERSION {{ version }}</div>
         <h3>UnetStack 7</h3>
         <p>Community edition. Everything you need to start building and simulating underwater networks.</p>
+        <div class="dl-card__meta">
+          <div class="dl-card__meta-item">
+            <span class="dl-card__meta-label">Size</span>
+            <span class="dl-card__meta-val">20.9 MB (.tgz)</span>
+          </div>
+          <div class="dl-card__meta-item">
+            <span class="dl-card__meta-label">Release notes</span>
+            <span class="dl-card__meta-val"><a href="releasenotes.txt" target="_blank" rel="noopener">releasenotes.txt</a></span>
+          </div>
+          <div class="dl-card__meta-item dl-card__meta-item--hash">
+            <span class="dl-card__meta-label">SHA-256 Checksum</span>
+            <code class="dl-card__hash" title="f3be88550a0b5c59e22b2b1afd4015d1c431d2e8f2539131dcc3a56adf49c75c">f3be88550a0b5c59e22b2b1afd4015d1c431d2e8f2539131dcc3a56adf49c75c</code>
+          </div>
+        </div>
         <div class="dl-card__actions">
-          <button type="button" class="btn btn--primary" onclick="openDlModal()">Download</button>
+          <a href="downloads/unet-community-{{ version }}.tgz" class="btn btn--primary" onclick="openDlModal(event)">Download</a>
         </div>
       </div>
 
@@ -32,14 +46,14 @@
         <h3>Terms of use</h3>
         <p>The community edition may be freely used only for academic teaching and research purposes.</p>
         <p>Commercial use requires <a href="mailto:info@subnero.com">licensing</a>.</p>
-        <p><button type="button" class="linklike" onclick="openTermsModal()">Read the full terms →</button></p>
+        <p><button type="button" class="linklike" onclick="openTermsModal(event)">Read the full terms →</button></p>
       </div>
     </div>
 
     <div class="legacy-strip">
       <div>
         <h3>Older releases</h3>
-        <p>Looking for a previous version of UnetStack? All earlier community edition releases are <a href="https://github.com/org-arl/unet-doc/tree/master/docs/downloads" target="_blank" rel="noopener">archived and available for download</a>.</p>
+        <p>Looking for a previous version of UnetStack? All earlier community edition releases are <a href="https://github.com/org-arl/unet-doc/releases" target="_blank" rel="noopener">available on GitHub Releases</a>.</p>
       </div>
     </div>
   </div>
@@ -82,8 +96,14 @@
     dlModal.querySelector('.modal__terms').scrollTop = 0;
     if (!dlModal.open) dlModal.showModal();
   }
-  function openDlModal() { openModal('download'); }
-  function openTermsModal() { openModal('read'); }
+  function openDlModal(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    openModal('download');
+  }
+  function openTermsModal(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    openModal('read');
+  }
   function closeDlModal() {
     if (dlModal && dlModal.open) dlModal.close();
   }
