@@ -6,7 +6,7 @@
       <span>UnetStack</span>
     </a>
     <div class="nav__right">
-      <div class="nav__links">
+      <div class="nav__links" id="nav-links">
         <a href="#about">About</a>
         <a href="#architecture">Architecture</a>
         <a href="#editions">Editions</a>
@@ -17,6 +17,56 @@
         <a href="https://support.unetstack.net/" target="_blank" rel="noopener">Support</a>
       </div>
       <a href="#downloads" class="nav__cta">Download</a>
+      <button type="button" class="nav__toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="nav-links">
+        <svg class="nav__toggle-icon nav__toggle-icon--menu" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <svg class="nav__toggle-icon nav__toggle-icon--close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
     </div>
   </div>
 </nav>
+<script>
+  (function () {
+    var nav = document.querySelector('.nav');
+    var toggle = document.querySelector('.nav__toggle');
+    var links = document.querySelector('.nav__links');
+    if (!nav || !toggle || !links) return;
+
+    function toggleNav(open) {
+      var isOpen = open !== undefined ? open : !nav.classList.contains('is-open');
+      nav.classList.toggle('is-open', isOpen);
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      toggle.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation');
+    }
+
+    toggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      toggleNav();
+    });
+
+    links.addEventListener('click', function (e) {
+      if (e.target.closest('a')) {
+        toggleNav(false);
+      }
+    });
+
+    document.addEventListener('click', function (e) {
+      if (nav.classList.contains('is-open') && !nav.contains(e.target)) {
+        toggleNav(false);
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && nav.classList.contains('is-open')) {
+        toggleNav(false);
+        toggle.focus();
+      }
+    });
+  })();
+</script>
