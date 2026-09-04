@@ -3,57 +3,38 @@
 {% assign version = version | strip_newlines %}
 <section id="downloads" class="downloads">
   <div class="container">
-    <div class="downloads__head">
-      <div class="eyebrow">Downloads</div>
-      <h2 class="section-title">Download UnetStack community edition</h2>
-      <p class="section-lead">Free for academic teaching and research. Start experimenting with your underwater networks today.</p>
+    <div class="section-head">
+      <h2 class="section-title">Download the community edition</h2>
     </div>
 
-    <div class="downloads__grid">
-      <div class="dl-panel">
-        <h3>Prerequisites</h3>
-        <ul class="prereqs">
-          <li><span class="marker">▸</span>OS X / Linux (x86_64) / Windows</li>
-          <li><span class="marker">▸</span><a href="https://www.java.com/en/download/" target="_blank" rel="noopener">Java 8 runtime environment</a></li>
-          <li><span class="marker">▸</span>Chrome 61+ / Firefox 60+ / Safari 10.1+</li>
-        </ul>
+    <div class="dl-card">
+      <div class="dl-card__body">
+        <h3>UnetStack {{ version }}</h3>
+        <p>Builds and simulates underwater networks on your own machine.</p>
       </div>
-
-      <div class="dl-card">
-        <div class="dl-card__badge">VERSION {{ version }}</div>
-        <h3>UnetStack 7</h3>
-        <p>Community edition. Everything you need to start building and simulating underwater networks.</p>
-        <div class="dl-card__meta">
-          <div class="dl-card__meta-item">
-            <span class="dl-card__meta-label">Size</span>
-            <span class="dl-card__meta-val">20.9 MB (.tgz)</span>
-          </div>
-          <div class="dl-card__meta-item">
-            <span class="dl-card__meta-label">Release notes</span>
-            <span class="dl-card__meta-val"><a href="releasenotes.txt" target="_blank" rel="noopener">releasenotes.txt</a></span>
-          </div>
-          <div class="dl-card__meta-item dl-card__meta-item--hash">
-            <span class="dl-card__meta-label">SHA-256 Checksum</span>
-            <code class="dl-card__hash" title="f3be88550a0b5c59e22b2b1afd4015d1c431d2e8f2539131dcc3a56adf49c75c">f3be88550a0b5c59e22b2b1afd4015d1c431d2e8f2539131dcc3a56adf49c75c</code>
-          </div>
-        </div>
-        <div class="dl-card__actions">
-          <a href="downloads/unet-community-{{ version }}.tgz" class="btn btn--primary" onclick="openDlModal(event)">Download</a>
-        </div>
-      </div>
-
-      <div class="dl-panel">
-        <h3>Terms of use</h3>
-        <p>The community edition may be freely used only for academic teaching and research purposes.</p>
-        <p>Commercial use requires <a href="mailto:info@subnero.com">licensing</a>.</p>
-        <p><button type="button" class="linklike" onclick="openTermsModal(event)">Read the full terms →</button></p>
+      <dl class="dl-facts">
+        <dt>Size</dt>
+        <dd>20.9 MB (.tgz)</dd>
+        <dt>Platforms</dt>
+        <dd>macOS · Linux (x86_64) · Windows</dd>
+        <dt>Runtime</dt>
+        <dd><a href="https://adoptium.net/temurin/releases?version=8&os=any&arch=any" target="_blank" rel="noopener">Java 8</a></dd>
+        <dt>Web UI</dt>
+        <dd>Chrome 61+ · Firefox 60+ · Safari 10.1+</dd>
+        <dt>Release notes</dt>
+        <dd><a href="releasenotes.txt" target="_blank" rel="noopener">releasenotes.txt</a></dd>
+      </dl>
+      <div class="dl-card__action">
+        <a href="downloads/unet-community-{{ version }}.tgz" class="btn btn--primary dl-card__cta" aria-haspopup="dialog" onclick="openDlModal(event)">Download .tgz</a>
+        <p class="dl-gate">Downloading means accepting the <button type="button" class="linklike" aria-haspopup="dialog" onclick="openTermsModal(event)">terms of use</button>.</p>
+        <p class="dl-gate">Commercial use? <a href="mailto:info@subnero.com">Contact for licensing</a>.</p>
       </div>
     </div>
 
     <div class="legacy-strip">
       <div>
         <h3>Older releases</h3>
-        <p>Looking for a previous version of UnetStack? All earlier community edition releases are <a href="https://github.com/org-arl/unet-doc/releases" target="_blank" rel="noopener">available on GitHub Releases</a>.</p>
+        <p>All earlier community edition releases are <a href="https://github.com/org-arl/unet-doc/releases" target="_blank" rel="noopener">available on GitHub Releases</a>.</p>
       </div>
     </div>
   </div>
@@ -78,21 +59,41 @@
       <p>This software is provided by the copyright holders and contributors &ldquo;as is&rdquo; and any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall the copyright holder or contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this software, even if advised of the possibility of such damage.</p>
       <p>For commercial licensing, please contact <a href="mailto:info@subnero.com">info@subnero.com</a>.</p>
     </div>
+    <!-- done mode: the accept click is the most committed moment on the page, so it
+         resolves into a next step instead of closing onto an unchanged page. -->
+    <div class="modal__done">
+      <h3 id="dl-done-title">Download started</h3>
+      <p class="modal__sub">unet-community-{{ version }}.tgz · 20.9 MB</p>
+      <p class="modal__done-label">Unpack it and start a simulated 2-node network:</p>
+      <pre class="modal__code"><code>tar xzf unet-community-{{ version }}.tgz
+cd unet-{{ version }}
+bin/unet samples/2-node-network.groovy</code></pre>
+      <p class="modal__done-note">The simulation prints a web URL for each node — open them to get a command shell.</p>
+      <p class="modal__done-next"><a href="https://org-arl.github.io/unet/handbook/" target="_blank" rel="noopener">Read the handbook &rarr;</a></p>
+    </div>
     <div class="modal__actions" data-mode="download">
-      <a href="downloads/unet-community-{{ version }}.tgz" class="btn btn--primary" onclick="closeDlModal()">Accept &amp; download .tgz</a>
-      <button type="button" class="btn btn--ghost" onclick="closeDlModal()">Decline</button>
+      <a href="downloads/unet-community-{{ version }}.tgz" class="btn btn--primary" onclick="doneDlModal()">Accept &amp; download .tgz</a>
+      <button type="button" class="btn btn--ghost" onclick="closeDlModal()">Not now</button>
     </div>
     <div class="modal__actions" data-mode="read">
+      <button type="button" class="btn btn--primary" onclick="closeDlModal()">Close</button>
+    </div>
+    <div class="modal__actions" data-mode="done">
       <button type="button" class="btn btn--primary" onclick="closeDlModal()">Close</button>
     </div>
   </div>
 </dialog>
 <script>
   var dlModal = document.getElementById('dl-modal');
+  function setMode(mode) {
+    dlModal.classList.remove('mode-download', 'mode-read', 'mode-done');
+    dlModal.classList.add('mode-' + mode);
+    // The labelled heading is swapped with the panel, so the accessible name follows.
+    dlModal.setAttribute('aria-labelledby', mode === 'done' ? 'dl-done-title' : 'dl-modal-title');
+  }
   function openModal(mode) {
     if (!dlModal) return;
-    dlModal.classList.remove('mode-download', 'mode-read');
-    dlModal.classList.add('mode-' + mode);
+    setMode(mode);
     dlModal.querySelector('.modal__terms').scrollTop = 0;
     if (!dlModal.open) dlModal.showModal();
   }
@@ -103,6 +104,10 @@
   function openTermsModal(e) {
     if (e && e.preventDefault) e.preventDefault();
     openModal('read');
+  }
+  function doneDlModal() {
+    // No preventDefault: the anchor's href still serves the file.
+    if (dlModal) setMode('done');
   }
   function closeDlModal() {
     if (dlModal && dlModal.open) dlModal.close();
