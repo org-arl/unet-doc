@@ -3,9 +3,8 @@
   <div class="container">
     <div class="about__intro">
       <div>
-        <div class="eyebrow">What is UnetStack?</div>
-        <h2>A complete toolkit for underwater networks</h2>
-        <p>UnetStack is a collection of technologies to extend communication networks underwater. Built on an agent-based framework, it gives you everything needed to design, simulate, test and deploy underwater networks, from the protocol stack to a software-defined acoustic modem.</p>
+        <h2 class="section-title">Underwater networks, from protocol stack to modems</h2>
+        <p class="section-lead">UnetStack is a networking stack that extends communication networks underwater. Built on an agent-based framework, it covers design, simulation, testing and deployment, from the protocol stack to a software-defined acoustic modem.</p>
       </div>
       <div class="steps">
         <div class="step">
@@ -38,43 +37,52 @@
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="ecosystem">
-      <div class="eyebrow">The ecosystem</div>
-      <h3>Tools and platforms for the full lifecycle</h3>
-      <p class="ecosystem__lead">A growing ecosystem around UnetStack. From desktop simulation to hardware deployment with Subnero modems.</p>
+  <section class="ecosystem">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="section-title">What you build with</h2>
+        <p class="section-lead">From desktop simulation to underwater network deployment with real modems.</p>
+      </div>
       <div class="ecosystem__grid">
+        <a href="https://org-arl.github.io/unet/handbook/" target="_blank" rel="noopener" class="card">
+          <div class="card__kicker">PROTOCOL STACK</div>
+          <h3>UnetStack &amp; Agents</h3>
+          <p aria-hidden="true">A media-agnostic network stack assembled from agents — baseband, ranging, link, routing and transport. Reconfigure any of them at runtime, or write your own and drop it in.</p>
+          <span class="card__link">Read the handbook →</span>
+        </a>
         <a href="https://subnero.com/products/wnc/unetstack/unetsim.html" target="_blank" rel="noopener" class="card">
           <div class="card__kicker">NETWORK SIMULATOR</div>
-          <h4>UnetSim</h4>
-          <p>Fast, flexible simulator with discrete-event and real-time modes. Develop and refine subsea protocols with no code porting.</p>
-          <span class="card__link">Learn more →</span>
+          <h3>UnetSim</h3>
+          <p aria-hidden="true">Fast, flexible simulator with discrete-event and real-time modes. Develop and refine underwater protocols with no porting.</p>
+          <span class="card__link">About UnetSim →</span>
         </a>
         <a href="https://github.com/org-arl/VirtualAcousticOcean.jl" target="_blank" rel="noopener" class="card">
           <div class="card__kicker">CHANNEL SIMULATOR</div>
-          <h4>Virtual Acoustic Ocean</h4>
-          <p>Open-source acoustic channel simulator (VAO) interfacing with Bellhop, Kraken and other physics-accurate models for high-fidelity testing.</p>
+          <h3>Virtual Acoustic Ocean</h3>
+          <p aria-hidden="true">Open-source acoustic channel simulator (VAO) interfacing with Bellhop, Kraken and other physics-accurate models for high-fidelity testing.</p>
           <span class="card__link">View on GitHub →</span>
         </a>
         <a href="https://subnero.com/products/wnc/unetstack/unetcube.html" target="_blank" rel="noopener" class="card">
           <div class="card__kicker">DEVELOPMENT PLATFORM</div>
-          <h4>UnetCube</h4>
-          <p>A compact UnetStack development platform in the form of a digital modem. Prototype and test your underwater network applications on real embedded hardware.</p>
-          <span class="card__link">Learn more →</span>
+          <h3>UnetCube</h3>
+          <p aria-hidden="true">A compact UnetStack development platform in a digital modem. Prototype and test your underwater network applications on real embedded hardware.</p>
+          <span class="card__link">About UnetCube →</span>
         </a>
         <a href="https://subnero.com/products/wnc/unetstack/unetcloud.html" target="_blank" rel="noopener" class="card">
           <div class="card__kicker">CLOUD PLATFORM</div>
-          <h4>UnetCloud</h4>
-          <p>Physics-based underwater network simulation hosted in the cloud. Virtual nodes run the same UnetStack software and APIs as real modems, so you can develop and validate protocols without hardware.</p>
-          <span class="card__link">Learn more →</span>
+          <h3>UnetCloud</h3>
+          <p aria-hidden="true">Physics-based underwater network simulation hosted in the cloud. Virtual nodes run the same UnetStack software and APIs as real modems, so you can develop and validate protocols without hardware.</p>
+          <span class="card__link">About UnetCloud →</span>
         </a>
-        <a href="https://subnero.com/products/wnc/" target="_blank" rel="noopener" class="card card--feature">
-          <div class="card__kicker card__kicker--light">HARDWARE</div>
-          <h4 class="card__title--icon"><img src="img/subnero-mark.png" alt="Subnero" />Subnero modems</h4>
-          <p>Software-defined acoustic smart modems with UnetStack inside, ready for real-world subsea deployments.</p>
+        <a href="https://subnero.com/products/wnc/" target="_blank" rel="noopener" class="card">
+          <div class="card__kicker">HARDWARE</div>
+          <h3>Subnero modems</h3>
+          <p aria-hidden="true">Software-defined acoustic smart modems with UnetStack inside, built for underwater deployment.</p>
           <span class="card__link">Explore Subnero →</span>
         </a>
       </div>
     </div>
-  </div>
+  </section>
 </section>

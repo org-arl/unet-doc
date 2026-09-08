@@ -1,12 +1,13 @@
 title: Unet
 longname: UnetStack
+tagline: Underwater acoustic networks — design, simulate, deploy
 description: The Underwater Networks Project. Design, simulate, test and deploy underwater acoustic networks with an agent-based network stack and simulator.
 url: "https://unetstack.net"
 website: "https://unetstack.net"
 markdown: kramdown
 theme: minima
 twitter: unetstack
-image_path: img/logo.png
+image_path: img/og-card.jpg
 sass:
   style: compressed
   sourcemap: false
