@@ -1,0 +1,63 @@
+<!-- ===== ARCHITECTURE ===== -->
+<section id="architecture" class="architecture">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title">Inside the stack</h2>
+      <p class="section-lead">A layered, agent-based architecture, from hardware drivers and the Unet framework up through the network stack to applications and developer tools. All of it is reachable through a single set of APIs.</p>
+      <div class="architecture__ctas">
+        <a href="https://subnero.com/brochures/unlocking-underwater-connectivity.pdf" target="_blank" rel="noopener" class="btn btn--primary">Read the UnetStack whitepaper (PDF) →</a>
+      </div>
+    </div>
+
+    <div class="architecture__diagrams">
+      <div class="diagram-panel">
+        <div class="diagram-panel__label">Capabilities across the stack</div>
+        <img src="img/arch-capabilities.png" width="1200" height="1200" loading="lazy" decoding="async" alt="UnetStack capability groups arranged around the Unet logo: Communication & Networking, Positioning & Localization, Connectivity & Interoperability, Device & Platform Management, Sensing & Instrumentation (SWIS), Simulation & Development, UI/Dashboards/APIs, and Data Analytics" />
+      </div>
+      <div class="diagram-panel">
+        <div class="diagram-panel__label">The layered stack</div>
+        <figure class="lstack-fig">
+        <div class="lstack-scroll">
+        <div class="lstack">
+          <div class="lstack__top">
+            <div class="lstack__rail">
+              <div class="lstack__vpill lstack__vpill--red"><span>Shell</span></div>
+              <div class="lstack__vpill lstack__vpill--red"><span>Web UI</span></div>
+              <div class="lstack__vpill lstack__vpill--red lstack__vpill--tall"><span>UnetSocket APIs</span></div>
+            </div>
+            <div class="lstack__main">
+              <div class="lstack__agents">
+                <div class="lstack__agents-grid">
+                  <div class="lstack__row2">
+                    <div class="pill pill--cyan">Data Analytics</div>
+                    <div class="pill pill--cyan">Remote Management</div>
+                  </div>
+                  <div class="pill pill--cyan-strong">Network Stack</div>
+                  <div class="lstack__row2">
+                    <div class="pill pill--cyan">Communication Algorithms</div>
+                    <div class="pill pill--cyan">Localization</div>
+                  </div>
+                  <div class="pill pill--cyan">Baseband Service</div>
+                </div>
+                <div class="lstack__vpill lstack__vpill--orange"><span>Device &amp; Sensor Management</span></div>
+              </div>
+              <div class="lstack__fw">
+                <div class="pill pill--green pill--green-strong pill--icon"><img src="img/logo.png" alt="" class="pill__logo" /><span>Unet framework + fjåge</span></div>
+                <div class="pill pill--green pill--lead-icon"><span class="pill__ic"><img src="img/icon-simulator.png" alt="" class="pill__ic--invert" style="--iw:22;--ih:22" /></span><span class="pill__label">Simulator</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="lstack__hw">
+            <div class="pill pill--orange pill--lead-icon"><span class="pill__ic"><img src="img/icon-subnero-modem.png" alt="" style="--iw:8;--ih:22" /></span><span class="pill__label">Subnero Modems</span></div>
+            <div class="pill pill--orange pill--lead-icon"><span class="pill__ic"><img src="img/icon-unetcube.png" alt="" style="--iw:24;--ih:24" /></span><span class="pill__label">UnetCube</span></div>
+            <div class="pill pill--orange pill--lead-icon"><span class="pill__ic"><img src="img/icon-thirdparty-modem.png" alt="" style="--iw:22;--ih:12" /></span><span class="pill__label">Third Party Modems</span></div>
+            <div class="pill pill--orange pill--lead-icon"><span class="pill__ic"><img src="img/icon-satellite.png" alt="" style="--iw:20;--ih:20" /></span><span class="pill__label">Satellite/RF</span></div>
+            <div class="pill pill--orange pill--lead-icon"><span class="pill__ic"><img src="img/subnero-mark.png" alt="" style="--iw:20;--ih:20" /></span><span class="pill__label">Optical Modem</span></div>
+          </div>
+        </div>
+        </div>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>

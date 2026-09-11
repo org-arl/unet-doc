@@ -1,0 +1,854 @@
+/* ============================================================
+   UnetStack website — redesign (2026)
+   Fresh CSS for the Jekyll site. No Bootstrap / Font Awesome.
+   Design tokens and values transcribed from the hi-fi prototype.
+   ============================================================ */
+
+:root {
+  --bg: #06121f;
+  /* --accent is the interactive ramp: links, buttons, focus. Not decoration. */
+  --accent: #2bc4e6;
+  --accent-light: #7fe0f4;
+  --heading: #e9f2f8;
+  --body: #9fb8cb;
+  --body-2: #90a9bd;
+  --body-3: #a9c2d6;
+  --muted: #89a2b7; /* was #6f8aa0 (5.2:1) -- too close to the AA floor on the smallest text in the scale */
+  /* Two rule weights, never mixed: --rule marks a section boundary
+     (full-bleed, structural), --rule-soft separates groups inside a section.
+     Alphas bumped from 0.14/0.07 -- both read below 1.5:1 against --bg, well
+     under the 3:1 WCAG 1.4.11 floor for a perceivable boundary. */
+  --rule: rgba(255,255,255,0.24);
+  --rule-soft: rgba(255,255,255,0.12);
+  /* Section shell. --gutter is also what .ecosystem negates to break full-bleed,
+     so both must change together at the 600px breakpoint. */
+  --gutter: 32px;
+  --section-pad: clamp(72px, 8vw, 112px);
+  /* One card/panel surface. Every boxed thing on the page uses this pair.
+     --card-line was 0.09 (1.25:1) -- the fill + spacing carry most of the
+     boundary, so this only needs to read as reinforcement, not full 3:1. */
+  --card-bg: rgba(255,255,255,0.04);
+  --card-line: rgba(255,255,255,0.18);
+  --card-line-hover: rgba(43,196,230,0.50);
+  /* Controls and badges sit one step brighter than a card surface.
+     --control-line clears 3:1 (2.9:1) -- unlike a card, a button's border is
+     its only boundary cue, so it gets the full WCAG 1.4.11 target. */
+  --control-bg: rgba(255,255,255,0.07);
+  --control-line: rgba(255,255,255,0.34);
+  /* radius scale — small / medium / large, plus 999px for pills */
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  /* 4pt spacing scale */
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  --space-4xl: 96px;
+  --ease: cubic-bezier(0.25, 1, 0.5, 1);
+  --font-head: 'Space Grotesk', 'Space Grotesk Fallback', sans-serif;
+  --font-body: 'Manrope', 'Manrope Fallback', system-ui, sans-serif;
+  /* Type scale. 1rem = 16px, six steps at 1.11-1.2 ratios. Everything is rem so
+     the browser's font-size preference actually moves the page -- the old scale
+     was 13 px-based sizes between 12 and 24 whose adjacent steps differed by
+     3-7%, which reads as inconsistency rather than hierarchy. */
+  --text-xs: 0.8125rem;   /* 13px - uppercase micro-labels, badges. Was 12px, the
+                              same elements that carry --muted, the tightest color
+                              in the ramp -- small size and low contrast compounded. */
+  --text-sm: 0.875rem;    /* 14px - secondary and meta text */
+  --text-base: 1rem;      /* 16px - body copy */
+  --text-lead: 1.125rem;  /* 18px - section leads, group headings */
+  --text-lg: 1.25rem;     /* 20px - card titles */
+  --text-xl: 1.5rem;      /* 24px - primary card titles */
+  /* Headings want 1.1-1.2; `normal` resolves to 1.27 in Space Grotesk, which is
+     why every h3 sat looser than the h1 and h2 above it. */
+  --lh-heading: 1.2;
+  --lh-body: 1.6;
+  /* Capitals sit too close at default tracking. One value, so the four caps
+     labels on the page stop using four different ones. */
+  --track-caps: 0.08em;
+}
+
+/* Metric-matched fallbacks. Both webfonts are ~5-10% wider than Arial, so with
+   `display=swap` every first paint reflowed when they landed. size-adjust and the
+   ascent/descent overrides make the fallback occupy the same box as the real face;
+   numbers are measured, not guessed (Arial em = 1000). */
+@font-face {
+  font-family: 'Manrope Fallback';
+  src: local('Arial');
+  size-adjust: 105.6%;
+  ascent-override: 101%;
+  descent-override: 28.4%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Space Grotesk Fallback';
+  src: local('Arial');
+  size-adjust: 110.2%;
+  ascent-override: 89.3%;
+  descent-override: 26.5%;
+  line-gap-override: 0%;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--heading);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+a { text-decoration: none; color: inherit; }
+h1, h2, h3, h4 { text-wrap: balance; }
+p { text-wrap: pretty; }
+img { max-width: 100%; }
+table { border-collapse: collapse; }
+summary::-webkit-details-marker { display: none; }
+section { scroll-margin-top: 70px; }
+
+
+.wrap { background: var(--bg); overflow: hidden; }
+.container { max-width: 1180px; margin: 0 auto; }
+
+/* Every section is the same shell: equal air above and below its boundary rule,
+   so a boundary is always the largest gap on the page and reads as a break
+   rather than as one more row in a ledger. */
+.about, .ecosystem, .architecture, .editions, .downloads, .docs {
+  padding: var(--section-pad) var(--gutter);
+}
+.ecosystem, .architecture, .editions, .downloads, .docs {
+  border-top: 1px solid var(--rule);
+}
+/* Head -> content is one value everywhere, and stays well under --section-pad
+   so the middle tier of the rhythm never competes with the section break. */
+.section-head { max-width: 680px; margin-bottom: var(--space-3xl); }
+/* .about has no separate head; .about__intro IS its body, so what follows it is
+   a section boundary and needs boundary air, not head air. */
+.about__intro { margin-bottom: var(--section-pad); }
+
+/* shared bits ------------------------------------------------ */
+/* .section-title / .section-lead are the typography; .section-head is the
+   layout wrapper. About's head is a grid column, so it uses the type only. */
+.section-title {
+  font-family: var(--font-head); font-weight: 700; font-size: clamp(1.875rem, 4.2vw, 2.875rem);
+  line-height: 1.08; letter-spacing: -0.025em; margin: 0 0 var(--space-md);
+}
+.section-lead { font-size: clamp(1rem, 1.8vw, var(--text-lead)); line-height: var(--lh-body); color: var(--body); margin: 0; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 9px; font-weight: 700;
+  border-radius: var(--r-sm); transition: transform .2s var(--ease), background .2s var(--ease);
+  border: 0; cursor: pointer; font-family: inherit;
+}
+.btn--primary {
+  background: var(--accent);
+  color: #04111d;
+}
+.btn--primary:hover { background: var(--accent-light); transform: translateY(-2px); }
+.btn--ghost {
+  background: var(--control-bg); border: 1px solid var(--control-line);
+  color: var(--heading); font-weight: 600; backdrop-filter: blur(6px);
+}
+.btn--ghost:hover { background: rgba(255,255,255,0.12); }
+
+/* ===== NAV ===== */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  background: rgba(6,18,31,0.72);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--rule-soft);
+}
+.nav__inner {
+  max-width: 1180px; margin: 0 auto; padding: 14px 32px;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+}
+.nav__brand { display: flex; align-items: center; gap: 12px; }
+.nav__brand img { width: 34px; height: 34px; display: block; }
+.nav__brand span {
+  font-family: var(--font-head); font-weight: 700; font-size: var(--text-lead); letter-spacing: -0.01em;
+}
+.nav__right { display: flex; align-items: center; gap: 30px; }
+.nav__links {
+  display: flex; align-items: center; gap: 26px;
+  font-size: var(--text-sm); font-weight: 500; color: var(--body-3);
+}
+.nav__links a { transition: color .2s var(--ease); }
+.nav__links a:hover { color: var(--heading); }
+.nav__cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--accent);
+  color: #04111d; font-weight: 700; font-size: var(--text-sm); padding: 9px 18px;
+  border-radius: var(--r-sm);
+  transition: background .2s var(--ease);
+}
+.nav__cta:hover { background: var(--accent-light); }
+.nav__links a[aria-current] { color: var(--accent); }
+.nav__toggle { display: none; }
+.nav__toggle-icon--close { display: none; }
+.nav.is-open .nav__toggle-icon--menu { display: none; }
+.nav.is-open .nav__toggle-icon--close { display: block; }
+
+/* ===== HERO ===== */
+.hero {
+  position: relative; min-height: 100vh; min-height: 100dvh; display: flex;
+  align-items: center; justify-content: center; text-align: center;
+  /* Content is centred in 100vh, so the closing gap is whatever's left over.
+     Floor it at a section's worth or the masthead break gets weaker than an
+     ordinary section break on short viewports. */
+  padding: 140px var(--gutter) var(--section-pad); overflow: hidden;
+}
+.hero__bg {
+  position: absolute; inset: 0;
+  background-image: url('../img/hero.jpeg');
+  background-size: cover; background-position: center 35%;
+}
+.hero__scrim {
+  position: absolute; inset: 0;
+  background: radial-gradient(120% 80% at 50% 18%,
+    rgba(6,18,31,0.30) 0%, rgba(6,18,31,0.55) 45%,
+    rgba(6,18,31,0.92) 78%, #06121f 100%);
+}
+.hero__inner { position: relative; max-width: 880px; }
+.hero__badge {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: var(--control-bg); border: 1px solid var(--control-line);
+  color: var(--body-3); font-weight: 600; font-size: var(--text-xs);
+  letter-spacing: 0.02em; padding: 6px 15px; border-radius: 999px; margin-bottom: 26px;
+}
+.hero__badge .dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+  position: relative;
+}
+/* The dot is the only live signal on the page, and this is an acoustics
+   project, so it pings rather than throbs: one ring propagates out, fades, and
+   the water goes quiet again. Border and transform only -- a box-shadow glow
+   here is the exact look the palette pass stripped off everything else.
+   The 4s cycle isn't arbitrary. Sound moves at ~1500 m/s in seawater, so that
+   is the round trip of a ping to a node 3 km out. */
+.hero__badge .dot::after {
+  content: ''; position: absolute; inset: 0;
+  border: 1px solid var(--accent); border-radius: 50%;
+  /* Resting state is silent. Without this the reduced-motion rule ends the
+     animation instantly and leaves a static ring sitting on the dot. */
+  opacity: 0;
+  /* Linear, not eased: a wavefront covers equal distance in equal time. The
+     amplitude is what decays, so the ring fades as it spreads rather than
+     slowing down. */
+  animation: ping 4s linear infinite;
+}
+@keyframes ping {
+  0%   { transform: scale(1);   opacity: 0; }
+  6%   { transform: scale(1.3); opacity: 0.75; }
+  40%  { transform: scale(3.2); opacity: 0; }
+  /* Propagation is over inside the first 40%; the rest of the cycle is silence. */
+  100% { transform: scale(3.2); opacity: 0; }
+}
+.hero__title {
+  font-family: var(--font-head); font-weight: 700; font-size: clamp(2.625rem, 7.5vw, 5.25rem);
+  line-height: 0.98; letter-spacing: -0.03em; margin: 0 0 18px;
+  color: #fff;
+}
+.hero__tagline {
+  font-family: var(--font-head); font-size: clamp(var(--text-lg), 2.8vw, 1.625rem); font-weight: 500;
+  color: #bcd6e6; margin: 0 0 22px; letter-spacing: -0.01em;
+}
+.hero__sub {
+  font-size: clamp(1rem, 1.8vw, var(--text-lead)); line-height: var(--lh-body); color: var(--body);
+  max-width: 600px; margin: 0 auto 38px;
+}
+.hero__ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.hero__ctas .btn--primary { font-size: var(--text-base); padding: 15px 30px; }
+.hero__ctas .btn--ghost { font-size: var(--text-base); padding: 15px 28px; }
+
+/* ===== ABOUT ===== */
+/* .ecosystem is nested inside #about so the nav anchor and scroll-spy cover both
+   blocks; being the last child, it supplies the closing padding. */
+.about { padding-bottom: 0; }
+.about__intro {
+  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px;
+  align-items: start;
+}
+.steps { display: flex; flex-direction: column; }
+.step {
+  display: flex; gap: var(--space-md); align-items: baseline;
+  padding: var(--space-md) 0;
+  border-top: 1px solid var(--rule-soft);
+}
+.step:last-child { border-bottom: 1px solid var(--rule-soft); }
+.step__num {
+  font-family: var(--font-head); font-weight: 700; color: var(--muted);
+  font-size: var(--text-base); min-width: 22px;
+}
+.step__title {
+  font-family: var(--font-head); font-weight: 600; font-size: var(--text-base);
+  line-height: var(--lh-heading); margin-bottom: 3px;
+}
+.step__desc { font-size: var(--text-sm); color: var(--body-2); line-height: var(--lh-body); }
+
+.ecosystem { margin-inline: calc(-1 * var(--gutter)); }
+.ecosystem__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+
+/* .card and .doc-card are the same component in different grids: one rule,
+   both names, so they cannot drift apart again. */
+/* THE CARD SYSTEM — two rules, no exceptions.
+   1. Every card is the same shell. Emphasis comes from where a card sits and
+      how much room it takes, never from tinting it: the eye follows order,
+      span and size on its own, and a colour wash only competes with them.
+   2. A card whose whole body resolves to one destination is an <a> and lifts
+      on hover. A panel holding several actions stays a <div> and stays still. */
+.card, .doc-card, .edition, .dl-card {
+  display: flex; flex-direction: column; background: var(--card-bg);
+  border: 1px solid var(--card-line); border-radius: var(--r-md); padding: var(--space-xl);
+}
+a.card, a.doc-card, a.edition {
+  transition: transform .2s var(--ease), border-color .2s var(--ease);
+}
+a.card:hover, a.doc-card:hover, a.edition:hover {
+  transform: translateY(-3px); border-color: var(--card-line-hover);
+}
+.card__kicker {
+  font-family: var(--font-head); font-size: var(--text-xs); font-weight: 600;
+  color: var(--muted); letter-spacing: var(--track-caps); margin-bottom: 12px;
+}
+/* Card titles have two roles, not five sizes: 20/600 for a peer in a grid,
+   24/700 for a card that is a primary destination or choice. */
+.card h3, .doc-card h3 {
+  font-family: var(--font-head); font-size: var(--text-lg); font-weight: 600;
+  line-height: var(--lh-heading); margin: 0 0 10px;
+}
+.edition h3, .dl-card h3 {
+  font-family: var(--font-head); font-size: var(--text-xl); font-weight: 700;
+  line-height: var(--lh-heading); margin: 0 0 8px;
+}
+.card p, .doc-card p, .edition p {
+  font-size: var(--text-base); line-height: var(--lh-body); color: var(--body-2); margin: 0 0 16px; max-width: 68ch;
+}
+.card__link, .doc-card__link, .edition__link {
+  color: var(--accent); font-weight: 700; font-size: var(--text-sm);
+  margin-top: auto; align-self: flex-start;
+}
+a.card:hover .card__link,
+a.doc-card:hover .doc-card__link,
+a.edition:hover .edition__link { color: var(--accent-light); }
+
+/* ===== ARCHITECTURE ===== */
+.architecture__ctas { margin-top: 28px; display: flex; gap: 14px; flex-wrap: wrap; }
+.architecture__ctas .btn--primary { font-size: var(--text-base); padding: 13px 22px; }
+.architecture__ctas .btn--ghost { font-size: var(--text-base); padding: 13px 22px; }
+.architecture__diagrams {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch;
+}
+.diagram-panel {
+  background: var(--card-bg); border: 1px solid var(--card-line);
+  border-radius: var(--r-lg); padding: var(--space-xl);
+  display: flex; flex-direction: column;
+  min-width: 0;
+  /* The stack diagram sizes itself off this box, not the viewport. Scrolling
+     belongs to .lstack-scroll; leaving overflow here too made this a scroll
+     container as well, and the reserved gutter cost the diagram 17px of width. */
+  container-type: inline-size;
+}
+.diagram-panel__label {
+  font-family: var(--font-head); font-size: var(--text-xs); font-weight: 700;
+  letter-spacing: var(--track-caps); text-transform: uppercase; color: var(--muted); margin-bottom: 22px;
+}
+.diagram-panel > img { display: block; width: 100%; height: auto; margin: auto; }
+
+/* layered stack diagram (from design handoff layered-stack.html) */
+/* The arrangement IS the information here: the rails span the agent box because
+   those interfaces reach across every agent, and the boxes nest because the
+   layers nest. Reflowing it to one column at narrow widths threw that away and
+   left a column of unrelated pills. So nothing here reflows. Every dimension is
+   a multiple of --u, one desktop pixel, and narrowing the panel shrinks --u:
+   the drawing scales, line breaks and proportions hold, and the text stays real
+   selectable text rather than a bitmap. Below --u's floor the panel scrolls
+   instead of shrinking further, so labels have a legibility bottom. */
+/* Registered so --u computes to an absolute length once, here, and inherits as
+   that length. Unregistered, it substitutes as raw tokens and re-resolves at
+   every use site — which silently broke inside the rails, where the vertical
+   writing mode flips what cqi means. cqw is axis-absolute and can't flip. */
+@property --u {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 1px;
+}
+/* The floor is set so the whole diagram still fits on a 360px phone. Panning a
+   structural diagram is worse than shrinking it: the point of the drawing is
+   that the rails span the layers, and you cannot see a span that runs off the
+   edge. Small-but-whole beats readable-but-cropped. Text stays vector, so
+   pinch-zoom is sharp, and the caption carries the same structure in words. */
+.lstack {
+  --ref: 512;          /* the diagram's design width, in --u */
+  --u: clamp(0.55px, 100cqw / 512, 1px);
+  width: calc(var(--ref) * var(--u));
+  display: flex; flex-direction: column; gap: calc(14 * var(--u));
+  margin: 0;
+}
+.lstack-fig {
+  margin: auto 0; min-width: 0;
+  display: flex; flex-direction: column; gap: var(--space-lg);
+}
+/* Safety net below the floor; at 360px and up it never engages. */
+.lstack-scroll { overflow-x: auto; }
+.lstack-fig figcaption {
+  font-size: var(--text-sm); line-height: var(--lh-body); color: var(--body-2); max-width: 68ch;
+}
+.lstack-fig figcaption b { color: var(--body-3); font-weight: 600; }
+.lstack__top { display: flex; gap: calc(14 * var(--u)); align-items: stretch; }
+.lstack__rail {
+  flex: none; width: calc(64 * var(--u)); border: 1px dashed rgba(154,180,194,0.4);
+  border-radius: calc(14 * var(--u)); padding: calc(10 * var(--u));
+  display: flex; flex-direction: column; gap: calc(10 * var(--u));
+}
+.lstack__vpill {
+  border-radius: 999px; display: flex; align-items: center; justify-content: center;
+  padding: calc(16 * var(--u)) 0; flex: 1;
+}
+.lstack__vpill span {
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  font-family: var(--font-head); font-weight: 600;
+  font-size: calc(12.5 * var(--u)); letter-spacing: 0.05em;
+}
+.lstack__vpill--red { background: rgba(239,90,76,0.16); border: 1px solid rgba(239,90,76,0.4); }
+.lstack__vpill--red span { color: #f6cfc9; }
+.lstack__vpill--tall { flex: 1.4; }
+.lstack__vpill--orange {
+  flex: none; width: calc(56 * var(--u));
+  background: rgba(244,162,74,0.16); border: 1px solid rgba(244,162,74,0.45);
+}
+.lstack__vpill--orange span { color: #f6ddbf; letter-spacing: 0.04em; }
+.lstack__main {
+  flex: 1; display: flex; flex-direction: column;
+  gap: calc(14 * var(--u)); min-width: 0;
+}
+.lstack__agents {
+  border: 1px dashed rgba(43,196,230,0.45); border-radius: calc(14 * var(--u));
+  padding: calc(14 * var(--u));
+  display: flex; gap: calc(10 * var(--u)); align-items: stretch;
+}
+.lstack__agents-grid {
+  flex: 1; display: flex; flex-direction: column;
+  gap: calc(10 * var(--u)); min-width: 0;
+}
+.lstack__row2 { display: grid; grid-template-columns: 1fr 1fr; gap: calc(10 * var(--u)); }
+.pill {
+  border-radius: 999px; padding: calc(13 * var(--u)) calc(18 * var(--u));
+  font-family: var(--font-head); font-weight: 600;
+  font-size: calc(13.5 * var(--u)); text-align: center;
+}
+.pill--cyan { background: rgba(43,196,230,0.10); border: 1px solid rgba(43,196,230,0.3); color: #dcebf3; }
+.pill--cyan-strong {
+  background: rgba(43,196,230,0.18); border: 1px solid rgba(43,196,230,0.5);
+  color: #eaf6fb; font-weight: 700; font-size: calc(14.5 * var(--u));
+  padding: calc(14 * var(--u)) calc(18 * var(--u));
+}
+.pill--green { background: rgba(142,198,65,0.13); border: 1px solid rgba(142,198,65,0.4); color: #e3f0d4; }
+.pill--green-strong { font-weight: 700; font-size: calc(14 * var(--u)); }
+.pill--orange { background: rgba(244,162,74,0.12); border: 1px solid rgba(244,162,74,0.35); color: #f6ddbf; }
+.pill--icon { display: flex; align-items: center; justify-content: center; gap: calc(10 * var(--u)); }
+.pill--icon img { display: block; flex: none; }
+.pill__logo { width: calc(20 * var(--u)); height: calc(20 * var(--u)); }
+.pill--lead-icon {
+  display: flex; align-items: center; gap: calc(10 * var(--u));
+  padding: calc(8 * var(--u)) calc(18 * var(--u)) calc(8 * var(--u)) calc(8 * var(--u));
+  text-align: left;
+}
+.pill__ic {
+  flex: none; width: calc(32 * var(--u)); height: calc(32 * var(--u));
+  display: flex; align-items: center; justify-content: center;
+}
+/* Each icon carries its own intrinsic size as --iw/--ih so it scales with the
+   rest of the drawing instead of pinning a px size mid-diagram. */
+.pill__ic img {
+  object-fit: contain; display: block;
+  width: calc(var(--iw) * var(--u)); height: calc(var(--ih) * var(--u));
+}
+.pill__ic--invert { filter: invert(1); }
+.pill__label { flex: 1; text-align: center; }
+.lstack__fw {
+  border: 1px dashed rgba(142,198,65,0.5); border-radius: calc(14 * var(--u));
+  padding: calc(14 * var(--u));
+  display: grid; grid-template-columns: 1.6fr 1fr; gap: calc(10 * var(--u));
+}
+.lstack__hw {
+  border: 1px dashed rgba(244,162,74,0.5); border-radius: calc(14 * var(--u));
+  padding: calc(14 * var(--u));
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: calc(10 * var(--u));
+}
+/* Five pills, two rows: two halves above three thirds, so neither row ends on a
+   hole. Sixths are the smallest grid both splits divide into evenly. */
+.lstack__hw > :nth-child(-n+2) { grid-column: span 3; }
+.lstack__hw > :nth-child(n+3) { grid-column: span 2; }
+
+/* ===== EDITIONS ===== */
+.editions__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+p.edition__mode { font-size: var(--text-sm); font-weight: 600; margin: 0 0 var(--space-md); color: var(--muted); }
+
+/* ===== DOWNLOADS ===== */
+/* One file, one action. Prerequisites and terms were peer cards flanking the
+   download, which read as three choices where there is one. They are facts about
+   the file, so they sit with it.
+   The card spans the container like every other block on the page. It was capped
+   at 840px so a 64-char checksum could sit on one line; the checksum is gone, and
+   with it the reason. The second column is the action itself plus the licence
+   gate, so it holds content rather than parking a button in an empty cell.
+   Overrides the shared card shell's flex column at equal specificity; this rule
+   is later in the file, which is what decides it. */
+.dl-card {
+  display: grid; grid-template-columns: 1fr auto;
+  grid-template-areas: "head action" "facts action";
+  gap: var(--space-lg) var(--space-2xl); align-items: start;
+}
+.dl-card__body { grid-area: head; }
+.dl-card p { font-size: var(--text-base); color: var(--body); line-height: var(--lh-body); margin: 0; }
+/* Same label-column index as .archive: the label names the fact, so the value is
+   free to be a size or a link without a separator glyph disambiguating.
+   Both tracks hug their content and the grid packs left, so widening the card
+   does not strand values across an empty column.
+   Baseline alignment because the 12px label and 14.5px value differ in size. */
+.dl-facts {
+  display: grid; grid-template-columns: auto auto; justify-content: start;
+  gap: var(--space-sm) var(--space-lg); align-items: baseline;
+  grid-area: facts; margin: 0; font-size: var(--text-sm);
+}
+.dl-facts dt {
+  font-size: var(--text-xs); font-weight: 600; letter-spacing: var(--track-caps);
+  text-transform: uppercase; color: var(--muted); white-space: nowrap;
+}
+.dl-facts dd { margin: 0; color: var(--body-3); line-height: 1.5; }
+/* These are standalone values, not links inside a sentence, so the WCAG inline
+   exception does not cover them. Padding lifts the 20px text box to a real
+   target without turning them into chips. */
+.dl-facts a {
+  display: inline-block; padding: 6px 0;
+  color: var(--accent); font-weight: 600; transition: color .2s var(--ease);
+}
+.dl-facts a:hover { color: var(--accent-light); }
+/* The action column: button first, then the two things a reader needs before
+   pressing it. These were one 14.5px line below the card, quieter than the body
+   copy above them — the most consequential sentence in the section set as a
+   footnote. Position carries the weight now, not size. */
+.dl-card__action {
+  grid-area: action;
+  display: flex; flex-direction: column; align-items: stretch;
+  gap: var(--space-md); width: 240px;
+}
+.dl-card__cta { justify-content: center; font-size: var(--text-base); padding: 15px 28px; }
+.dl-gate { font-size: var(--text-sm); line-height: var(--lh-body); color: var(--body-3); margin: 0; }
+.dl-gate a, .dl-gate .linklike { color: var(--accent); font-weight: 600; font-size: inherit; }
+.dl-gate a:hover, .dl-gate .linklike:hover { color: var(--accent-light); }
+
+.legacy-strip {
+  margin-top: var(--space-2xl); padding-top: var(--space-lg);
+  border-top: 1px solid var(--rule-soft);
+}
+/* Third title role: labels a group inside a section, so it sits below a
+   card title on purpose. */
+.legacy-strip h3 {
+  font-family: var(--font-head); font-size: var(--text-lead); font-weight: 600;
+  line-height: var(--lh-heading); margin: 0 0 10px;
+}
+.legacy-strip p { max-width: 68ch;
+   font-size: var(--text-sm); line-height: var(--lh-body); color: var(--body-3); margin: 0; }
+/* Scoped to p: prose links are cyan, but a .archive chip is a link whose whole
+   box is the affordance, so it follows the card rule instead. Unscoped, the two
+   collide at equal specificity and source order silently decides. */
+.legacy-strip p a { color: var(--accent-light); font-weight: 600; transition: color .2s var(--ease); }
+.legacy-strip p a:hover { color: #fff; }
+.docs .legacy-strip { margin: var(--space-2xl) 0; }
+
+/* An index of links, not a sentence. The label column names each group, so no
+   separator glyph has to do double duty, and every version is its own target
+   instead of a 25px word in a run of near-identical ones. */
+.archive {
+  display: grid; grid-template-columns: auto 1fr;
+  gap: var(--space-sm) var(--space-lg);
+  align-items: start; margin: var(--space-lg) 0 0;
+}
+/* Matching the chip height rather than centring the row keeps the label on the
+   first line of chips when the group wraps. */
+.archive dt {
+  display: flex; align-items: center; min-height: 36px;
+  font-size: var(--text-xs); font-weight: 600; letter-spacing: var(--track-caps);
+  text-transform: uppercase; color: var(--muted);
+}
+.archive dd { margin: 0; display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+.archive a {
+  display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px;
+  background: var(--control-bg); border: 1px solid var(--control-line);
+  border-radius: var(--r-sm); font-size: var(--text-sm); font-weight: 600;
+  /* The chip fill sits 1.2:1 off the page, so the box alone is a weak
+     affordance; accent keeps these on the interactive ramp like every other
+     link. Bounded in a chip it reads as a target, not as flecked prose. */
+  color: var(--accent);
+  /* Proportional digits make "3.1" narrower than "3.0"; tabular keeps the
+     version chips a matched set. */
+  font-variant-numeric: tabular-nums;
+  transition: color .2s var(--ease), border-color .2s var(--ease);
+}
+.archive a:hover { color: var(--accent-light); border-color: var(--card-line-hover); }
+/* Touch pointers get the full 44px target; a mouse doesn't need the extra bulk. */
+@media (pointer: coarse) {
+  .archive a, .archive dt { min-height: 44px; }
+  /* 20px text + 24px padding = 44px, without changing the type. */
+  .dl-facts a { padding: 12px 0; }
+}
+/* Narrow: the label column costs ~96px, which is exactly what forces the five
+   version chips onto a second row. Stack it and they fit on one. */
+@media (max-width: 600px) {
+  .archive { grid-template-columns: 1fr; gap: var(--space-xs) 0; }
+  .archive dt { min-height: 0; }
+  .archive dd:not(:last-of-type) { margin-bottom: var(--space-sm); }
+  /* Same reason as .archive: the ~110px label column is a third of the row here,
+     and it is what breaks "macOS · Linux (x86_64) · Windows" mid-list. */
+  .dl-facts { grid-template-columns: 1fr; gap: var(--space-xs) 0; }
+  .dl-facts dd:not(:last-of-type) { margin-bottom: var(--space-sm); }
+}
+
+/* link-styled button */
+.linklike {
+  background: none; border: 0; padding: 0; font: inherit; cursor: pointer;
+  color: var(--accent); font-weight: 600;
+}
+.linklike:hover { text-decoration: underline; }
+
+/* terms of use / download modal */
+.modal {
+  position: fixed; inset: 0; z-index: 100;
+  padding: 0; border: 0; background: transparent;
+  color: var(--heading); width: 100%; height: 100%;
+  max-width: 100vw; max-height: 100vh; max-height: 100dvh; margin: 0;
+  display: none; align-items: center; justify-content: center;
+  overflow-y: auto;
+}
+.modal[open] { display: flex; }
+.modal::backdrop {
+  background: rgba(4,10,17,0.72);
+  backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+}
+.modal__panel {
+  position: relative; max-width: 620px; width: calc(100vw - 40px); margin: auto;
+  background: #0a2032; border: 1px solid var(--card-line);
+  border-radius: var(--r-lg); padding: 32px; z-index: 1;
+  box-shadow: 0 8px 8px -4px rgba(0,0,0,0.5);
+}
+.modal__panel h3 { font-family: var(--font-head); font-size: var(--text-xl); font-weight: 700;
+  line-height: var(--lh-heading); margin: 0 0 8px; }
+.modal__panel p { font-size: var(--text-sm); color: var(--body); margin: 0 0 22px; }
+.modal__sub { color: var(--body-3) !important; margin: 0 0 18px !important; }
+.modal__terms {
+  max-height: 44vh; max-height: 44dvh; overflow-y: auto; margin: 0 0 24px; padding: 18px 16px 4px 0;
+  border-top: 1px solid var(--rule-soft);
+  border-bottom: 1px solid var(--rule-soft);
+}
+.modal__terms p { font-size: var(--text-sm); line-height: 1.7; color: var(--body-3); margin: 0 0 14px; }
+.modal__terms ul { margin: 0 0 14px; padding-left: 20px; }
+.modal__terms li { font-size: var(--text-sm); line-height: 1.7; color: var(--body-3); margin-bottom: 4px; }
+.modal__terms a { color: var(--accent-light); font-weight: 600; }
+.modal__terms a:hover { color: #fff; }
+.modal__actions { display: none; gap: 11px; }
+.modal.mode-download .modal__actions[data-mode="download"],
+.modal.mode-read .modal__actions[data-mode="read"],
+.modal.mode-done .modal__actions[data-mode="done"] { display: flex; }
+/* done mode swaps the whole body: terms out, next step in. */
+.modal__done { display: none; }
+.modal.mode-done .modal__done { display: block; }
+.modal.mode-done #dl-modal-title,
+.modal.mode-done > .modal__panel > .modal__sub,
+.modal.mode-done .modal__terms { display: none; }
+.modal__done-label { font-size: var(--text-sm); color: var(--body-3); margin: 0 0 10px; }
+.modal__code {
+  margin: 0 0 16px; padding: 14px 16px; overflow-x: auto;
+  background: rgba(0, 0, 0, 0.28); border: 1px solid var(--rule-soft);
+  border-radius: var(--r-sm);
+}
+.modal__code code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: var(--text-xs); line-height: 1.7; color: var(--body-2);
+  white-space: pre; user-select: all;
+}
+.modal__done-note { font-size: var(--text-sm); line-height: var(--lh-body); color: var(--muted); margin: 0 0 16px; }
+.modal__done-next { margin: 0 0 4px; }
+.modal__done-next a { color: var(--accent); font-weight: 600; font-size: var(--text-sm); }
+.modal__actions .btn { flex: 1; justify-content: center; font-size: var(--text-base); padding: 14px; }
+.modal__close {
+  position: absolute; top: 8px; right: 10px; background: none; border: 0;
+  color: var(--muted); font-size: var(--text-xl); line-height: 1; cursor: pointer;
+  width: 44px; height: 44px; border-radius: var(--r-sm);
+  transition: color .2s var(--ease);
+}
+.modal__close:hover { color: #fff; }
+
+/* ===== DOCUMENTATION ===== */
+/* Two up, not three: six peer cards divide evenly either way, and a third
+   column cuts the card measure to 32 characters -- well under the 45 floor.
+   Two columns give 53. Editions stays at three because those three cards are a
+   comparison and breaking the row would lose that. */
+.docs__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.api-table__note { font-size: var(--text-sm); color: var(--muted); margin: 0 0 14px; }
+
+.api-table-wrap {
+  background: var(--card-bg); border: 1px solid var(--card-line);
+  border-radius: var(--r-lg); padding: 8px 8px 14px; overflow-x: auto;
+}
+.api-table { width: 100%; min-width: 760px; font-size: var(--text-base); }
+.api-table th {
+  text-align: left; padding: 20px 14px; font-family: var(--font-head);
+  font-weight: 600; color: #cfe0ec;
+}
+.api-table th:first-child { padding: 20px 24px; }
+.api-table tbody tr { border-top: 1px solid var(--rule-soft); }
+.api-table td { padding: 16px 14px; color: var(--body-2); }
+.api-table td:first-child { padding: 16px 24px; font-weight: 700; color: var(--heading); }
+.api-table a { color: var(--accent-light); font-weight: 600; transition: color .2s var(--ease); }
+.api-table a:hover { color: #fff; }
+
+/* ===== FOOTER ===== */
+.footer { padding: var(--section-pad) var(--gutter) var(--space-2xl); border-top: 1px solid var(--rule); }
+.footer__top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 40px; flex-wrap: wrap; margin-bottom: 48px;
+}
+.footer__brand { max-width: 360px; }
+.footer__brand a { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.footer__brand img { width: 36px; height: 36px; display: block; }
+.footer__brand span { font-family: var(--font-head); font-weight: 700; font-size: var(--text-lg); }
+.footer__brand p { font-size: var(--text-base); line-height: var(--lh-body); color: var(--muted); margin: 0; }
+.footer__cols { display: flex; gap: 64px; flex-wrap: wrap; }
+.footer__col-title {
+  font-family: var(--font-head); font-size: var(--text-xs); font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px;
+}
+.footer__links { display: flex; flex-direction: column; font-size: var(--text-base); color: var(--body-3); }
+.footer__links a { padding: var(--space-sm) 0; transition: color .2s var(--ease); }
+.footer__links a:hover { color: #fff; }
+.footer__bottom {
+  border-top: 1px solid var(--rule-soft); padding-top: var(--space-lg);
+  display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap;
+}
+.footer__bottom p { max-width: 68ch;
+   font-size: var(--text-sm); color: var(--muted); margin: 0; line-height: var(--lh-body); }
+.footer__bottom a,
+.footer__bottom button {
+  font-size: var(--text-sm); color: var(--muted); background: none; border: 0; padding: 0;
+  font-family: inherit; cursor: pointer; transition: color .2s var(--ease);
+}
+.footer__bottom a:hover,
+.footer__bottom button:hover { color: #fff; }
+
+/* ===== RESPONSIVE ===== */
+/* The diagrams collapse earlier than the other grids. Two columns below this
+   squeeze the stack diagram harder than any phone does — 8.8px labels at 901px
+   against 10.3px at 480px — because one full-width column gives it back the
+   room to render at full size. */
+@media (max-width: 1080px) {
+  .architecture__diagrams { grid-template-columns: 1fr; }
+  /* Full width would otherwise render the capability wheel at ~950px. */
+  .diagram-panel > img { max-width: 560px; }
+}
+@media (max-width: 900px) {
+  .nav__right { gap: 14px; }
+  .nav__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    background: var(--control-bg);
+    border: 1px solid var(--control-line);
+    border-radius: var(--r-sm);
+    color: var(--heading);
+    cursor: pointer;
+    transition: background .2s var(--ease), border-color .2s var(--ease), color .2s var(--ease);
+  }
+  .nav__toggle:hover,
+  .nav__toggle:focus-visible {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+  /* Opaque panel filling everything below the bar. Note .nav sets
+     backdrop-filter, which makes it the containing block for fixed descendants,
+     so this must be absolute — position:fixed would resolve against the 65px bar. */
+  .nav__links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    flex-direction: column;
+    gap: 4px;
+    padding: 24px;
+    background: var(--bg);
+    overflow-y: auto;
+  }
+  .nav.is-open .nav__links { display: flex; }
+  .nav__links a {
+    padding: 10px 14px;
+    border-radius: var(--r-sm);
+    font-size: var(--text-base);
+    font-weight: 500;
+    color: var(--body-3);
+    transition: background .2s var(--ease), color .2s var(--ease);
+  }
+  .nav__links a:hover,
+  .nav__links a:focus {
+    background: var(--control-bg);
+    color: var(--heading);
+  }
+  .about__intro { grid-template-columns: 1fr; gap: 32px; }
+  /* Stacking puts the action directly under the facts it acts on. */
+  .dl-card {
+    grid-template-columns: 1fr;
+    grid-template-areas: "head" "facts" "action";
+    gap: var(--space-lg);
+  }
+  .dl-card__action { width: 100%; }
+  .ecosystem__grid { grid-template-columns: 1fr; }
+  .editions__grid { grid-template-columns: 1fr; }
+  .docs__grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .nav__inner { padding: 12px 20px; }
+  .nav__right { gap: 10px; }
+  .nav__brand img { width: 30px; height: 30px; }
+  .nav__brand span { font-size: var(--text-base); }
+  .nav__cta { padding: 7px 14px; }
+  .nav__links { padding: 12px 16px 16px; }
+  .hero { padding-top: 120px; }
+  :root { --gutter: 20px; }
+  /* 32px of panel padding either side is a tenth of the diagram's room here. */
+  .diagram-panel { padding: var(--space-lg) var(--space-md); }
+  /* Stacked, the fact list pushed the button 703px down — past the fold, so the
+     heading and the primary action were never on screen together. On a phone the
+     action sits between the two: you still read what it is before the button,
+     and the details follow instead of blocking it.
+     Must live in this 600px block, not the earlier one: the 900px block below it
+     also sets grid-template-areas, and at equal specificity source order wins. */
+  .dl-card { grid-template-areas: "head" "action" "facts"; }
+  .modal__panel { margin: auto 16px; padding: 26px 22px; width: calc(100vw - 32px); }
+  .modal__terms { max-height: 50vh; max-height: 50dvh; }
+  .modal__actions { flex-direction: column; }
+}

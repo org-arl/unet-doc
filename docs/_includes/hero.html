@@ -1,0 +1,20 @@
+<!-- ===== HERO ===== -->
+{% capture version %}{% include_relative version.txt %}{% endcapture %}
+{% assign version = version | strip_newlines %}
+<header class="hero">
+  <div class="hero__bg"></div>
+  <div class="hero__scrim"></div>
+  <div class="hero__inner">
+    <div class="hero__badge">
+      <span class="dot"></span>
+      Latest release · {{ version }}
+    </div>
+    <h1 class="hero__title">UnetStack</h1>
+    <p class="hero__tagline">The underwater network stack</p>
+    <p class="hero__sub">Agent-based, with a network simulator built in. Design, simulate, test and deploy underwater acoustic networks.</p>
+    <div class="hero__ctas">
+      <a href="#downloads" class="btn btn--primary">Download community edition</a>
+      <a href="https://org-arl.github.io/unet/handbook/" target="_blank" rel="noopener" class="btn btn--ghost">Read the handbook →</a>
+    </div>
+  </div>
+</header>

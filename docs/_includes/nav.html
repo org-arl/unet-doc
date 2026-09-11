@@ -1,0 +1,104 @@
+<!-- ===== NAV ===== -->
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="#top" class="nav__brand">
+      <img src="img/logo.png" width="1590" height="1590" alt="" />
+      <span>UnetStack</span>
+    </a>
+    <div class="nav__right">
+      <div class="nav__links" id="nav-links">
+        <a href="#about">About</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#editions">Editions</a>
+        <a href="#downloads">Downloads</a>
+        <a href="#docs">Documentation</a>
+        <a href="https://blog.unetstack.net/" target="_blank" rel="noopener">Blog</a>
+        <a href="https://contrib.unetstack.net/" target="_blank" rel="noopener">Contribute</a>
+        <a href="https://support.unetstack.net/" target="_blank" rel="noopener">Support</a>
+      </div>
+      <a href="#downloads" class="nav__cta">Get UnetStack</a>
+      <button type="button" class="nav__toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="nav-links">
+        <svg class="nav__toggle-icon nav__toggle-icon--menu" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <svg class="nav__toggle-icon nav__toggle-icon--close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+<script>
+  (function () {
+    var nav = document.querySelector('.nav');
+    var toggle = document.querySelector('.nav__toggle');
+    var links = document.querySelector('.nav__links');
+    if (!nav || !toggle || !links) return;
+
+    function toggleNav(open) {
+      var isOpen = open !== undefined ? open : !nav.classList.contains('is-open');
+      nav.classList.toggle('is-open', isOpen);
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      toggle.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation');
+    }
+
+    toggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      toggleNav();
+    });
+
+    links.addEventListener('click', function (e) {
+      if (e.target.closest('a')) {
+        toggleNav(false);
+      }
+    });
+
+    document.addEventListener('click', function (e) {
+      if (nav.classList.contains('is-open') && !nav.contains(e.target)) {
+        toggleNav(false);
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && nav.classList.contains('is-open')) {
+        toggleNav(false);
+        toggle.focus();
+      }
+    });
+
+    // Mark the section currently in view, so "you are here" is visible on a
+    // 6700px single-page scroll. Anchors only; external links are skipped.
+    // Deferred: this include renders above the sections it observes.
+    function initSpy() {
+    var spy = {};
+    links.querySelectorAll('a[href^="#"]').forEach(function (a) {
+      var el = document.getElementById(a.getAttribute('href').slice(1));
+      if (el) spy[el.id] = a;
+    });
+    var ids = Object.keys(spy);
+    if (ids.length && 'IntersectionObserver' in window) {
+      var visible = new Set();
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) visible.add(entry.target.id);
+          else visible.delete(entry.target.id);
+        });
+        var current = ids.filter(function (id) { return visible.has(id); })[0];
+        ids.forEach(function (id) {
+          if (id === current) spy[id].setAttribute('aria-current', 'true');
+          else spy[id].removeAttribute('aria-current');
+        });
+      }, { rootMargin: '-70px 0px -60% 0px' });
+      ids.forEach(function (id) { observer.observe(document.getElementById(id)); });
+    }
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initSpy);
+    } else {
+      initSpy();
+    }
+  })();
+</script>
