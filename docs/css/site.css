@@ -494,8 +494,12 @@ a.edition:hover .edition__link { color: var(--accent-light); }
 .lstack__hw {
   border: 1px dashed rgba(244,162,74,0.5); border-radius: calc(14 * var(--u));
   padding: calc(14 * var(--u));
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: calc(10 * var(--u));
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: calc(10 * var(--u));
 }
+/* Five pills, two rows: two halves above three thirds, so neither row ends on a
+   hole. Sixths are the smallest grid both splits divide into evenly. */
+.lstack__hw > :nth-child(-n+2) { grid-column: span 3; }
+.lstack__hw > :nth-child(n+3) { grid-column: span 2; }
 
 /* ===== EDITIONS ===== */
 .editions__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
