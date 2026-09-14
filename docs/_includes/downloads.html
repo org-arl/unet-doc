@@ -1,55 +1,120 @@
-<!-- Downloads Section -->
-    <section id="downloads">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2 class="section-heading">Downloads</h2>
-                    <h3 class="section-subheading text-muted">Download UnetStack community edition</h3>
-                </div>
-            </div>
-            <div class="row text-center">
-                <div class="col-md-4">
-                    <span class="fa-stack fa-4x">
-                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                        <i class="fa fa-check fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <h4 class="service-heading">Prerequisites</h4>
-                    <p class="text-muted">
-                        OS X / Linux (x86_64) / Windows*<br>
-                        <a href="https://www.java.com/en/download/" target="_blank">Java 8 runtime environment</a><br>
-                        Chrome 61+ / Firefox 60+ / Safari 10.1+<br>
-                        <a href="http://www.portaudio.com/download.html" target="_blank">PortAudio</a>** (on OS X and Linux)
-                    </p>
-                </div>
-                <div class="col-md-4">
-                    <a href="#modal-download" class="portfolio-link" data-toggle="modal"><span class="fa-stack fa-4x">
-                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                        <i class="fa fa-download fa-stack-1x fa-inverse"></i>
-                    </span></a>
-                    <h4 class="service-heading">Download</h4>
-                    <p class="text-muted">
-                        <span class="text-muted" style="font-size: 12px; font-weight: normal;">[ UnetStack {% include_relative version.txt %} community edition ]</span><br>
-                        Start experimenting with your<br>
-                        underwater networks today!
-                    </p>
-                </div>
-               <div class="col-md-4">
-                    <a href="#modal-terms" class="portfolio-link" data-toggle="modal"><span class="fa-stack fa-4x">
-                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                        <i class="fa fa-gavel fa-stack-1x fa-inverse"></i>
-                    </span></a>
-                    <h4 class="service-heading">Terms of Use</h4>
-                    <p class="text-muted">
-                        UnetStack community edition may be freely used only for academic
-                        teaching and research purposes<br>
-                        (commercial use requires
-                        <a href="#modal-terms" class="portfolio-link" data-toggle="modal">licensing</a>)
-                    </p>
-                </div>
-            </div>
-            <p class="text-muted" style="text-align: center;">
-                * Unet audio is currently not supported on the Windows platform<br>
-                ** Only required for Unet audio
-            </p>
-        </div>
-    </section>
+<!-- ===== DOWNLOADS ===== -->
+{% capture version %}{% include_relative version.txt %}{% endcapture %}
+{% assign version = version | strip_newlines %}
+<section id="downloads" class="downloads">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title">Download the community edition</h2>
+    </div>
+
+    <div class="dl-card">
+      <div class="dl-card__body">
+        <h3>UnetStack {{ version }}</h3>
+        <p>Builds and simulates underwater networks on your own machine.</p>
+      </div>
+      <dl class="dl-facts">
+        <dt>Size</dt>
+        <dd>20.9 MB (.tgz)</dd>
+        <dt>Platforms</dt>
+        <dd>macOS · Linux (x86_64) · Windows</dd>
+        <dt>Runtime</dt>
+        <dd><a href="https://adoptium.net/temurin/releases?version=8&os=any&arch=any" target="_blank" rel="noopener">Java 8</a></dd>
+        <dt>Web UI</dt>
+        <dd>Chrome 61+ · Firefox 60+ · Safari 10.1+</dd>
+        <dt>Release notes</dt>
+        <dd><a href="releasenotes.txt" target="_blank" rel="noopener">releasenotes.txt</a></dd>
+      </dl>
+      <div class="dl-card__action">
+        <a href="downloads/unet-community-{{ version }}.tgz" class="btn btn--primary dl-card__cta" aria-haspopup="dialog" onclick="openDlModal(event)">Download .tgz</a>
+        <p class="dl-gate">Downloading means accepting the <button type="button" class="linklike" aria-haspopup="dialog" onclick="openTermsModal(event)">terms of use</button>.</p>
+        <p class="dl-gate">Commercial use? <a href="mailto:info@subnero.com">Contact for licensing</a>.</p>
+      </div>
+    </div>
+
+    <div class="legacy-strip">
+      <div>
+        <h3>Older releases</h3>
+        <p>All earlier community edition releases are <a href="https://github.com/org-arl/unet-doc/releases" target="_blank" rel="noopener">available on GitHub Releases</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- terms of use / download modal -->
+<dialog id="dl-modal" class="modal" aria-labelledby="dl-modal-title">
+  <div class="modal__panel">
+    <button type="button" class="modal__close" aria-label="Close" onclick="closeDlModal()">×</button>
+    <h3 id="dl-modal-title">Terms of use</h3>
+    <p class="modal__sub">UnetStack community edition · version {{ version }}</p>
+    <div class="modal__terms" tabindex="0" role="region" aria-label="Terms of use">
+      <p>Copyright © {{ 'now' | date: "%Y" }}, Acoustic Research Laboratory, National University of Singapore, and Subnero Pte Ltd. All rights reserved.</p>
+      <p>The UnetStack community edition software may be freely used for academic teaching and research purposes only. The software may NOT be used for any commercial activity, such as (but not limited to):</p>
+      <ul>
+        <li>Commercial deployment of underwater networks.</li>
+        <li>Commercial demonstrations.</li>
+        <li>Commercial research.</li>
+        <li>Consulting work performed by academic students, faculty or research staff.</li>
+        <li>Training of commercial company employees.</li>
+      </ul>
+      <p>This software is provided by the copyright holders and contributors &ldquo;as is&rdquo; and any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall the copyright holder or contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this software, even if advised of the possibility of such damage.</p>
+      <p>For commercial licensing, please contact <a href="mailto:info@subnero.com">info@subnero.com</a>.</p>
+    </div>
+    <!-- done mode: the accept click is the most committed moment on the page, so it
+         resolves into a next step instead of closing onto an unchanged page. -->
+    <div class="modal__done">
+      <h3 id="dl-done-title">Download started</h3>
+      <p class="modal__sub">unet-community-{{ version }}.tgz · 20.9 MB</p>
+      <p class="modal__done-label">Unpack it and start a simulated 2-node network:</p>
+      <pre class="modal__code"><code>tar xzf unet-community-{{ version }}.tgz
+cd unet-{{ version }}
+bin/unet samples/2-node-network.groovy</code></pre>
+      <p class="modal__done-note">The simulation prints a web URL for each node — open them to get a command shell.</p>
+      <p class="modal__done-next"><a href="https://org-arl.github.io/unet/handbook/" target="_blank" rel="noopener">Read the handbook &rarr;</a></p>
+    </div>
+    <div class="modal__actions" data-mode="download">
+      <a href="downloads/unet-community-{{ version }}.tgz" class="btn btn--primary" onclick="doneDlModal()">Accept &amp; download .tgz</a>
+      <button type="button" class="btn btn--ghost" onclick="closeDlModal()">Not now</button>
+    </div>
+    <div class="modal__actions" data-mode="read">
+      <button type="button" class="btn btn--primary" onclick="closeDlModal()">Close</button>
+    </div>
+    <div class="modal__actions" data-mode="done">
+      <button type="button" class="btn btn--primary" onclick="closeDlModal()">Close</button>
+    </div>
+  </div>
+</dialog>
+<script>
+  var dlModal = document.getElementById('dl-modal');
+  function setMode(mode) {
+    dlModal.classList.remove('mode-download', 'mode-read', 'mode-done');
+    dlModal.classList.add('mode-' + mode);
+    // The labelled heading is swapped with the panel, so the accessible name follows.
+    dlModal.setAttribute('aria-labelledby', mode === 'done' ? 'dl-done-title' : 'dl-modal-title');
+  }
+  function openModal(mode) {
+    if (!dlModal) return;
+    setMode(mode);
+    dlModal.querySelector('.modal__terms').scrollTop = 0;
+    if (!dlModal.open) dlModal.showModal();
+  }
+  function openDlModal(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    openModal('download');
+  }
+  function openTermsModal(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    openModal('read');
+  }
+  function doneDlModal() {
+    // No preventDefault: the anchor's href still serves the file.
+    if (dlModal) setMode('done');
+  }
+  function closeDlModal() {
+    if (dlModal && dlModal.open) dlModal.close();
+  }
+  if (dlModal) {
+    dlModal.addEventListener('click', function (e) {
+      if (e.target === dlModal) closeDlModal();
+    });
+  }
+</script>

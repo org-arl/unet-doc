@@ -1,2 +1,6 @@
 tmp
 .jekyll-metadata
+_site
+vendor/
+.bundle/
+.claude/
