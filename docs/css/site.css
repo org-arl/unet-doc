@@ -229,7 +229,53 @@ section { scroll-margin-top: 70px; }
     rgba(6,18,31,0.30) 0%, rgba(6,18,31,0.55) 45%,
     rgba(6,18,31,0.92) 78%, #06121f 100%);
 }
+/* Two unseen nodes flanking the headline, pinging on the same physics as the
+   badge dot below (linear expansion, amplitude decay, ~4s wavefront) but
+   scaled up and started at staggered phases so the flanks read as
+   independent nodes talking, not one synced heartbeat. Hidden once the
+   layout stacks and the flanks disappear under the text column. */
+.hero__pings { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.hero__ping {
+  position: absolute; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent); opacity: 0.5;
+}
+.hero__ping::after {
+  content: ''; position: absolute; inset: 0;
+  border: 1px solid var(--accent); border-radius: 50%;
+  opacity: 0;
+  animation: hero-ping 4s linear infinite;
+}
+.hero__ping--1 { left: 9%; top: 32%; }
+.hero__ping--2 { right: 12%; top: 46%; }
+.hero__ping--3 { left: 16%; top: 60%; }
+.hero__ping--1::after { animation-delay: 0s; }
+.hero__ping--2::after { animation-delay: -1.3s; }
+.hero__ping--3::after { animation-delay: -2.6s; }
+@keyframes hero-ping {
+  0%   { transform: scale(1);  opacity: 0; }
+  6%   { transform: scale(2);  opacity: 0.45; }
+  40%  { transform: scale(14); opacity: 0; }
+  100% { transform: scale(14); opacity: 0; }
+}
+@media (max-width: 900px) {
+  .hero__pings { display: none; }
+}
 .hero__inner { position: relative; max-width: 880px; }
+/* One quiet reveal on first paint -- badge to CTAs rise in sequence rather
+   than snapping in flat. `both` holds the pre-animation state so nothing
+   flashes at full opacity before its delay elapses. */
+.hero__badge, .hero__title, .hero__tagline, .hero__sub, .hero__ctas {
+  animation: hero-rise 640ms var(--ease) both;
+}
+.hero__badge { animation-delay: 0ms; }
+.hero__title { animation-delay: 90ms; }
+.hero__tagline { animation-delay: 170ms; }
+.hero__sub { animation-delay: 250ms; }
+.hero__ctas { animation-delay: 330ms; }
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 .hero__badge {
   display: inline-flex; align-items: center; gap: 9px;
   background: var(--control-bg); border: 1px solid var(--control-line);
