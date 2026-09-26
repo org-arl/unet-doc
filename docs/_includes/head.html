@@ -22,6 +22,43 @@
     <meta name="twitter:image" content="{{ site.website }}/{{ site.image_path }}" />
     <meta name="cloudflare-recovery" content="For recovery of cloudflare account">
 
+    {% capture version %}{% include_relative version.txt %}{% endcapture %}
+    {% assign version = version | strip_newlines %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "name": "{{ site.longname }}",
+          "url": "{{ site.url }}/"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "{{ site.longname }}",
+          "url": "{{ site.url }}/",
+          "description": {{ site.description | jsonify }},
+          "applicationCategory": "DeveloperApplication",
+          "applicationSubCategory": "Underwater acoustic network stack and simulator",
+          "operatingSystem": "macOS, Linux, Windows",
+          "softwareVersion": "{{ version }}",
+          "downloadUrl": "{{ site.url }}/downloads/unet-community-{{ version }}.tgz",
+          "releaseNotes": "{{ site.url }}/releasenotes.txt",
+          "image": "{{ site.url }}/{{ site.image_path }}",
+          "publisher": [
+            { "@type": "Organization", "name": "Acoustic Research Laboratory, National University of Singapore", "url": "https://arl.nus.edu.sg/" },
+            { "@type": "Organization", "name": "Subnero Pte Ltd", "url": "https://subnero.com/" }
+          ],
+          "sameAs": [
+            "https://github.com/org-arl/unet-contrib",
+            "https://www.youtube.com/channel/UCnwSva23AuUCFPqgI0kPvdw",
+            "https://blog.unetstack.net/"
+          ]
+        }
+      ]
+    }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
