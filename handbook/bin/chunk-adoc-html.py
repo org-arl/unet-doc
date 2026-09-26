@@ -16,20 +16,6 @@ parts = soup.find_all('h1', 'sect0')
 chapters = soup.find_all('div', 'sect1')
 footer = soup.body.find_all(id='footer')[0]
 
-### add tracker
-
-tracker = BeautifulSoup('''
-  <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-52885583-1', 'auto');
-    ga('send', 'pageview');
-  </script>
-''', 'html.parser')
-footer.append(tracker)
-
 ### rewrite the original
 
 with open(build+base+'.html', 'wt') as fp:
