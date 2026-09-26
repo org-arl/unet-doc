@@ -134,10 +134,10 @@ section { scroll-margin-top: 70px; }
 /* Every section is the same shell: equal air above and below its boundary rule,
    so a boundary is always the largest gap on the page and reads as a break
    rather than as one more row in a ledger. */
-.about, .ecosystem, .architecture, .editions, .downloads, .docs {
+.about, .ecosystem, .architecture, .editions, .downloads, .docs, .guides {
   padding: var(--section-pad) var(--gutter);
 }
-.ecosystem, .architecture, .editions, .downloads, .docs {
+.ecosystem, .architecture, .editions, .downloads, .docs, .guides {
   border-top: 1px solid var(--rule);
 }
 /* Head -> content is one value everywhere, and stays well under --section-pad
@@ -310,6 +310,9 @@ section { scroll-margin-top: 70px; }
   /* Propagation is over inside the first 40%; the rest of the cycle is silence. */
   100% { transform: scale(3.2); opacity: 0; }
 }
+/* One h1 carries both the name and what it is; the spans keep their own type. */
+.hero__heading { margin: 0; font-size: inherit; font-weight: inherit; }
+.hero__heading > span { display: block; }
 .hero__title {
   font-family: var(--font-head); font-weight: 700; font-size: clamp(2.625rem, 7.5vw, 5.25rem);
   line-height: 0.98; letter-spacing: -0.03em; margin: 0 0 18px;
