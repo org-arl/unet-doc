@@ -16,16 +16,14 @@ github:
   repository_url: https://github.com/org-arl/unet-doc
 plugins:
   - jekyll-sitemap
-# keep the sitemap to canonical, indexable pages: skip javadoc, the duplicate
-# handbook edition, the single-page handbook and the JS redirect stubs
+# keep the sitemap to canonical, indexable pages: skip javadoc, the archived
+# handbook edition and the JS redirect stubs
 defaults:
   - scope: { path: "javadoc" }
     values: { sitemap: false }
+  - scope: { path: "api" }
+    values: { sitemap: false }
   - scope: { path: "handbook-ed1v3" }
-    values: { sitemap: false }
-  - scope: { path: "handbook/index.html" }
-    values: { sitemap: false }
-  - scope: { path: "handbook/unet-handbook.html" }
     values: { sitemap: false }
   - scope: { path: "docs.html" }
     values: { sitemap: false }

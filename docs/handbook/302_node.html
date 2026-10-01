@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>14&nbsp; Node information – UnetStack Handbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./303_addr.html" rel="next">
+<link href="./301_stack.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-4c5f10e325026434afc233e7baf6c567.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="unetsh.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./300_services.html">Part III: Agents &amp; Services</a></li><li class="breadcrumb-item"><a href="./302_node.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Node information</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">UnetStack Handbook</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part I: Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./101_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./102_quickstart.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting started</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./103_basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">UnetStack basics</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part II: Using UnetStack</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./201_unet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Unet basics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./202_small.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Setting up small networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./203_large.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Routing in larger networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./204_wired.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Non-acoustic links</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./205_qos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data transfers &amp; QoS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./206_api.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">UnetSockets and gateways</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./207_portals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Portals</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./208_wormholes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Wormholes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./209_atc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">AT script engine</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./300_services.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part III: Agents &amp; Services</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./301_stack.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">The default stack</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./302_node.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Node information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./303_addr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Address resolution</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./304_datagram.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Datagram</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./305_phy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Physical</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./306_link.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Link</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./307_mac.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Medium access control</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./308_tuner.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Link tuning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./309_router.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Routing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./310_rdp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Route maintenance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./311_transport.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Transport</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./312_remote.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Remote access</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./313_ranging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Ranging</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./314_doa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Direction of arrival</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./315_bb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Baseband</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./316_device.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Device information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./317_scheduler.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Scheduler</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./318_shell.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Shell</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./319_doc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Documentation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./320_utils.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Utility agents</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./400_dev.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part IV: Develop &amp; Simulate</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./401_agents.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Developing agents</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./402_sim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Simulating networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./403_vao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Virtual acoustic ocean</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A1_porting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">What’s changed since v3?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A2_handshake.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">MySimpleHandshakeMac</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">14.1</span> Overview</a></li>
+  <li><a href="#messages" id="toc-messages" class="nav-link" data-scroll-target="#messages"><span class="header-section-number">14.2</span> Messages</a></li>
+  <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters"><span class="header-section-number">14.3</span> Parameters</a></li>
+  <li><a href="#node-locations-coordinate-systems" id="toc-node-locations-coordinate-systems" class="nav-link" data-scroll-target="#node-locations-coordinate-systems"><span class="header-section-number">14.4</span> Node locations &amp; coordinate systems</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples"><span class="header-section-number">14.5</span> Examples</a></li>
+  <li><a href="#implementation" id="toc-implementation" class="nav-link" data-scroll-target="#implementation"><span class="header-section-number">14.6</span> Implementation</a>
+  <ul class="collapse">
+  <li><a href="#nodeinfo-node" id="toc-nodeinfo-node" class="nav-link" data-scroll-target="#nodeinfo-node"><span class="header-section-number">14.6.1</span> NodeInfo (<code>node</code>)</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./300_services.html">Part III: Agents &amp; Services</a></li><li class="breadcrumb-item"><a href="./302_node.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Node information</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-node" class="quarto-section-identifier"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Node information</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><code>org.arl.unet.Services.NODE_INFO</code></p>
+<section id="overview" class="level2" data-number="14.1">
+<h2 data-number="14.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">14.1</span> Overview</h2>
+<p>The <code>NODE_INFO</code> service provides a single place to collate node-related information that is commonly needed by many agents — the node’s name and address, its location and motion, its clock, and the properties of the water around it. It is a special service, in the sense that each node must be configured to have one and only one agent providing this service.</p>
+<p>Agents and applications consume this service by reading (and occasionally setting) its parameters: a link agent needs the node <code>address</code> to fill in datagram headers, ranging (<a href="313_ranging.html" class="quarto-xref"><span>Chapter 25</span></a>) needs <code>location</code> and <code>soundSpeed</code>, and so on. An agent that needs to <em>react</em> to a change — a new address, an updated position — subscribes to the provider’s topic and watches for <a href="../api/org/arl/unet/ParamChangeNtf.html" target="_api"><code>ParamChangeNtf</code></a> messages, rather than polling.</p>
+</section>
+<section id="messages" class="level2" data-number="14.2">
+<h2 data-number="14.2" class="anchored" data-anchor-id="messages"><span class="header-section-number">14.2</span> Messages</h2>
+<p>The <code>NODE_INFO</code> service defines no messages of its own. All interaction is through the standard parameter messages that every agent supports (<a href="301_stack.html" class="quarto-xref"><span>Chapter 13</span></a>): parameters are read and set with a <code>ParameterReq</code>, answered by a <code>ParameterRsp</code>.</p>
+<p>An agent providing this service is expected to publish a <a href="../api/org/arl/unet/ParamChangeNtf.html" target="_api"><code>ParamChangeNtf</code></a> on its <strong>own topic</strong> whenever one of its parameters changes, so that other agents can monitor important node attributes simply by subscribing to the provider’s topic. Most agents publish parameter changes on the global <code>PARAMCHANGE</code> topic; the <code>NODE_INFO</code> provider deliberately redirects them to its own topic instead, since changes to attributes such as <code>address</code> or <code>location</code> are of interest to many agents.</p>
+</section>
+<section id="parameters" class="level2" data-number="14.3">
+<h2 data-number="14.3" class="anchored" data-anchor-id="parameters"><span class="header-section-number">14.3</span> Parameters</h2>
+<p>An agent providing the <code>NODE_INFO</code> service exposes the following parameters:</p>
+<div id="4" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/nodeinfo/NodeInfoParam.html#address"><code>address</code></a> :: <code>int</code> <em>(nullable)</em> – Node address</p>
+<p>Nodes are identified by a unique address that is typically 8-bit long (1 - 255). They can also configure use a 16-bit address depending on the node.addressSize setting.</p>
+<p>Examples:</p>
+<pre><code>node.address              // check node address
+node.address = 5          // change node address
+</code></pre></li>
+<li><p><a href="../api/org/arl/unet/nodeinfo/NodeInfoParam.html#addressSize"><code>addressSize</code></a> :: <code>int</code> – address size in bits (valid values are 8 or 16)</p></li>
+<li><p><a href="../api/org/arl/unet/nodeinfo/NodeInfoParam.html#nodeName"><code>nodeName</code></a> :: <code>String</code> <em>(nullable)</em> – Node name</p></li>
+<li><p><a href="../api/org/arl/unet/nodeinfo/NodeInfoParam.html#origin"><code>origin</code></a> :: <code>double[]</code> – origin [lat,long]</p></li>
+<li><p><a href="../api/org/arl/unet/nodeinfo/NodeInfoParam.html#location"><code>location</code></a> :: <code>double[]</code> – Location of the node in [x,y,z] meters or [lat,long,z]</p></li>
+<li><p><a href="../api/org/arl/unet/nodeinfo/NodeInfoParam.html#locationAccuracy"><code>locationAccuracy</code></a> :: <code>float[]</code> <em>(nullable)</em> – location accuracy [x,y,z] m</p></li>
+<li><p><a href="../api/org/arl/unet/nodeinfo/NodeInfoParam.html#speed"><code>speed</code></a> :: <code>double</code> <em>(nullable)</em> – speed (meter/second)</p></li>
+<li><p><a href="../api/org/arl/unet/nodeinfo/NodeInfoParam.html#yaw"><code>yaw</code></a> :: <code>double</code> <em>(nullable)</em> – yaw (deg, 0 is East, anticlockwise)</p></li>
+<li><p><a href="../api/org/arl/unet/nodeinfo/NodeInfoParam.html#yawRate"><code>yawRate</code></a> :: <code>double</code> <em>(nullable)</em> – yaw rate (deg/s, anticlockwise)</p></li>
+<li><p><a href="../api/org/arl/unet/nodeinfo/NodeInfoParam.html#diveRate"><code>diveRate</code></a> :: <code>double</code> <em>(nullable)</em> – dive rate (meter/second)</p></li>
+<li><p><a href="../api/org/arl/unet/nodeinfo/NodeInfoParam.html#roll"><code>roll</code></a> :: <code>double</code> <em>(nullable)</em> – roll angle (deg, positive rolling starboard)</p></li>
+<li><p><a href="../api/org/arl/unet/nodeinfo/NodeInfoParam.html#pitch"><code>pitch</code></a> :: <code>double</code> <em>(nullable)</em> – pitch angle (deg, positive nose down)</p></li>
+<li><p><a href="../api/org/arl/unet/nodeinfo/NodeInfoParam.html#salinity"><code>salinity</code></a> :: <code>double</code> – water salinity (ppt)</p></li>
+<li><p><a href="../api/org/arl/unet/nodeinfo/NodeInfoParam.html#waterTemperature"><code>waterTemperature</code></a> :: <code>double</code> – water temperature (deg C)</p></li>
+<li><p><a href="../api/org/arl/unet/nodeinfo/NodeInfoParam.html#depth"><code>depth</code></a> :: <code>double</code> – depth (meters)</p></li>
+<li><p><a href="../api/org/arl/unet/nodeinfo/NodeInfoParam.html#soundSpeed"><code>soundSpeed</code></a> :: <code>double</code> – sound speed in water (m/s), 0 for auto-compute</p></li>
+<li><p><a href="../api/org/arl/unet/nodeinfo/NodeInfoParam.html#mobility"><code>mobility</code></a> :: <code>boolean</code> – true if the node is mobile, false if it is fixed</p></li>
+<li><p><a href="../api/org/arl/unet/nodeinfo/NodeInfoParam.html#time"><code>time</code></a> :: <code>Date</code> – node time (real-time clock)</p></li>
+<li><p><a href="../api/org/arl/unet/nodeinfo/NodeInfoParam.html#isSynchronized"><code>isSynchronized</code></a> :: <code>boolean</code> – true if synchronized with network</p></li>
+<li><p><a href="../api/org/arl/unet/nodeinfo/NodeInfoParam.html#networkTime"><code>networkTime</code></a> :: <code>long</code> <em>(optional)</em> – network time (ms)</p></li>
+<li><p><a href="../api/org/arl/unet/nodeinfo/NodeInfoParam.html#networkTimeAccuracy"><code>networkTimeAccuracy</code></a> :: <code>long</code> <em>(optional)</em> – network time accuracy (ms)</p></li>
+<li><p><a href="../api/org/arl/unet/nodeinfo/NodeInfoParam.html#timeStability"><code>timeStability</code></a> :: <code>float</code> <em>(nullable)</em> – node time stability (ppm)</p></li>
+<li><p><a href="../api/org/arl/unet/nodeinfo/NodeInfoParam.html#canForward"><code>canForward</code></a> :: <code>boolean</code> – true if node has forwarding capability, false otherwise</p></li>
+<li><p><a href="../api/org/arl/unet/nodeinfo/NodeInfoParam.html#ready"><code>ready</code></a> :: <code>boolean</code> – true if the node is fully booted up, false otherwise</p></li>
+</ul>
+</div>
+</div>
+<p>Most of these are self-explanatory, but a few groups deserve elaboration:</p>
+<ul>
+<li><strong>Identity.</strong> Nodes are identified by an <code>address</code> drawn from an address space whose size is set by <code>addressSize</code> (8 or 16 bits). Names and addresses are coupled: a purely numeric <code>nodeName</code> that fits the address space sets the <code>address</code> directly, and a node without a name takes its address as its name. Address allocation at startup is delegated to the <code>ADDRESS_RESOLUTION</code> service (<a href="303_addr.html" class="quarto-xref"><span>Chapter 15</span></a>).</li>
+<li><strong>Position.</strong> <code>origin</code>, <code>location</code> and <code>depth</code> work together, and are described in the next section.</li>
+<li><strong>Motion &amp; attitude.</strong> When <code>mobility</code> is <code>true</code>, the node is treated as mobile, and the provider estimates <code>location</code> between explicit updates by dead reckoning from <code>speed</code>, <code>yaw</code>, <code>yawRate</code> and <code>diveRate</code>; when <code>mobility</code> is <code>false</code>, these motion parameters read as <code>null</code>. The attitude conventions are: <code>yaw</code> in degrees with 0 pointing East, increasing anticlockwise; <code>pitch</code> positive nose-down; <code>roll</code> positive rolling starboard.</li>
+<li><strong>Environment.</strong> Leaving <code>soundSpeed</code> at <code>0</code> (its automatic setting) causes it to be computed from <code>waterTemperature</code>, <code>salinity</code> and <code>depth</code>, so that ranging and other agents have a sound speed estimate even when none is measured.</li>
+<li><strong>Clocks.</strong> <code>time</code> is the node’s real-time clock. On hardware that supports network time synchronization, <code>networkTime</code>, <code>networkTimeAccuracy</code> and <code>isSynchronized</code> report the synchronized network clock, and <code>timeStability</code> the clock stability in ppm.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If node mobility is enabled, the provider automatically updates <code>location</code> based on the motion parameters (<code>speed</code>, <code>yaw</code>, <code>yawRate</code>, <code>diveRate</code>). Location updates are <em>not</em> published as <a href="../api/org/arl/unet/ParamChangeNtf.html" target="_api"><code>ParamChangeNtf</code></a> for such implicit changes — only explicitly set parameters generate notifications.</p>
+</div>
+</div>
+</section>
+<section id="node-locations-coordinate-systems" class="level2" data-number="14.4">
+<h2 data-number="14.4" class="anchored" data-anchor-id="node-locations-coordinate-systems"><span class="header-section-number">14.4</span> Node locations &amp; coordinate systems</h2>
+<p>A node’s position is described by two parameters that work together: <code>origin</code>, a geographic reference point <code>[latitude, longitude]</code> in degrees, and <code>location</code>, the node’s position as a 3-tuple. Depending on the application, you may wish to work in different coordinate systems. There are four options to choose from, selected purely by the values given to these two parameters:</p>
+<ul>
+<li><strong>No coordinates.</strong> We do not know or care about node locations. Both parameters are left empty: <code>origin = []</code> and <code>location = []</code>.</li>
+<li><strong>Local coordinates.</strong> Only the relative positions of nodes matter. Setting <code>origin = [NaN, NaN]</code> declares a local coordinate frame without anchoring it geographically. <code>location = [x, y, z]</code> is then a 3-tuple in meters; the <code>x</code> and <code>y</code> axes are arbitrarily chosen, and the <code>z</code> axis points upwards — the sea surface is 0 m, so an underwater node has a negative <code>z</code>.</li>
+<li><strong>Georeferenced local coordinates.</strong> As above, but the local frame is anchored geographically: <code>origin = [latitude, longitude]</code> gives the geographic location of the frame’s origin, commonly agreed across the network. <code>location = [x, y, z]</code> is again in meters, but the axes are no longer arbitrary — <code>x</code> points east, <code>y</code> points north, and <code>z</code> up. This is a local <strong>east-north-up (ENU)</strong> frame centered at <code>origin</code>.</li>
+<li><strong>GPS coordinates.</strong> Each node’s geographic position is given directly, without defining a local frame. <code>origin</code> is left empty (<code>[]</code>), and <code>location = [latitude, longitude, z]</code>, with <code>z</code> still in meters, pointing up.</li>
+</ul>
+<p>Note carefully what “set” means here: an <em>empty</em> <code>origin</code> (<code>[]</code>) means there is no local frame, so a non-empty <code>location</code> is interpreted as geographic coordinates. An origin of <code>[NaN, NaN]</code> is <em>not</em> the same as an empty one — it does establish a local frame, merely one whose geographic anchor is unspecified, so <code>location</code> is interpreted as local coordinates in meters.</p>
+<p>Local frames are preferred wherever one can be agreed on for the whole network: geometry, ranging (<a href="313_ranging.html" class="quarto-xref"><span>Chapter 25</span></a>) and localization are naturally computed in meters. Georeferencing the frame additionally lets positions be related back to latitude/longitude for deployment planning and plotting. GPS coordinates are used when node location matters but a local frame cannot easily be agreed on (e.g., an ad hoc network with no prior knowledge of the area of operation). The stack does not convert between frames — <code>location</code> is stored and reported exactly as you set it, and <code>origin</code> simply declares which frame it is in and where that frame is anchored. When conversion is needed, the <code>org.arl.unet.utils.GpsLocalFrame</code> utility class translates between local ENU meters and geographic coordinates.</p>
+<p>The separate <code>depth</code> parameter is the depth below the water surface in meters (positive downwards), and is kept consistent with the <code>z</code> coordinate of <code>location</code>: <code>location[2] == -depth</code> always holds when both are set.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The simulator requires a local frame, so simulated nodes use local or georeferenced local coordinates: node locations in simulation scripts (<a href="402_sim.html" class="quarto-xref"><span>Chapter 34</span></a>) are given in meters, and <code>origin</code> defaults to <code>[NaN, NaN]</code>.</p>
+</div>
+</div>
+</section>
+<section id="examples" class="level2" data-number="14.5">
+<h2 data-number="14.5" class="anchored" data-anchor-id="examples"><span class="header-section-number">14.5</span> Examples</h2>
+<p>If you start a simulation, connect to a node’s shell and type <code>node</code>, you’ll see the <code>NODE_INFO</code> parameters for that node:</p>
+<div id="6" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">node</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>« Node information »</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>Manages and maintains node information and attributes.</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>[org.arl.unet.nodeinfo.NodeInfoParam]</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  address = 232</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  addressSize = 8</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  canForward ⤇ true</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  depth = 15</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  diveRate = null</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  isSynchronized ⤇ false</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  location = [0.0, 0.0, -15.0]</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  locationAccuracy = null</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  mobility = false</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  nodeName = A</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  origin = [NaN, NaN]</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  pitch = 0</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  ready ⤇ true</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  roll = 0</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  salinity = 35</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  soundSpeed = 1539.168121822446</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  speed = null</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  time ⤇ Wed Jul 08 22:57:39 SGT 2026</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  timeStability = null</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  waterTemperature = 27</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  yaw = 0</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  yawRate = null</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>Set a geographic reference point, then work in georeferenced local coordinates. Note how the <code>depth</code> parameter tracks the <code>z</code> coordinate of the location, and how <code>GpsLocalFrame</code> converts between local ENU meters and geographic coordinates:</p>
+<div id="8" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">node.origin </span><span class="op">=</span><span class="va"> [</span><span class="dv">1.3</span><span class="op">,</span><span class="va"> </span><span class="dv">103.8</span><span class="va">];        </span><span class="co">// geographic reference point [lat, long]</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">node.location </span><span class="op">=</span><span class="va"> [</span><span class="dv">100</span><span class="op">,</span><span class="va"> </span><span class="dv">200</span><span class="op">,</span><span class="va"> -</span><span class="dv">10</span><span class="va">];   </span><span class="co">// ENU meters relative to origin</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">node.location</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>[100.0, 200.0, -10.0]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">node.depth</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>10</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">gps </span><span class="op">=</span><span class="va"> </span><span class="kw">new</span><span class="va"> org.arl.unet.utils.GpsLocalFrame(node.origin);</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">gps.toGps(node.location[</span><span class="dv">0..1</span><span class="va">])     </span><span class="co">// local ENU meters to [lat, long]</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>[1.3018087296571046, 103.80089854527836]</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">gps.toLocal(</span><span class="dv">1.301809</span><span class="op">,</span><span class="va"> </span><span class="dv">103.800899</span><span class="va">)  </span><span class="co">// [lat, long] to local ENU meters</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>[100.050606424862, 200.02989312354663]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>GpsLocalFrame</code> also accepts GPS coordinates in degrees and decimal minutes, or degrees, minutes and decimal seconds — both the constructors and the <code>toGps()</code>/<code>toLocal()</code> methods have overloads for these formats, matching how coordinates are usually read off a GPS receiver or a chart.</p>
+</div>
+</div>
+</section>
+<section id="implementation" class="level2" data-number="14.6">
+<h2 data-number="14.6" class="anchored" data-anchor-id="implementation"><span class="header-section-number">14.6</span> Implementation</h2>
+<section id="nodeinfo-node" class="level3" data-number="14.6.1">
+<h3 data-number="14.6.1" class="anchored" data-anchor-id="nodeinfo-node"><span class="header-section-number">14.6.1</span> NodeInfo (<code>node</code>)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Class</th>
+<th style="text-align: left;">Services</th>
+<th style="text-align: left;">Capabilities</th>
+<th style="text-align: left;">Availability</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>NodeInfo</code></td>
+<td style="text-align: left;"><code>NODE_INFO</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">default stack</td>
+</tr>
+</tbody>
+</table>
+<p>The default — and, since a node must have exactly one <code>NODE_INFO</code> provider, the only — implementation is the <strong><code>node</code></strong> agent, created first when a node boots (<a href="301_stack.html" class="quarto-xref"><span>Chapter 13</span></a>).</p>
+<section id="how-it-works" class="level4" data-number="14.6.1.1">
+<h4 data-number="14.6.1.1" class="anchored" data-anchor-id="how-it-works"><span class="header-section-number">14.6.1.1</span> How it works</h4>
+<p>At startup the agent acquires an address for the node. An explicitly configured address is used as-is; otherwise, if the node has a name, the agent asks the <code>ADDRESS_RESOLUTION</code> service (<a href="303_addr.html" class="quarto-xref"><span>Chapter 15</span></a>) to derive an address from it (a purely numeric name that fits the address space is used directly as the address). If the node has no name, the name defaults to the address.</p>
+<p>As the service requires, the agent publishes every parameter change as a <a href="../api/org/arl/unet/ParamChangeNtf.html" target="_api"><code>ParamChangeNtf</code></a> on its own topic, so that an interested agent can simply subscribe to the <code>NODE_INFO</code> provider rather than poll. Coupled parameters are kept consistent — setting a 3-element <code>location</code> updates <code>depth</code> (and vice versa), and renaming a node to a numeric name updates its <code>address</code>.</p>
+<p>For a mobile node (<code>mobility = true</code>), the agent dead-reckons the position between explicit updates: it advances <code>location</code> at <code>speed</code> along the current <code>yaw</code> (following an arc when <code>yawRate</code> is non-zero), and deepens it at <code>diveRate</code>. The estimate is computed whenever <code>location</code> is read, and these implicit updates are deliberately <em>not</em> published.</p>
+<p>When <code>soundSpeed</code> is left at its automatic setting (<code>0</code>), the agent computes it from <code>waterTemperature</code>, <code>salinity</code> and <code>depth</code> using an empirical formula. <code>time</code> reports the system clock; the generic implementation does not provide network time synchronization (<code>isSynchronized</code> is always <code>false</code>), though modem implementations with synchronized clocks may.</p>
+</section>
+<section id="usage-notes" class="level4" data-number="14.6.1.2">
+<h4 data-number="14.6.1.2" class="anchored" data-anchor-id="usage-notes"><span class="header-section-number">14.6.1.2</span> Usage notes</h4>
+<ul>
+<li>Set <code>nodeName</code> early; the default <code>ADDRESS_RESOLUTION</code> provider derives the node <code>address</code> from it (<a href="303_addr.html" class="quarto-xref"><span>Chapter 15</span></a>).</li>
+<li>For static nodes, leave <code>mobility = false</code> so other agents do not track position needlessly.</li>
+<li>Leave <code>soundSpeed</code> at its automatic setting to have it computed from the water properties, unless you have a measured value.</li>
+</ul>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./301_stack.html" class="pagination-link" aria-label="The default stack">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">The default stack</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./303_addr.html" class="pagination-link" aria-label="Address resolution">
+        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Address resolution</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

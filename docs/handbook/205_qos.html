@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>8&nbsp; Data transfers &amp; QoS – UnetStack Handbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./206_api.html" rel="next">
+<link href="./204_wired.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-4c5f10e325026434afc233e7baf6c567.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="unetsh.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./201_unet.html">Part II: Using UnetStack</a></li><li class="breadcrumb-item"><a href="./205_qos.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data transfers &amp; QoS</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">UnetStack Handbook</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part I: Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./101_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./102_quickstart.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting started</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./103_basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">UnetStack basics</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part II: Using UnetStack</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./201_unet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Unet basics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./202_small.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Setting up small networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./203_large.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Routing in larger networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./204_wired.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Non-acoustic links</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./205_qos.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data transfers &amp; QoS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./206_api.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">UnetSockets and gateways</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./207_portals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Portals</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./208_wormholes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Wormholes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./209_atc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">AT script engine</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./300_services.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part III: Agents &amp; Services</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./301_stack.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">The default stack</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./302_node.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Node information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./303_addr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Address resolution</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./304_datagram.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Datagram</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./305_phy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Physical</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./306_link.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Link</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./307_mac.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Medium access control</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./308_tuner.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Link tuning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./309_router.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Routing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./310_rdp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Route maintenance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./311_transport.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Transport</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./312_remote.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Remote access</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./313_ranging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Ranging</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./314_doa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Direction of arrival</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./315_bb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Baseband</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./316_device.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Device information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./317_scheduler.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Scheduler</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./318_shell.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Shell</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./319_doc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Documentation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./320_utils.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Utility agents</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./400_dev.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part IV: Develop &amp; Simulate</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./401_agents.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Developing agents</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./402_sim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Simulating networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./403_vao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Virtual acoustic ocean</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A1_porting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">What’s changed since v3?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A2_handshake.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">MySimpleHandshakeMac</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#datagrams" id="toc-datagrams" class="nav-link active" data-scroll-target="#datagrams"><span class="header-section-number">8.1</span> Datagrams</a>
+  <ul class="collapse">
+  <li><a href="#reliability-robustness" id="toc-reliability-robustness" class="nav-link" data-scroll-target="#reliability-robustness"><span class="header-section-number">8.1.1</span> Reliability &amp; robustness</a></li>
+  <li><a href="#compression" id="toc-compression" class="nav-link" data-scroll-target="#compression"><span class="header-section-number">8.1.2</span> Compression</a></li>
+  <li><a href="#priority" id="toc-priority" class="nav-link" data-scroll-target="#priority"><span class="header-section-number">8.1.3</span> Priority</a></li>
+  <li><a href="#progress" id="toc-progress" class="nav-link" data-scroll-target="#progress"><span class="header-section-number">8.1.4</span> Progress</a></li>
+  </ul></li>
+  <li><a href="#remote-messages" id="toc-remote-messages" class="nav-link" data-scroll-target="#remote-messages"><span class="header-section-number">8.2</span> Remote messages</a>
+  <ul class="collapse">
+  <li><a href="#mailboxes" id="toc-mailboxes" class="nav-link" data-scroll-target="#mailboxes"><span class="header-section-number">8.2.1</span> Mailboxes</a></li>
+  <li><a href="#threaded-responses" id="toc-threaded-responses" class="nav-link" data-scroll-target="#threaded-responses"><span class="header-section-number">8.2.2</span> Threaded responses</a></li>
+  <li><a href="#message-classes" id="toc-message-classes" class="nav-link" data-scroll-target="#message-classes"><span class="header-section-number">8.2.3</span> Message classes</a></li>
+  </ul></li>
+  <li><a href="#remote-text-messages" id="toc-remote-text-messages" class="nav-link" data-scroll-target="#remote-text-messages"><span class="header-section-number">8.3</span> Remote text messages</a></li>
+  <li><a href="#remote-execution-requests" id="toc-remote-execution-requests" class="nav-link" data-scroll-target="#remote-execution-requests"><span class="header-section-number">8.4</span> Remote execution requests</a></li>
+  <li><a href="#remote-file-transfers" id="toc-remote-file-transfers" class="nav-link" data-scroll-target="#remote-file-transfers"><span class="header-section-number">8.5</span> Remote file transfers</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./201_unet.html">Part II: Using UnetStack</a></li><li class="breadcrumb-item"><a href="./205_qos.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data transfers &amp; QoS</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-qos" class="quarto-section-identifier"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data transfers &amp; QoS</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In <a href="102_quickstart.html" class="quarto-xref"><span>Chapter 2</span></a>, we saw how to send and receive text messages (using <code>tell</code>) and datagrams (using <code>dtx</code>). In <a href="103_basics.html" class="quarto-xref"><span>Chapter 3</span></a>, we learnt that the <code>tell</code> and <code>dtx</code> commands are implemented using the underlying messages <a href="../api/org/arl/unet/remote/RemoteTextReq.html" target="_api"><code>RemoteTextReq</code></a> and <a href="../api/org/arl/unet/DatagramReq.html" target="_api"><code>DatagramReq</code></a> respectively. In this chapter, we are going to look at <a href="../api/org/arl/unet/DatagramReq.html" target="_api"><code>DatagramReq</code></a> (and some related messages) in much more depth, as there is much more to datagrams than meets the eye. In particular, we are interested in various datagram attributes that enable us to define fine-grained Quality of Service (QoS) requirements to utilize limited bandwidth most effectively.</p>
+<p>In addition to datagrams, we encountered file transfers via <code>fget</code> and <code>fput</code> commands in <a href="202_small.html" class="quarto-xref"><span>Chapter 5</span></a>. We will also explore file transfers in some depth and understand the differences between datagrams and file transfers.</p>
+<section id="datagrams" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="datagrams"><span class="header-section-number">8.1</span> Datagrams</h2>
+<p>Datagrams are parcels of data that are delivered atomically. Datagrams may be fragmented into smaller chunks for delivery, but they are reassembled at the destination prior to delivery. Either the whole datagram is delivered or it is lost, but it is never partially delivered.</p>
+<p>A datagram has a <code>from</code> address, <code>to</code> address, <code>protocol</code> number, and some <code>data</code>. In addition to these basic attributes, datagrams may have several additional attributes:</p>
+<ul>
+<li><code>reliability</code> (boolean) – controls end-to-end acknowledgement of successful delivery. If <code>reliability</code> is set to <code>true</code>, the delivery of the datagram is acknowledged by the recipient, and a <a href="../api/org/arl/unet/DatagramDeliveryNtf.html" target="_api"><code>DatagramDeliveryNtf</code></a> is generated. If the delivery failed or timed out, a <a href="../api/org/arl/unet/DatagramFailureNtf.html" target="_api"><code>DatagramFailureNtf</code></a> is generated instead. If <code>reliability</code> is set to <code>false</code>, a <a href="../api/org/arl/unet/DatagramTransmissionNtf.html" target="_api"><code>DatagramTransmissionNtf</code></a> is generated when the datagram is transmitted by the node, or a <a href="../api/org/arl/unet/DatagramFailureNtf.html" target="_api"><code>DatagramFailureNtf</code></a> is generated if the datagram was dropped for some reason.</li>
+<li><code>robustness</code> (<a href="../api/org/arl/unet/Robustness.html" target="_api"><code>Robustness</code></a>) – controls trade-off between data rate and likelihood of loss. The default <code>robustness</code> is <code>NORMAL</code>. If a datagram is tagged as <code>ROBUST</code>, the stack makes best effort to deliver it using a <em>robust</em> communication scheme. A robust scheme is one that is designed to minimize loss at the expense of data rate.</li>
+<li><code>priority</code> (<a href="../api/org/arl/unet/Priority.html" target="_api"><code>Priority</code></a>) – controls order in which datagrams in a queue are processed. When many datagrams are queued for transmission, higher priority datagrams are given preference. Possible priorities include <code>URGENT</code>, <code>HIGH</code>, <code>NORMAL</code>, <code>LOW</code> and <code>IDLE</code>.</li>
+<li><code>ttl</code> (float) – time-to-live (TTL, in seconds) after which the stack may choose to drop the datagram. TTL is typically used to tag data that is not useful if stale. If the data is undelivered beyond its lifetime, the stack may opt to drop the data and save valuable bandwidth and energy.</li>
+<li><code>progress</code> (boolean) – controls progress notifications for large datagram transfers. For large datagram transfers that take substantial time to deliver, setting <code>progress</code> to <code>true</code> requests UnetStack to generate <a href="../api/org/arl/unet/ProgressNtf.html" target="_api"><code>ProgressNtf</code></a> to indicate progress of transfer. The notifications are generated on a best effort basis.</li>
+<li><code>route</code> (string) – selects a specific route for data transfer. When unspecified, routes are selected automatically by UnetStack. If a datagram must use a specific route, it should be tagged with the ID of that route.</li>
+<li><code>shortcircuit</code> (boolean) – controls an optimization to reduce data transfer overhead. When an agent in the stack determines that its functionality is not required in delivering a datagram, it can choose not to add any headers if <code>shortcircuit</code> is set to <code>true</code> (default). This enables the stack to be frugal with transmissions, only adding headers when they carry information that is necessary for that datagram.</li>
+</ul>
+<p>Let us explore some of these attributes in more detail.</p>
+<section id="reliability-robustness" class="level3" data-number="8.1.1">
+<h3 data-number="8.1.1" class="anchored" data-anchor-id="reliability-robustness"><span class="header-section-number">8.1.1</span> Reliability &amp; robustness</h3>
+<p>The terms <em>robustness</em> and <em>reliability</em> are often confused. Robustness refers to a trade-off between data rate and likelihood of fragment loss. A robust datagram is likely to use a lower rate communication scheme that minimizes the chance of losing a fragment. Lost datagram fragments can be detected and retransmitted by the stack, but that requires feedback from the receiver. Requesting robustness reduces the need for acknowledgement/retransmission at the expense of data rate. Reliability, on the other hand, refers to end-to-end delivery notifications.</p>
+<p>Let’s start a <code>2-node-network</code> to observe the effect of some of these attributes:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>$ bin<span class="op">/</span>unet samples<span class="op">/</span><span class="dv">2</span><span class="op">-</span>node<span class="op">-</span>network<span class="op">.</span>groovy</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="op">-</span>node network</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="op">--------------</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="bu">Node</span> A<span class="op">:</span> tcp<span class="op">:</span><span class="co">//localhost:1101, http://localhost:8081/shell.html</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="bu">Node</span> B<span class="op">:</span> tcp<span class="op">:</span><span class="co">//localhost:1102, http://localhost:8082/shell.html</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- NOTE: not live because failure timeout is too long -->
+<p>On node A:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">dtx host(</span><span class="st">'B'</span><span class="va">)</span><span class="op">,</span><span class="va"> [</span><span class="dv">1</span><span class="op">,</span><span class="dv">2</span><span class="op">,</span><span class="dv">3</span><span class="va">]</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramTransmissionNtf:INFORM[id:019a1738-6e0a-77e0-f271-e6cb98762ffa to:31]</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">dtx host(</span><span class="st">'B'</span><span class="va">)</span><span class="op">,</span><span class="va"> [</span><span class="dv">1</span><span class="op">,</span><span class="dv">2</span><span class="op">,</span><span class="dv">3</span><span class="va">]</span><span class="op">,</span><span class="va"> reliability</span><span class="op">:</span><span class="va"> </span><span class="kw">true</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramDeliveryNtf:INFORM[id:019a1738-8d46-7c98-b549-81bb78c3ed2b]</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">dtx host(</span><span class="st">'C'</span><span class="va">)</span><span class="op">,</span><span class="va"> [</span><span class="dv">1</span><span class="op">,</span><span class="dv">2</span><span class="op">,</span><span class="dv">3</span><span class="va">]</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramTransmissionNtf:INFORM[id:019a1739-5b18-70bc-e982-a55d30af8295 to:74]</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">dtx host(</span><span class="st">'C'</span><span class="va">)</span><span class="op">,</span><span class="va"> [</span><span class="dv">1</span><span class="op">,</span><span class="dv">2</span><span class="op">,</span><span class="dv">3</span><span class="va">]</span><span class="op">,</span><span class="va"> reliability</span><span class="op">:</span><span class="va"> </span><span class="kw">true</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramFailureNtf:INFORM[id:019a1738-c8ae-7e57-956e-25bdc8d71484]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>We first transmit an unreliable datagram to node B and get a <a href="../api/org/arl/unet/DatagramTransmissionNtf.html" target="_api"><code>DatagramTransmissionNtf</code></a> when it is transmitted. We then transmit a reliable datagram to node B and get a <a href="../api/org/arl/unet/DatagramDeliveryNtf.html" target="_api"><code>DatagramDeliveryNtf</code></a> when it is successfully delivered. This takes noticeably longer, since it requires an acknowledgement from node B. Next, we transmit an unreliable datagram to node C. No such node exists in our network, yet we get a <a href="../api/org/arl/unet/DatagramTransmissionNtf.html" target="_api"><code>DatagramTransmissionNtf</code></a> when the datagram is transmitted. On the other hand, when we finally transmit a reliable datagram to node C, since no such node exists in our network, we get a <a href="../api/org/arl/unet/DatagramFailureNtf.html" target="_api"><code>DatagramFailureNtf</code></a>. However, this takes some time as UnetStack tries to deliver the datagram several times before giving up.</p>
+<p>To observe the effect of robustness, let’s enable display of all datagram fragments on node B:</p>
+<div id="6" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">dshow on</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>Now, we first transmit a normal 32-byte datagram from node A:</p>
+<div id="8" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">dtx host(</span><span class="st">'B'</span><span class="va">)</span><span class="op">,</span><span class="va"> </span><span class="dv">1..32</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramTransmissionNtf:INFORM[id:019f4239-f134-7368-c5be-07d7ffa5fc15 to:31]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>On node B, we see that the datagram is delivered as a single fragment of type <code>DATA</code>:</p>
+<div id="10" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameNtf:INFORM[type:DATA from:232 to:31 rxStartTime:2380532743 rssi:-72.6 (32 bytes)]</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>We can check the data rate for the <code>DATA</code> channel:</p>
+<div id="12" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">phy[DATA]</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>« PHY »</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>[org.arl.unet.DatagramParam]</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  MTU ⤇ 123</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  RTU ⤇ 123</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>[org.arl.unet.bb.BasebandDetectorParam]</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  capture ⤇ 24000</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  coherence ⤇ 0</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  inhibit ⤇ 0</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  metricStatistics ⤇ 0.0</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  preamble = [2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0 ... , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  stride ⤇ 1</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  threshold ⤇ 0.0</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>[org.arl.unet.phy.PhysicalChannelParam]</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  dataRate = 1003.9216</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  fec ⤇ default</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  fecList ⤇ null</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  frameDuration ⤇ 1.02</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  frameLength = 128</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  framing ⤇ default</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  framingList ⤇ null</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  maxFrameLength = 4096</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  modulation ⤇ default</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  modulationList ⤇ null</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>  powerLevel = -10.0</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>  schemeCode ⤇ null</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>We see that the <code>DATA</code> channel uses a communication scheme that provides a data rate of 1004 bps in this simulation. Each transmitted <code>DATA</code> frame takes 1.02 seconds.</p>
+<p>We now transmit a robust 32-byte datagram from node A:</p>
+<div id="14" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">dtx host(</span><span class="st">'B'</span><span class="va">)</span><span class="op">,</span><span class="va"> </span><span class="dv">1..32</span><span class="op">,</span><span class="va"> robustness</span><span class="op">:</span><span class="va"> Robustness.ROBUST</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramTransmissionNtf:INFORM[id:019f4239-fd12-7b15-f903-994fe7cc9047 to:31]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>We observe a noticeable delay before we see the <a href="../api/org/arl/unet/DatagramTransmissionNtf.html" target="_api"><code>DatagramTransmissionNtf</code></a>. On node B, we see:</p>
+<div id="16" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:232 to:31 protocol:2 rxStartTime:2383966743 rssi:-72.6 (8 bytes)]</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  00fb00000020000d</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:232 to:31 protocol:2 rxStartTime:2384610743 rssi:-72.6 (13 bytes)]</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  00000a0102030405060708090a</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:232 to:31 protocol:2 rxStartTime:2385244743 rssi:-72.6 (13 bytes)]</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  00100a0b0c0d0e0f1011121314</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:232 to:31 protocol:2 rxStartTime:2385879743 rssi:-72.6 (13 bytes)]</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  00200a15161718191a1b1c1d1e</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:232 to:31 protocol:2 rxStartTime:2386517743 rssi:-72.6 (9 bytes)]</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  0030021f2000000000</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>uwlink &gt;&gt; DatagramNtf:INFORM[from:232 to:31 (32 bytes)]</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:232 to:31 protocol:2 rxStartTime:2387155743 rssi:-72.6 (13 bytes)]</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  00400a970609cbab0d6de38398</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>We see the expected <a href="../api/org/arl/unet/DatagramNtf.html" target="_api"><code>DatagramNtf</code></a> with the 32 bytes of data that we transmitted. But we see that this datagram was delivered using multiple transmissions of type <code>CONTROL</code>, each reported here as a <a href="../api/org/arl/unet/phy/RxFrameNtf.html" target="_api"><code>RxFrameNtf</code></a>. We can check the data rate for the <code>CONTROL</code> channel:</p>
+<div id="18" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">phy[CONTROL]</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>« PHY »</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>[org.arl.unet.DatagramParam]</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  MTU ⤇ 13</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  RTU ⤇ 13</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>[org.arl.unet.bb.BasebandDetectorParam]</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  capture ⤇ 13488</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  coherence ⤇ 0</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  inhibit ⤇ 0</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  metricStatistics ⤇ 0.0</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  preamble = [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0 ... , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  stride ⤇ 1</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  threshold ⤇ 0.0</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>[org.arl.unet.phy.PhysicalChannelParam]</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  dataRate = 247.42267</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  fec ⤇ default</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  fecList ⤇ null</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  frameDuration ⤇ 0.582</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>  frameLength = 18</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  framing ⤇ default</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  framingList ⤇ null</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>  maxFrameLength = 128</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>  modulation ⤇ default</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>  modulationList ⤇ null</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>  powerLevel = -10.0</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>  schemeCode ⤇ null</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>We see a <code>CONTROL</code> data rate of 247 bps for this simulation. Each transmitted <code>CONTROL</code> frame takes 0.582 seconds. The normal datagram took a single <code>DATA</code> transmission (about 1 second), whereas the robust datagram required 6 <code>CONTROL</code> transmissions (total 3.5 seconds). Each <code>CONTROL</code> frame is, however, much less likely to be lost. And even if one <code>CONTROL</code> frame is lost, the datagram is encoded in a way that it is likely to be successfully delivered. This provides more robustness to the delivery of the second datagram.</p>
+</section>
+<section id="compression" class="level3" data-number="8.1.2">
+<h3 data-number="8.1.2" class="anchored" data-anchor-id="compression"><span class="header-section-number">8.1.2</span> Compression</h3>
+<p>On node A, we transmit a 4 kB datagram:</p>
+<div id="20" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">dtx host(</span><span class="st">'B'</span><span class="va">)</span><span class="op">,</span><span class="va"> </span><span class="kw">new</span><span class="va"> </span><span class="kw">byte</span><span class="va">[</span><span class="dv">4096</span><span class="va">]</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramTransmissionNtf:INFORM[id:019f423a-1530-7096-f274-a1c872cb6321 to:31]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>At a data rate of 1004 bps that <code>DATA</code> channel gives us in this simulation, we would expect a 4 kB datagram to take at least 32 seconds. However, you should see the <a href="../api/org/arl/unet/DatagramTransmissionNtf.html" target="_api"><code>DatagramTransmissionNtf</code></a> within a second or so. And if you had the shell on node B open, you’d have seen the <a href="../api/org/arl/unet/DatagramNtf.html" target="_api"><code>DatagramNtf</code></a> appear almost immediately:</p>
+<div id="22" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameNtf:INFORM[type:DATA from:232 to:31 protocol:6 rxStartTime:2389738743 rssi:-72.6 (28 bytes)]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  8080789cedc1010d000000c2a0f74f6d0f0714000000f06e10000001</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramNtf:INFORM[from:232 to:31 (4096 bytes)]</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  0000000000000000000000000000000000000000000000000000000000000000</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  0000000000000000000000000000000000000000000000000000000000000000</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  0000000000000000000000000000000000000000000000000000000000000000</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  0000000000000000000000000000000000000000000000000000000000000000</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  ...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>Most UnetStack agents support data compression. A 4 kB buffer of zeros is very compressible, and so it was transmitted in a single <code>DATA</code> frame of 28 bytes!</p>
+<p>If we generate 4 kB of random data and transmit it:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">x </span><span class="op">=</span><span class="va"> </span><span class="kw">new</span><span class="va"> </span><span class="kw">byte</span><span class="va">[</span><span class="dv">4096</span><span class="va">];</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="kw">new</span><span class="va"> Random().nextBytes(x);</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">dtx host(</span><span class="st">'B'</span><span class="va">)</span><span class="op">,</span><span class="va"> x</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramTransmissionNtf:INFORM[id:019a1776-230f-75c8-b6c5-d9fea38a2f8c to:31]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>we see that this indeed takes more than 32 seconds to deliver. And we see lots of fragments come through on node B before we see the <code>DatagramNtf:INFORM[from:232 to:31 (4096 bytes)]</code> appear.</p>
+<p>To reduce clutter, let us turn off the display of all datagram fragments on node B for the rest of this chapter:</p>
+<div id="24" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">dshow off       </span><span class="co">// turn off all datagram display</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">dshow </span><span class="dv">0</span><span class="va">         </span><span class="co">// turn on display of user datagrams only</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>We could have combined these two commands as <code>dshow off, 0</code> if we wanted to save some typing!</p>
+</section>
+<section id="priority" class="level3" data-number="8.1.3">
+<h3 data-number="8.1.3" class="anchored" data-anchor-id="priority"><span class="header-section-number">8.1.3</span> Priority</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Premium feature
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>QoS is a premium feature (see <a href="301_stack.html#sec-premium" class="quarto-xref"><span>Section 13.3</span></a>) in UnetStack, and may not be available in the community edition. If unavailable, the <code>priority</code> attribute in the <a href="../api/org/arl/unet/DatagramReq.html" target="_api"><code>DatagramReq</code></a> is silently ignored.</p>
+<p>On UnetStack-compatible modems, you can check if your modem supports prioritization:</p>
+<div id="26" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">remote </span><span class="op">&lt;&lt;</span><span class="va"> </span><span class="kw">new</span><span class="va"> CapabilityReq(DatagramCapability.PRIORITY)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>CONFIRM</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>If you see <code>CONFIRM</code> as a response, your modem supports it. If you see <code>DISCONFIRM</code>, see <a href="301_stack.html#sec-premium" class="quarto-xref"><span>Section 13.3</span></a> for how to enable it.</p>
+</div>
+</div>
+<p>On node A, let’s transmit 5 datagrams:</p>
+<div id="28" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="dv">5.</span><span class="va">times {</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co">- </span><span class="va">  dtx host(</span><span class="st">'B'</span><span class="va">)</span><span class="op">,</span><span class="va"> [it</span><span class="op">+</span><span class="dv">1</span><span class="va">]</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">- </span><span class="va">}</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramTransmissionNtf:INFORM[id:019f423a-32e2-7ed7-a15f-932c35c86a8f to:31]</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramTransmissionNtf:INFORM[id:019f423a-32e3-756d-a94e-5ac616acdaa7 to:31]</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramTransmissionNtf:INFORM[id:019f423a-32e4-7e47-838c-ac8c14815552 to:31]</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramTransmissionNtf:INFORM[id:019f423a-32e5-7f03-a269-6336397a81a2 to:31]</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramTransmissionNtf:INFORM[id:019f423a-32e5-74e4-f879-6c340bcee341 to:31]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>The local variable <code>it</code> here refers to the loop counter that runs from 0 to 4, so 5 datagrams with data <code>[01]</code>, <code>[02]</code>, <code>[03]</code>, <code>[04]</code> and <code>[05]</code> are transmitted. We see all 5 of them arrive in sequence on node B:</p>
+<div id="30" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:232 to:31 rxStartTime:2397339743 rssi:-72.6 (1 byte)]</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  01</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:232 to:31 rxStartTime:2397985743 rssi:-72.6 (1 byte)]</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  02</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:232 to:31 rxStartTime:2398624743 rssi:-72.6 (1 byte)]</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  03</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:232 to:31 rxStartTime:2399262743 rssi:-72.6 (1 byte)]</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  04</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:232 to:31 rxStartTime:2399902743 rssi:-72.6 (1 byte)]</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  05</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>We repeat the transmissions from node A, but this time we tag the first 3 transmissions as <code>NORMAL</code> priority (default) and the last 2 transmissions as <code>HIGH</code> priority:</p>
+<div id="32" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="dv">5.</span><span class="va">times {</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co">- </span><span class="va">  dtx host(</span><span class="st">'B'</span><span class="va">)</span><span class="op">,</span><span class="va"> [it</span><span class="op">+</span><span class="dv">1</span><span class="va">]</span><span class="op">,</span><span class="va"> priority</span><span class="op">:</span><span class="va"> (it </span><span class="op">&lt;</span><span class="va"> </span><span class="dv">3</span><span class="va"> ? Priority.NORMAL </span><span class="op">:</span><span class="va"> Priority.HIGH)</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">- </span><span class="va">}</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramTransmissionNtf:INFORM[id:019f423a-4cb0-77c3-cc62-54f75b8225e9 to:31]</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramTransmissionNtf:INFORM[id:019f423a-4cb3-73df-ab09-29bf91da21aa to:31]</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramTransmissionNtf:INFORM[id:019f423a-4cb3-7c31-e159-f282789f4fe0 to:31]</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramTransmissionNtf:INFORM[id:019f423a-4cb1-7cb3-d246-9ef99fdbc8b1 to:31]</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramTransmissionNtf:INFORM[id:019f423a-4cb2-7775-f6c0-d67beeb4ce24 to:31]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>Observe the sequence in which the datagrams appear on node B:</p>
+<div id="34" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:232 to:31 rxStartTime:2403945743 rssi:-72.6 (1 byte)]</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  01</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:232 to:31 rxStartTime:2404589743 rssi:-72.6 (1 byte)]</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  04</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:232 to:31 rxStartTime:2405226743 rssi:-72.6 (1 byte)]</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  05</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:232 to:31 rxStartTime:2405872743 rssi:-72.6 (1 byte)]</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  02</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:232 to:31 rxStartTime:2406519743 rssi:-72.6 (1 byte)]</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  03</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>Datagram <code>[01]</code> was transmitted as soon as it was offered and so arrives first. By the time the next datagram is transmitted, all the remaining ones are in the queue. Since datagrams <code>[04]</code> and <code>[05]</code> are marked as <code>HIGH</code> priority, they are delivered next. The remaining datagrams <code>[02]</code> and <code>[03]</code> are delivered only after that.</p>
+</section>
+<section id="progress" class="level3" data-number="8.1.4">
+<h3 data-number="8.1.4" class="anchored" data-anchor-id="progress"><span class="header-section-number">8.1.4</span> Progress</h3>
+<!-- NOTE: not live because actual transfer would take too long -->
+<p>Progress notifications are useful for data transfers that take long. To see how they work, we initiate a 5 kB data transfer from node A:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">x </span><span class="op">=</span><span class="va"> </span><span class="kw">new</span><span class="va"> </span><span class="kw">byte</span><span class="va">[</span><span class="dv">5120</span><span class="va">];</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co">- </span><span class="kw">new</span><span class="va"> Random().nextBytes(x);</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co">- </span><span class="va">remote </span><span class="op">&lt;&lt;</span><span class="va"> </span><span class="kw">new</span><span class="va"> RemoteMessageReq(to</span><span class="op">:</span><span class="va"> host(</span><span class="st">'B'</span><span class="va">)</span><span class="op">,</span><span class="va"> data</span><span class="op">:</span><span class="va"> x</span><span class="op">,</span><span class="va"> progress</span><span class="op">:</span><span class="va"> </span><span class="kw">true</span><span class="va">)</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; ProgressNtf:INFORM[to:31 (719/5124 bytes, 14%)]</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; ProgressNtf:INFORM[to:31 (1438/5124 bytes, 28%)]</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; ProgressNtf:INFORM[to:31 (2157/5124 bytes, 42%)]</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; ProgressNtf:INFORM[to:31 (2876/5124 bytes, 56%)]</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; ProgressNtf:INFORM[to:31 (3595/5124 bytes, 70%)]</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; ProgressNtf:INFORM[to:31 (4314/5124 bytes, 84%)]</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; ProgressNtf:INFORM[to:31 (5033/5124 bytes, 98%)]</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; ProgressNtf:INFORM[to:31 (5124/5124 bytes, 100%)]</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramTransmissionNtf:INFORM[id:019f23ff-b166-7c30-dbe5-932497ae3140 to:31]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>We see regular <a href="../api/org/arl/unet/ProgressNtf.html" target="_api"><code>ProgressNtf</code></a> showing the progress of the transfer, and a <a href="../api/org/arl/unet/DatagramTransmissionNtf.html" target="_api"><code>DatagramTransmissionNtf</code></a> at the end to indicate that the transmission was completed.</p>
+</section>
+</section>
+<section id="remote-messages" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="remote-messages"><span class="header-section-number">8.2</span> Remote messages</h2>
+<p>Agents providing the <code>REMOTE</code> service support a special type of datagrams called <em>remote messages</em>. These datagrams are sent using the <a href="../api/org/arl/unet/remote/RemoteMessageReq.html" target="_api"><code>RemoteMessageReq</code></a> message, and are delivered with a <a href="../api/org/arl/unet/remote/RemoteMessageNtf.html" target="_api"><code>RemoteMessageNtf</code></a> message. Remote messages support some additional attributes:</p>
+<ul>
+<li><code>mimeType</code> (string) – MIME type defines the content type of the message. Content type may be used by UnetStack for content-aware processing. The default MIME type is <code>application/octet-stream</code>. If the data being sent is textual, we can set the MIME type to <code>text/plain</code>. All other MIME types are considered reserved and should not be used by end-user applications.</li>
+<li><code>remoteRecipient</code> (string) – specifies the topic or agent ID on the remote node to send the datagram to. Usually datagrams are delivered to the <code>Topics.DATAGRAM</code> topic. Setting this attribute allows the sender to specify an agent ID or topic to deliver the <a href="../api/org/arl/unet/remote/RemoteMessageNtf.html" target="_api"><code>RemoteMessageNtf</code></a> to.</li>
+<li><code>mailbox</code> (string) – is used only if TTL is set to <code>TTL_MAILBOX</code>, to name a mailbox for this message. We discuss mailboxes in detail below.</li>
+<li><code>messageClass</code> (string) – specifies a message class that may be used to route the message. We discuss message class based routing in detail below.</li>
+<li><code>inReplyTo</code> (string) – specifies the <code>messageID</code> of a <a href="../api/org/arl/unet/remote/RemoteMessageNtf.html" target="_api"><code>RemoteMessageNtf</code></a> being responded to. Setting this attribute creates a <em>threaded</em> response, where the corresponding <a href="../api/org/arl/unet/remote/RemoteMessageNtf.html" target="_api"><code>RemoteMessageNtf</code></a> is tagged with a <code>inReplyTo</code> field of the original <a href="../api/org/arl/unet/remote/RemoteMessageReq.html" target="_api"><code>RemoteMessageReq</code></a>. We discuss this in detail below.</li>
+</ul>
+<section id="mailboxes" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="mailboxes"><span class="header-section-number">8.2.1</span> Mailboxes</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Premium feature
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>QoS is a premium feature (see <a href="301_stack.html#sec-premium" class="quarto-xref"><span>Section 13.3</span></a>) in UnetStack, and may not be available in the community edition. If unavailable, the <code>ttl</code> and <code>mailbox</code> attributes in the <a href="../api/org/arl/unet/remote/RemoteMessageReq.html" target="_api"><code>RemoteMessageReq</code></a> are silently ignored.</p>
+<p>On UnetStack-compatible modems, you can check if you have the TTL feature available:</p>
+<div id="36" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">remote </span><span class="op">&lt;&lt;</span><span class="va"> </span><span class="kw">new</span><span class="va"> CapabilityReq(DatagramCapability.TTL)</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>CONFIRM</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>If you see <code>CONFIRM</code> as a response, your modem supports TTL and mailboxes. If you see <code>DISCONFIRM</code> instead, see <a href="301_stack.html#sec-premium" class="quarto-xref"><span>Section 13.3</span></a> for how to enable it.</p>
+</div>
+</div>
+<p>Consider a scenario where node A is an underwater surveillance robot and node B is the mothership operating the robot. The robot typically broadcasts a status message every 2 seconds, and the mothership receives it. Whenever the robot’s surveillance sensors detect an important event, the robot prioritizes transmission of the details of the event to the mothership. This transmission takes several seconds, and during that time the status messages cannot be delivered.</p>
+<p>If a status message is still in the queue when a new status message becomes available, there is no point sending the old one since its contents are out-of-date! The old one should be replaced by the new one and sent out at the next available opportunity. We can indicate this desired behavior by setting the <code>ttl</code> for the status message to be <code>TTL_MAILBOX</code> and specifying the <code>mailbox</code> name.</p>
+<!-- NOTE: not live because tickers are hard to control timing of during rendering -->
+<p>We simulate regular status message on node A using a <code>TickerBehavior</code> that ticks every 2 seconds:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">count </span><span class="op">=</span><span class="va"> </span><span class="dv">0</span><span class="va">;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">ticker </span><span class="op">=</span><span class="va"> agent.add </span><span class="kw">new</span><span class="va"> TickerBehavior(</span><span class="dv">2000</span><span class="op">,</span><span class="va"> {</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co">- </span><span class="va">  remote </span><span class="op">&lt;&lt;</span><span class="va"> </span><span class="kw">new</span><span class="va"> RemoteMessageReq(data</span><span class="op">:</span><span class="va">[count]</span><span class="op">,</span><span class="va"> ttl</span><span class="op">:</span><span class="va">RemoteMessageReq.TTL_MAILBOX</span><span class="op">,</span><span class="va"> mailbox</span><span class="op">:</span><span class="st">'STATUS'</span><span class="va">)</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">- </span><span class="va">  count </span><span class="op">=</span><span class="va"> (count </span><span class="op">+</span><span class="va"> </span><span class="dv">1</span><span class="va">) </span><span class="op">%</span><span class="va"> </span><span class="dv">256</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co">- </span><span class="va">})</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>org.arl.fjage.TickerBehavior@4cc5e5f8</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ticker behavior
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We will learn more about behaviors in <a href="401_agents.html" class="quarto-xref"><span>Chapter 33</span></a>. For now, all you need to know is that a <code>TickerBehavior</code> executes the code given in <code>{...}</code> every 2000 ms as a background task. The behavior can be stopped by calling <code>ticker.stop()</code> when we no longer want it to tick.</p>
+</div>
+</div>
+<p>We see a <a href="../api/org/arl/unet/DatagramTransmissionNtf.html" target="_api"><code>DatagramTransmissionNtf</code></a> on node A and a <a href="../api/org/arl/unet/remote/RemoteMessageNtf.html" target="_api"><code>RemoteMessageNtf</code></a> on node B every 2 seconds once this is running. After a short while, we simulate the transmission of an important event from node A:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">x </span><span class="op">=</span><span class="va"> </span><span class="kw">new</span><span class="va"> </span><span class="kw">byte</span><span class="va">[</span><span class="dv">1024</span><span class="va">];                     </span><span class="co">// generate 1 kB of</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="kw">new</span><span class="va"> Random().nextBytes(x);              </span><span class="co">// random data</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">remote </span><span class="op">&lt;&lt;</span><span class="va"> </span><span class="kw">new</span><span class="va"> RemoteMessageReq(data</span><span class="op">:</span><span class="va">x)   </span><span class="co">// and transmit it</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramTransmissionNtf:INFORM[id:019a17bf-5eb7-7d26-eea7-7037c8fe9343 to:0]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If everything is set up correctly, during the time the event details are being transferred, we expect status messages to be dropped. The status messages should resume as soon as the transfer is done. We can verify that this is indeed what happens by looking at the shell on node B:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 mimeType:application/octet-stream (1 byte)]</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  00</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 mimeType:application/octet-stream (1 byte)]</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  01</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 mimeType:application/octet-stream (1 byte)]</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  02</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 mimeType:application/octet-stream (1 byte)]</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  03</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 mimeType:application/octet-stream (1024 bytes)]</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  49b5f80e13020deb19e66fd9abc71ea699b8a85b14ac870d4457b7415d0cf07a</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  c27c71bcb26033433a3218b820ce6976472ea2c9eec21265fb5f8ebac4681663</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>      :</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  a8b80f888740e9fa36fc74cf8a5f75b8036e8850b36cad7afe7bf7cd98d8d74a</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  0ef81abc0d581d2682f884d2248a76a5dd2232d37a0f2d7d6b6249cc191c23cb</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 mimeType:application/octet-stream (1 byte)]</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>  08</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 mimeType:application/octet-stream (1 byte)]</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  09</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 mimeType:application/octet-stream (1 byte)]</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>  0a</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Status messages <code>00</code> to <code>03</code> are delivered before the event details, and then the status messages continue from <code>08</code> onwards. The queued outdated status messages <code>04</code> through <code>07</code> are dropped.</p>
+<p>We can now stop the <code>TickerBehavior</code> simulating the status messages on node A:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">ticker.stop()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="threaded-responses" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="threaded-responses"><span class="header-section-number">8.2.2</span> Threaded responses</h3>
+<p>Continuing with the scenario with the robot and the mothership, say the mothership sends a series of measurement requests to the robot. The robot makes the measurements and sends them back to the mothership. However, different measurements take different amounts of time, and so the order in which the measurements are sent back may not be the same order in which the requests were made. In order not to confuse the operator at the mothership, we need to associate each response with the corresponding request. This is the idea of <em>threading</em>. The request starts a conversation. Responses can add to the conversation thread.</p>
+<p>To simulate this, we create two measurement requests (<code>m1</code> and <code>m2</code>) on node B, and send the first one:</p>
+<div id="40" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">m1 </span><span class="op">=</span><span class="va"> </span><span class="kw">new</span><span class="va"> RemoteMessageReq(to</span><span class="op">:</span><span class="va"> host(</span><span class="st">'A'</span><span class="va">)</span><span class="op">,</span><span class="va"> data</span><span class="op">:</span><span class="va"> </span><span class="st">'Q1'</span><span class="va">);</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">m2 </span><span class="op">=</span><span class="va"> </span><span class="kw">new</span><span class="va"> RemoteMessageReq(to</span><span class="op">:</span><span class="va"> host(</span><span class="st">'A'</span><span class="va">)</span><span class="op">,</span><span class="va"> data</span><span class="op">:</span><span class="va"> </span><span class="st">'Q2'</span><span class="va">);</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">remote </span><span class="op">&lt;&lt;</span><span class="va"> m1</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>AGREE</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>We receive it on Node A and store it as <code>ntf1</code>:</p>
+<div id="42" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:31 to:232 mimeType:application/octet-stream (2 bytes)]</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  5131</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div id="44" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">ntf1 </span><span class="op">=</span><span class="va"> ntf;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>We send the second one from node B:</p>
+<div id="46" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">remote </span><span class="op">&lt;&lt;</span><span class="va"> m2</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>AGREE</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>and store the corresponding notification on node A as <code>ntf2</code>:</p>
+<div id="48" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:31 to:232 mimeType:application/octet-stream (2 bytes)]</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  5132</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div id="50" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">ntf2 </span><span class="op">=</span><span class="va"> ntf;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>After making both measurements, node A responds with the measurement for <code>m2</code> first:</p>
+<div id="52" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">remote </span><span class="op">&lt;&lt;</span><span class="va"> </span><span class="kw">new</span><span class="va"> RemoteMessageReq(to</span><span class="op">:</span><span class="va"> ntf2.from</span><span class="op">,</span><span class="va"> data</span><span class="op">:</span><span class="va"> </span><span class="st">'A2'</span><span class="op">,</span><span class="va"> inReplyTo</span><span class="op">:</span><span class="va"> ntf2.messageID)</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>AGREE</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>By setting the <code>inReplyTo</code> field to the <code>messageID</code> of the request being responded to, we create a thread. On node B, we receive the corresponding <a href="../api/org/arl/unet/remote/RemoteMessageNtf.html" target="_api"><code>RemoteMessageNtf</code></a> with the measurement:</p>
+<div id="54" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramTransmissionNtf:INFORM[id:019f423a-7e31-777c-cb82-6d47eaf32c89 to:232]</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 to:31 mimeType:application/octet-stream (2 bytes)]</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  4132</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div id="56" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">ntf.inReplyTo</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>019f423a-7e31-777c-cb82-6d47eaf32c89</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">m1.messageID</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>019f423a-765d-73ad-d6f7-4230b9596b39</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">m2.messageID</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>019f423a-7e31-777c-cb82-6d47eaf32c89</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>By comparing the <code>inReplyTo</code> field with the <code>messageID</code> for <code>m1</code> and <code>m2</code>, we see that the <a href="../api/org/arl/unet/remote/RemoteMessageNtf.html" target="_api"><code>RemoteMessageNtf</code></a> just received corresponds to <code>m2</code>.</p>
+<p>A short while later, we send the measurement for <code>m1</code> from node A:</p>
+<div id="58" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">remote </span><span class="op">&lt;&lt;</span><span class="va"> </span><span class="kw">new</span><span class="va"> RemoteMessageReq(to</span><span class="op">:</span><span class="va"> ntf1.from</span><span class="op">,</span><span class="va"> data</span><span class="op">:</span><span class="va"> </span><span class="st">'A1'</span><span class="op">,</span><span class="va"> inReplyTo</span><span class="op">:</span><span class="va"> ntf1.messageID)</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>AGREE</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>and receive it on node B:</p>
+<div id="60" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 to:31 mimeType:application/octet-stream (2 bytes)]</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  4131</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div id="62" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">ntf.inReplyTo</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>019f423a-765d-73ad-d6f7-4230b9596b39</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>We see that it corresponds to the <code>messageID</code> for <code>m1</code>.</p>
+</section>
+<section id="message-classes" class="level3" data-number="8.2.3">
+<h3 data-number="8.2.3" class="anchored" data-anchor-id="message-classes"><span class="header-section-number">8.2.3</span> Message classes</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Premium feature
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>QoS is a premium feature (see <a href="301_stack.html#sec-premium" class="quarto-xref"><span>Section 13.3</span></a>) in UnetStack, and may not be available in the community edition. If unavailable, it is not possible to add user-defined routing rules.</p>
+<p>On UnetStack-compatible modems, you can check if you have the rule-based routing feature available:</p>
+<div id="64" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">caddy </span><span class="op">&lt;&lt;</span><span class="va"> </span><span class="kw">new</span><span class="va"> CapabilityReq(DatagramCapability.PRIORITY)</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>CONFIRM</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>The rule-based routing is part of the QoS prioritization feature suite supported by the agent <code>caddy</code>, and hence we ask <code>caddy</code> if it supports <code>DatagramCapability.PRIORITY</code>. If you see <code>CONFIRM</code> as a response, your modem supports rule-based routing. If you see <code>DISCONFIRM</code> instead, see <a href="301_stack.html#sec-premium" class="quarto-xref"><span>Section 13.3</span></a> for how to enable it.</p>
+</div>
+</div>
+<p>Remote messages can be tagged with a <code>messageClass</code>. This attribute is not used by UnetStack, but is available for user-defined rules to utilize. Let’s take an example application to explore how a rule could use message classes.</p>
+<p>Continuing with the example from previous sections, say our robot transmits two types of status messages every 5 seconds. The first type is small and designed for acoustic transmission in water. The second one is large and is only to be transmitted if we have a WiFi connection to the robot when it is on the surface. Let’s label the small status message with <code>messageClass</code> value of <code>STATUS1</code> and the large status message with <code>STATUS2</code>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Small and large messages
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In practice, the small message may be a few tens of bytes long, and the large message may be perhaps several kilobytes long. For the purposes of this demonstration, however, we will use a 1-byte “short” message and a 2-byte “long” message. The key point to illustrate is that long messages are only sent if the WiFi connection is available, and the exact length of the messages isn’t important to us here.</p>
+</div>
+</div>
+<!-- NOTE: not live because tickers are hard to control timing of -->
+<p>To simulate a WiFi connection between nodes A and B, we set up a UDP link as described in <a href="204_wired.html#sec-udp" class="quarto-xref"><span>Section 7.1</span></a>. On node A:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">container.add </span><span class="st">'udplink'</span><span class="op">,</span><span class="va"> </span><span class="kw">new</span><span class="va"> UdpLink();</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">addroute </span><span class="dv">31</span><span class="op">,</span><span class="va"> </span><span class="dv">31</span><span class="op">,</span><span class="va"> udplink</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>OK</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">addroute </span><span class="dv">31</span><span class="op">,</span><span class="va"> </span><span class="dv">31</span><span class="op">,</span><span class="va"> uwlink</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>OK</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">routes</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    uuid      to nextHop         link reliability hops dataRate metric enabled  auto  poll</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------------------------</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  agwxlp      31      31      udplink        true    1 100000000    8.0    true  true   0.0</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>  1g5xbo      31      31       uwlink        true    1     1962    3.3    true  true   0.0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>and on node B:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">container.add </span><span class="st">'udplink'</span><span class="op">,</span><span class="va"> </span><span class="kw">new</span><span class="va"> UdpLink();</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>We see that the <code>metric</code> for route <code>agwxlp</code> is higher than for route <code>1g5xbo</code>. So the <code>udplink</code> will be selected preferentially when both routes are available. However, if the <code>udplink</code> is disabled because the robot is underwater, then the acoustic link (<code>uwlink</code>) will be used.</p>
+<p>We are now ready to write our rule that <code>STATUS2</code> messages should only be sent if a <code>udplink</code> is available. On node A:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">container.getAgent(caddy).addRule({ msg</span><span class="op">,</span><span class="va"> routes </span><span class="op">-&gt;</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="co">- </span><span class="va">  </span><span class="kw">if</span><span class="va"> (msg.messageClass </span><span class="op">==</span><span class="va"> </span><span class="st">'STATUS2'</span><span class="va">) {</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co">- </span><span class="va">    </span><span class="kw">for</span><span class="va"> (r </span><span class="kw">in</span><span class="va"> routes)</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co">- </span><span class="va">      </span><span class="kw">if</span><span class="va"> (r.link </span><span class="op">==</span><span class="va"> udplink) </span><span class="kw">return</span><span class="va"> r</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="co">- </span><span class="va">  }</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="co">- </span><span class="va">})</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>As noted above, <code>caddy</code> is the agent providing us the rule-based routing functionality. The rule we added checks if the <code>messageClass</code> is <code>STATUS2</code>, and if so, selects the route that uses <code>udplink</code>.</p>
+<p>A rule is a function that takes in 2 arguments – the <a href="../api/org/arl/unet/remote/RemoteMessageReq.html" target="_api"><code>RemoteMessageReq</code></a> being processed, and a <code>List</code> of <a href="../api/org/arl/unet/net/RouteInfo.html" target="_api"><code>RouteInfo</code></a> objects denoting all possible routes for delivering the message (including disabled routes). If the rule decides that a specific route should be used, it returns that <a href="../api/org/arl/unet/net/RouteInfo.html" target="_api"><code>RouteInfo</code></a> object. If not, it returns <code>null</code>. If the returned route is disabled, transmission is deferred until the route becomes enabled again.</p>
+<p>We are now ready to start our <code>TickerBehavior</code> to send out the status messages from node A:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">count </span><span class="op">=</span><span class="va"> </span><span class="dv">0</span><span class="va">;</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">ticker </span><span class="op">=</span><span class="va"> agent.add </span><span class="kw">new</span><span class="va"> TickerBehavior(</span><span class="dv">5000</span><span class="op">,</span><span class="va"> {</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co">- </span><span class="va">  remote </span><span class="op">&lt;&lt;</span><span class="va"> </span><span class="kw">new</span><span class="va"> RemoteMessageReq(to</span><span class="op">:</span><span class="va"> </span><span class="dv">31</span><span class="op">,</span><span class="va"> data</span><span class="op">:</span><span class="va">[count]</span><span class="op">,</span><span class="va"> ttl</span><span class="op">:</span><span class="va">RemoteMessageReq.TTL_MAILBOX</span><span class="op">,</span><span class="va"> mailbox</span><span class="op">:</span><span class="va"> </span><span class="st">'A'</span><span class="op">,</span><span class="va"> messageClass</span><span class="op">:</span><span class="st">'STATUS1'</span><span class="va">)</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co">- </span><span class="va">  remote </span><span class="op">&lt;&lt;</span><span class="va"> </span><span class="kw">new</span><span class="va"> RemoteMessageReq(to</span><span class="op">:</span><span class="va"> </span><span class="dv">31</span><span class="op">,</span><span class="va"> data</span><span class="op">:</span><span class="va">[</span><span class="dv">0</span><span class="op">,</span><span class="va">count]</span><span class="op">,</span><span class="va"> ttl</span><span class="op">:</span><span class="va">RemoteMessageReq.TTL_MAILBOX</span><span class="op">,</span><span class="va"> mailbox</span><span class="op">:</span><span class="va"> </span><span class="st">'B'</span><span class="op">,</span><span class="va"> messageClass</span><span class="op">:</span><span class="st">'STATUS2'</span><span class="va">)</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="co">- </span><span class="va">  count </span><span class="op">=</span><span class="va"> (count </span><span class="op">+</span><span class="va"> </span><span class="dv">1</span><span class="va">) </span><span class="op">%</span><span class="va"> </span><span class="dv">256</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="co">- </span><span class="va">})</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>org.arl.fjage.TickerBehavior@10618b2b</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This starts sending both status messages every 5 seconds. We use <code>TTL_MAILBOX</code> to avoid building up status message backlog if messages are not transmitted in a timely manner (such as when the route isn’t available).</p>
+<p>After a few messages are sent, we disable the route via <code>udplink</code> on node A to simulate the robot diving:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">editroute </span><span class="st">'agwxlp'</span><span class="op">,</span><span class="va"> enabled</span><span class="op">:</span><span class="va"> </span><span class="kw">false</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>OK</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>After a few more status messages, we simulate the robot resurfacing by enabling the route via <code>udplink</code> on node A:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">editroute </span><span class="st">'agwxlp'</span><span class="op">,</span><span class="va"> enabled</span><span class="op">:</span><span class="va"> </span><span class="kw">true</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>OK</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Letting a few more status message be emitted, we stop the status messages and clear our rules:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">ticker.stop()</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">container.getAgent(caddy).clearRules()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Now let’s look at what we received on node B:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 to:31 mimeType:application/octet-stream (1 byte)]</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  00</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 to:31 mimeType:application/octet-stream (2 bytes)]</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  0000</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 to:31 mimeType:application/octet-stream (1 byte)]</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>  01</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 to:31 mimeType:application/octet-stream (2 bytes)]</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>  0001</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 to:31 mimeType:application/octet-stream (1 byte)]</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>  02</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 to:31 mimeType:application/octet-stream (2 bytes)]</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>  0002</span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 to:31 mimeType:application/octet-stream (1 byte)]</span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>  03</span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 to:31 mimeType:application/octet-stream (2 bytes)]</span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>  0003</span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 to:31 mimeType:application/octet-stream (1 byte)]</span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>  04</span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 to:31 mimeType:application/octet-stream (1 byte)]</span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>  05</span>
+<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 to:31 mimeType:application/octet-stream (1 byte)]</span>
+<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>  06</span>
+<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 to:31 mimeType:application/octet-stream (1 byte)]</span>
+<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a>  07</span>
+<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 to:31 mimeType:application/octet-stream (1 byte)]</span>
+<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a>  08</span>
+<span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 to:31 mimeType:application/octet-stream (2 bytes)]</span>
+<span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a>  0008</span>
+<span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 to:31 mimeType:application/octet-stream (1 byte)]</span>
+<span id="cb45-30"><a href="#cb45-30" aria-hidden="true" tabindex="-1"></a>  09</span>
+<span id="cb45-31"><a href="#cb45-31" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 to:31 mimeType:application/octet-stream (2 bytes)]</span>
+<span id="cb45-32"><a href="#cb45-32" aria-hidden="true" tabindex="-1"></a>  0009</span>
+<span id="cb45-33"><a href="#cb45-33" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 to:31 mimeType:application/octet-stream (1 byte)]</span>
+<span id="cb45-34"><a href="#cb45-34" aria-hidden="true" tabindex="-1"></a>  0a</span>
+<span id="cb45-35"><a href="#cb45-35" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 to:31 mimeType:application/octet-stream (2 bytes)]</span>
+<span id="cb45-36"><a href="#cb45-36" aria-hidden="true" tabindex="-1"></a>  000a</span>
+<span id="cb45-37"><a href="#cb45-37" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 to:31 mimeType:application/octet-stream (1 byte)]</span>
+<span id="cb45-38"><a href="#cb45-38" aria-hidden="true" tabindex="-1"></a>  0b</span>
+<span id="cb45-39"><a href="#cb45-39" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 to:31 mimeType:application/octet-stream (2 bytes)]</span>
+<span id="cb45-40"><a href="#cb45-40" aria-hidden="true" tabindex="-1"></a>  000b</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The 1-byte messages are the short status messages and the 2-byte messages are the long status messages. We initially get both messages on node B (counts <code>00</code> through <code>03</code>) when the robot is at the surface. We then only see the short status messages for a while (counts <code>04</code> through <code>07</code>) while the robot is submerged. Finally, we see both status messages again (counts <code>08</code> through <code>0b</code>) as the robot resurfaces.</p>
+<p>This example shows how the <code>messageClass</code> attribute can be used in rules to select routes. In this particular example, we could have used the data length to make the decision instead of tagging the message with a <code>messageClass</code>. However, generally it is a much cleaner and more robust design to tag the message and not rely on its contents for routing decisions.</p>
+</section>
+</section>
+<section id="remote-text-messages" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="remote-text-messages"><span class="header-section-number">8.3</span> Remote text messages</h2>
+<p>Remote text messages are specialized versions of remote messages, and are typically sent using a <a href="../api/org/arl/unet/remote/RemoteTextReq.html" target="_api"><code>RemoteTextReq</code></a> request and delivered using a <a href="../api/org/arl/unet/remote/RemoteTextNtf.html" target="_api"><code>RemoteTextNtf</code></a> message. The MIME type of the remote text message is <code>application/x-chat</code>. When a remote text message is received by a shell, it is displayed as a text message. Remote text messages use a special encoding that uses only 7 bits per character if the message text is ASCII.</p>
+<p>In previous chapters, we have been using <code>tell</code> to send text messages. <code>tell</code> simply sends a <a href="../api/org/arl/unet/remote/RemoteTextReq.html" target="_api"><code>RemoteTextReq</code></a> to the <code>REMOTE</code> service provider.</p>
+<p>Since <a href="../api/org/arl/unet/remote/RemoteTextReq.html" target="_api"><code>RemoteTextReq</code></a> extends a <a href="../api/org/arl/unet/remote/RemoteMessageReq.html" target="_api"><code>RemoteMessageReq</code></a>, all features described above for <a href="../api/org/arl/unet/remote/RemoteMessageReq.html" target="_api"><code>RemoteMessageReq</code></a> also work with <a href="../api/org/arl/unet/remote/RemoteTextReq.html" target="_api"><code>RemoteTextReq</code></a>.</p>
+</section>
+<section id="remote-execution-requests" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="remote-execution-requests"><span class="header-section-number">8.4</span> Remote execution requests</h2>
+<p>Remote execution requests are specialized versions of remote messages, and are typically sent using a <a href="../api/org/arl/unet/remote/RemoteExecReq.html" target="_api"><code>RemoteExecReq</code></a> request. The MIME type of the remote execution request is <code>application/x-command</code>. When a remote execution request is received by a <code>REMOTE</code> service provider, it executes the specified command if remote execution is enabled (and credentials are valid, if the remote agent supports authentication).</p>
+<p>In previous chapters, we have been using <code>rsh</code> to send remote execution requests. <code>rsh</code> simply sends a <a href="../api/org/arl/unet/remote/RemoteExecReq.html" target="_api"><code>RemoteExecReq</code></a> to the <code>REMOTE</code> service provider.</p>
+<p>Since <a href="../api/org/arl/unet/remote/RemoteExecReq.html" target="_api"><code>RemoteExecReq</code></a> extends a <a href="../api/org/arl/unet/remote/RemoteMessageReq.html" target="_api"><code>RemoteMessageReq</code></a>, all features described above for <a href="../api/org/arl/unet/remote/RemoteMessageReq.html" target="_api"><code>RemoteMessageReq</code></a> also work with <a href="../api/org/arl/unet/remote/RemoteExecReq.html" target="_api"><code>RemoteExecReq</code></a>.</p>
+</section>
+<section id="remote-file-transfers" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="remote-file-transfers"><span class="header-section-number">8.5</span> Remote file transfers</h2>
+<p>In <a href="202_small.html" class="quarto-xref"><span>Chapter 5</span></a>, we performed file transfers between nodes using the <code>fget</code> and <code>fput</code> commands. These commands send the <a href="../api/org/arl/unet/remote/RemoteFileGetReq.html" target="_api"><code>RemoteFileGetReq</code></a> and <a href="../api/org/arl/unet/remote/RemoteFilePutReq.html" target="_api"><code>RemoteFilePutReq</code></a> messages to the <code>REMOTE</code> service provider. While the messages are typically meant for file transfer operations, they also support data to be provided and/or delivered as an array of bytes.</p>
+<!-- NOTE: not live because file transfers require special setup of the scripts folder -->
+<p>To demonstrate this, we first enable remote operations on node B:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">remote.enable </span><span class="op">=</span><span class="va"> </span><span class="kw">true</span><span class="va">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Then on node A:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">remote </span><span class="op">&lt;&lt;</span><span class="va"> </span><span class="kw">new</span><span class="va"> RemoteFilePutReq(to</span><span class="op">:</span><span class="va"> </span><span class="dv">31</span><span class="op">,</span><span class="va"> data</span><span class="op">:</span><span class="va"> </span><span class="st">'test'</span><span class="va">.bytes</span><span class="op">,</span><span class="va"> filename</span><span class="op">:</span><span class="va"> </span><span class="st">'t1.txt'</span><span class="va">)</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteSuccessNtf:INFORM[id:019a1a03-25ef-748f-ed3a-3abf31e173ac]</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">remote </span><span class="op">&lt;&lt;</span><span class="va"> </span><span class="kw">new</span><span class="va"> RemoteFileGetReq(to</span><span class="op">:</span><span class="va"> </span><span class="dv">31</span><span class="op">,</span><span class="va"> filename</span><span class="op">:</span><span class="va"> </span><span class="st">'t1.txt'</span><span class="op">,</span><span class="va"> localFilename</span><span class="op">:</span><span class="va"> </span><span class="st">''</span><span class="va">)</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteFileNtf:INFORM[from:31 transferDuration:7.616 (4 bytes)]</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="kw">new</span><span class="va"> String(ntf.data)</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>By setting the <code>data</code> attribute, we specify that we wish to transmit a byte array (and not a local file) and store it into a remote file. By setting the <code>localFilename</code> to an empty string (or equivalently <code>RemoteFileGetReq.NONE</code>), we specify that we wish to retrieve the contents of a remote file as a byte array (and not create a local file). The array is sent to us as <code>data</code> in the <a href="../api/org/arl/unet/remote/RemoteFileNtf.html" target="_api"><code>RemoteFileNtf</code></a>.</p>
+<p>We can delete the file <code>t1.txt</code> that we created on node B for this test:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">file(</span><span class="st">'t1.txt'</span><span class="va">).delete()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Although both datagram transfers and remote file transfers can be used to move data from one node to another, they are quite distinct in terms of semantics and use cases. To understand this more, we highlight key differences:</p>
+<ol type="1">
+<li>Remote file transfers support several transfer modes: local file → remote file, local array → remote file, remote file → local file, remote file → local array. In all cases, the data on the remote node resides in a file, whereas the data on the local node can reside in a file or in a byte array. On the other hand, datagram transfers are always from a local byte array → remote byte array.</li>
+<li>Since remote file transfers access the filesystem on the remote node, they require explicit access control. We have to set <code>remote.enable = true</code> on the remote node (and provide credentials, if the remote agent supports authentication) for file transfers to work. Datagram transfers do not require any special settings or credentials on the remote node.</li>
+<li>Datagram transfers are optimized for small atomic payloads. While datagram transfers of several MB are indeed possible, loss in connectivity for an extended period during the transfer can cause the entire transfer to fail. File transfers are optimized for large payloads and handle temporary loss of connectivity much better.</li>
+<li>Partially transferred files can be written to persistent storage. In case of loss of connectivity, file transfers can be resumed at a later time without the need to restart the transfer from the beginning. It is also possible to synchronize files across nodes by only retrieving the new data in the remote file if the remote file grows over time (common in cases where the file contains streaming sensor data). Datagram transfers are atomic, and cannot be paused and resumed.</li>
+<li>Datagram transfers (remote messages) support many features discussed above (priority, progress notifications, TTL, mailboxes, remote recipients, threaded responses, message class based routing, etc). File transfers do support priority and progress notifications, but not the other features.</li>
+</ol>
+<p>We next demonstrate resumable file transfers by creating a scenario where we have a partially downloaded file locally.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Premium feature
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Resumable file transfers are a premium feature (see <a href="301_stack.html#sec-premium" class="quarto-xref"><span>Section 13.3</span></a>) in UnetStack, and may not be available in the community edition. On UnetStack-compatible modems, the feature is generally available as an optional upgrade.</p>
+</div>
+</div>
+<p>On node B, we create a random file with 10 kB of data:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">x </span><span class="op">=</span><span class="va"> </span><span class="kw">new</span><span class="va"> </span><span class="kw">byte</span><span class="va">[</span><span class="dv">10240</span><span class="va">];</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="kw">new</span><span class="va"> Random(</span><span class="dv">42</span><span class="va">).nextBytes(x);</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">file(</span><span class="st">'f1'</span><span class="va">).bytes </span><span class="op">=</span><span class="va"> x;</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">ls</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>f1 [10 kB]</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>README.md [759 bytes]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>On node A, we create two files with the 9 kB of the same data. These represent partially downloaded versions of the <code>f1</code> file:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">x </span><span class="op">=</span><span class="va"> </span><span class="kw">new</span><span class="va"> </span><span class="kw">byte</span><span class="va">[</span><span class="dv">10240</span><span class="va">];</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="kw">new</span><span class="va"> Random(</span><span class="dv">42</span><span class="va">).nextBytes(x);</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">file(</span><span class="st">'f2'</span><span class="va">).bytes </span><span class="op">=</span><span class="va"> x[</span><span class="dv">0..9216</span><span class="va">];</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">file(</span><span class="st">'f3'</span><span class="va">).bytes </span><span class="op">=</span><span class="va"> x[</span><span class="dv">0..9216</span><span class="va">];</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">ls</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>f2 [9 kB]</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>f3 [9 kB]</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>README.md [759 bytes]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>We will demonstrate resumable file transfers by downloading remote file <code>f1</code> to local file <code>f2</code> without resuming, and to local file <code>f3</code> by resuming the transfer.</p>
+<p>Ensure that node B has <code>remote.enable = true</code>. On node A:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">remote </span><span class="op">&lt;&lt;</span><span class="va"> </span><span class="kw">new</span><span class="va"> RemoteFileGetReq(to</span><span class="op">:</span><span class="va"> </span><span class="dv">31</span><span class="op">,</span><span class="va"> filename</span><span class="op">:</span><span class="va"> </span><span class="st">'f1'</span><span class="op">,</span><span class="va"> localFilename</span><span class="op">:</span><span class="va"> </span><span class="st">'f2'</span><span class="op">,</span><span class="va"> resume</span><span class="op">:</span><span class="va"> </span><span class="kw">false</span><span class="va">)</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>AGREE</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This will initiate the transfer. The transfer will take a couple of minutes (110 seconds, as shown below), and then you will see:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteFileNtf:INFORM[from:31 filename:scripts/f2 transferDuration:109.72]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Since we explicitly requested that the transfer should not be resumed, the whole file was downloaded. We can check the file size to confirm that we have a 10 kB file and verify its contents on node A:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">ls</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>f2 [10 kB]</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>f3 [9 kB]</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>README.md [759 bytes]</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">file(</span><span class="st">'f2'</span><span class="va">).bytes </span><span class="op">==</span><span class="va"> x</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>true</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Now let’s repeat the download, but this time allowing it to be resumed:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">remote </span><span class="op">&lt;&lt;</span><span class="va"> </span><span class="kw">new</span><span class="va"> RemoteFileGetReq(to</span><span class="op">:</span><span class="va"> </span><span class="dv">31</span><span class="op">,</span><span class="va"> filename</span><span class="op">:</span><span class="va"> </span><span class="st">'f1'</span><span class="op">,</span><span class="va"> localFilename</span><span class="op">:</span><span class="va"> </span><span class="st">'f3'</span><span class="va">)</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteFileNtf:INFORM[from:31 filename:scripts/f3 transferDuration:13.936]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>We see that the transfer completes in just 14 seconds! We can again check the file size to confirm that we have a 10 kB file and verify its contents on node A:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">ls</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>f2 [10 kB]</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>f3 [10 kB]</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>README.md [759 bytes]</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">file(</span><span class="st">'f3'</span><span class="va">).bytes </span><span class="op">==</span><span class="va"> x</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>true</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./204_wired.html" class="pagination-link" aria-label="Non-acoustic links">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Non-acoustic links</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./206_api.html" class="pagination-link" aria-label="UnetSockets and gateways">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">UnetSockets and gateways</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

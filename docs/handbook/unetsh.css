@@ -1,0 +1,20 @@
+/*
+  Bold the user's input lines in UnetStack shell transcripts (```unetsh blocks)
+  so they stand out from the shell's output.
+
+  In an unetsh block, command / continuation lines are tokenised into <span>s
+  (every character carries a class — keyword, string, number, operator, comment,
+  the "> "/"- " prompt marker, and plain input text as class "va"), while output
+  lines are emitted as bare text with no inner <span>.  Bolding the token spans
+  therefore bolds whole input lines and leaves output untouched.  The line-wrapper
+  spans carry an id but no class, so span[class] targets only the token spans.
+*/
+pre.sourceCode.unetsh code span[class] {
+  font-weight: bold;
+}
+
+/* plain input text is tagged "va" purely to give it a span to bold; it should
+   keep the normal text colour rather than the theme's variable colour */
+pre.sourceCode.unetsh code span.va {
+  color: inherit;
+}
