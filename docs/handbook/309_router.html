@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>21&nbsp; Routing – UnetStack Handbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./310_rdp.html" rel="next">
+<link href="./308_tuner.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-4c5f10e325026434afc233e7baf6c567.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="unetsh.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./300_services.html">Part III: Agents &amp; Services</a></li><li class="breadcrumb-item"><a href="./309_router.html"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Routing</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">UnetStack Handbook</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part I: Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./101_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./102_quickstart.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting started</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./103_basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">UnetStack basics</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part II: Using UnetStack</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./201_unet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Unet basics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./202_small.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Setting up small networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./203_large.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Routing in larger networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./204_wired.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Non-acoustic links</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./205_qos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data transfers &amp; QoS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./206_api.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">UnetSockets and gateways</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./207_portals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Portals</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./208_wormholes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Wormholes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./209_atc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">AT script engine</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./300_services.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part III: Agents &amp; Services</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./301_stack.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">The default stack</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./302_node.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Node information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./303_addr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Address resolution</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./304_datagram.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Datagram</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./305_phy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Physical</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./306_link.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Link</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./307_mac.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Medium access control</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./308_tuner.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Link tuning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./309_router.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Routing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./310_rdp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Route maintenance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./311_transport.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Transport</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./312_remote.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Remote access</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./313_ranging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Ranging</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./314_doa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Direction of arrival</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./315_bb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Baseband</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./316_device.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Device information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./317_scheduler.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Scheduler</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./318_shell.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Shell</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./319_doc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Documentation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./320_utils.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Utility agents</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./400_dev.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part IV: Develop &amp; Simulate</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./401_agents.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Developing agents</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./402_sim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Simulating networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./403_vao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Virtual acoustic ocean</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A1_porting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">What’s changed since v3?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A2_handshake.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">MySimpleHandshakeMac</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">21.1</span> Overview</a></li>
+  <li><a href="#messages" id="toc-messages" class="nav-link" data-scroll-target="#messages"><span class="header-section-number">21.2</span> Messages</a></li>
+  <li><a href="#anatomy-of-a-route" id="toc-anatomy-of-a-route" class="nav-link" data-scroll-target="#anatomy-of-a-route"><span class="header-section-number">21.3</span> Anatomy of a route</a></li>
+  <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters"><span class="header-section-number">21.4</span> Parameters</a></li>
+  <li><a href="#commands" id="toc-commands" class="nav-link" data-scroll-target="#commands"><span class="header-section-number">21.5</span> Commands</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples"><span class="header-section-number">21.6</span> Examples</a></li>
+  <li><a href="#sec-route-tracing" id="toc-sec-route-tracing" class="nav-link" data-scroll-target="#sec-route-tracing"><span class="header-section-number">21.7</span> Route tracing</a></li>
+  <li><a href="#implementation" id="toc-implementation" class="nav-link" data-scroll-target="#implementation"><span class="header-section-number">21.8</span> Implementation</a>
+  <ul class="collapse">
+  <li><a href="#router-router" id="toc-router-router" class="nav-link" data-scroll-target="#router-router"><span class="header-section-number">21.8.1</span> Router (<code>router</code>)</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./300_services.html">Part III: Agents &amp; Services</a></li><li class="breadcrumb-item"><a href="./309_router.html"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Routing</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-router" class="quarto-section-identifier"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Routing</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><code>org.arl.unet.Services.ROUTING</code></p>
+<section id="overview" class="level2" data-number="21.1">
+<h2 data-number="21.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">21.1</span> Overview</h2>
+<p>In many Unets, not every node can communicate directly with every other node — the network is not fully connected. The <code>ROUTING</code> service delivers datagrams to such distant nodes by forwarding them through intermediate nodes, hop by hop, until they reach their destination.</p>
+<p>A routing agent maintains a <em>routing table</em>: a set of entries that map a destination node to the next-hop neighbor (and the link) that should be used to reach it. When a datagram is sent to the routing agent (as a <a href="../api/org/arl/unet/DatagramReq.html" target="_api"><code>DatagramReq</code></a>, since the agent provides the <code>DATAGRAM</code> service, <a href="304_datagram.html" class="quarto-xref"><span>Chapter 16</span></a>), the agent looks up the destination in its table and forwards the datagram to the appropriate next hop. Each entry also carries a <em>metric</em>, which is used to choose between alternative routes to the same destination; the route with the best metric is preferred.</p>
+<p>Routes can be managed in three ways:</p>
+<ul>
+<li><strong>Statically</strong>, by adding entries manually with an <a href="../api/org/arl/unet/net/EditRouteReq.html" target="_api"><code>EditRouteReq</code></a> (or the <code>addroute</code> command) — useful when the topology is known and fixed.</li>
+<li><strong>Dynamically</strong>, by letting the <code>ROUTE_MAINTENANCE</code> service (<a href="310_rdp.html" class="quarto-xref"><span>Chapter 22</span></a>) discover routes automatically.</li>
+<li><strong>Reactively</strong>, by editing or disabling entries at runtime, for example to prefer a newly available link.</li>
+</ul>
+<p>Routing in larger networks, including static routes, route metrics and multilink routing, is covered with worked examples in <a href="203_large.html" class="quarto-xref"><span>Chapter 6</span></a> and <a href="204_wired.html#sec-udp" class="quarto-xref"><span>Section 7.1</span></a>. The default router is accessed as <code>router</code>.</p>
+</section>
+<section id="messages" class="level2" data-number="21.2">
+<h2 data-number="21.2" class="anchored" data-anchor-id="messages"><span class="header-section-number">21.2</span> Messages</h2>
+<p>Agents providing this service honor the following requests:</p>
+<div id="4" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/net/GetRouteReq.html" target="_api"><code>GetRouteReq</code></a> – query routing table entries</p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 8%">
+<col style="width: 7%">
+<col style="width: 78%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>all</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"><code>false</code></td>
+<td style="text-align: right;">true to get all matching routes (including disabled ones) instead of only the best route</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>to</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>-1</code></td>
+<td style="text-align: right;">destination node address</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>uuid</code></td>
+<td style="text-align: right;"><code>string</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">route ID</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/net/EditRouteReq.html" target="_api"><code>EditRouteReq</code></a> – add, edit or delete a route</p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 30%">
+<col style="width: 11%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>MTU</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>RTU</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>auto</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>dataRate</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>enabled</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>hops</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>link</code></td>
+<td style="text-align: right;"><code>string</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>metric</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>nextHop</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">next-hop neighbor address</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>op</code></td>
+<td style="text-align: right;"><code>RouteInfo.Operation</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>poll</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>reliability</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>to</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">destination node address</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>uuid</code></td>
+<td style="text-align: right;"><code>string</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">route ID (for edit/delete)</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+</div>
+<p>A <a href="../api/org/arl/unet/net/GetRouteReq.html" target="_api"><code>GetRouteReq</code></a> for the best route to a destination is answered with a single <a href="../api/org/arl/unet/net/RouteRsp.html" target="_api"><code>RouteRsp</code></a> (or a <code>REFUSE</code> if no matching route exists). With <code>all</code> set, it is answered with a <em>series</em> of <a href="../api/org/arl/unet/net/RouteRsp.html" target="_api"><code>RouteRsp</code></a> messages — one per matching route — terminated by an <code>AGREE</code> response that marks the end of the list (or a <code>REFUSE</code> if there are none). An <a href="../api/org/arl/unet/net/EditRouteReq.html" target="_api"><code>EditRouteReq</code></a> is answered with an <code>AGREE</code> once the change is made:</p>
+<div id="6" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/net/RouteRsp.html" target="_api"><code>RouteRsp</code></a> – routing table entry (response to <a href="../api/org/arl/unet/net/GetRouteReq.html" target="_api"><code>GetRouteReq</code></a>)</p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>MTU</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>RTU</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>auto</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>dataRate</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>enabled</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>hops</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>link</code></td>
+<td style="text-align: right;"><code>string</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>metric</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>nextHop</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>op</code></td>
+<td style="text-align: right;"><code>enum</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>poll</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>reliability</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>to</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>uuid</code></td>
+<td style="text-align: right;"><code>string</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+</div>
+<p>Changes to the routing table — whether made by request or by route discovery — are announced by publishing the following notification on the agent’s topic, so that interested agents can track the topology as it evolves:</p>
+<div id="8" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/net/RouteChangeNtf.html" target="_api"><code>RouteChangeNtf</code></a> – routing table change notification</p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>MTU</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>RTU</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>auto</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>dataRate</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>enabled</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>hops</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>link</code></td>
+<td style="text-align: right;"><code>string</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>metric</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>nextHop</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>op</code></td>
+<td style="text-align: right;"><code>enum</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>poll</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>reliability</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>to</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>uuid</code></td>
+<td style="text-align: right;"><code>string</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+</div>
+<p>Every routing provider must also honor a <a href="../api/org/arl/unet/net/DatagramTraceReq.html" target="_api"><code>DatagramTraceReq</code></a> — a special <a href="../api/org/arl/unet/DatagramReq.html" target="_api"><code>DatagramReq</code></a> used to trace the path taken to a destination. Because its behaviour is bound up with how the router forwards datagrams, it is documented separately under <a href="#sec-route-tracing" class="quarto-xref"><span>Section 21.7</span></a>.</p>
+<p>If a request is invalid, a <code>REFUSE</code> response may be generated. If the request fails, a <code>FAILURE</code> response may be generated.</p>
+</section>
+<section id="anatomy-of-a-route" class="level2" data-number="21.3">
+<h2 data-number="21.3" class="anchored" data-anchor-id="anatomy-of-a-route"><span class="header-section-number">21.3</span> Anatomy of a route</h2>
+<p>Each entry in the routing table — what you see in the <code>routes</code> listing, set with <code>addroute</code>/<a href="../api/org/arl/unet/net/EditRouteReq.html" target="_api"><code>EditRouteReq</code></a>, and returned in a <a href="../api/org/arl/unet/net/RouteRsp.html" target="_api"><code>RouteRsp</code></a> — is a <a href="../api/org/arl/unet/net/RouteInfo.html" target="_api"><code>RouteInfo</code></a> record. Its fields fall into three groups.</p>
+<p><strong>Where the route goes:</strong></p>
+<ul>
+<li><code>to</code> — the destination node address the route is for. The special destination <code>*</code> (<code>RouteInfo.DEFAULT_ROUTE</code>) is a <em>default route</em>, used for any destination that has no more specific entry.</li>
+<li><code>nextHop</code> — the neighbour to forward to in order to reach <code>to</code>.</li>
+<li><code>link</code> — the link agent (a <code>LINK</code>/<code>DATAGRAM</code> provider, <a href="306_link.html" class="quarto-xref"><span>Chapter 18</span></a>) over which the next hop is reached. On a gateway node with several links, this selects which one carries the traffic.</li>
+<li><code>uuid</code> — a unique identifier assigned to the entry when it is created. Use it to edit, delete or query one specific route (an <a href="../api/org/arl/unet/net/EditRouteReq.html" target="_api"><code>EditRouteReq</code></a>/<a href="../api/org/arl/unet/net/GetRouteReq.html" target="_api"><code>GetRouteReq</code></a> carrying the <code>uuid</code>, or the <code>delroute</code> command).</li>
+</ul>
+<p><strong>How good the route is</strong> — used to choose between alternative routes to the same destination:</p>
+<ul>
+<li><code>metric</code> — the overall quality of the route; <strong>higher is better</strong>. When several enabled routes reach the same destination, the router forwards over the one with the highest metric. By default this rewards higher data rates and penalizes each extra hop (see <em>How it works</em> below); a custom metric closure can replace the policy.</li>
+<li><code>hops</code> — the number of hops to the destination, if known (<code>null</code>/unknown otherwise); recorded as <code>0</code> when unspecified.</li>
+<li><code>dataRate</code> — the link’s data rate in bits per second, if known.</li>
+<li><code>reliability</code> — whether the link delivers reliably (acknowledged).</li>
+<li><code>MTU</code> / <code>RTU</code> — the maximum and recommended transmission units of the link (bytes), which tell higher layers how large a datagram the route can carry, and carry <em>efficiently</em>.</li>
+</ul>
+<p><strong>How the route behaves over time:</strong></p>
+<ul>
+<li><code>enabled</code> — whether the route is currently in use. A disabled route stays in the table but is skipped during forwarding — for example after its link is reported down — until it is re-enabled.</li>
+<li><code>auto</code> — when <code>true</code>, the router enables or disables the route automatically in response to <a href="../api/org/arl/unet/link/LinkStatusNtf.html" target="_api"><code>LinkStatusNtf</code></a> messages (<a href="306_link.html" class="quarto-xref"><span>Chapter 18</span></a>) from the link, so the table follows link up/down events without manual intervention.</li>
+<li><code>poll</code> — how often, in seconds, the router re-checks a disabled route to see whether its link has recovered; <code>0</code> turns polling off.</li>
+<li><code>op</code> — carried only on an <a href="../api/org/arl/unet/net/EditRouteReq.html" target="_api"><code>EditRouteReq</code></a>, naming the change to make: <code>CREATE</code> a new route, <code>CHANGE</code> an existing one (identified by <code>uuid</code>), or <code>DELETE</code> it.</li>
+</ul>
+<p>Putting it together: when a datagram needs forwarding, the router matches its destination against the <code>to</code> of each enabled route (falling back to the default route), picks the best <code>metric</code> among the matches, and sends the datagram to that route’s <code>nextHop</code> over its <code>link</code>. The <code>uuid</code> lets you address a single entry when editing the table, while <code>enabled</code>, <code>auto</code> and <code>poll</code> govern how routes respond to links coming and going.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If a route’s link supports reliable delivery, set the route’s <code>reliability</code> flag so each hop is acknowledged and retransmitted at the <em>link</em> level. Per-hop reliability is far cheaper than end-to-end recovery: a lost fragment is retransmitted across one hop rather than the whole path, so the transport layer (<a href="311_transport.html" class="quarto-xref"><span>Chapter 23</span></a>) rarely needs to step in.</p>
+</div>
+</div>
+</section>
+<section id="parameters" class="level2" data-number="21.4">
+<h2 data-number="21.4" class="anchored" data-anchor-id="parameters"><span class="header-section-number">21.4</span> Parameters</h2>
+<div id="10" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><code>MTU</code> – maximum data transfer size</li>
+<li><code>RTU</code> – recommended data transfer size</li>
+<li><code>auto1hop</code> – automatically assume single hop routes</li>
+<li><code>defaultLink</code> – default link to use</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="commands" class="level2" data-number="21.5">
+<h2 data-number="21.5" class="anchored" data-anchor-id="commands"><span class="header-section-number">21.5</span> Commands</h2>
+<div id="12" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><code>routes</code> – print routing table</p>
+<p>Examples:</p>
+<pre><code>routes              // display routing table
+routes 2            // display routes to node 2
+</code></pre></li>
+<li><p><code>addroute</code> – add a route to the routing table</p>
+<p>Example:</p>
+<pre><code>addroute 27, 29                // add a route to node 27 via node 29
+addroute 27, 29, link2, false  // add route on link2 with no reliability
+addroute to: 27, metric: 3.2   // add route to 27 with metric 3.2
+</code></pre></li>
+<li><p><code>editroute</code> – edit a route in the routing table</p>
+<p>The route UUID can be obtained by displaying the routing table using the ‘routes’ command.</p>
+<p>Example:</p>
+<pre><code>editroute 'as731', metric: 2.1 // edit route to change metric
+editroute 'as731', nextHop: 21 // edit route to change next hop
+</code></pre></li>
+<li><p><code>delroute</code> – delete a route from the routing table</p>
+<p>The route UUID can be obtained by displaying the routing table using the ‘routes’ command.</p>
+<p>Example:</p>
+<pre><code>delroute 'as7623'   // delete route with UUID as7623
+</code></pre></li>
+<li><p><code>delroutesto</code> – delete all routes to specified node from the routing table</p>
+<p>Example:</p>
+<pre><code>delroutesto 27      // delete all routes to node 27
+</code></pre></li>
+<li><p><code>delroutes</code> – delete all routes from the routing table</p>
+<p>Example:</p>
+<pre><code>delroutes           // delete all routes</code></pre></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="examples" class="level2" data-number="21.6">
+<h2 data-number="21.6" class="anchored" data-anchor-id="examples"><span class="header-section-number">21.6</span> Examples</h2>
+<p>Add a static route to a distant node and inspect the routing table. Here node 27 is reachable in two hops via next-hop neighbor 31, so we say so when adding the route (when the hop count is not given, it is recorded as 0, meaning unknown):</p>
+<div id="14" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">addroute to</span><span class="op">:</span><span class="va"> </span><span class="dv">27</span><span class="op">,</span><span class="va"> nextHop</span><span class="op">:</span><span class="va"> </span><span class="dv">31</span><span class="op">,</span><span class="va"> hops</span><span class="op">:</span><span class="va"> </span><span class="dv">2</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>OK</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">routes</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    uuid      to nextHop         link reliability hops dataRate metric enabled  auto  poll</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------------------------</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  7nyi32      27      31       uwlink        true    2      965   -7.0    true  true   0.0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>See <a href="203_large.html" class="quarto-xref"><span>Chapter 6</span></a> for full examples, including multi-hop and multilink routing.</p>
+</section>
+<section id="sec-route-tracing" class="level2" data-number="21.7">
+<h2 data-number="21.7" class="anchored" data-anchor-id="sec-route-tracing"><span class="header-section-number">21.7</span> Route tracing</h2>
+<p>Beyond ordinary datagrams, the router honors a special request — a <a href="../api/org/arl/unet/net/DatagramTraceReq.html" target="_api"><code>DatagramTraceReq</code></a>:</p>
+<div id="16" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/net/DatagramTraceReq.html" target="_api"><code>DatagramTraceReq</code></a> – trace the route taken to a node</p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 14%">
+<col style="width: 12%">
+<col style="width: 52%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>data</code></td>
+<td style="text-align: right;"><code>byte[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>from</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>priority</code></td>
+<td style="text-align: right;"><code>enum</code></td>
+<td style="text-align: right;"><code>NORMAL</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>progress</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"><code>false</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>protocol</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>reliability</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>robustness</code></td>
+<td style="text-align: right;"><code>enum</code></td>
+<td style="text-align: right;"><code>NORMAL</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>route</code></td>
+<td style="text-align: right;"><code>string</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>shortcircuit</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"><code>true</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>to</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;">destination node address to trace to</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>ttl</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>NaN</code></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+</div>
+<p>It is a <a href="../api/org/arl/unet/DatagramReq.html" target="_api"><code>DatagramReq</code></a> subclass that adds no fields of its own — setting its <code>to</code> (the destination) is enough. It acts as a marker that switches the router into a <em>trace-forwarding</em> mode, and is the mechanism behind the user-facing <code>trace</code> command (<a href="310_rdp.html#sec-trace" class="quarto-xref"><span>Section 22.6</span></a>); you do not normally construct one yourself.</p>
+<p>A trace probe is forwarded towards its destination like any other datagram, but with two differences that let it record the path it takes:</p>
+<ol type="1">
+<li><strong>Each node appends its own address</strong> to the datagram before forwarding it, so the probe accumulates the sequence of nodes it has passed through.</li>
+<li><strong>It is never short-circuited</strong>, even on a one-hop route — the router always adds its routing header rather than taking the header-less fast path — so every node on the path, endpoints included, is recorded.</li>
+</ol>
+<p>The route-maintenance agent (<a href="310_rdp.html" class="quarto-xref"><span>Chapter 22</span></a>) is a client of this mechanism: to trace a route, it sends a <a href="../api/org/arl/unet/net/DatagramTraceReq.html" target="_api"><code>DatagramTraceReq</code></a> from the source to the destination and back, then reports the collected hop sequence. See <a href="310_rdp.html#sec-trace" class="quarto-xref"><span>Section 22.6</span></a> for the full <code>trace</code> facility.</p>
+</section>
+<section id="implementation" class="level2" data-number="21.8">
+<h2 data-number="21.8" class="anchored" data-anchor-id="implementation"><span class="header-section-number">21.8</span> Implementation</h2>
+<section id="router-router" class="level3" data-number="21.8.1">
+<h3 data-number="21.8.1" class="anchored" data-anchor-id="router-router"><span class="header-section-number">21.8.1</span> Router (<code>router</code>)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Class</th>
+<th style="text-align: left;">Services</th>
+<th style="text-align: left;">Capabilities</th>
+<th style="text-align: left;">Availability</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>Router</code></td>
+<td style="text-align: left;"><code>ROUTING</code>, <code>DATAGRAM</code></td>
+<td style="text-align: left;"><code>CANCELLATION</code></td>
+<td style="text-align: left;">default stack</td>
+</tr>
+</tbody>
+</table>
+<p>The default implementation is the <strong><code>router</code></strong> agent, loaded as part of the default stack (<a href="301_stack.html" class="quarto-xref"><span>Chapter 13</span></a>). Datagrams sent to it are forwarded towards their destination using the routing table.</p>
+<section id="how-it-works" class="level4" data-number="21.8.1.1">
+<h4 data-number="21.8.1.1" class="anchored" data-anchor-id="how-it-works"><span class="header-section-number">21.8.1.1</span> How it works</h4>
+<p>The router keeps a table of routes, each naming a destination, the next-hop neighbor, the link agent to reach that neighbor, and metrics such as the hop count, the link data rate and whether the link is reliable. When a datagram arrives, the router looks up its destination: if it is this node, the datagram is delivered locally; otherwise it is forwarded to the chosen next hop over the assigned link. When several routes to a destination exist, the router picks one using a metric that, by default, penalizes each additional hop and rewards higher link data rates, so short, fast paths are preferred (a custom metric closure can replace this policy). Two parameters change the table’s behavior in bulk: with <code>auto1hop</code> enabled, the router assumes any address is directly reachable in a single hop over <code>defaultLink</code> (useful in fully connected networks where explicit routes are unnecessary), and with <code>relay</code> enabled, the router forwards traffic on behalf of <em>other</em> nodes rather than only sourcing and sinking its own. Routes are normally populated automatically by the route discovery agent (<a href="310_rdp.html" class="quarto-xref"><span>Chapter 22</span></a>).</p>
+</section>
+<section id="automatic-failover" class="level4" data-number="21.8.1.2">
+<h4 data-number="21.8.1.2" class="anchored" data-anchor-id="automatic-failover"><span class="header-section-number">21.8.1.2</span> Automatic failover</h4>
+<p>Three distinct mechanisms let the routing table follow links as they come and go, without manual intervention:</p>
+<ul>
+<li><strong>Link status tracking</strong> — when a link publishes a <a href="../api/org/arl/unet/link/LinkStatusNtf.html" target="_api"><code>LinkStatusNtf</code></a> (<a href="306_link.html" class="quarto-xref"><span>Chapter 18</span></a>) reporting that connectivity to a neighbor is lost or restored, the router disables or re-enables every route marked <code>auto</code> that uses that link and next hop. Disabled routes stay in the table but are skipped during forwarding, so traffic immediately shifts to the next best enabled route.</li>
+<li><strong>Failure-triggered retry</strong> — if a link reports a <a href="../api/org/arl/unet/DatagramFailureNtf.html" target="_api"><code>DatagramFailureNtf</code></a> for a forwarded datagram, the router selects the best alternative route to the destination <em>excluding</em> the failed link, and silently retransmits the datagram over it. Retries continue for up to <code>retryTimeout</code> seconds (default 30) after the original request, so a transient link failure costs latency rather than a lost datagram. Since end-to-end reliability is only supported on single-hop routes, this retry switches between single-hop alternatives for reliable datagrams.</li>
+<li><strong>Poll-based recovery</strong> — a disabled route with a non-zero <code>poll</code> is re-checked every <code>poll</code> seconds: the router probes the next hop with a small reliable datagram over the route’s link. A successful probe causes the link to report itself up again, re-enabling the route. Links that detect recovery on their own (e.g.&nbsp;through peer advertisements) do not need polling.</li>
+</ul>
+<p>A worked example showing all three mechanisms in action — traffic failing over from a UDP link to an acoustic link and back — is given in <a href="204_wired.html#sec-failover" class="quarto-xref"><span>Section 7.4</span></a>.</p>
+</section>
+<section id="usage-notes" class="level4" data-number="21.8.1.3">
+<h4 data-number="21.8.1.3" class="anchored" data-anchor-id="usage-notes"><span class="header-section-number">21.8.1.3</span> Usage notes</h4>
+<ul>
+<li>For small fixed networks, set up routes by hand (<code>addroute</code>) or enable <code>auto1hop</code>; for larger or changing networks, let <code>rdp</code> discover them (<a href="310_rdp.html" class="quarto-xref"><span>Chapter 22</span></a>).</li>
+<li>Disable <code>relay</code> on leaf nodes that should never forward other nodes’ traffic.</li>
+</ul>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./308_tuner.html" class="pagination-link" aria-label="Link tuning">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Link tuning</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./310_rdp.html" class="pagination-link" aria-label="Route maintenance">
+        <span class="nav-page-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Route maintenance</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

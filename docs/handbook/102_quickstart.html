@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2&nbsp; Getting started – UnetStack Handbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./103_basics.html" rel="next">
+<link href="./101_intro.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-4c5f10e325026434afc233e7baf6c567.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="unetsh.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./101_intro.html">Part I: Foundations</a></li><li class="breadcrumb-item"><a href="./102_quickstart.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting started</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">UnetStack Handbook</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part I: Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./101_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./102_quickstart.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting started</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./103_basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">UnetStack basics</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part II: Using UnetStack</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./201_unet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Unet basics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./202_small.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Setting up small networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./203_large.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Routing in larger networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./204_wired.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Non-acoustic links</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./205_qos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data transfers &amp; QoS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./206_api.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">UnetSockets and gateways</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./207_portals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Portals</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./208_wormholes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Wormholes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./209_atc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">AT script engine</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./300_services.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part III: Agents &amp; Services</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./301_stack.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">The default stack</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./302_node.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Node information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./303_addr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Address resolution</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./304_datagram.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Datagram</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./305_phy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Physical</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./306_link.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Link</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./307_mac.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Medium access control</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./308_tuner.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Link tuning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./309_router.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Routing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./310_rdp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Route maintenance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./311_transport.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Transport</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./312_remote.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Remote access</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./313_ranging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Ranging</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./314_doa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Direction of arrival</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./315_bb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Baseband</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./316_device.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Device information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./317_scheduler.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Scheduler</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./318_shell.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Shell</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./319_doc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Documentation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./320_utils.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Utility agents</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./400_dev.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part IV: Develop &amp; Simulate</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./401_agents.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Developing agents</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./402_sim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Simulating networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./403_vao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Virtual acoustic ocean</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A1_porting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">What’s changed since v3?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A2_handshake.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">MySimpleHandshakeMac</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#setting-up-a-simulated-network" id="toc-setting-up-a-simulated-network" class="nav-link active" data-scroll-target="#setting-up-a-simulated-network"><span class="header-section-number">2.1</span> Setting up a simulated network</a></li>
+  <li><a href="#sec-tx1" id="toc-sec-tx1" class="nav-link" data-scroll-target="#sec-tx1"><span class="header-section-number">2.2</span> Making your first transmission</a></li>
+  <li><a href="#propagation-delay-ranging" id="toc-propagation-delay-ranging" class="nav-link" data-scroll-target="#propagation-delay-ranging"><span class="header-section-number">2.3</span> Propagation delay &amp; ranging</a></li>
+  <li><a href="#sending-receiving-data" id="toc-sending-receiving-data" class="nav-link" data-scroll-target="#sending-receiving-data"><span class="header-section-number">2.4</span> Sending &amp; receiving data</a></li>
+  <li><a href="#interfacing-with-applications" id="toc-interfacing-with-applications" class="nav-link" data-scroll-target="#interfacing-with-applications"><span class="header-section-number">2.5</span> Interfacing with applications</a>
+  <ul class="collapse">
+  <li><a href="#sec-unetsock-intro" id="toc-sec-unetsock-intro" class="nav-link" data-scroll-target="#sec-unetsock-intro"><span class="header-section-number">2.5.1</span> UnetSocket API</a></li>
+  <li><a href="#unetsocket-api-from-python" id="toc-unetsocket-api-from-python" class="nav-link" data-scroll-target="#unetsocket-api-from-python"><span class="header-section-number">2.5.2</span> UnetSocket API from Python</a></li>
+  </ul></li>
+  <li><a href="#working-with-acoustic-modems" id="toc-working-with-acoustic-modems" class="nav-link" data-scroll-target="#working-with-acoustic-modems"><span class="header-section-number">2.6</span> Working with acoustic modems</a></li>
+  <li><a href="#transmitting-recording-acoustic-waveforms" id="toc-transmitting-recording-acoustic-waveforms" class="nav-link" data-scroll-target="#transmitting-recording-acoustic-waveforms"><span class="header-section-number">2.7</span> Transmitting &amp; recording acoustic waveforms</a>
+  <ul class="collapse">
+  <li><a href="#transmitting-a-waveform" id="toc-transmitting-a-waveform" class="nav-link" data-scroll-target="#transmitting-a-waveform"><span class="header-section-number">2.7.1</span> Transmitting a waveform</a></li>
+  <li><a href="#recording-a-waveform" id="toc-recording-a-waveform" class="nav-link" data-scroll-target="#recording-a-waveform"><span class="header-section-number">2.7.2</span> Recording a waveform</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./101_intro.html">Part I: Foundations</a></li><li class="breadcrumb-item"><a href="./102_quickstart.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting started</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-quickstart" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting started</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In this chapter, we will learn how to get UnetStack-compatible acoustic modems to communicate with each other. If you already own a couple of such modems, you can certainly use them to follow along. However, we will use a simulated 2-node underwater network to get going, since all you need for this is a computer and the Unet simulator.</p>
+<section id="setting-up-a-simulated-network" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="setting-up-a-simulated-network"><span class="header-section-number">2.1</span> Setting up a simulated network</h2>
+<p><a href="https://unetstack.net/#downloads">Download</a> UnetStack community edition for your OS and untar/unzip it. Open a terminal window in the simulator’s root folder and start the simulator:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>$ bin/unet samples/2-node-network.groovy</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>2-node network</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>--------------</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>Node A: tcp://localhost:1101, http://localhost:8081/</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>Node B: tcp://localhost:1102, http://localhost:8082/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Windows paths
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you’re using Windows, you may need to use:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>bin\unet samples\2-node-network.groovy</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>Open two web browser windows and key in the two HTTP URLs shown above in each browser. This should give you a command shell for node A and node B in the two browser windows.</p>
+</section>
+<section id="sec-tx1" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="sec-tx1"><span class="header-section-number">2.2</span> Making your first transmission</h2>
+<p>On the command shell for node A, type:</p>
+<div id="6" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">tell </span><span class="dv">0</span><span class="op">,</span><span class="va"> </span><span class="st">'hello!'</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>OK</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>and you should see the message on the command shell for node B:</p>
+<div id="8" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>[232]: hello!</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Congratulations!!!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You have successfully transmitted your first message over the Unet.</p>
+</div>
+</div>
+<p>Address 0 is a broadcast address, so you did not need to explicitly know the address of node B to transmit a message to it. The <code>[232]</code> that you see on node B is the “from” address (of node A). The simulator automatically allocates addresses to each node. You can easily find out the addresses of both nodes (on either node):</p>
+<div id="10" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">host(</span><span class="st">'A'</span><span class="va">)</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>232</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">host(</span><span class="st">'B'</span><span class="va">)</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>31</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>You can try sending a message back from node B to node A. On node B, type:</p>
+<div id="12" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">tell </span><span class="dv">232</span><span class="op">,</span><span class="va"> </span><span class="st">'hello back!'</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>OK</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>and you should see a <code>[31]: hello back!</code> on node A just after a short delay:</p>
+<div id="14" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>[31]: hello back!</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Hostname
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You could have specified the hostname instead of the address when sending the message:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>tell <span class="fu">host</span><span class="op">(</span><span class="st">'A'</span><span class="op">),</span> <span class="st">'hello back!'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="propagation-delay-ranging" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="propagation-delay-ranging"><span class="header-section-number">2.3</span> Propagation delay &amp; ranging</h2>
+<p>In the simulation, nodes A and B are placed 1 km apart. Since the speed of sound in water is about 1500 m/s (exact sound speed depends on temperature, salinity and depth), the signals take about 0.7 s to travel between the simulated nodes. This explains the short delays you see between sending the message from one node and receiving it on the other. You can also make use of this time delay to measure the distance between the nodes!</p>
+<p>On node A, type:</p>
+<div id="16" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">range host(</span><span class="st">'B'</span><span class="va">)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>1003.0697</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>We got an estimate of 1003 m for the range between the nodes.</p>
+</section>
+<section id="sending-receiving-data" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="sending-receiving-data"><span class="header-section-number">2.4</span> Sending &amp; receiving data</h2>
+<p>In <a href="#sec-tx1" class="quarto-xref"><span>Section 2.2</span></a>, we transmitted a text message between nodes, and the result was simply displayed on the shell. Often, we are interested in transmitting arbitrary data (usually represented as an array of bytes). We may also have metadata associated with the transmission to control how the data is delivered. Let’s look at some examples to understand better.</p>
+<p>UnetStack works with parcels of data called <em>datagrams</em>. To transmit a datagram from the shell, we can use a shell command <code>dtx</code>. On node A, type:</p>
+<div id="18" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">dtx </span><span class="dv">0</span><span class="op">,</span><span class="va"> [</span><span class="dv">1</span><span class="op">,</span><span class="dv">2</span><span class="op">,</span><span class="dv">3</span><span class="op">,</span><span class="dv">4</span><span class="op">,</span><span class="dv">5</span><span class="va">]</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramTransmissionNtf:INFORM[id:019f4235-f922-784b-f181-c293257f2508 to:0]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>The <code>dtx 0, [1,2,3,4,5]</code> command requested UnetStack to transmit bytes <code>[1,2,3,4,5]</code> to node address <code>0</code> (broadcast address). The <code>AGREE</code> response told us that UnetStack agreed to do it, and the <a href="../api/org/arl/unet/DatagramTransmissionNtf.html" target="_api"><code>DatagramTransmissionNtf</code></a> shortly after told us that the datagram was transmitted.</p>
+<p>On node B, we should see the received datagram from node <code>232</code>:</p>
+<div id="20" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:232 rxStartTime:3594528707 rssi:-72.6 (5 bytes)]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  0102030405</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>We can attach metadata to the request. For example, we can request a reliable datagram transfer (requiring the receiver to acknowledge receipt of the data) from node A:</p>
+<div id="22" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">dtx </span><span class="dv">31</span><span class="op">,</span><span class="va"> [</span><span class="dv">1</span><span class="op">,</span><span class="dv">2</span><span class="op">,</span><span class="dv">3</span><span class="op">,</span><span class="dv">4</span><span class="op">,</span><span class="dv">5</span><span class="va">]</span><span class="op">,</span><span class="va"> reliability</span><span class="op">:</span><span class="va"> </span><span class="kw">true</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramDeliveryNtf:INFORM[id:019f4236-00a8-7da7-9b47-b374fc893fd9]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>Note that reliability requires us to specify the destination address (in this case <code>31</code>). Broadcast datagrams cannot be reliable, since the destination is unknown (with potentially multiple recipients). The <a href="../api/org/arl/unet/DatagramDeliveryNtf.html" target="_api"><code>DatagramDeliveryNtf</code></a> tells us that the datagram was successfully delivered.</p>
+<p>On node B, we should have received it:</p>
+<div id="24" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>uwlink &gt;&gt; DatagramNtf:INFORM[from:232 to:31 (5 bytes)]</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  0102030405</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Don’t worry about the difference between a <a href="../api/org/arl/unet/phy/RxFrameNtf.html" target="_api"><code>RxFrameNtf</code></a> and <a href="../api/org/arl/unet/DatagramNtf.html" target="_api"><code>DatagramNtf</code></a> for now. <a href="../api/org/arl/unet/phy/RxFrameNtf.html" target="_api"><code>RxFrameNtf</code></a> is simply a subclass of <a href="../api/org/arl/unet/DatagramNtf.html" target="_api"><code>DatagramNtf</code></a> that is used when the data to be delivered is small and does not require acknowledgements or routing.</p>
+</div>
+</div>
+<p>Had we transmitted to a non-existent node (say node <code>32</code>), we would have gotten a <a href="../api/org/arl/unet/DatagramFailureNtf.html" target="_api"><code>DatagramFailureNtf</code></a> after a delivery timeout (you may need to wait for 15 seconds or so for the timeout):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">dtx </span><span class="dv">32</span><span class="op">,</span><span class="va"> [</span><span class="dv">1</span><span class="op">,</span><span class="dv">2</span><span class="op">,</span><span class="dv">3</span><span class="op">,</span><span class="dv">4</span><span class="op">,</span><span class="dv">5</span><span class="va">]</span><span class="op">,</span><span class="va"> reliability</span><span class="op">:</span><span class="va"> </span><span class="kw">true</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; DatagramFailureNtf:INFORM[id:019a01ac-4ad4-7074-a93c-b4d04e4a7bc0]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="interfacing-with-applications" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="interfacing-with-applications"><span class="header-section-number">2.5</span> Interfacing with applications</h2>
+<p>We saw how to send and receive user data from the UnetStack shell. But often, we want to send/receive data from a user application. The application may be a Groovy script running on the modem, or an application running on an external device (such as a laptop connected to the modem). Such applications can interact with UnetStack to send and receive data using a simple <a href="../api/org/arl/unet/api/UnetSocket.html" target="_api"><code>UnetSocket</code></a> API (available in Java, Groovy, Python, Julia, JavaScript and C).</p>
+<section id="sec-unetsock-intro" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="sec-unetsock-intro"><span class="header-section-number">2.5.1</span> UnetSocket API</h3>
+<p>While you could call the <a href="../api/org/arl/unet/api/UnetSocket.html" target="_api"><code>UnetSocket</code></a> API from your application, we will first illustrate its use by using it directly from the UnetStack shell. In the next section, we will look at examples of using <a href="../api/org/arl/unet/api/UnetSocket.html" target="_api"><code>UnetSocket</code></a> from a simple Python application.</p>
+<section id="sending-data" class="level4" data-number="2.5.1.1">
+<h4 data-number="2.5.1.1" class="anchored" data-anchor-id="sending-data"><span class="header-section-number">2.5.1.1</span> Sending data</h4>
+<p>On node A, let’s create a <a href="../api/org/arl/unet/api/UnetSocket.html" target="_api"><code>UnetSocket</code></a> and send some data using it:</p>
+<div id="26" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">s </span><span class="op">=</span><span class="va"> </span><span class="kw">new</span><span class="va"> UnetSocket(</span><span class="kw">this</span><span class="va">);</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">s.send(</span><span class="st">'hello'</span><span class="va">.bytes</span><span class="op">,</span><span class="va"> </span><span class="dv">31</span><span class="va">)</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>true</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>Here, we opened a <a href="../api/org/arl/unet/api/UnetSocket.html" target="_api"><code>UnetSocket</code></a> to the modem hosting the UnetStack shell, and asked it to send the bytes representing the string <code>'hello'</code> to node <code>31</code>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Why the trailing semicolon?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The shell prints the return value of every statement you type. A trailing <code>;</code> suppresses that — without it, the first line above would print the socket object’s details, cluttering the transcript. You will see this idiom throughout the handbook whenever a statement’s return value is uninteresting.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Connecting remotely from an application
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>While we demonstrate the use of the <a href="../api/org/arl/unet/api/UnetSocket.html" target="_api"><code>UnetSocket</code></a> API in Groovy on the command shell, the same commands work in a Groovy or a Java application, with one minor modification. Instead of opening the <a href="../api/org/arl/unet/api/UnetSocket.html" target="_api"><code>UnetSocket</code></a> with <code>this</code> as the argument, we have to specify the IP address of the modem and the API port:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="kw">new</span> <span class="fu">UnetSocket</span><span class="op">(</span><span class="st">'localhost'</span><span class="op">,</span> <span class="dv">1101</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>When the simulator was started, the IP address and API port was displayed (<code>tcp://localhost:1101</code> for node A, and <code>tcp://localhost:1102</code> for node B). In case of a real modem, you would specify the IP address of the modem and port <code>1100</code> (default API port exposed by UnetStack modems).</p>
+</div>
+</div>
+<p>On node B, we would see a notification of incoming data with the 5 bytes representing the transmitted string in ASCII:</p>
+<div id="28" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:232 to:31 rxStartTime:3602228707 rssi:-72.6 (5 bytes)]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  68656c6c6f</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>We could convert the bytes from the last received notification (<code>ntf</code>) into a string:</p>
+<div id="30" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="kw">new</span><span class="va"> String(ntf.data)</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>hello</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>We can add metadata to the datagram by setting some socket properties. For example:</p>
+<div id="32" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">s.mimeType </span><span class="op">=</span><span class="va"> </span><span class="st">'text/plain'</span><span class="va">;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">s.reliability </span><span class="op">=</span><span class="va"> </span><span class="kw">true</span><span class="va">;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">s.priority </span><span class="op">=</span><span class="va"> Priority.HIGH;</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">s.send(</span><span class="st">'hello'</span><span class="va">.bytes</span><span class="op">,</span><span class="va"> </span><span class="dv">31</span><span class="va">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>sends the datagram with MIME type <code>text/plain</code> with <code>HIGH</code> priority and reliability. The <code>send()</code> only returns after the datagram is successfully delivered (or fails). On node B, we see:</p>
+<div id="34" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>caddy &gt;&gt; RemoteMessageNtf:INFORM[from:232 to:31 mimeType:text/plain (5 bytes)]</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  68656c6c6f</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>The datagram was delivered with the metadata that the MIME type is <code>text/plain</code>. Had we used a MIME type of <code>application/x-chat</code>, the data would have been delivered as a text chat message. On node A, typing:</p>
+<div id="36" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">s.mimeType </span><span class="op">=</span><span class="va"> </span><span class="st">'application/x-chat'</span><span class="va">;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>true</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">s.send(</span><span class="st">'hello'</span><span class="va">.bytes</span><span class="op">,</span><span class="va"> </span><span class="dv">31</span><span class="va">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>results in node B seeing the chat message:</p>
+<div id="38" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>[232]: hello</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="receiving-data" class="level4" data-number="2.5.1.2">
+<h4 data-number="2.5.1.2" class="anchored" data-anchor-id="receiving-data"><span class="header-section-number">2.5.1.2</span> Receiving data</h4>
+<p>So far, we have seen how to transmit data, and we saw the received data printed on the UnetStack shell. In practice, we would want our application to receive data through a <a href="../api/org/arl/unet/api/UnetSocket.html" target="_api"><code>UnetSocket</code></a> as well. On node B, let us disable displaying of received datagrams and we will explicitly listen for received data using a <a href="../api/org/arl/unet/api/UnetSocket.html" target="_api"><code>UnetSocket</code></a>:</p>
+<div id="40" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">dshow off</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">s </span><span class="op">=</span><span class="va"> </span><span class="kw">new</span><span class="va"> UnetSocket(</span><span class="kw">this</span><span class="va">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>Now, if we transmit a datagram from node A:</p>
+<div id="42" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">s.mimeType </span><span class="op">=</span><span class="va"> </span><span class="kw">null</span><span class="va">         </span><span class="co">// reset MIME type</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">s.send(</span><span class="st">'hello'</span><span class="va">.bytes</span><span class="op">,</span><span class="va"> </span><span class="dv">31</span><span class="va">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>we will see it received on node B:</p>
+<div id="44" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">rx </span><span class="op">=</span><span class="va"> s.receive()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>We can inspect it further using the variable <code>rx</code> that we stored it in:</p>
+<div id="46" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">rx.data</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">rx.from</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">rx.to</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>By default, the <code>receive()</code> call blocks until data is received. We can make it non-blocking or block only until a timeout by calling <code>s.setTimeout(...)</code> to change the behavior.</p>
+<p>There is a lot more we can do with the <a href="../api/org/arl/unet/api/UnetSocket.html" target="_api"><code>UnetSocket</code></a> API, and we will cover it in detail in <a href="206_api.html" class="quarto-xref"><span>Chapter 9</span></a>.</p>
+</section>
+</section>
+<section id="unetsocket-api-from-python" class="level3" data-number="2.5.2">
+<h3 data-number="2.5.2" class="anchored" data-anchor-id="unetsocket-api-from-python"><span class="header-section-number">2.5.2</span> UnetSocket API from Python</h3>
+<p>UnetStack provides API bindings for many languages (Java, Groovy, Python, Julia, C, JavaScript, etc.). We demonstrate the use of the Python API here, but the usage is quite similar in other languages.</p>
+<p>We’ll assume you have Python 3.x already installed. Let us start by installing the UnetStack Python API bindings:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>$ pip install unetpy</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>We now write <code>tx.py</code> and <code>rx.py</code> scripts to transmit and receive a datagram respectively. We assume that the two-node network from the previous section is still running, with nodes A and B available on <code>localhost</code> API ports <code>1101</code> and <code>1102</code> respectively.</p>
+<p><code>tx.py</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> unetpy <span class="im">import</span> UnetSocket</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> UnetSocket(<span class="st">'localhost'</span>, <span class="dv">1101</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>s.send(<span class="st">'hello!'</span>, <span class="dv">0</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>s.close()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>rx.py</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> unetpy <span class="im">import</span> UnetSocket</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> UnetSocket(<span class="st">'localhost'</span>, <span class="dv">1102</span>)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>rx <span class="op">=</span> s.receive()</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'from node'</span>, rx.from_, <span class="st">':'</span>, <span class="bu">bytearray</span>(rx.data).decode())</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>s.close()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>A Python quirk!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In Python <code>from</code> is a keyword and cannot be used as a field name. We therefore use <code>from_</code> for the source node address.</p>
+</div>
+</div>
+<p>We first run <code>python rx.py</code> to start reception. Then, on a separate terminal window, we run <code>python tx.py</code> to initiate transmission. We should see the received datagram printed by the <code>rx.py</code> script:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>$ python rx.py</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>from node 232 : hello!</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="working-with-acoustic-modems" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="working-with-acoustic-modems"><span class="header-section-number">2.6</span> Working with acoustic modems</h2>
+<p>So far, we have worked with a simulator. While the experience is similar, it is not exactly the same. There is no real substitute for working with real modems. If you happen to have two UnetStack-compatible acoustic modems, you can use them to set up a simple 2-node network. Put them in a water body (tank, bucket, lake, sea, …), power them on, and connect each to a computer over Ethernet. The setup would look something like this:</p>
+<p><img src="media/bucket.png" class="img-fluid"></p>
+<p>On each computer, open a web browser and key in the IP address of the respective modem and click on “Shell”. This should give us a command shell for node A and node B on the two computers.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you only have one computer available, you can connect both modems to the same Ethernet switch and connect to each modem’s IP address in separate browser windows.</p>
+</div>
+</div>
+<p>When working with modems, you may need to adjust the transmit power level to a suitable level for use in the water body that you have the modems in. Too high or too low a power level will not allow the modems to communicate well. The modem transmit power can be adjusted using the <code>plvl</code> command. Type <code>help plvl</code> on the command shell for node A to see examples of how the command is used:</p>
+<div id="48" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">help plvl</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>plvl - get/set TX power level for all PHY channel types</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>Examples:</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a> plvl                       // get all power levels</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a> plvl -10                   // set all power to -10 dB</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a> plvl(-10)                  // alternative syntax</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a> plvl = -10                 // alternative syntax</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>The <code>help</code> command
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The help command is your friend! Just type <code>help</code> to see a list of help topics. Type <code>help</code> followed by a command name, topic or parameter (you’ll learn more about these later) to get help information on that topic.</p>
+</div>
+</div>
+<p>Assuming you have the modems in a bucket, you’ll need a fairly low transmit power. On node A, let us set the transmit power to -50 dB and try a transmission:</p>
+<div id="50" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">plvl -</span><span class="dv">50</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>OK</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">tell </span><span class="dv">0</span><span class="op">,</span><span class="va"> </span><span class="st">'hello!'</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>OK</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Power level settings
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Most UnetStack modems use <code>plvl</code> values in dB, relative to the maximum power level that the modem can transmit at. The maximum power level is therefore <code>plvl 0</code>. A setting of <code>plvl -50</code> asks the modem to transmit at a power level 50 dB lower than the maximum.</p>
+</div>
+</div>
+<p>If all goes well, you should see the message on node B:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span><span class="dv">232</span><span class="op">]:</span> hello<span class="op">!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Of course, you’ll see a different “from” address than the one shown in the example here. It will be the actual address of your modem A. In case you don’t see the message on node B after a few seconds, you may want to adjust the power level up or down and try again.</p>
+<p>All the other examples shown earlier in this chapter will also work with the modems. You’ll just need to replace the <code>localhost</code> with the appropriate modem IP address, and the API port for the modem will usually be <code>1100</code>.</p>
+</section>
+<section id="transmitting-recording-acoustic-waveforms" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="transmitting-recording-acoustic-waveforms"><span class="header-section-number">2.7</span> Transmitting &amp; recording acoustic waveforms</h2>
+<p>So far, we have transmitted and received <em>datagrams</em> — UnetStack took care of modulating the data into an acoustic signal at the transmitter, and demodulating it back into data at the receiver. Sometimes, however, we want full control over the acoustic signal itself: we may wish to transmit an arbitrary waveform (e.g.&nbsp;a tone or a chirp), or to record the raw acoustic signal arriving at the modem. UnetStack-compatible modems that provide the <code>BASEBAND</code> service let us do exactly this. The <code>BASEBAND</code> service is covered in detail in <a href="315_bb.html" class="quarto-xref"><span>Chapter 27</span></a>; here we just get a taste of it.</p>
+<section id="transmitting-a-waveform" class="level3" data-number="2.7.1">
+<h3 data-number="2.7.1" class="anchored" data-anchor-id="transmitting-a-waveform"><span class="header-section-number">2.7.1</span> Transmitting a waveform</h3>
+<p>The <code>bbtx</code> command requests transmission of a baseband signal. For example, to transmit a 20 kHz continuous-wave (CW) tone lasting 0.5 s:</p>
+<div id="52" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">bbtx cw(</span><span class="dv">20000</span><span class="op">,</span><span class="va"> </span><span class="dv">0.5</span><span class="va">)</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>AGREE</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>The <code>cw(frequency, duration)</code> helper generates the baseband samples for a tone, and <code>bbtx</code> transmits them. We can generate and transmit other signals (chirps, modulated waveforms, etc.) in the same way. The signal must be within the frequency band supported by your modem.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Passband signals
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>On a real modem, adding <code>0</code> as a third argument (a carrier frequency of zero) makes <code>cw()</code> generate real <em>passband</em> samples instead, at the modem’s DAC rate. Passband signals are transmitted with the <code>pbtx</code> command:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">pbtx cw(</span><span class="dv">20000</span><span class="op">,</span><span class="va"> </span><span class="dv">0.5</span><span class="op">,</span><span class="va"> </span><span class="dv">0</span><span class="va">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>(The simulated modem has no DAC, so this works only against real hardware. More on baseband and passband signals in <a href="315_bb.html" class="quarto-xref"><span>Chapter 27</span></a>.)</p>
+</div>
+</div>
+<p>Before generating signals, it is useful to know the modem’s baseband parameters — the carrier frequency and the baseband sampling rate:</p>
+<div id="54" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">bb.carrierFrequency</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>24000.0</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">bb.basebandRate</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>24000.0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>Baseband signals are represented as floating-point arrays with alternating real and imaginary (in-phase and quadrature) components in Java/Groovy, or as complex number arrays in Python/Julia.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Why complex baseband?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>An underwater acoustic signal typically occupies a narrow band around its carrier — a few kHz of bandwidth around a carrier of tens of kHz. Sampling the signal directly (at <em>passband</em>) would require a sampling rate of more than twice the highest frequency present. Shifting it down by the carrier frequency to a complex <em>baseband</em> representation lets us sample at just the bandwidth of the signal (Nyquist), needing far fewer samples to represent exactly the same information. This is why modems work with complex baseband signals by default, and why the baseband sampling rate (<code>bb.basebandRate</code>) is much lower than the DAC/ADC rate.</p>
+</div>
+</div>
+</section>
+<section id="recording-a-waveform" class="level3" data-number="2.7.2">
+<h3 data-number="2.7.2" class="anchored" data-anchor-id="recording-a-waveform"><span class="header-section-number">2.7.2</span> Recording a waveform</h3>
+<p>The <code>bbrec</code> command records baseband samples from the modem. To record 12000 baseband samples (0.5 s at 24 kSa/s):</p>
+<div id="56" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">bbrec </span><span class="dv">12000</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxBasebandSignalNtf:INFORM[rxStartTime:2136430021 fc:24000.0 fs:24000.0 (12000 baseband samples)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>The <a href="../api/org/arl/unet/bb/RxBasebandSignalNtf.html" target="_api"><code>RxBasebandSignalNtf</code></a> carries the recorded signal. We can inspect the first few samples via the last received notification (<code>ntf</code>):</p>
+<div id="58" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">ntf.signal[</span><span class="dv">0..7</span><span class="va">]</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>[-0.12953468, 0.08012757, 0.2922955, -0.97627044, 0.16984974, 0.92044944, 0.1269546, -0.9057404]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>The recorded values represent whatever acoustic signal the modem’s hydrophone picked up.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Behind the shell commands
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>bbtx</code> and <code>bbrec</code> commands are convenient shortcuts. Under the hood, they send <a href="../api/org/arl/unet/bb/TxBasebandSignalReq.html" target="_api"><code>TxBasebandSignalReq</code></a> and <a href="../api/org/arl/unet/bb/RecordBasebandSignalReq.html" target="_api"><code>RecordBasebandSignalReq</code></a> messages to the <code>bb</code> agent, which provides the <code>BASEBAND</code> service. In simulation a single agent provides both the <code>BASEBAND</code> and <code>PHYSICAL</code> services, which is why the recording above is reported as <code>phy &gt;&gt;</code> even though the request went to <code>bb</code>. From an application or agent, you can send these messages directly (e.g.&nbsp;via the <a href="../api/org/arl/unet/api/UnetSocket.html" target="_api"><code>UnetSocket</code></a> gateway from a Python or Julia program) to transmit and record arbitrary waveforms programmatically. See <a href="315_bb.html" class="quarto-xref"><span>Chapter 27</span></a> for details.</p>
+</div>
+</div>
+<p>When you are done experimenting, you can stop the simulation with Ctrl-C in the terminal running it, or by typing <code>shutdown</code> in any node’s shell (<a href="318_shell.html" class="quarto-xref"><span>Chapter 30</span></a>).</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./101_intro.html" class="pagination-link" aria-label="Introduction">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./103_basics.html" class="pagination-link" aria-label="UnetStack basics">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">UnetStack basics</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

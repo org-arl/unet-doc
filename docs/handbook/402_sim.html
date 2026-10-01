@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>34&nbsp; Simulating networks – UnetStack Handbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./403_vao.html" rel="next">
+<link href="./401_agents.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-4c5f10e325026434afc233e7baf6c567.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="unetsh.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./400_dev.html">Part IV: Develop &amp; Simulate</a></li><li class="breadcrumb-item"><a href="./402_sim.html"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Simulating networks</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">UnetStack Handbook</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part I: Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./101_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./102_quickstart.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting started</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./103_basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">UnetStack basics</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part II: Using UnetStack</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./201_unet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Unet basics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./202_small.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Setting up small networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./203_large.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Routing in larger networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./204_wired.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Non-acoustic links</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./205_qos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data transfers &amp; QoS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./206_api.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">UnetSockets and gateways</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./207_portals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Portals</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./208_wormholes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Wormholes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./209_atc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">AT script engine</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./300_services.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part III: Agents &amp; Services</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./301_stack.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">The default stack</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./302_node.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Node information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./303_addr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Address resolution</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./304_datagram.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Datagram</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./305_phy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Physical</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./306_link.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Link</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./307_mac.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Medium access control</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./308_tuner.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Link tuning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./309_router.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Routing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./310_rdp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Route maintenance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./311_transport.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Transport</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./312_remote.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Remote access</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./313_ranging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Ranging</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./314_doa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Direction of arrival</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./315_bb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Baseband</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./316_device.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Device information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./317_scheduler.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Scheduler</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./318_shell.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Shell</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./319_doc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Documentation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./320_utils.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Utility agents</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./400_dev.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part IV: Develop &amp; Simulate</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./401_agents.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Developing agents</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./402_sim.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Simulating networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./403_vao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Virtual acoustic ocean</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A1_porting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">What’s changed since v3?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A2_handshake.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">MySimpleHandshakeMac</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#running-a-simulation" id="toc-running-a-simulation" class="nav-link active" data-scroll-target="#running-a-simulation"><span class="header-section-number">34.1</span> Running a simulation</a></li>
+  <li><a href="#anatomy-of-a-simulation-script" id="toc-anatomy-of-a-simulation-script" class="nav-link" data-scroll-target="#anatomy-of-a-simulation-script"><span class="header-section-number">34.2</span> Anatomy of a simulation script</a></li>
+  <li><a href="#geolocating-nodes" id="toc-geolocating-nodes" class="nav-link" data-scroll-target="#geolocating-nodes"><span class="header-section-number">34.3</span> Geolocating nodes</a></li>
+  <li><a href="#node-mobility" id="toc-node-mobility" class="nav-link" data-scroll-target="#node-mobility"><span class="header-section-number">34.4</span> Node mobility</a></li>
+  <li><a href="#discrete-event-simulation" id="toc-discrete-event-simulation" class="nav-link" data-scroll-target="#discrete-event-simulation"><span class="header-section-number">34.5</span> Discrete event simulation</a></li>
+  <li><a href="#logs-traces-and-statistics" id="toc-logs-traces-and-statistics" class="nav-link" data-scroll-target="#logs-traces-and-statistics"><span class="header-section-number">34.6</span> Logs, traces and statistics</a>
+  <ul class="collapse">
+  <li><a href="#sec-tracing" id="toc-sec-tracing" class="nav-link" data-scroll-target="#sec-tracing"><span class="header-section-number">34.6.1</span> Event tracing</a></li>
+  <li><a href="#legacy-nam-trace" id="toc-legacy-nam-trace" class="nav-link" data-scroll-target="#legacy-nam-trace"><span class="header-section-number">34.6.2</span> Legacy NAM trace</a></li>
+  </ul></li>
+  <li><a href="#sec-modem-models" id="toc-sec-modem-models" class="nav-link" data-scroll-target="#sec-modem-models"><span class="header-section-number">34.7</span> Modem models</a></li>
+  <li><a href="#sec-channels" id="toc-sec-channels" class="nav-link" data-scroll-target="#sec-channels"><span class="header-section-number">34.8</span> Channel models</a>
+  <ul class="collapse">
+  <li><a href="#protocol-channel-model" id="toc-protocol-channel-model" class="nav-link" data-scroll-target="#protocol-channel-model"><span class="header-section-number">34.8.1</span> Protocol channel model</a></li>
+  <li><a href="#basic-acoustic-channel-model" id="toc-basic-acoustic-channel-model" class="nav-link" data-scroll-target="#basic-acoustic-channel-model"><span class="header-section-number">34.8.2</span> Basic acoustic channel model</a></li>
+  <li><a href="#experiment-based-channel-models" id="toc-experiment-based-channel-models" class="nav-link" data-scroll-target="#experiment-based-channel-models"><span class="header-section-number">34.8.3</span> Experiment-based channel models</a></li>
+  <li><a href="#http-channel-model" id="toc-http-channel-model" class="nav-link" data-scroll-target="#http-channel-model"><span class="header-section-number">34.8.4</span> HTTP channel model</a></li>
+  <li><a href="#custom-channel-models" id="toc-custom-channel-models" class="nav-link" data-scroll-target="#custom-channel-models"><span class="header-section-number">34.8.5</span> Custom channel models</a></li>
+  </ul></li>
+  <li><a href="#simulating-non-acoustic-links" id="toc-simulating-non-acoustic-links" class="nav-link" data-scroll-target="#simulating-non-acoustic-links"><span class="header-section-number">34.9</span> Simulating non-acoustic links</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./400_dev.html">Part IV: Develop &amp; Simulate</a></li><li class="breadcrumb-item"><a href="./402_sim.html"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Simulating networks</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-sim" class="quarto-section-identifier"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Simulating networks</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>We have used simulations throughout this handbook to demonstrate and test commands, scripts and agents without setting up a real Unet. In this chapter we look at how to write our own simulations — describing the network, running it in realtime or in fast-forwarded discrete-event mode, collecting statistics, and modelling modems and channels.</p>
+<section id="running-a-simulation" class="level2" data-number="34.1">
+<h2 data-number="34.1" class="anchored" data-anchor-id="running-a-simulation"><span class="header-section-number">34.1</span> Running a simulation</h2>
+<p>We have run the 2-node network simulation many times, but how did the simulator know where the nodes were and what agents to run on each? That information lives in the simulation script. Before we study one, let’s recall how a simulation is run.</p>
+<p>A simulation is started from the command line by passing its script to <code>bin/unet</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>$ bin/unet samples/2-node-network.groovy</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>2-node network</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>--------------</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>Node A: tcp://localhost:1101, http://localhost:8081/</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>Node B: tcp://localhost:1102, http://localhost:8082/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The script prints the addresses at which each simulated node can be reached. Open a node’s web interface at its <code>http://</code> URL to access its shell, or connect a command-line shell to its <code>tcp://</code> endpoint. This is a realtime simulation, so it keeps running until you stop it with <code>Ctrl-C</code>.</p>
+<p>Now let’s study <code>2-node-network.groovy</code> to see how it works.</p>
+</section>
+<section id="anatomy-of-a-simulation-script" class="level2" data-number="34.2">
+<h2 data-number="34.2" class="anchored" data-anchor-id="anatomy-of-a-simulation-script"><span class="header-section-number">34.2</span> Anatomy of a simulation script</h2>
+<p>Let’s study <code>2-node-network.groovy</code> in detail:</p>
+<div id="4" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> org<span class="op">.</span>arl<span class="op">.</span>fjage<span class="op">.*</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>println <span class="st">'''</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="st">2-node network</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="st">--------------</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="st">Node A: tcp://localhost:1101, http://localhost:8081/</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="st">Node B: tcp://localhost:1102, http://localhost:8082/</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>platform <span class="op">=</span> RealTimePlatform</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">// run the simulation forever</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>simulate <span class="op">{</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  node <span class="st">'A'</span><span class="op">,</span> location<span class="op">:</span> <span class="op">[</span> <span class="fl">0.</span>km<span class="op">,</span> <span class="fl">0.</span>km<span class="op">,</span> <span class="op">-</span><span class="fl">15.</span>m<span class="op">],</span> web<span class="op">:</span> <span class="dv">8081</span><span class="op">,</span> api<span class="op">:</span> <span class="dv">1101</span><span class="op">,</span> stack<span class="op">:</span> <span class="st">"</span><span class="ss">$home</span><span class="st">/etc/setup"</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  node <span class="st">'B'</span><span class="op">,</span> location<span class="op">:</span> <span class="op">[</span> <span class="fl">1.</span>km<span class="op">,</span> <span class="fl">0.</span>km<span class="op">,</span> <span class="op">-</span><span class="fl">15.</span>m<span class="op">],</span> web<span class="op">:</span> <span class="dv">8082</span><span class="op">,</span> api<span class="op">:</span> <span class="dv">1102</span><span class="op">,</span> stack<span class="op">:</span> <span class="st">"</span><span class="ss">$home</span><span class="st">/etc/setup"</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>The script is simple: it prints some documentation for the user, selects the realtime platform, and defines two nodes. Node attributes — name, location, ports and the stack to load — are given when describing each node.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Seconds, milliseconds or microseconds?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>0.km</code> and <code>-15.m</code> in the node locations above are Groovy syntactic sugar: writing a value with a unit converts it to UnetStack’s preferred unit for that quantity (meters for distance, so <code>1.km</code> → 1000). The same sugar works for time — <code>10.s</code> → 10.0, <code>10.ms</code> → 0.01, <code>1.minute</code> → 60 — because wherever a time or duration can be a <code>float</code>, UnetStack uses seconds as its unit of time.</p>
+<p>Not everywhere, though. Many Java and fjåge APIs (e.g.&nbsp;<code>currentTimeMillis()</code>, <code>WakerBehavior</code>, <code>TickerBehavior</code>) use the <code>long</code> data type for time in milliseconds, and where UnetStack inherits such an API, it has no choice but to stick with milliseconds. Be careful <em>not</em> to write values such as <code>10.ms</code> there — those are really values in seconds.</p>
+<p>The only time values in microseconds are the PHYSICAL service’s <code>time</code> parameter and the <code>txTime</code>/<code>rxTime</code> timestamps it drives (<a href="305_phy.html" class="quarto-xref"><span>Chapter 17</span></a>), a convention inherited by the synchronization <code>offset</code> between node clocks in the RANGING service (<a href="313_ranging.html" class="quarto-xref"><span>Chapter 25</span></a>).</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Simulated node properties
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When defining a node, you can set many properties:</p>
+<ul>
+<li><strong><code>address</code></strong> — node address.</li>
+<li><strong><code>web</code></strong> — TCP/IP port for the web interface (unique per node). By default the web interface is only reachable from the local machine; to expose it, use <code>web: ['0.0.0.0', port]</code>.</li>
+<li><strong><code>shell</code></strong> — <code>true</code> for a console shell (at most one node), or a TCP/IP port number to make the shell reachable over <code>nc</code>/<code>telnet</code>.</li>
+<li><strong><code>api</code></strong> — TCP/IP port for the API (used by the gateway API or fjåge slave containers), unique per node.</li>
+<li><strong><code>location</code></strong> — node location as a 3-tuple (see <a href="302_node.html" class="quarto-xref"><span>Chapter 14</span></a>).</li>
+<li><strong><code>mobility</code></strong> — <code>true</code> for a mobile node, <code>false</code> (default) for a static one.</li>
+<li><strong><code>yaw</code></strong> — initial yaw in degrees, anti-clockwise from east.</li>
+<li><strong><code>stack</code></strong> — filename of a script, or a closure, that loads the agents in the network stack.</li>
+<li><strong><code>model</code></strong> — class providing the <code>NODE_INFO</code> service (default <code>org.arl.unet.nodeinfo.NodeInfo</code>), loaded before the stack is initialized.</li>
+</ul>
+</div>
+</div>
+<p>The <code>stack</code> property points at a script that loads the agents. The default <code>etc/setup.groovy</code> loads the standard stack; a minimal equivalent looks like:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>container<span class="op">.</span><span class="fu">add</span> <span class="st">'arp'</span><span class="op">,</span>       <span class="kw">new</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>addr<span class="op">.</span><span class="fu">AddressResolution</span><span class="op">()</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>container<span class="op">.</span><span class="fu">add</span> <span class="st">'ranging'</span><span class="op">,</span>   <span class="kw">new</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>localization<span class="op">.</span><span class="fu">Ranging</span><span class="op">()</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>container<span class="op">.</span><span class="fu">add</span> <span class="st">'mac'</span><span class="op">,</span>       <span class="kw">new</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>mac<span class="op">.</span><span class="fu">CSMA</span><span class="op">()</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>container<span class="op">.</span><span class="fu">add</span> <span class="st">'uwlink'</span><span class="op">,</span>    <span class="kw">new</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>link<span class="op">.</span><span class="fu">ECLink</span><span class="op">()</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>container<span class="op">.</span><span class="fu">add</span> <span class="st">'router'</span><span class="op">,</span>    <span class="kw">new</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>net<span class="op">.</span><span class="fu">Router</span><span class="op">()</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>container<span class="op">.</span><span class="fu">add</span> <span class="st">'rdp'</span><span class="op">,</span>       <span class="kw">new</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>net<span class="op">.</span><span class="fu">RouteDiscoveryProtocol</span><span class="op">()</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>container<span class="op">.</span><span class="fu">add</span> <span class="st">'caddy'</span><span class="op">,</span>     <span class="kw">new</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>transport<span class="op">.</span><span class="fu">CaddyLite</span><span class="op">()</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>container<span class="op">.</span><span class="fu">add</span> <span class="st">'scheduler'</span><span class="op">,</span> <span class="kw">new</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>scheduler<span class="op">.</span><span class="fu">Scheduler</span><span class="op">()</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>container<span class="op">.</span><span class="fu">add</span> <span class="st">'bbmon'</span><span class="op">,</span>     <span class="kw">new</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>bb<span class="op">.</span><span class="fu">BasebandSignalMonitor</span><span class="op">(</span><span class="kw">new</span> <span class="bu">File</span><span class="op">(</span>home<span class="op">,</span> <span class="st">'logs/signals-0.txt'</span><span class="op">).</span>path<span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>To customize the stack per node, point <code>stack</code> at a different script, or provide a closure inline:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>simulate <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  node <span class="st">'A'</span><span class="op">,</span> location<span class="op">:</span> <span class="op">[</span> <span class="fl">0.</span>km<span class="op">,</span> <span class="fl">0.</span>km<span class="op">,</span> <span class="op">-</span><span class="fl">15.</span>m<span class="op">],</span> web<span class="op">:</span> <span class="dv">8081</span><span class="op">,</span> api<span class="op">:</span> <span class="dv">1101</span><span class="op">,</span> stack<span class="op">:</span> <span class="st">"</span><span class="ss">$home</span><span class="st">/scripts/custom.groovy"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  node <span class="st">'B'</span><span class="op">,</span> location<span class="op">:</span> <span class="op">[</span> <span class="fl">1.</span>km<span class="op">,</span> <span class="fl">0.</span>km<span class="op">,</span> <span class="op">-</span><span class="fl">15.</span>m<span class="op">],</span> web<span class="op">:</span> <span class="dv">8082</span><span class="op">,</span> api<span class="op">:</span> <span class="dv">1102</span><span class="op">,</span> stack<span class="op">:</span> <span class="op">{</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// only load 3 agents on node B</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    container<span class="op">.</span><span class="fu">add</span> <span class="st">'arp'</span><span class="op">,</span>    <span class="kw">new</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>addr<span class="op">.</span><span class="fu">AddressResolution</span><span class="op">()</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    container<span class="op">.</span><span class="fu">add</span> <span class="st">'mac'</span><span class="op">,</span>    <span class="kw">new</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>mac<span class="op">.</span><span class="fu">CSMA</span><span class="op">()</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    container<span class="op">.</span><span class="fu">add</span> <span class="st">'uwlink'</span><span class="op">,</span> <span class="kw">new</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>link<span class="op">.</span><span class="fu">ECLink</span><span class="op">()</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To preload the <code>EchoDaemon</code> we wrote in <a href="401_agents.html" class="quarto-xref"><span>Chapter 33</span></a>, just add <code>container.add 'echo', new EchoDaemon()</code> to a custom stack script or the closure above.</p>
+</div>
+</div>
+</section>
+<section id="geolocating-nodes" class="level2" data-number="34.3">
+<h2 data-number="34.3" class="anchored" data-anchor-id="geolocating-nodes"><span class="header-section-number">34.3</span> Geolocating nodes</h2>
+<p>The 2-node network was not geolocated. Specifying an <code>origin</code> (latitude, longitude) geolocates the network, giving every node a real-world latitude and longitude derived from its local coordinates. The <code>netq-network.groovy</code> script does this:</p>
+<div id="6" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> org<span class="op">.</span>arl<span class="op">.</span>fjage<span class="op">.</span>RealTimePlatform</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>sim<span class="op">.</span>channels<span class="op">.</span>ProtocolChannelModel</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>platform <span class="op">=</span> RealTimePlatform                 <span class="co">// use real-time mode</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>origin <span class="op">=</span> <span class="op">[</span><span class="fl">1.216</span><span class="op">,</span> <span class="fl">103.851</span><span class="op">]</span>                   <span class="co">// applies to all nodes</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>model <span class="op">=</span> ProtocolChannelModel        <span class="co">// deterministic delivery (see channel models)</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>simulate <span class="op">{</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  node <span class="st">'A'</span><span class="op">,</span> location<span class="op">:</span> <span class="op">[</span><span class="fl">121.</span>m<span class="op">,</span>  <span class="fl">137.</span>m<span class="op">,</span> <span class="op">-</span><span class="fl">10.</span>m<span class="op">],</span> web<span class="op">:</span> <span class="dv">8081</span><span class="op">,</span> api<span class="op">:</span> <span class="dv">1101</span><span class="op">,</span> stack<span class="op">:</span> <span class="st">"</span><span class="ss">$home</span><span class="st">/etc/setup"</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  node <span class="st">'B'</span><span class="op">,</span> location<span class="op">:</span> <span class="op">[</span><span class="fl">160.</span>m<span class="op">,</span> <span class="op">-</span><span class="fl">232.</span>m<span class="op">,</span> <span class="op">-</span><span class="fl">15.</span>m<span class="op">],</span> web<span class="op">:</span> <span class="dv">8082</span><span class="op">,</span> api<span class="op">:</span> <span class="dv">1102</span><span class="op">,</span> stack<span class="op">:</span> <span class="st">"</span><span class="ss">$home</span><span class="st">/etc/setup"</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  node <span class="st">'C'</span><span class="op">,</span> location<span class="op">:</span> <span class="op">[</span><span class="fl">651.</span>m<span class="op">,</span>  <span class="fl">140.</span>m<span class="op">,</span>  <span class="op">-</span><span class="fl">5.</span>m<span class="op">],</span> web<span class="op">:</span> <span class="dv">8083</span><span class="op">,</span> api<span class="op">:</span> <span class="dv">1103</span><span class="op">,</span> stack<span class="op">:</span> <span class="st">"</span><span class="ss">$home</span><span class="st">/etc/setup"</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>The three nodes are now geolocated in southern Singapore waters, relative to the specified origin.</p>
+<p>Because the script is just Groovy, you can generate nodes programmatically. The <code>mission2013-network.groovy</code> script iterates over a list of nodes defined in a channel model class:</p>
+<div id="8" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> org<span class="op">.</span>arl<span class="op">.</span>fjage<span class="op">.</span>RealTimePlatform</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>sim<span class="op">.</span>channels<span class="op">.</span>Mission2013a</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>platform <span class="op">=</span> RealTimePlatform</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>channel <span class="op">=</span> <span class="op">[</span> model<span class="op">:</span> Mission2013a <span class="op">]</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>origin <span class="op">=</span> <span class="op">[</span><span class="fl">1.217</span><span class="op">,</span> <span class="fl">103.743</span><span class="op">]</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>simulate <span class="op">{</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  Mission2013a<span class="op">.</span>nodes<span class="op">.</span><span class="fu">each</span> <span class="op">{</span> addr <span class="op">-&gt;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    node <span class="st">"</span><span class="ss">$addr</span><span class="st">"</span><span class="op">,</span> location<span class="op">:</span> Mission2013a<span class="op">.</span>nodeLocation<span class="op">[</span>addr<span class="op">],</span> web<span class="op">:</span> <span class="dv">8000</span><span class="op">+</span>addr<span class="op">,</span> api<span class="op">:</span> <span class="dv">1100</span><span class="op">+</span>addr<span class="op">,</span> stack<span class="op">:</span> <span class="st">"</span><span class="ss">$home</span><span class="st">/etc/setup"</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>The <code>channel</code> property configures the simulated physical channel (see <a href="#sec-channels">Channel models</a>); here it selects <code>Mission2013a</code>, which also carries the channel measurements from that experiment and defines the node list the script iterates over.</p>
+</section>
+<section id="node-mobility" class="level2" data-number="34.4">
+<h2 data-number="34.4" class="anchored" data-anchor-id="node-mobility"><span class="header-section-number">34.4</span> Node mobility</h2>
+<p>Nodes can be mobile (e.g.&nbsp;AUVs). A mobile node is given a motion model:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">// AUV-1 moving in a straight line at constant speed</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="dt">def</span> n1 <span class="op">=</span> node <span class="st">'AUV-1'</span><span class="op">,</span> location<span class="op">:</span> <span class="op">[</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">],</span> mobility<span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>n1<span class="op">.</span>motionModel <span class="op">=</span> <span class="op">[</span>speed<span class="op">:</span> <span class="fl">1.</span>mps<span class="op">,</span> yaw<span class="op">:</span> <span class="fl">30.</span>deg<span class="op">]</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">// AUV-2 moving in a circle (constant speed, constant turn rate)</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="dt">def</span> n2 <span class="op">=</span> node <span class="st">'AUV-2'</span><span class="op">,</span> location<span class="op">:</span> <span class="op">[</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">],</span> mobility<span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>n2<span class="op">.</span>motionModel <span class="op">=</span> <span class="op">[</span>speed<span class="op">:</span> <span class="fl">1.</span>mps<span class="op">,</span> yawRate<span class="op">:</span> <span class="fl">1.</span>dps<span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>More complex motions can be described as a sequence of segments, keyed by absolute <code>time</code> or relative <code>duration</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dt">def</span> n4 <span class="op">=</span> node <span class="st">'AUV-4'</span><span class="op">,</span> location<span class="op">:</span> <span class="op">[-</span><span class="fl">50.</span>m<span class="op">,</span> <span class="op">-</span><span class="fl">50.</span>m<span class="op">,</span> <span class="dv">0</span><span class="op">],</span> mobility<span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>n4<span class="op">.</span>motionModel <span class="op">=</span> <span class="op">[</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="op">[</span>time<span class="op">:</span>     <span class="fl">0.</span>minutes<span class="op">,</span> yaw<span class="op">:</span>     <span class="fl">60.</span>deg<span class="op">,</span> speed<span class="op">:</span>       <span class="fl">1.</span>mps<span class="op">],</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">[</span>time<span class="op">:</span>     <span class="fl">3.</span>minutes<span class="op">,</span> yawRate<span class="op">:</span>  <span class="fl">2.</span>dps<span class="op">,</span> diveRate<span class="op">:</span>  <span class="fl">0.1</span><span class="op">.</span>mps<span class="op">],</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">[</span>time<span class="op">:</span>     <span class="fl">4.</span>minutes<span class="op">,</span> yawRate<span class="op">:</span>  <span class="fl">0.</span>dps<span class="op">,</span> diveRate<span class="op">:</span>    <span class="fl">0.</span>mps<span class="op">],</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">[</span>time<span class="op">:</span>     <span class="fl">7.</span>minutes<span class="op">,</span> yawRate<span class="op">:</span>  <span class="fl">2.</span>dps                    <span class="op">],</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">[</span>time<span class="op">:</span>     <span class="fl">8.</span>minutes<span class="op">,</span> yawRate<span class="op">:</span>  <span class="fl">0.</span>dps                    <span class="op">],</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">[</span>duration<span class="op">:</span> <span class="fl">3.</span>minutes<span class="op">,</span> yawRate<span class="op">:</span>  <span class="fl">2.</span>dps                    <span class="op">],</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="op">[</span>duration<span class="op">:</span> <span class="fl">1.</span>minute<span class="op">,</span>  yawRate<span class="op">:</span>  <span class="fl">0.</span>dps<span class="op">,</span> diveRate<span class="op">:</span> <span class="op">-</span><span class="fl">0.1</span><span class="op">.</span>mps<span class="op">],</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="op">[</span>diveRate<span class="op">:</span> <span class="fl">0.</span>mps<span class="op">]</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The AUV dives to 6 m depth while turning, runs two more turns, then climbs back to the surface. The last segment has no <code>time</code> or <code>duration</code> key — it marks the end of the motion plan, and the node continues indefinitely with those final settings. There are also helpers for common patterns, and motion models can be concatenated with <code>+=</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dt">def</span> n5 <span class="op">=</span> node <span class="st">'AUV-5'</span><span class="op">,</span> location<span class="op">:</span> <span class="op">[-</span><span class="fl">20.</span>m<span class="op">,</span> <span class="op">-</span><span class="fl">150.</span>m<span class="op">,</span> <span class="dv">0</span><span class="op">],</span> yaw<span class="op">:</span> <span class="fl">0.</span>deg<span class="op">,</span> mobility<span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">// dive to depth before starting the survey</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>n5<span class="op">.</span>motionModel <span class="op">=</span> <span class="op">[</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">[</span>duration<span class="op">:</span> <span class="fl">5.</span>minutes<span class="op">,</span> speed<span class="op">:</span> <span class="fl">1.</span>mps<span class="op">,</span> diveRate<span class="op">:</span> <span class="fl">0.1</span><span class="op">.</span>mps<span class="op">],</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="op">[</span>diveRate<span class="op">:</span> <span class="fl">0.</span>mps<span class="op">]</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="op">]</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">// then run a lawnmower survey</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>n5<span class="op">.</span>motionModel <span class="op">+=</span> MotionModel<span class="op">.</span><span class="fu">lawnmower</span><span class="op">(</span>speed<span class="op">:</span> <span class="fl">1.</span>mps<span class="op">,</span> leg<span class="op">:</span> <span class="fl">200.</span>m<span class="op">,</span> spacing<span class="op">:</span> <span class="fl">20.</span>m<span class="op">,</span> legs<span class="op">:</span> <span class="dv">10</span><span class="op">)</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">// finally surface and stop</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>n5<span class="op">.</span>motionModel <span class="op">+=</span> <span class="op">[</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="op">[</span>duration<span class="op">:</span> <span class="fl">5.</span>minutes<span class="op">,</span> speed<span class="op">:</span> <span class="fl">1.</span>mps<span class="op">,</span> diveRate<span class="op">:</span> <span class="op">-</span><span class="fl">0.1</span><span class="op">.</span>mps<span class="op">],</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="op">[</span>diveRate<span class="op">:</span> <span class="fl">0.</span>mps<span class="op">,</span> speed<span class="op">:</span> <span class="fl">0.</span>mps<span class="op">]</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Save such a script and run it with <code>bin/unet</code>; the AUV nodes will move through the network as the simulation progresses.</p>
+</section>
+<section id="discrete-event-simulation" class="level2" data-number="34.5">
+<h2 data-number="34.5" class="anchored" data-anchor-id="discrete-event-simulation"><span class="header-section-number">34.5</span> Discrete event simulation</h2>
+<p>Running in realtime feels just like a real Unet, which is great for interacting through a shell. But as a protocol developer you may need to simulate days or months of operation, perhaps many times over with different settings — impractical in realtime. The simulator can instead run in <em>discrete-event</em> mode, fast-forwarding the waiting time between events to produce hours of simulated time in seconds.</p>
+<p>To illustrate, let’s simulate the classic <a href="https://en.wikipedia.org/wiki/ALOHAnet">ALOHA</a> MAC protocol: transmit a frame as soon as data arrives, regardless of whether anyone else is transmitting. We want to measure <em>throughput</em> (successfully delivered chunks per unit time) as a function of <em>offered load</em> (total chunks generated per unit time). To compare against ALOHA’s well-known theory, the simulation must match its assumptions:</p>
+<ol type="1">
+<li>Arrivals follow a Poisson process.</li>
+<li>Any time overlap between two frames at a receiver causes a collision; both are lost.</li>
+<li>Each node is half-duplex (cannot receive while transmitting).</li>
+<li>No frames are lost to noise or channel effects.</li>
+<li>There is no propagation delay between nodes.</li>
+</ol>
+<p>Assumptions 2 and 4 together are the <em>protocol</em> channel model, selected with <code>channel.model = ProtocolChannelModel</code>. Assumption 3 is the default <code>HalfDuplexModem</code>, but that modem normally <em>defers</em> a transmission to avoid clobbering an ongoing one — which violates the assumption — so we abort any ongoing activity with a <a href="../api/org/arl/unet/ClearReq.html" target="_api"><code>ClearReq</code></a> before transmitting. Assumption 1 is met with a <code>PoissonBehavior</code>, and assumption 5 by placing all nodes at the same location. We normalize load and throughput by making each frame exactly one second long with no overheads:</p>
+<div id="10" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> org<span class="op">.</span>arl<span class="op">.</span>fjage<span class="op">.*</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.*</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>phy<span class="op">.*</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>sim<span class="op">.*</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>sim<span class="op">.</span>channels<span class="op">.*</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>println <span class="st">'''</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="st">Pure ALOHA simulation</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="st">=====================</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="st">TX Count</span><span class="sc">\t</span><span class="st">RX Count</span><span class="sc">\t</span><span class="st">Offered Load</span><span class="sc">\t</span><span class="st">Throughput</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="st">--------</span><span class="sc">\t</span><span class="st">--------</span><span class="sc">\t</span><span class="st">------------</span><span class="sc">\t</span><span class="st">----------'''</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>model <span class="op">=</span> ProtocolChannelModel        <span class="co">// use the protocol channel model</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>modem<span class="op">.</span>dataRate <span class="op">=</span> <span class="op">[</span><span class="dv">2400</span><span class="op">,</span> <span class="dv">2400</span><span class="op">].</span>bps           <span class="co">// arbitrary data rate</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>modem<span class="op">.</span>frameLength <span class="op">=</span> <span class="op">[</span><span class="dv">2400</span><span class="op">/</span><span class="dv">8</span><span class="op">,</span> <span class="dv">2400</span><span class="op">/</span><span class="dv">8</span><span class="op">].</span>bytes  <span class="co">// 1 second worth of data per frame</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>modem<span class="op">.</span>headerLength <span class="op">=</span> <span class="dv">0</span>                      <span class="co">// no header overhead</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>modem<span class="op">.</span>preambleDuration <span class="op">=</span> <span class="dv">0</span>                  <span class="co">// no preamble overhead</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>modem<span class="op">.</span>txDelay <span class="op">=</span> <span class="dv">0</span>                           <span class="co">// no hardware delays</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="dt">def</span> nodes <span class="op">=</span> <span class="fl">1..4</span>                            <span class="co">// 4 nodes</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>trace<span class="op">.</span>warmup <span class="op">=</span> <span class="fl">15.</span>minutes                   <span class="co">// collect statistics after steady state</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">def</span> load <span class="op">=</span> <span class="fl">0.1</span><span class="op">;</span> load <span class="op">&lt;=</span> <span class="fl">1.5</span><span class="op">;</span> load <span class="op">+=</span> <span class="fl">0.1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  simulate <span class="fl">2.</span>hours<span class="op">,</span> <span class="op">{</span>                       <span class="co">// simulate 2 hours of elapsed time</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    nodes<span class="op">.</span><span class="fu">each</span> <span class="op">{</span> myAddr <span class="op">-&gt;</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>      <span class="dt">def</span> myNode <span class="op">=</span> node <span class="st">"</span><span class="ss">${</span>myAddr<span class="ss">}</span><span class="st">"</span><span class="op">,</span> address<span class="op">:</span> myAddr<span class="op">,</span> location<span class="op">:</span> <span class="op">[</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">]</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>      myNode<span class="op">.</span>startup <span class="op">=</span> <span class="op">{</span>                    <span class="co">// startup script run on each node</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>        <span class="dt">def</span> phy <span class="op">=</span> <span class="fu">agentForService</span><span class="op">(</span>Services<span class="op">.</span>PHYSICAL<span class="op">)</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>        <span class="dt">def</span> arrivalRate <span class="op">=</span> load<span class="op">/</span>nodes<span class="op">.</span><span class="fu">size</span><span class="op">()</span> <span class="co">// arrival rate per node</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>        add <span class="kw">new</span> <span class="fu">PoissonBehavior</span><span class="op">((</span><span class="dt">long</span><span class="op">)(</span><span class="dv">1000</span><span class="op">/</span>arrivalRate<span class="op">),</span> <span class="op">{</span>  <span class="co">// avg inter-arrival time (ms)</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>          <span class="dt">def</span> dst <span class="op">=</span> <span class="fu">rnditem</span><span class="op">(</span>nodes<span class="op">-</span>myAddr<span class="op">)</span>   <span class="co">// random destination (excluding self)</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>          phy <span class="op">&lt;&lt;</span> <span class="kw">new</span> <span class="fu">ClearReq</span><span class="op">()</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>          phy <span class="op">&lt;&lt;</span> <span class="kw">new</span> <span class="fu">TxFrameReq</span><span class="op">(</span>to<span class="op">:</span> dst<span class="op">,</span> type<span class="op">:</span> Physical<span class="op">.</span>DATA<span class="op">)</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>        <span class="op">})</span></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>      <span class="op">}</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>  println <span class="fu">sprintf</span><span class="op">(</span><span class="st">'%6d</span><span class="sc">\t\t</span><span class="st">%6d</span><span class="sc">\t\t</span><span class="st">%7.3f</span><span class="sc">\t\t</span><span class="st">%7.3f'</span><span class="op">,</span></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>    <span class="op">[</span>trace<span class="op">.</span>txCount<span class="op">,</span> trace<span class="op">.</span>rxCount<span class="op">,</span> trace<span class="op">.</span>offeredLoad<span class="op">,</span> trace<span class="op">.</span>throughput<span class="op">])</span></span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>The <code>trace</code> object is defined automatically by the simulator and collects common statistics for you; <code>trace.warmup</code> discards an initial transient so we measure steady-state behavior. A copy of this script is available as <code>samples/aloha.groovy</code>. Running it produces a table like:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>TX Count        RX Count        Offered Load    Throughput</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>--------        --------        ------------    ----------</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>   674             522            0.109           0.083</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  1202             863            0.201           0.137</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  1802            1066            0.307           0.169</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  2311            1143            0.406           0.181</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  2847            1187            0.511           0.188</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>   ...</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  6949             470            1.493           0.075</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Fifteen two-hour simulations finish in a couple of minutes, because discrete-event mode is the default when <code>platform</code> is not set to <code>RealTimePlatform</code> (you can set it explicitly with <code>platform = DiscreteEventSimulator</code>). As expected, the maximum throughput of about 0.18 occurs near an offered load of 0.5, matching the theoretical ALOHA curve <code>y = x·exp(−2x)</code>. In fact, this handbook runs the sweep every time it is built — <a href="#fig-aloha" class="quarto-xref">Figure&nbsp;<span>34.1</span></a> plots the simulated points from the table against the theoretical curve:</p>
+<div id="cell-fig-aloha" class="cell" data-execution_count="1">
+<div id="fig-aloha" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="1">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-aloha-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="data:image/png;base64,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" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-aloha-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;34.1: Simulated pure ALOHA throughput vs offered load (4 nodes, 2 simulated hours per point), against the theoretical curve y = x·e^(−2x).
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Random variates use <code>rnditem(list)</code> to pick a random item, <code>rnd(min, max)</code> for a uniform real, and <code>rndint(n)</code> for a uniform integer in <code>0..n-1</code>. These draw from the simulator’s repeatable random source.</p>
+</div>
+</div>
+</section>
+<section id="logs-traces-and-statistics" class="level2" data-number="34.6">
+<h2 data-number="34.6" class="anchored" data-anchor-id="logs-traces-and-statistics"><span class="header-section-number">34.6</span> Logs, traces and statistics</h2>
+<p>A simulation typically produces two outputs: a log file and a trace file.</p>
+<p>The <strong>log file</strong> (<code>logs/log-0.txt</code>) holds detailed text logs from the Java logging framework; your agents and scripts can add to it with <code>log.info()</code> and <code>log.fine()</code>. The timestamp in the first column switches from clock time to discrete-event time when the simulation starts, and back when it ends.</p>
+<section id="sec-tracing" class="level3" data-number="34.6.1">
+<h3 data-number="34.6.1" class="anchored" data-anchor-id="sec-tracing"><span class="header-section-number">34.6.1</span> Event tracing</h3>
+<p>The <strong>trace file</strong> records every event in the network stack. Since UnetStack v3.3, the default is a rich JSON trace (<code>logs/trace.json</code>) capturing, for each event, the time, component (agent and node), a thread ID, the stimulus message and the response message. The thread ID ties together events with a common root cause, even across agents and nodes. Tracing can be enabled on real nodes too (with <code>EventTracer.enable(filename)</code>), and traces from multiple nodes can be combined for analysis. Integrating tracing into your own agents is as simple as wrapping the messages you generate in response to a stimulus:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>send <span class="fu">trace</span><span class="op">(</span>stimulus<span class="op">,</span> <span class="kw">new</span> <span class="fu">DatagramDeliveryNtf</span><span class="op">(</span>stimulus<span class="op">))</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>request <span class="fu">trace</span><span class="op">(</span>stimulus<span class="op">,</span> req<span class="op">),</span> timeout</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If you plan to parse <code>trace.json</code>, its shape is straightforward: the file is one JSON object — a root group named <code>EventTrace</code> with a format <code>version</code> — whose <code>events</code> array contains one nested group per simulation run (or per trace session on a real node), each in turn holding the individual events. An extract:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"version"</span><span class="fu">:</span> <span class="st">"1.0"</span><span class="fu">,</span><span class="dt">"group"</span><span class="fu">:</span><span class="st">"EventTrace"</span><span class="fu">,</span><span class="dt">"events"</span><span class="fu">:</span><span class="ot">[</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span><span class="dt">"group"</span><span class="fu">:</span><span class="st">"SIMULATION 1"</span><span class="fu">,</span><span class="dt">"events"</span><span class="fu">:</span><span class="ot">[</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"time"</span><span class="fu">:</span> <span class="dv">1617877446718</span><span class="fu">,</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"component"</span><span class="fu">:</span> <span class="st">"phy::org.arl.unet.sim.HalfDuplexModem/A"</span><span class="fu">,</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"threadID"</span><span class="fu">:</span> <span class="st">"5cf4e19c-d0d9-4bde-a390-d92bf00e29e3"</span><span class="fu">,</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"stimulus"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"clazz"</span><span class="fu">:</span> <span class="st">"org.arl.unet.phy.TxFrameReq"</span><span class="fu">,</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"messageID"</span><span class="fu">:</span> <span class="st">"5cf4e19c-d0d9-4bde-a390-d92bf00e29e3"</span><span class="fu">,</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"performative"</span><span class="fu">:</span> <span class="st">"REQUEST"</span><span class="fu">,</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"sender"</span><span class="fu">:</span> <span class="st">"websh"</span><span class="fu">,</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"recipient"</span><span class="fu">:</span> <span class="st">"phy"</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"response"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"clazz"</span><span class="fu">:</span> <span class="st">"org.arl.unet.phy.TxFrameNtf"</span><span class="fu">,</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"messageID"</span><span class="fu">:</span> <span class="st">"e9d0f4ff-1c1d-4a26-be34-6b98e51e3462"</span><span class="fu">,</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"performative"</span><span class="fu">:</span> <span class="st">"INFORM"</span><span class="fu">,</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"recipient"</span><span class="fu">:</span> <span class="st">"#phy__ntf"</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a> <span class="ot">]</span><span class="fu">}</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="ot">]</span><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The <code>component</code> field is of the form <code>agent::class/node</code>, and the <code>stimulus</code>/<code>response</code> records identify each message by class, ID, performative and the sending/receiving agents.</p>
+<p>You rarely need to parse the trace yourself, though. The <a href="https://github.com/org-arl/unet-contrib/tree/master/tools/viztrace"><code>viztrace</code> tool</a> turns a trace into sequence diagrams. Run it on a trace file to list the traces it contains — one per root stimulus, with the thread ID doing the work of grouping the resulting events:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>$ julia --project viztrace.jl logs/trace.json</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>Specify a trace:</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>1: 1783326360842 [21] EditRouteReq ⟦ shell → router ⟧ (2 events)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>2: 1783326361446 [21] EditRouteReq ⟦ shell → router ⟧ (2 events)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>3: 1783326362035 [21] GetRouteReq ⟦ shell → router ⟧ (3 events)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>4: 1783326362645 [21] DatagramReq ⟦ shell → router ⟧ (5 events)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>5: 1783326362647 [28] DatagramNtf ⟦  → #org.arl.unet.Topics.DATAGRAM ⟧ (1 events)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>6: 1783326363835 [21] DatagramReq ⟦ shell → router ⟧ (52 events)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>   ⋮</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>then pick a trace to render it as a <a href="https://mermaid.js.org">Mermaid</a> sequence diagram:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>$ julia --project viztrace.jl -t 6 logs/trace.json &gt; trace6.mmd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The diagram below is the (abridged) result for trace 6 above — a datagram from the route-failover example of <a href="204_wired.html#sec-failover" class="quarto-xref"><span>Section 7.4</span></a>, caught in the act of failing over. Reading down the lanes, you can watch the router try the UDP link, receive the failure notification, and quietly retry over the acoustic link, with every agent on both nodes accounted for:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-viztrace" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-viztrace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-viztrace">sequenceDiagram
+  participant shell_21 as shell/21
+  participant router_21 as router/21
+  participant udplink_21 as udplink/21
+  participant uwlink_21 as uwlink/21
+  participant phy_21 as phy/21
+  participant phy_28 as phy/28
+  participant uwlink_28 as uwlink/28
+  shell_21-&gt;&gt;router_21: DatagramReq
+  router_21-&gt;&gt;udplink_21: DatagramReq
+  udplink_21--&gt;&gt;router_21: AGREE
+  router_21--&gt;&gt;shell_21: AGREE
+  udplink_21-&gt;&gt;router_21: DatagramFailureNtf
+  router_21-&gt;&gt;uwlink_21: DatagramReq
+  uwlink_21--&gt;&gt;router_21: AGREE
+  uwlink_21-&gt;&gt;phy_21: TxFrameReq
+  phy_21--&gt;&gt;uwlink_21: AGREE
+  phy_21-&gt;&gt;phy_28: HalfDuplexModem$TX
+  phy_28-&gt;&gt;uwlink_28: RxFrameNtf
+  uwlink_28-&gt;&gt;phy_28: TxFrameReq
+  phy_28-&gt;&gt;phy_21: HalfDuplexModem$TX
+  phy_21-&gt;&gt;uwlink_21: RxFrameNtf
+  uwlink_21-&gt;&gt;router_21: DatagramDeliveryNtf
+  router_21-&gt;&gt;shell_21: DatagramDeliveryNtf
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-viztrace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;34.2: Sequence diagram generated by viztrace from a trace of the route-failover example (abridged — MAC reservation messages and overhearing neighbors elided).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Diagrams like this are invaluable when debugging a protocol: they answer “who sent what to whom, and why” at a glance, across agents and across nodes. (Do not confuse event tracing with the <code>trace</code> shell command, which traces the <em>route</em> a datagram takes through the network, <a href="310_rdp.html#sec-trace" class="quarto-xref"><span>Section 22.6</span></a>.)</p>
+</section>
+<section id="legacy-nam-trace" class="level3" data-number="34.6.2">
+<h3 data-number="34.6.2" class="anchored" data-anchor-id="legacy-nam-trace"><span class="header-section-number">34.6.2</span> Legacy NAM trace</h3>
+<p>A legacy NS2-NAM-style trace can be enabled if you need it:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>trace <span class="op">=</span> <span class="kw">new</span> <span class="fu">NamTracer</span><span class="op">()</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>trace<span class="op">.</span><span class="fu">open</span><span class="op">(</span><span class="kw">new</span> <span class="bu">File</span><span class="op">(</span>home<span class="op">,</span> <span class="st">'logs/trace.nam'</span><span class="op">))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This format logs packet creation (<code>+</code>), transmission (<code>-</code>), reception (<code>r</code>), drops with a reason (<code>d ... -y COLLISION</code>/<code>BAD_FRAME</code>/<code>CLEAR</code>) and node motion (<code>n</code>), and appends a statistics summary per simulation:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a># STATS: q=621, t=621, r=506, d=115, O=0.099, L=0.099, D=0.000, T=0.080</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>where <code>q</code>, <code>t</code>, <code>r</code> and <code>d</code> count the datagrams queued, transmitted, received and dropped, <code>O</code> and <code>L</code> are the offered load and the actual channel load, <code>D</code> is the average packet delay (s), and <code>T</code> the normalized network throughput. Note that the legacy tracer only monitors <code>PHYSICAL</code> service events; for events from other agents, use the JSON trace. You can also write a custom tracer by extending the <code>Tracer</code> class.</p>
+</section>
+</section>
+<section id="sec-modem-models" class="level2" data-number="34.7">
+<h2 data-number="34.7" class="anchored" data-anchor-id="sec-modem-models"><span class="header-section-number">34.7</span> Modem models</h2>
+<p>In a simulated Unet, most agents are identical to those on a real Unet. The exception is the modem: there is no modem in water, so we need an agent that <em>models</em> a real modem’s behavior. The simulator ships with the <code>HalfDuplexModem</code> model, which is the default. You can configure it in the simulation script, either as a map or by assigning properties:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>modem<span class="op">.</span>dataRate <span class="op">=</span> <span class="op">[</span><span class="fl">800.</span>bps<span class="op">,</span> <span class="fl">2400.</span>bps<span class="op">]</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>modem<span class="op">.</span>frameLength <span class="op">=</span> <span class="op">[</span><span class="fl">16.</span>bytes<span class="op">,</span> <span class="fl">64.</span>bytes<span class="op">]</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>modem<span class="op">.</span>powerLevel <span class="op">=</span> <span class="op">[</span><span class="fl">0.</span>dB<span class="op">,</span> <span class="op">-</span><span class="fl">10.</span>dB<span class="op">]</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>modem<span class="op">.</span>preambleDuration <span class="op">=</span> <span class="fl">5.</span>ms</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A different modem model class can be selected with the <code>model</code> property (<code>modem = [ model: MyModemModel, ... ]</code>) — modem vendors may supply models that reproduce their hardware’s behavior more faithfully than the generic <code>HalfDuplexModem</code>. The indexed properties <code>dataRate</code>, <code>frameLength</code>, <code>maxFrameLength</code>, <code>janus</code> and <code>powerLevel</code> are 4-tuples — CONTROL, DATA, AUX and CUSTOM channels respectively (a shorter tuple suffices if the later channels aren’t needed). Key properties and their defaults:</p>
+<ul>
+<li><strong><code>dataRate = [256, 1024, 80, 1024]</code></strong> — link data rate (bps).</li>
+<li><strong><code>frameLength = [18, 128, 8, 0]</code></strong> — default frame length (bytes).</li>
+<li><strong><code>maxFrameLength = [128, 4096, 128, 4096]</code></strong> — maximum frame length (bytes).</li>
+<li><strong><code>janus = [false, false, true, false]</code></strong> — JANUS frame support.</li>
+<li><strong><code>powerLevel = [-10, -10, -10, -10]</code></strong> — transmit power (dB re <code>refPowerLevel</code>).</li>
+<li><strong><code>preambleDuration = 0.02</code></strong> — detection preamble duration (s).</li>
+<li><strong><code>headerLength = 5</code></strong> — frame header length (bytes).</li>
+<li><strong><code>txDelay = 0.05</code></strong> — receive-to-transmit switching delay (s).</li>
+<li><strong><code>timestampLength = 6</code></strong>, <strong><code>timestampedTxDelay = 1.0</code></strong> — bytes consumed by an embedded timestamp, and the lead time (s) needed before a timestamped transmission.</li>
+<li><strong><code>carrierFrequency = 24000</code></strong>, <strong><code>basebandRate = 24000</code></strong> — carrier frequency and baseband sampling rate (Hz).</li>
+<li><strong><code>maxPowerLevel = 0</code></strong>, <strong><code>minPowerLevel = -96</code></strong> — allowed range for <code>powerLevel</code> (dB re <code>refPowerLevel</code>).</li>
+<li><strong><code>refPowerLevel = 185</code></strong> — reference source level (dB re µPa @ 1 m) that all power levels are relative to.</li>
+<li><strong><code>rxSensitivity = -200</code></strong> — receive sensitivity (dB re µPa).</li>
+<li><strong><code>signalPowerLevel = -10</code></strong> — transmit power for baseband signal transmissions (dB re <code>refPowerLevel</code>).</li>
+<li><strong><code>basebandRxDuration = 1.0</code></strong>, <strong><code>maxSignalLength = 65536</code></strong> — default <code>bbrec</code> recording duration (s), and the longest baseband signal accepted for transmission (samples).</li>
+<li><strong><code>usbl = false</code></strong> — emulate a USBL modem: each reception also generates a <a href="../api/org/arl/unet/localization/BearingNtf.html" target="_api"><code>BearingNtf</code></a> with the azimuth and elevation of the transmitter.</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In a realtime simulation with <code>modem.dataRate = [800.bps, 2400.bps]</code>, typing <code>phy[CONTROL].dataRate</code> on a node may show a lower number. The 800 bps is the signaling rate excluding overheads; the reported value is the effective data rate across the whole frame, including preamble and header.</p>
+</div>
+</div>
+<p>A modem model simulates the half-duplex constraint, propagation delay, interference, detection and packet loss — and to do this accurately, it uses a channel model.</p>
+</section>
+<section id="sec-channels" class="level2" data-number="34.8">
+<h2 data-number="34.8" class="anchored" data-anchor-id="sec-channels"><span class="header-section-number">34.8</span> Channel models</h2>
+<p>Channel models implement the <code>ChannelModel</code> interface. The default is the <code>BasicAcousticChannel</code>, but it can be changed in the simulation script.</p>
+<section id="protocol-channel-model" class="level3" data-number="34.8.1">
+<h3 data-number="34.8.1" class="anchored" data-anchor-id="protocol-channel-model"><span class="header-section-number">34.8.1</span> Protocol channel model</h3>
+<p>The <code>ProtocolChannelModel</code> is the simplest model. Despite its simplicity, it captures propagation delay, limited communication range, interference, collisions and the probabilistic nature of the channel — and it is amenable to mathematical analysis. It is parametrized by a sound speed, a communication range <code>Rc</code>, a detection range <code>Rd</code>, an interference range <code>Ri</code>, a detection probability <code>pd</code> and a decoding probability <code>pc</code>. A frame at range <code>R ≤ Rc</code> is successfully received with probability <code>pd × pc</code>; at <code>Rc &lt; R ≤ Rd</code> it may be detected (probability <code>pd</code>) but not decoded; at <code>R ≤ Ri</code> it interferes with (collides with) any concurrent reception; beyond <code>Ri</code> it is neither detected nor interfering. The defaults are:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>sim<span class="op">.</span>channels<span class="op">.*</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>model <span class="op">=</span> ProtocolChannelModel</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>soundSpeed <span class="op">=</span> <span class="fl">1500.</span>mps           <span class="co">// c</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>communicationRange <span class="op">=</span> <span class="fl">2000.</span>m     <span class="co">// Rc</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>detectionRange <span class="op">=</span> <span class="fl">2500.</span>m         <span class="co">// Rd</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>interferenceRange <span class="op">=</span> <span class="fl">3000.</span>m      <span class="co">// Ri</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>pDetection <span class="op">=</span> <span class="dv">1</span>                  <span class="co">// pd</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>pDecoding <span class="op">=</span> <span class="dv">1</span>                   <span class="co">// pc</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="basic-acoustic-channel-model" class="level3" data-number="34.8.2">
+<h3 data-number="34.8.2" class="anchored" data-anchor-id="basic-acoustic-channel-model"><span class="header-section-number">34.8.2</span> Basic acoustic channel model</h3>
+<p>The <code>BasicAcousticChannel</code> is the default, balancing accuracy, applicability and speed. It combines an acoustic model (<code>UrickAcousticModel</code>, average transmission loss) with a communication model (<code>BPSKFadingModel</code>, BPSK in a Rician/Rayleigh fading channel). The acoustic model’s parameters and defaults are:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>sim<span class="op">.</span>channels<span class="op">.*</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>model <span class="op">=</span> BasicAcousticChannel</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>carrierFrequency <span class="op">=</span> <span class="fl">25.</span>kHz       <span class="co">// f</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>bandwidth <span class="op">=</span> <span class="fl">4096.</span>Hz             <span class="co">// B</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>spreading <span class="op">=</span> <span class="dv">2</span>                   <span class="co">// spreading loss factor</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>temperature <span class="op">=</span> <span class="fl">25.</span>C              <span class="co">// water temperature</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>salinity <span class="op">=</span> <span class="fl">35.</span>ppt               <span class="co">// salinity</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>noiseLevel <span class="op">=</span> <span class="fl">60.</span>dB              <span class="co">// noise PSD level</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>waterDepth <span class="op">=</span> <span class="fl">20.</span>m               <span class="co">// water depth</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>From these it computes the sound speed (Mackenzie), transmission loss (Urick) and noise level, giving <code>SNR = SL − TL − NL</code>. The fading model uses this SNR to simulate detection (after pulse-compression gain over the preamble bandwidth-time product) and decoding (simulating per-bit errors under fading); its parameters are:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>ricianK <span class="op">=</span> <span class="dv">10</span>                    <span class="co">// Rician fading parameter (0 = Rayleigh)</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>fastFading <span class="op">=</span> <span class="kw">true</span>               <span class="co">// independent fading per bit if true</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>pfa <span class="op">=</span> <span class="fl">1e-6</span>                      <span class="co">// acceptable false-alarm probability</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>processingGain <span class="op">=</span> <span class="fl">0.</span>dB           <span class="co">// processing gain</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For readers validating simulation results against theory, the model’s arithmetic is worth spelling out. Detection is based on the effective SNR after pulse compression of the preamble, <code>SNR′ = SNR + 10 log₁₀(Bt)</code>, where <code>B</code> is the bandwidth and <code>t</code> the preamble duration; the detection threshold is derived from <code>pfa</code>. Decoding simulates BPSK bit by bit at <code>Eb/N0 = SNR + 10 log₁₀(B/D) + G</code>, where <code>D</code> is the frame’s data rate and <code>G</code> the <code>processingGain</code>, with Rician (or Rayleigh, for <code>ricianK = 0</code>) fading applied — independently per bit when <code>fastFading</code> is on, or as a single fading realization for the whole frame when it is off (slow fading). A single bit error destroys the frame: there is no forward error correction in the model, so FEC gains should be folded into <code>processingGain</code>.</p>
+</section>
+<section id="experiment-based-channel-models" class="level3" data-number="34.8.3">
+<h3 data-number="34.8.3" class="anchored" data-anchor-id="experiment-based-channel-models"><span class="header-section-number">34.8.3</span> Experiment-based channel models</h3>
+<p>Channel models can be more faithful than any first-principles approximation by being built from measurements. The <code>Mission2012a</code>, <code>Mission2013a</code> and <code>Mission2013b</code> models encode per-link detection and decoding probabilities measured during the MISSION 2012 and 2013 sea experiments in Singapore waters. A protocol simulated over one of these models predicts what would have happened had it been tested at sea during that experiment — a good way to benchmark under realistic conditions:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>sim<span class="op">.</span>channels<span class="op">.*</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>model <span class="op">=</span> Mission2012a</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>simulate <span class="op">{</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  Mission2012a<span class="op">.</span>nodes<span class="op">.</span><span class="fu">each</span> <span class="op">{</span> addr <span class="op">-&gt;</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    node <span class="st">"P</span><span class="ss">$addr</span><span class="st">"</span><span class="op">,</span> address<span class="op">:</span> addr<span class="op">,</span> location<span class="op">:</span> Mission2012a<span class="op">.</span>nodeLocation<span class="op">[</span>addr<span class="op">]</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="http-channel-model" class="level3" data-number="34.8.4">
+<h3 data-number="34.8.4" class="anchored" data-anchor-id="http-channel-model"><span class="header-section-number">34.8.4</span> HTTP channel model</h3>
+<p>The <code>HttpChannel</code> model lets you implement a channel model outside the simulator — in a different language, or even on a different machine. It extends the <code>ProtocolChannelModel</code>, retaining its propagation delay, range and collision behavior, but fetches the detection and decoding probabilities for each reception from an external <em>channel server</em> over HTTP:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>sim<span class="op">.</span>channels<span class="op">.*</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>model <span class="op">=</span> HttpChannel</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>ipaddr <span class="op">=</span> <span class="st">'localhost'</span>    <span class="co">// channel server hostname (default)</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>channel<span class="op">.</span>port <span class="op">=</span> <span class="dv">8811</span>             <span class="co">// channel server port (default)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For every reception, the simulator makes a request of the form:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>http://localhost:8811/fidelity/[0.0,0.0,0.0]/[500.0,0.0,0.0]/2/1024/175.0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>with the transmitter location, receiver location, frame type, frame length in bits, and source level (dB re µPa @ 1 m) encoded in the URL path. The channel server responds with two comma-separated numbers — the probability of detection and the probability of decoding for that reception (e.g.&nbsp;<code>0.9,0.8</code>). If the server cannot be contacted, frames are not detected.</p>
+</section>
+<section id="custom-channel-models" class="level3" data-number="34.8.5">
+<h3 data-number="34.8.5" class="anchored" data-anchor-id="custom-channel-models"><span class="header-section-number">34.8.5</span> Custom channel models</h3>
+<p>For special research needs, you can develop your own channel model. Two classes make good starting points.</p>
+<p>The <code>ProtocolChannelModel</code> can be subclassed to provide per-link detection/decoding probabilities — exactly what the mission models do — by overriding <code>getProbabilityDetection(Reception)</code> and <code>getProbabilityDecoding(Reception)</code>. Here is the essence of the MISSION 2012 model: the measured per-link probabilities are tabulated, and the two overrides look them up for each reception. Note the conditional probability in <code>getProbabilityDecoding()</code> — the tables record P(no detect) and P(no detect <em>or</em> no decode), so the probability of decoding <em>given</em> detection is their quotient:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>sim<span class="op">.*</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>sim<span class="op">.</span>channels<span class="op">.</span>ProtocolChannelModel</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Mission2012Channel <span class="kw">extends</span> ProtocolChannelModel <span class="op">{</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  static final <span class="dt">def</span> nodes <span class="op">=</span> <span class="op">[</span><span class="dv">21</span><span class="op">,</span> <span class="dv">22</span><span class="op">,</span> <span class="dv">27</span><span class="op">,</span> <span class="dv">28</span><span class="op">,</span> <span class="dv">29</span><span class="op">]</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  static final <span class="dt">def</span> nodeLocation <span class="op">=</span> <span class="op">[</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="dv">21</span><span class="op">:</span> <span class="op">[</span>   <span class="dv">0</span><span class="op">,</span>    <span class="dv">0</span><span class="op">,</span>  <span class="op">-</span><span class="dv">5</span><span class="op">],</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="dv">22</span><span class="op">:</span> <span class="op">[</span> <span class="dv">398</span><span class="op">,</span> <span class="op">-</span><span class="dv">105</span><span class="op">,</span> <span class="op">-</span><span class="dv">18</span><span class="op">],</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="dv">27</span><span class="op">:</span> <span class="op">[-</span><span class="dv">434</span><span class="op">,</span> <span class="op">-</span><span class="dv">499</span><span class="op">,</span> <span class="op">-</span><span class="dv">12</span><span class="op">],</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="dv">28</span><span class="op">:</span> <span class="op">[</span> <span class="op">-</span><span class="dv">32</span><span class="op">,</span>  <span class="dv">279</span><span class="op">,</span> <span class="op">-</span><span class="dv">20</span><span class="op">],</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    <span class="dv">29</span><span class="op">:</span> <span class="op">[-</span><span class="dv">199</span><span class="op">,</span> <span class="op">-</span><span class="dv">307</span><span class="op">,</span> <span class="op">-</span><span class="dv">12</span><span class="op">]</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  <span class="op">]</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>  static <span class="dt">def</span> pNoDetect <span class="op">=</span> <span class="op">[</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">[</span>    <span class="dv">0</span><span class="op">,</span> <span class="fl">0.047</span><span class="op">,</span> <span class="fl">0.095</span><span class="op">,</span> <span class="fl">0.026</span><span class="op">,</span> <span class="fl">0.056</span><span class="op">],</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">[</span><span class="fl">0.032</span><span class="op">,</span>     <span class="dv">0</span><span class="op">,</span> <span class="fl">0.228</span><span class="op">,</span> <span class="fl">0.139</span><span class="op">,</span> <span class="fl">0.081</span><span class="op">],</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">[</span><span class="fl">0.047</span><span class="op">,</span> <span class="fl">0.174</span><span class="op">,</span>     <span class="dv">0</span><span class="op">,</span> <span class="fl">0.025</span><span class="op">,</span> <span class="fl">0.011</span><span class="op">],</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">[</span><span class="fl">0.019</span><span class="op">,</span> <span class="fl">0.060</span><span class="op">,</span> <span class="fl">0.040</span><span class="op">,</span>     <span class="dv">0</span><span class="op">,</span> <span class="fl">0.420</span><span class="op">],</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">[</span><span class="fl">0.026</span><span class="op">,</span> <span class="fl">0.018</span><span class="op">,</span> <span class="fl">0.009</span><span class="op">,</span> <span class="fl">0.048</span><span class="op">,</span>     <span class="dv">0</span><span class="op">]</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>  <span class="op">]</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>  static <span class="dt">def</span> pNoDetectOrDecode <span class="op">=</span> <span class="op">[</span></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">[</span>    <span class="dv">0</span><span class="op">,</span> <span class="fl">0.157</span><span class="op">,</span> <span class="fl">0.643</span><span class="op">,</span> <span class="fl">0.197</span><span class="op">,</span> <span class="fl">0.239</span><span class="op">],</span></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>    <span class="op">[</span><span class="fl">0.184</span><span class="op">,</span>     <span class="dv">0</span><span class="op">,</span> <span class="fl">0.870</span><span class="op">,</span> <span class="fl">0.639</span><span class="op">,</span> <span class="fl">0.435</span><span class="op">],</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>    <span class="op">[</span><span class="fl">0.326</span><span class="op">,</span> <span class="fl">0.826</span><span class="op">,</span>     <span class="dv">0</span><span class="op">,</span> <span class="fl">0.975</span><span class="op">,</span> <span class="fl">0.023</span><span class="op">],</span></span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>    <span class="op">[</span><span class="fl">0.038</span><span class="op">,</span> <span class="fl">0.160</span><span class="op">,</span> <span class="fl">0.760</span><span class="op">,</span>     <span class="dv">0</span><span class="op">,</span> <span class="fl">0.900</span><span class="op">],</span></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>    <span class="op">[</span><span class="fl">0.070</span><span class="op">,</span> <span class="fl">0.070</span><span class="op">,</span> <span class="fl">0.018</span><span class="op">,</span> <span class="fl">0.871</span><span class="op">,</span>     <span class="dv">0</span><span class="op">]</span></span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>  <span class="op">]</span></span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> <span class="fu">getProbabilityDetection</span><span class="op">(</span>Reception rx<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> from <span class="op">=</span> nodes<span class="op">.</span><span class="fu">indexOf</span><span class="op">(</span>rx<span class="op">.</span>from<span class="op">)</span></span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> to <span class="op">=</span> nodes<span class="op">.</span><span class="fu">indexOf</span><span class="op">(</span>rx<span class="op">.</span>address<span class="op">)</span></span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>from <span class="op">&lt;</span> <span class="dv">0</span> <span class="op">||</span> to <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> <span class="cf">return</span> <span class="dv">0</span></span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">1</span> <span class="op">-</span> pNoDetect<span class="op">[</span>from<span class="op">][</span>to<span class="op">]</span></span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> <span class="fu">getProbabilityDecoding</span><span class="op">(</span>Reception rx<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> from <span class="op">=</span> nodes<span class="op">.</span><span class="fu">indexOf</span><span class="op">(</span>rx<span class="op">.</span>from<span class="op">)</span></span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> to <span class="op">=</span> nodes<span class="op">.</span><span class="fu">indexOf</span><span class="op">(</span>rx<span class="op">.</span>address<span class="op">)</span></span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>from <span class="op">&lt;</span> <span class="dv">0</span> <span class="op">||</span> to <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> <span class="cf">return</span> <span class="dv">0</span></span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">(</span><span class="dv">1</span> <span class="op">-</span> pNoDetectOrDecode<span class="op">[</span>from<span class="op">][</span>to<span class="op">])</span> <span class="st">/ (1 - pNoDetect[from][to])</span></span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The <code>AbstractAcousticChannel</code> framework (which <code>BasicAcousticChannel</code> builds on) lets you extend or replace the acoustic and communication models — the default channel is nothing more than a pairing of the two:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BasicAcousticChannel <span class="kw">extends</span> AbstractAcousticChannel <span class="op">{</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  @Delegate UrickAcousticModel acoustics <span class="op">=</span> <span class="kw">new</span> <span class="fu">UrickAcousticModel</span><span class="op">(</span><span class="kw">this</span><span class="op">)</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  @Delegate BPSKFadingModel comms <span class="op">=</span> <span class="kw">new</span> <span class="fu">BPSKFadingModel</span><span class="op">(</span><span class="kw">this</span><span class="op">)</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For example, to make noise power depend on sea state, extend <code>UrickAcousticModel</code> with a <code>seaState</code> parameter and override <code>getNoisePower()</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>sim<span class="op">.</span>channels<span class="op">.*</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyAcousticModel <span class="kw">extends</span> UrickAcousticModel <span class="op">{</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">MyAcousticModel</span><span class="op">(</span>AbstractAcousticChannel parent<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">(</span>parent<span class="op">)</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">// map of sea state to noise power spectral density (dB re µPa²/Hz)</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  final <span class="dt">def</span> noiseLevel <span class="op">=</span> <span class="op">[</span> <span class="dv">0</span><span class="op">:</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">1</span><span class="op">:</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">2</span><span class="op">:</span> <span class="dv">35</span><span class="op">,</span> <span class="dv">3</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">4</span><span class="op">:</span> <span class="dv">42</span><span class="op">,</span> <span class="dv">5</span><span class="op">:</span> <span class="dv">44</span><span class="op">,</span> <span class="dv">6</span><span class="op">:</span> <span class="dv">46</span> <span class="op">]</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">// sea state parameter, settable from the simulation script</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> seaState <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>  @Override</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">double</span> <span class="fu">getNoisePower</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span><span class="op">(</span><span class="dv">10</span><span class="op">,</span> noiseLevel<span class="op">[</span>seaState<span class="op">]</span><span class="st">/10) * model.bandwidth</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>and pair your model with the standard communication model in an <code>AbstractAcousticChannel</code> subclass:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>sim<span class="op">.</span>channels<span class="op">.*</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyAcousticChannel <span class="kw">extends</span> AbstractAcousticChannel <span class="op">{</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  @Delegate UrickAcousticModel acoustics <span class="op">=</span> <span class="kw">new</span> <span class="fu">MyAcousticModel</span><span class="op">(</span><span class="kw">this</span><span class="op">)</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  @Delegate BPSKFadingModel comms <span class="op">=</span> <span class="kw">new</span> <span class="fu">BPSKFadingModel</span><span class="op">(</span><span class="kw">this</span><span class="op">)</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Selecting <code>channel.model = MyAcousticChannel</code> in the simulation script then runs the whole network over your custom channel. The communication model can be extended or replaced in just the same way.</p>
+</section>
+</section>
+<section id="simulating-non-acoustic-links" class="level2" data-number="34.9">
+<h2 data-number="34.9" class="anchored" data-anchor-id="simulating-non-acoustic-links"><span class="header-section-number">34.9</span> Simulating non-acoustic links</h2>
+<p>Unets aren’t always purely acoustic: gateway buoys may talk to each other over RF, surfaced AUVs may have a WiFi link to a control station, and bottom nodes may be cabled together. Such links don’t need modem and channel models — the <code>GenericLink</code> agent simulates them directly at the LINK service level. Add one to the stack of every node sharing the link:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="dt">def</span> rfstack <span class="op">=</span> <span class="op">{</span> c <span class="op">-&gt;</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  c<span class="op">.</span><span class="fu">add</span> <span class="st">'rf'</span><span class="op">,</span> <span class="kw">new</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>sim<span class="op">.</span><span class="fu">GenericLink</span><span class="op">(</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    dataRate<span class="op">:</span> <span class="fl">28800.</span>bps<span class="op">,</span>     <span class="co">// link speed</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    broadcast<span class="op">:</span> <span class="kw">true</span><span class="op">,</span>         <span class="co">// support broadcast datagrams</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    shouldReceive<span class="op">:</span> <span class="op">{</span>         <span class="co">// RF works up to 2.5 km, when both nodes are at the surface</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>      it<span class="op">.</span>range <span class="op">&lt;=</span> <span class="dv">2500</span> <span class="op">&amp;&amp;</span> it<span class="op">.</span>txLocation<span class="op">[</span><span class="dv">2</span><span class="op">]</span> <span class="op">&gt;=</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> it<span class="op">.</span>rxLocation<span class="op">[</span><span class="dv">2</span><span class="op">]</span> <span class="op">&gt;=</span> <span class="dv">0</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">)</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>simulate <span class="op">{</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>  node <span class="st">'buoy'</span><span class="op">,</span> address<span class="op">:</span> <span class="dv">1</span><span class="op">,</span> location<span class="op">:</span> <span class="op">[</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">],</span> stack<span class="op">:</span> rfstack</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  node <span class="st">'auv'</span><span class="op">,</span>  address<span class="op">:</span> <span class="dv">2</span><span class="op">,</span> location<span class="op">:</span> <span class="op">[</span><span class="fl">500.</span>m<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">],</span> mobility<span class="op">:</span> <span class="kw">true</span><span class="op">,</span> stack<span class="op">:</span> rfstack</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The <code>shouldReceive</code> closure decides whether each transmission is delivered: it is given the transmitter location, receiver location and range, so it can model range limits, line-of-sight constraints or surfaced-only connectivity. Datagrams sent to the agent arrive as <a href="../api/org/arl/unet/DatagramNtf.html" target="_api"><code>DatagramNtf</code></a> on the peer node, and since the agent provides the LINK service, a <code>Router</code> can route over it like over any other link. Key properties and their defaults:</p>
+<ul>
+<li><strong><code>dataRate = 0</code></strong> — link data rate (bps), used to compute transmission time (0 for an infinitely fast link).</li>
+<li><strong><code>MTU = 1450</code></strong>, <strong><code>RTU = 1450</code></strong> — maximum and recommended transfer units (bytes).</li>
+<li><strong><code>reliability = true</code></strong> — support reliable datagrams: deliveries are acknowledged and generate a <a href="../api/org/arl/unet/DatagramDeliveryNtf.html" target="_api"><code>DatagramDeliveryNtf</code></a>, or a <a href="../api/org/arl/unet/DatagramFailureNtf.html" target="_api"><code>DatagramFailureNtf</code></a> if no acknowledgement arrives within <code>ackTimeout</code> (ms).</li>
+<li><strong><code>broadcast = false</code></strong> — deliver broadcast datagrams.</li>
+<li><strong><code>shouldReceive = null</code></strong> — predicate deciding whether a potential reception is delivered (<code>null</code> delivers everything).</li>
+<li><strong><code>keepAlive = 0</code></strong> — interval (s) at which idle peers are probed, generating a <a href="../api/org/arl/unet/link/LinkStatusNtf.html" target="_api"><code>LinkStatusNtf</code></a> whenever the link to a peer goes up or down (0 disables; peers to monitor may be seeded via the <code>peers</code> parameter).</li>
+</ul>
+<p>Cabled and wireless IP links can be simulated using <code>UdpLink</code>, while non-IP radio modems and satellite communications are best simulated using the <code>GenericLink</code>. For example, the <code>shouldReceive</code> closure of the <code>GenericLink</code> can be used to automatically disable the a RF link once a simulated AUV submerges, and re-enable it when the AUV re-surfaces.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./401_agents.html" class="pagination-link" aria-label="Developing agents">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Developing agents</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./403_vao.html" class="pagination-link" aria-label="Virtual acoustic ocean">
+        <span class="nav-page-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Virtual acoustic ocean</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

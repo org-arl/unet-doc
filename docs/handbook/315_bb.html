@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>27&nbsp; Baseband – UnetStack Handbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./316_device.html" rel="next">
+<link href="./314_doa.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-4c5f10e325026434afc233e7baf6c567.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="unetsh.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./300_services.html">Part III: Agents &amp; Services</a></li><li class="breadcrumb-item"><a href="./315_bb.html"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Baseband</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">UnetStack Handbook</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part I: Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./101_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./102_quickstart.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting started</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./103_basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">UnetStack basics</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part II: Using UnetStack</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./201_unet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Unet basics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./202_small.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Setting up small networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./203_large.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Routing in larger networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./204_wired.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Non-acoustic links</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./205_qos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data transfers &amp; QoS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./206_api.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">UnetSockets and gateways</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./207_portals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Portals</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./208_wormholes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Wormholes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./209_atc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">AT script engine</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./300_services.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part III: Agents &amp; Services</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./301_stack.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">The default stack</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./302_node.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Node information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./303_addr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Address resolution</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./304_datagram.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Datagram</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./305_phy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Physical</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./306_link.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Link</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./307_mac.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Medium access control</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./308_tuner.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Link tuning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./309_router.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Routing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./310_rdp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Route maintenance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./311_transport.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Transport</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./312_remote.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Remote access</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./313_ranging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Ranging</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./314_doa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Direction of arrival</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./315_bb.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Baseband</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./316_device.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Device information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./317_scheduler.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Scheduler</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./318_shell.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Shell</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./319_doc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Documentation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./320_utils.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Utility agents</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./400_dev.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part IV: Develop &amp; Simulate</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./401_agents.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Developing agents</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./402_sim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Simulating networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./403_vao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Virtual acoustic ocean</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A1_porting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">What’s changed since v3?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A2_handshake.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">MySimpleHandshakeMac</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">27.1</span> Overview</a></li>
+  <li><a href="#capabilities" id="toc-capabilities" class="nav-link" data-scroll-target="#capabilities"><span class="header-section-number">27.2</span> Capabilities</a></li>
+  <li><a href="#messages" id="toc-messages" class="nav-link" data-scroll-target="#messages"><span class="header-section-number">27.3</span> Messages</a></li>
+  <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters"><span class="header-section-number">27.4</span> Parameters</a></li>
+  <li><a href="#detector-parameters" id="toc-detector-parameters" class="nav-link" data-scroll-target="#detector-parameters"><span class="header-section-number">27.5</span> Detector parameters</a></li>
+  <li><a href="#commands" id="toc-commands" class="nav-link" data-scroll-target="#commands"><span class="header-section-number">27.6</span> Commands</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples"><span class="header-section-number">27.7</span> Examples</a></li>
+  <li><a href="#preambles-detection" id="toc-preambles-detection" class="nav-link" data-scroll-target="#preambles-detection"><span class="header-section-number">27.8</span> Preambles &amp; detection</a></li>
+  <li><a href="#implementations" id="toc-implementations" class="nav-link" data-scroll-target="#implementations"><span class="header-section-number">27.9</span> Implementations</a>
+  <ul class="collapse">
+  <li><a href="#modem-firmware-bb" id="toc-modem-firmware-bb" class="nav-link" data-scroll-target="#modem-firmware-bb"><span class="header-section-number">27.9.1</span> Modem firmware (<code>bb</code>)</a></li>
+  <li><a href="#halfduplexmodem-phy" id="toc-halfduplexmodem-phy" class="nav-link" data-scroll-target="#halfduplexmodem-phy"><span class="header-section-number">27.9.2</span> HalfDuplexModem (<code>phy</code>)</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./300_services.html">Part III: Agents &amp; Services</a></li><li class="breadcrumb-item"><a href="./315_bb.html"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Baseband</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-bb" class="quarto-section-identifier"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Baseband</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><code>org.arl.unet.Services.BASEBAND</code></p>
+<section id="overview" class="level2" data-number="27.1">
+<h2 data-number="27.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">27.1</span> Overview</h2>
+<p>The <code>BASEBAND</code> service exposes the modem as a <em>software-defined modem</em>, giving direct access to the raw acoustic waveforms beneath the framing and modulation of the physical layer (<a href="305_phy.html" class="quarto-xref"><span>Chapter 17</span></a>). This makes it possible to develop and test custom acoustic communication and signal processing techniques without building new hardware.</p>
+<p>The service supports three basic operations:</p>
+<ul>
+<li><strong>Transmitting</strong> an arbitrary signal, using a <a href="../api/org/arl/unet/bb/TxBasebandSignalReq.html" target="_api"><code>TxBasebandSignalReq</code></a>. The signal may be specified at passband (real samples) or baseband (complex samples around a carrier frequency <code>fc</code>), and an optional preamble may be prepended for detection at the receiver.</li>
+<li><strong>Recording</strong> a signal from the channel, using a <a href="../api/org/arl/unet/bb/RecordBasebandSignalReq.html" target="_api"><code>RecordBasebandSignalReq</code></a>. The recording can be scheduled to start at a precise time, and is returned as an <a href="../api/org/arl/unet/bb/RxBasebandSignalNtf.html" target="_api"><code>RxBasebandSignalNtf</code></a>.</li>
+<li><strong>Detecting</strong> signals passively. When a configured detector (for example, a matched filter for a known preamble) fires, a <a href="../api/org/arl/unet/bb/DetectionNtf.html" target="_api"><code>DetectionNtf</code></a> is generated, optionally triggering a recording.</li>
+</ul>
+<p>Received signals are delivered as <a href="../api/org/arl/unet/bb/RxBasebandSignalNtf.html" target="_api"><code>RxBasebandSignalNtf</code></a> messages, and transmissions are bracketed by <a href="../api/org/arl/unet/bb/TxStartNtf.html" target="_api"><code>TxStartNtf</code></a> and <a href="../api/org/arl/unet/bb/TxEndNtf.html" target="_api"><code>TxEndNtf</code></a> notifications for precise timing. The default baseband agent is accessed as <code>bb</code>.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Baseband transmissions bypass medium access control entirely — the modem transmits your signal without consulting the MAC agent, and other nodes cannot even decode it to know how long the channel is busy. On a shared channel, reserve the channel through the <code>MAC</code> service (<a href="307_mac.html" class="quarto-xref"><span>Chapter 19</span></a>) before transmitting signals of any significant duration.</p>
+</div>
+</div>
+</section>
+<section id="capabilities" class="level2" data-number="27.2">
+<h2 data-number="27.2" class="anchored" data-anchor-id="capabilities"><span class="header-section-number">27.2</span> Capabilities</h2>
+<p>Optional features of a baseband agent are advertised through capabilities (<a href="../api/org/arl/unet/bb/BasebandCapability.html" target="_api"><code>org.arl.unet.bb.BasebandCapability</code></a>):</p>
+<ul>
+<li><code>TIMED_BBTX</code> – transmission of signals at a specified time (<code>txTime</code>)</li>
+<li><code>TIMED_BBREC</code> – recording of signals starting at a specified time (<code>recStartTime</code>)</li>
+<li><code>BB_STREAMING</code> – continuous streaming of received baseband signals</li>
+<li><code>PB_STREAMING</code> – continuous streaming of received passband signals</li>
+</ul>
+</section>
+<section id="messages" class="level2" data-number="27.3">
+<h2 data-number="27.3" class="anchored" data-anchor-id="messages"><span class="header-section-number">27.3</span> Messages</h2>
+<p>Agents providing this service honor the following requests:</p>
+<div id="4" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/bb/TxBasebandSignalReq.html" target="_api"><code>TxBasebandSignalReq</code></a> – transmit a baseband signal</p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 12%">
+<col style="width: 10%">
+<col style="width: 51%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>channels</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>1</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>fc</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>-1.0</code></td>
+<td style="text-align: right;">carrier frequency in Hz (0 for passband)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>fs</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>-1.0</code></td>
+<td style="text-align: right;">sampling rate in Hz</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>powerLevel</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>preamble</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;">preamble ID to prepend (0 = none)</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>signal</code></td>
+<td style="text-align: right;"><code>float[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">baseband or passband signal samples</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>signal__isComplex</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"><code>false</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>txStartTime</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>wakeup</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"><code>false</code></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/bb/RecordBasebandSignalReq.html" target="_api"><code>RecordBasebandSignalReq</code></a> – record a baseband signal</p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 9%">
+<col style="width: 10%">
+<col style="width: 60%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>recLength</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">number of samples to record</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>recStartTime</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">recording start time (requires <code>TIMED_BBREC</code>)</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/bb/GetPreambleSignalReq.html" target="_api"><code>GetPreambleSignalReq</code></a> – get the baseband signal for a preamble</p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>preamble</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>-1</code></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><a href="../api/org/arl/unet/ClearReq.html" target="_api"><code>ClearReq</code></a> – clear all queued (and ongoing, when possible) transmissions</li>
+</ul>
+</div>
+</div>
+<p>A transmission request is answered with an <code>AGREE</code> once the signal is accepted (a <code>REFUSE</code> if the signal is too long, the preamble ID is invalid, or a requested option is unsupported), and the transmission is then bracketed by notifications marking its exact start and end. A recording request is answered with an <code>AGREE</code>, followed by the recorded signal. Notifications generated by this service:</p>
+<div id="6" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/bb/RxBasebandSignalNtf.html" target="_api"><code>RxBasebandSignalNtf</code></a> – received/recorded baseband signal</p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>channels</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>1</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>fc</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>-1.0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>fs</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>-1.0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>location</code></td>
+<td style="text-align: right;"><code>double[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>preamble</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>preambleLength</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>rssi</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>NaN</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>rxStartTime</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>signal</code></td>
+<td style="text-align: right;"><code>float[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>signal__isComplex</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"><code>false</code></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/bb/TxStartNtf.html" target="_api"><code>TxStartNtf</code></a> – baseband transmission started</p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>preamble</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>-1</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>txDuration</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>txStartTime</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/bb/TxEndNtf.html" target="_api"><code>TxEndNtf</code></a> – baseband transmission completed</p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>location</code></td>
+<td style="text-align: right;"><code>double[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>preamble</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>-1</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>txStartTime</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/bb/DetectionNtf.html" target="_api"><code>DetectionNtf</code></a> – signal detected by a detector</p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>captureStartTime</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>detector</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>0.0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>preamble</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>-1</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>rxDuration</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>rxStartTime</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+</div>
+<p>The recorded <a href="../api/org/arl/unet/bb/RxBasebandSignalNtf.html" target="_api"><code>RxBasebandSignalNtf</code></a> is sent to the agent that requested the recording; recordings triggered by detections, along with <a href="../api/org/arl/unet/bb/TxStartNtf.html" target="_api"><code>TxStartNtf</code></a>, <a href="../api/org/arl/unet/bb/TxEndNtf.html" target="_api"><code>TxEndNtf</code></a> and <a href="../api/org/arl/unet/bb/DetectionNtf.html" target="_api"><code>DetectionNtf</code></a>, are published on the agent’s topic. The <code>signal</code> of an <a href="../api/org/arl/unet/bb/RxBasebandSignalNtf.html" target="_api"><code>RxBasebandSignalNtf</code></a> is a flat array of interleaved real/imaginary baseband samples (or real samples for passband), along with its center frequency <code>fc</code> and sampling rate <code>fs</code>. In the Python and Julia APIs, the same signals appear as native complex arrays. (Why modems favor the complex baseband representation is explained in a callout in <a href="102_quickstart.html" class="quarto-xref"><span>Chapter 2</span></a>.)</p>
+</section>
+<section id="parameters" class="level2" data-number="27.4">
+<h2 data-number="27.4" class="anchored" data-anchor-id="parameters"><span class="header-section-number">27.4</span> Parameters</h2>
+<div id="8" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#analogInterface"><code>analogInterface</code></a> :: <code>String</code> – analog interface name</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#dacrate"><code>dacrate</code></a> :: <code>float</code> – DAC sampling rate (Hz)</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#adcrate"><code>adcrate</code></a> :: <code>float</code> – ADC sampling rate (Hz)</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#adcChannels"><code>adcChannels</code></a> :: <code>int</code> – number of receiver channels</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#dacChannels"><code>dacChannels</code></a> :: <code>int</code> – number of transmitter channels</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#enable"><code>enable</code></a> :: <code>boolean</code> – enable baseband data acquisition</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#carrierFrequency"><code>carrierFrequency</code></a> :: <code>float</code> – carrier frequency (Hz)</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#basebandRate"><code>basebandRate</code></a> :: <code>float</code> – baseband sampling rate (Hz)</p>
+<p>The baseband sampling rate is the rate at which the baseband signal is sampled.</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#maxPreambleID"><code>maxPreambleID</code></a> :: <code>int</code> – maximum preamble ID</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#maxInAirPowerLevel"><code>maxInAirPowerLevel</code></a> :: <code>float</code> – transmit power if modem is near surface or in air</p>
+<p>This parameter sets the transmit power level limit used when the modem is near the surface or in air for safety. If depth information (<code>node.depth</code>) is unavailable, this parameter is not used.</p>
+<p>Example:</p>
+<pre><code>bb.maxInAirPowerLevel = -20     // Set maximum in-air transmit power to -20 dB
+</code></pre></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#depthToConsiderInWater"><code>depthToConsiderInWater</code></a> :: <code>float</code> – min depth to consider modem in water (m)</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#maxSignalLength"><code>maxSignalLength</code></a> :: <code>int</code> – baseband signal length (samples)</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#powerLevel"><code>powerLevel</code></a> :: <code>float[]</code> – signal transmission power level (dB)</p>
+<p>If set as a scalar, the value is applied to all channels. If set as an array, the value is applied to each channel individually.</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#maxPowerLevel"><code>maxPowerLevel</code></a> :: <code>float</code> – maximum supported power level (dB)</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#minPowerLevel"><code>minPowerLevel</code></a> :: <code>float</code> – minimum supported power level (dB)</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#refPowerLevel"><code>refPowerLevel</code></a> :: <code>float</code> <em>(nullable)</em> – reference power level (dB)</p>
+<p>Reference source level in dB re 1 uPa @ 1m when the transmit power level is set to 0 dB.</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#gain"><code>gain</code></a> :: <code>float[]</code> – preamplifier gain (dB)</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#rxSensitivity"><code>rxSensitivity</code></a> :: <code>float[]</code> <em>(nullable)</em> – receiver sensitivity (dB)</p>
+<p>Receiver sensitivity in dB re 1/uPa. May be null if unknown.</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#record"><code>record</code></a> :: <code>boolean</code> – enable recording of baseband data to persistent storage</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#time"><code>time</code></a> :: <code>long</code> – baseband timestamp (µs)</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#syncBasebandTime"><code>syncBasebandTime</code></a> :: <code>long</code> – baseband clock at last sync event</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#syncSystemTime"><code>syncSystemTime</code></a> :: <code>long</code> – system time at last sync event (µs)</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#clockCalib"><code>clockCalib</code></a> :: <code>float</code> – clock calibration ratio (1.0 = no correction)</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#busy"><code>busy</code></a> :: <code>boolean</code> – true if signal transmission ongoing, false otherwise</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#fullduplex"><code>fullduplex</code></a> :: <code>boolean</code> – allow reception when transmitting</p>
+<p>Full duplex mode. In this mode, the baseband service is able to transmit and receive simultaneously. When disabled, receptions are inhibited while a transmission is ongoing.</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#mute"><code>mute</code></a> :: <code>boolean</code> – mute output signal</p>
+<p>Mute the output data stream. Output data streams are automatically muted after transmission. A user may unmute early to avoid delays for time sensitive transmissions.</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#standby"><code>standby</code></a> :: <code>float</code> – idle time before putting power amplifier in standby (seconds)</p>
+<p>Power amplifier is shutdown automatically after the specified idle time after the last transmission.</p>
+<p>A value of 0 shutsdown the power amplifier immediately after a transmission, only if it was turned on automatically for that transmission.</p>
+<p>A value of -1 disables auto-shutdown.</p>
+<p>Examples:</p>
+<pre><code>bb.standby = 15      // shutdown poweramp after 15 s idle time
+bb.standby = -1      // disable auto-shutdown of poweramp
+</code></pre></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#pbsblk"><code>pbsblk</code></a> :: <code>int</code> – passband streaming block size (samples)</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#pbscnt"><code>pbscnt</code></a> :: <code>int</code> – number of passband data blocks to stream</p>
+<p>Setting this parameter starts streaming of passband data for a specified number of blocks. A value of 0 stops streaming. A value of -1 enables long-term streaming. Setting this parameter to -1 may affect modem performance. For applications requiring continuous streaming, consider using UDP based streaming using bb.pbsport.</p>
+<p>Example:</p>
+<pre><code>bb.pbscnt = 10       // stream 10 blocks of pasband data
+</code></pre></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#bbsblk"><code>bbsblk</code></a> :: <code>int</code> – baseband streaming block size (samples)</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#bbscnt"><code>bbscnt</code></a> :: <code>int</code> – number of baseband data blocks to stream</p>
+<p>Setting this parameter starts streaming of baseband data for a specified number of blocks. A value of 0 stops streaming. A value of -1 enables long-term streaming. Setting this parameter to -1 may affect modem performance. For applications requiring continuous streaming, consider using UDP based streaming using bb.bbsport.</p>
+<p>Example:</p>
+<pre><code>bb.bbscnt = 10       // stream 10 blocks of baseband data
+</code></pre></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#ip"><code>ip</code></a> :: <code>String</code> – IP address for UDP streaming</p>
+<p>Setting this parameter to a valid IPv4 address enables UDP streaming of baseband or passband data. A value of “0.0.0.0” or “none” disables streaming. This parameter must be set along with either <code>bb.pbsport</code> or <code>bb.bbsport</code> to enable streaming.</p>
+<p>Examples:</p>
+<pre><code>bb.ip = '192.168.0.100' // set destination IP address
+bb.ip = '0.0.0.0'       // disable streaming
+</code></pre></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#pbsport"><code>pbsport</code></a> :: <code>int</code> – passband streaming UDP port</p>
+<p>Setting this parameter (along with bb.ip) starts streaming of passband data over UDP. A value of 0 stops streaming. Passband data is streamed as a 12-byte header followed by float32 samples with interleaved channels.</p>
+<p>Header format:</p>
+<pre><code>byte 0: uint8 version number (0x01)
+byte 1: uint8 channel count
+bytes 2-3: uint16 sequence number
+bytes 4-7: float32 carrier frequency (Hz), 0 for passband
+bytes 8-11: float32 sampling rate (Sa/s)
+</code></pre>
+<p>All float32 and uint16 are in little-endian byte order.</p>
+<p>Example:</p>
+<pre><code>bb.ip = '192.168.0.100' // set destination IP address
+bb.pbsport = 8080       // start streaming to UDP port 8080
+bb.pbsport = 0          // stop streaming
+</code></pre></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#bbsport"><code>bbsport</code></a> :: <code>int</code> – baseband streaming UDP port</p>
+<p>Setting this parameter (along with bb.ip) starts streaming of baseband data over UDP. A value of 0 stops streaming. Baseband data is streamed as a 12-byte header followed by complex float32 samples (real, imaginary) with interleaved channels.</p>
+<p>Header format:</p>
+<pre><code>byte 0: uint8 version number (0x01)
+byte 1: uint8 channel count
+bytes 2-3: uint16 sequence number
+bytes 4-7: float32 carrier frequency (Hz)
+bytes 8-11: float32 sampling rate (Sa/s)
+</code></pre>
+<p>All float32 and uint16 are in little-endian byte order.</p>
+<p>Example:</p>
+<pre><code>bb.ip = '192.168.0.100' // set destination IP address
+bb.bbsport = 8080       // start streaming to UDP port 8080
+bb.bbsport = 0          // stop streaming
+</code></pre></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#noise"><code>noise</code></a> :: <code>float[]</code> – ambient noise floor estimate (dB re full scale)</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#wakeupDelay"><code>wakeupDelay</code></a> :: <code>int</code> – gap between wakeup signal and transmission (ms)</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandParam.html#wakeupSignal"><code>wakeupSignal</code></a> :: <code>float[]</code> – baseband samples of wakeup signal</p></li>
+</ul>
+</div>
+</div>
+<p>The <code>noise</code> parameter reports one estimate per receiver channel, using the same dB-re-full-scale reference as the <code>rssi</code> reported in received-signal notifications — so the two can be compared directly to judge received signal levels against the background noise floor.</p>
+</section>
+<section id="detector-parameters" class="level2" data-number="27.5">
+<h2 data-number="27.5" class="anchored" data-anchor-id="detector-parameters"><span class="header-section-number">27.5</span> Detector parameters</h2>
+<p>Each preamble detector exposes indexed parameters, accessed as <code>bb[1]</code>, <code>bb[2]</code>, etc.:</p>
+<div id="10" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/bb/BasebandDetectorParam.html#preamble"><code>preamble</code></a> :: <code>float[]</code> – baseband samples for detection preamble</p>
+<p>Preambles are specified as complex baseband samples, with alternate samples in the array being real and imaginary parts. When setting a preamble, one may specify an array or use supported preset preambles.</p>
+<p>Example:</p>
+<pre><code>bb[3].preamble = hfm                      // default HFM
+bb[3].preamble = hfm(0.04)                // HFM 40 ms duration
+bb[3].preamble = lfm(18000, 30000, 0.02)  // LFM 18-30 kHz 20 ms duration
+bb[3].preamble = lfmdn                    // LFM default downchirp
+bb[3].preamble = mseq                     // default m-sequence
+bb[3].preamble = mseq(0.04)               // m-sequence 40 ms duration
+bb[3].preamble = janus                    // default JANUS
+bb[3].preamble = janus(20000, 320)        // JANUS at 20 kHz, 320 Hz step
+bb[3].preamble = swig1                    // default SWiG1
+bb[3].preamble = swig1(20000, 320)        // SWiG1 at 20 kHz, 320 Hz step
+</code></pre></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandDetectorParam.html#threshold"><code>threshold</code></a> :: <code>float</code> – detection threshold (0-1 range, 0 to disable)</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandDetectorParam.html#inhibit"><code>inhibit</code></a> :: <code>int</code> – detection inhibition (baseband sample count)</p>
+<p>Detections are reported only if there are no stronger detections within the specified number of baseband samples before or after them. The capture starts at the time of the strongest detection in the overall inhibition period. This period may be longer than <code>inhibit</code> if there is a sequence of detections of increasing strength.</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandDetectorParam.html#capture"><code>capture</code></a> :: <code>int</code> – number of baseband samples to capture at each detection</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandDetectorParam.html#coherence"><code>coherence</code></a> :: <code>int</code> – baseband samples summed coherently (0 = all)</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandDetectorParam.html#stride"><code>stride</code></a> :: <code>int</code> – stride length for detector metric computation</p></li>
+<li><p><a href="../api/org/arl/unet/bb/BasebandDetectorParam.html#metricStatistics"><code>metricStatistics</code></a> :: <code>float</code> – detection metric statistics</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="commands" class="level2" data-number="27.6">
+<h2 data-number="27.6" class="anchored" data-anchor-id="commands"><span class="header-section-number">27.6</span> Commands</h2>
+<div id="12" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><code>bbrec</code> – make a baseband recording</p>
+<p>Examples:</p>
+<pre><code>bbrec 1000                 // record 1000 baseband samples
+bbrec 1000, 87897287       // schedule a recording at given PHY time
+</code></pre></li>
+<li><p><code>bbtx</code> – transmit a baseband signal</p>
+<p>Examples:</p>
+<pre><code>bbtx sig                 // transmit complex baseband signal
+bbtx sig, 87897287       // schedule a transmission at given PHY time
+</code></pre></li>
+<li><p><code>pbtx</code> – transmit a passband signal sampled at 8 x basebandRate</p>
+<p>Examples:</p>
+<pre><code>pbtx sig                 // transmit real passband signal
+pbtx sig, 87897287       // schedule a transmission at given PHY time
+</code></pre></li>
+<li><p><code>cw</code> – create a tonal signal with unit amplitude</p>
+<p>Examples:</p>
+<pre><code>cw(10000, 0.5)           // 0.5 second 10 kHz baseband tonal
+cw(15000, 0.2, 0)        // 0.2 second 15 kHz passband tonal
+</code></pre></li>
+<li><p><code>sweep</code> – create a linear sweep with unit amplitude</p>
+<p>Examples:</p>
+<pre><code>sweep(10000, 12000, 0.5)     // 0.5 second baseband sweep from 10-12 kHz
+sweep(10000, 12000, 0.5, 0)  // 0.5 second passband sweep from 10-12 kHz
+</code></pre></li>
+<li><p><code>wav</code> – load a wav file (mono track, sampling rate should be same as <code>bb.dacrate</code>)</p>
+<p>Examples:</p>
+<pre><code>wav 'test.wav'              // loads a wav file
+</code></pre></li>
+<li><p><code>save</code> – save signal to a file in the scripts folder</p>
+<p>Example:</p>
+<pre><code>save 'data.txt', ntf           // save notification signal to file
+save 'data.txt', ntf.signal, 2 // save signal in 2-column format
+</code></pre></li>
+<li><p><code>load</code> – load floating point signal from a file in the scripts folder</p>
+<p>Example:</p>
+<pre><code>signal = load('data.txt')      // load data from file</code></pre></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="examples" class="level2" data-number="27.7">
+<h2 data-number="27.7" class="anchored" data-anchor-id="examples"><span class="header-section-number">27.7</span> Examples</h2>
+<p>Transmit a continuous-wave (CW) tone with <code>bbtx</code>. The <code>cw(freq, duration)</code> command builds a baseband tonal signal — here a 0.5 s tone at 24 kHz, the simulated modem’s carrier frequency (the tone must lie within the modem’s baseband passband):</p>
+<div id="16" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">bbtx cw(</span><span class="dv">24000</span><span class="op">,</span><span class="va"> </span><span class="dv">0.5</span><span class="va">)</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; TxStartNtf:INFORM[txStartTime:3257907923 txDuration:500000]</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; TxEndNtf:INFORM[txStartTime:3257907923]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Why <code>phy &gt;&gt;</code>?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The request went to <code>bb</code>, but the notifications come back labelled <code>phy &gt;&gt;</code>. In simulation, a single <code>HalfDuplexModem</code> agent provides both the <code>BASEBAND</code> and <code>PHYSICAL</code> services, so <code>bb</code> and <code>phy</code> name the same agent, and the shell labels its notifications with its name. On a modem, where the two are separate agents, these arrive as <code>bb &gt;&gt;</code>.</p>
+</div>
+</div>
+<p>The same tone can be generated at <em>passband</em> — real samples at the modem’s DAC rate — by passing <code>0</code> as a third argument (the carrier frequency) to <code>cw()</code>. Passband signals are transmitted with <code>pbtx</code>. The simulated modem has no DAC (there is no actual audio path), so this one needs a real modem:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">pbtx cw(</span><span class="dv">24000</span><span class="op">,</span><span class="va"> </span><span class="dv">0.25</span><span class="op">,</span><span class="va"> </span><span class="dv">0</span><span class="va">)</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>AGREE</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Generate both versions of a signal and compare their lengths — the passband representation needs many times more samples to carry the same information, which is why baseband is the default.</p>
+<p>Then capture samples from the channel with <code>bbrec</code>, which records a given number of baseband samples and returns them as an <a href="../api/org/arl/unet/bb/RxBasebandSignalNtf.html" target="_api"><code>RxBasebandSignalNtf</code></a>:</p>
+<div id="18" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">bbrec </span><span class="dv">1000</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxBasebandSignalNtf:INFORM[rxStartTime:3260254923 fc:24000.0 fs:24000.0 (1000 baseband samples)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>The recorded notification carries the captured <code>signal</code>, along with its center frequency <code>fc</code> and sampling rate <code>fs</code>. You can save it for offline analysis:</p>
+<div id="20" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">ntf </span><span class="op">=</span><span class="va"> bbrec(</span><span class="dv">1000</span><span class="va">)</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxBasebandSignalNtf:INFORM[rxStartTime:3260959923 fc:24000.0 fs:24000.0 (1000 baseband samples)]</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">save </span><span class="st">'rec.txt'</span><span class="op">,</span><span class="va"> ntf.signal</span><span class="op">,</span><span class="va"> </span><span class="dv">2</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>OK</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>Recordings can also be scheduled. On an agent with the <code>TIMED_BBREC</code> capability, a <a href="../api/org/arl/unet/bb/RecordBasebandSignalReq.html" target="_api"><code>RecordBasebandSignalReq</code></a> carrying a <code>recStartTime</code> starts recording at exactly that instant on the baseband clock (<code>bb.time</code>) — here, 2 s in the future:</p>
+<div id="22" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">bb </span><span class="op">&lt;&lt;</span><span class="va"> </span><span class="kw">new</span><span class="va"> RecordBasebandSignalReq(recLength</span><span class="op">:</span><span class="va"> </span><span class="dv">1000</span><span class="op">,</span><span class="va"> recStartTime</span><span class="op">:</span><span class="va"> bb.time </span><span class="op">+</span><span class="va"> </span><span class="dv">2000000</span><span class="va">)</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxBasebandSignalNtf:INFORM[rxStartTime:3267665923 fc:24000.0 fs:24000.0 (1000 baseband samples)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In simulation, <code>bbrec</code> returns placeholder samples of the requested length, so the captured signal is not a meaningful recording of the transmitted tone. Run the same commands against a real modem to capture actual channel data.</p>
+</div>
+</div>
+<p>On a real modem, the recording machinery has one more trick: it can record <strong>the past</strong>. The modem continuously retains the last few seconds of received baseband samples in a buffer, so a recording that starts slightly in the past is served from that buffer. A <em>negative</em> <code>recStartTime</code> is interpreted relative to the current time, making “give me the last 2 seconds” a one-liner. Asking for a start time further back than the buffer reaches is refused (<code>Start time too far in the past</code>). The simulator does not model this buffer, so this is one to try against real hardware:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">bb </span><span class="op">&lt;&lt;</span><span class="va"> </span><span class="kw">new</span><span class="va"> RecordBasebandSignalReq(recLength</span><span class="op">:</span><span class="va"> </span><span class="dv">12000</span><span class="op">,</span><span class="va"> recStartTime</span><span class="op">:</span><span class="va"> -</span><span class="dv">2000000</span><span class="va">)</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>bb &gt;&gt; RxBasebandSignalNtf:INFORM[rxTime:42101332 rssi:-38.2 fc:12000 fs:12000 (12000 baseband samples)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This is remarkably useful in practice: when a detector fires or a frame arrives, the signal that caused it has <em>already happened</em> — recording the past lets you go back and capture it.</p>
+</section>
+<section id="preambles-detection" class="level2" data-number="27.8">
+<h2 data-number="27.8" class="anchored" data-anchor-id="preambles-detection"><span class="header-section-number">27.8</span> Preambles &amp; detection</h2>
+<p>Every frame transmission begins with a <em>preamble</em> — a known signal that receivers continuously correlate against, so that they can detect an incoming frame in the noise and know when it starts. The baseband service exposes this machinery directly: preambles can be transmitted on their own, and detectors can be configured to report whenever a chosen preamble is heard.</p>
+<p>Each detector is configured through the indexed parameters <code>bb[1]</code>, <code>bb[2]</code>, … (see <a href="#detector-parameters">Detector parameters</a>). Detectors 1 and 2 correlate against the preambles of the <code>CONTROL</code> and <code>DATA</code> channels respectively. A detector is enabled by setting its <code>threshold</code> to a value between 0 and 1 (0 disables it): a low threshold detects weaker signals but false-alarms more often in noise, a high threshold does the reverse (<a href="305_phy.html" class="quarto-xref"><span>Chapter 17</span></a>).</p>
+<p>Let’s watch a detection happen. On node B, we subscribe to the baseband agent’s topic (where <a href="../api/org/arl/unet/bb/DetectionNtf.html" target="_api"><code>DetectionNtf</code></a>s are published) and to the physical agent’s topic (for the frame notifications that follow); on node A, we transmit a bare <code>CONTROL</code> preamble — a <a href="../api/org/arl/unet/bb/TxBasebandSignalReq.html" target="_api"><code>TxBasebandSignalReq</code></a> with a <code>preamble</code> but no signal:</p>
+<div id="28" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">bb </span><span class="op">&lt;&lt;</span><span class="va"> </span><span class="kw">new</span><span class="va"> TxBasebandSignalReq(preamble</span><span class="op">:</span><span class="va"> </span><span class="dv">1</span><span class="va">)</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; TxStartNtf:INFORM[txStartTime:2667285038 txDuration:20000]</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; TxEndNtf:INFORM[txStartTime:2667285038]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>Node B detects the preamble and reports it:</p>
+<div id="30" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; DetectionNtf:INFORM[preamble:1 rxStartTime:2378535222 rxDuration:582000]</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameStartNtf:INFORM[type:CONTROL rxStartTime:2378535222 rxDuration:582000]</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxBasebandSignalNtf:INFORM[rxStartTime:2378535222 preamble:1 fc:24000.0 fs:24000.0 (13968 baseband samples)]</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; BadFrameNtf:INFORM[type:CONTROL rxStartTime:2378535222 rssi:-72.6]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>Since preamble 1 announces a <code>CONTROL</code> frame, the receiver also treats the detection as the start of an incoming frame (an <a href="../api/org/arl/unet/phy/RxFrameStartNtf.html" target="_api"><code>RxFrameStartNtf</code></a>, <a href="305_phy.html" class="quarto-xref"><span>Chapter 17</span></a>); as no frame data follows a bare preamble, no <a href="../api/org/arl/unet/phy/RxFrameNtf.html" target="_api"><code>RxFrameNtf</code></a> ever arrives — on a real modem, the attempted decode eventually fails with a <a href="../api/org/arl/unet/phy/BadFrameNtf.html" target="_api"><code>BadFrameNtf</code></a>. This makes a bare preamble a cheap way to exercise a receiver’s detection chain.</p>
+<p>A few more things the detector machinery can do:</p>
+<ul>
+<li><strong>Detection-triggered capture.</strong> Setting <code>bb[n].capture</code> to a sample count makes each detection trigger a recording of that many baseband samples, published as an <a href="../api/org/arl/unet/bb/RxBasebandSignalNtf.html" target="_api"><code>RxBasebandSignalNtf</code></a> on the agent’s topic — detect-and-capture without any round-trip.</li>
+<li><strong>Custom preambles.</strong> The <code>bb[n].preamble</code> parameter accepts arbitrary baseband samples, or preset generators such as <code>hfm</code>, <code>lfm(f1, f2, duration)</code> and <code>mseq</code> — so you can define your own signaling alongside the standard channels.</li>
+<li><strong>Channel impulse-response estimation.</strong> The exact baseband samples of any preamble are available via a <a href="../api/org/arl/unet/bb/GetPreambleSignalReq.html" target="_api"><code>GetPreambleSignalReq</code></a> (or <code>bb[n].preamble</code>). Record the channel while a peer transmits that preamble, cross-correlate the recording with the known preamble signal, and the peaks give you an estimate of the channel’s impulse response — multipath structure included.</li>
+</ul>
+</section>
+<section id="implementations" class="level2" data-number="27.9">
+<h2 data-number="27.9" class="anchored" data-anchor-id="implementations"><span class="header-section-number">27.9</span> Implementations</h2>
+<p>The <code>BASEBAND</code> service is not loaded by <code>setup.groovy</code>; it is provided by the modem, alongside the <code>PHYSICAL</code> (<a href="305_phy.html" class="quarto-xref"><span>Chapter 17</span></a>) and, where supported, <code>DOA</code> (<a href="314_doa.html" class="quarto-xref"><span>Chapter 26</span></a>) services (see <a href="301_stack.html" class="quarto-xref"><span>Chapter 13</span></a>). Either way, the higher layers see the same <code>BASEBAND</code> service and messages described above.</p>
+<section id="modem-firmware-bb" class="level3" data-number="27.9.1">
+<h3 data-number="27.9.1" class="anchored" data-anchor-id="modem-firmware-bb"><span class="header-section-number">27.9.1</span> Modem firmware (<code>bb</code>)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Class</th>
+<th style="text-align: left;">Services</th>
+<th style="text-align: left;">Capabilities</th>
+<th style="text-align: left;">Availability</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">modem firmware</td>
+<td style="text-align: left;"><code>BASEBAND</code></td>
+<td style="text-align: left;">modem-dependent</td>
+<td style="text-align: left;"><a href="./301_stack.html#sec-premium">commercial modems</a></td>
+</tr>
+</tbody>
+</table>
+<p>On a commercial modem, the baseband service is backed by the modem firmware running on the modem’s signal-processing hardware. From the rest of the stack’s point of view, there is simply a <code>bb</code> agent provides <code>BASEBAND</code>, exposing the modem’s software-defined modem capabilities — arbitrary signal transmission, timed recording, preamble detectors, and (on supported hardware) signal streaming.</p>
+</section>
+<section id="halfduplexmodem-phy" class="level3" data-number="27.9.2">
+<h3 data-number="27.9.2" class="anchored" data-anchor-id="halfduplexmodem-phy"><span class="header-section-number">27.9.2</span> HalfDuplexModem (<code>phy</code>)</h3>
+<p>In simulation, the <code>HalfDuplexModem</code> agent (<a href="305_phy.html" class="quarto-xref"><span>Chapter 17</span></a>) provides the <code>BASEBAND</code> service alongside <code>PHYSICAL</code>, with the <code>TIMED_BBTX</code> and <code>TIMED_BBREC</code> capabilities. Transmissions and detections are modelled with correct timing and energy, but recordings return <strong>placeholder samples of the correct length</strong> rather than a true capture of the channel — the simulator does not synthesize received waveforms. Higher-layer agents that depend on baseband access therefore run unchanged, but signal content is only meaningful against real hardware.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./314_doa.html" class="pagination-link" aria-label="Direction of arrival">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Direction of arrival</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./316_device.html" class="pagination-link" aria-label="Device information">
+        <span class="nav-page-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Device information</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

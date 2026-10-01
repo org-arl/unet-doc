@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>9&nbsp; UnetSockets and gateways – UnetStack Handbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./207_portals.html" rel="next">
+<link href="./205_qos.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-4c5f10e325026434afc233e7baf6c567.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="unetsh.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./201_unet.html">Part II: Using UnetStack</a></li><li class="breadcrumb-item"><a href="./206_api.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">UnetSockets and gateways</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">UnetStack Handbook</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part I: Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./101_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./102_quickstart.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting started</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./103_basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">UnetStack basics</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part II: Using UnetStack</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./201_unet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Unet basics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./202_small.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Setting up small networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./203_large.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Routing in larger networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./204_wired.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Non-acoustic links</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./205_qos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data transfers &amp; QoS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./206_api.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">UnetSockets and gateways</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./207_portals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Portals</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./208_wormholes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Wormholes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./209_atc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">AT script engine</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./300_services.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part III: Agents &amp; Services</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./301_stack.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">The default stack</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./302_node.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Node information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./303_addr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Address resolution</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./304_datagram.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Datagram</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./305_phy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Physical</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./306_link.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Link</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./307_mac.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Medium access control</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./308_tuner.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Link tuning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./309_router.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Routing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./310_rdp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Route maintenance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./311_transport.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Transport</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./312_remote.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Remote access</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./313_ranging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Ranging</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./314_doa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Direction of arrival</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./315_bb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Baseband</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./316_device.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Device information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./317_scheduler.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Scheduler</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./318_shell.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Shell</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./319_doc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Documentation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./320_utils.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Utility agents</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./400_dev.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part IV: Develop &amp; Simulate</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./401_agents.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Developing agents</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./402_sim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Simulating networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./403_vao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Virtual acoustic ocean</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A1_porting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">What’s changed since v3?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A2_handshake.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">MySimpleHandshakeMac</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-interfaces" id="toc-sec-interfaces" class="nav-link active" data-scroll-target="#sec-interfaces"><span class="header-section-number">9.1</span> One node, many doors</a></li>
+  <li><a href="#unetsockets" id="toc-unetsockets" class="nav-link" data-scroll-target="#unetsockets"><span class="header-section-number">9.2</span> UnetSockets</a>
+  <ul class="collapse">
+  <li><a href="#opening-a-socket" id="toc-opening-a-socket" class="nav-link" data-scroll-target="#opening-a-socket"><span class="header-section-number">9.2.1</span> Opening a socket</a></li>
+  <li><a href="#socket-attributes" id="toc-socket-attributes" class="nav-link" data-scroll-target="#socket-attributes"><span class="header-section-number">9.2.2</span> Socket attributes</a></li>
+  <li><a href="#sending-datagrams" id="toc-sending-datagrams" class="nav-link" data-scroll-target="#sending-datagrams"><span class="header-section-number">9.2.3</span> Sending datagrams</a></li>
+  <li><a href="#receiving-datagrams" id="toc-receiving-datagrams" class="nav-link" data-scroll-target="#receiving-datagrams"><span class="header-section-number">9.2.4</span> Receiving datagrams</a></li>
+  <li><a href="#closing-the-socket" id="toc-closing-the-socket" class="nav-link" data-scroll-target="#closing-the-socket"><span class="header-section-number">9.2.5</span> Closing the socket</a></li>
+  </ul></li>
+  <li><a href="#gateways" id="toc-gateways" class="nav-link" data-scroll-target="#gateways"><span class="header-section-number">9.3</span> Gateways</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./201_unet.html">Part II: Using UnetStack</a></li><li class="breadcrumb-item"><a href="./206_api.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">UnetSockets and gateways</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-api" class="quarto-section-identifier"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">UnetSockets and gateways</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In <a href="102_quickstart.html#sec-unetsock-intro" class="quarto-xref"><span>Section 2.5.1</span></a>, we saw how external applications can connect to UnetStack using the <a href="../api/org/arl/unet/api/UnetSocket.html" target="_api"><code>UnetSocket</code></a> API. In this chapter, we go through the API in more detail.</p>
+<section id="sec-interfaces" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="sec-interfaces"><span class="header-section-number">9.1</span> One node, many doors</h2>
+<p>Before diving in, it is worth seeing how all the ways of interfacing with UnetStack relate to one another. A UnetStack node is a fjåge <em>container</em> hosting the agents that make up the stack (<a href="301_stack.html" class="quarto-xref"><span>Chapter 13</span></a>). Every interface — this chapter’s sockets, the shells you have been typing into, the portals of <a href="207_portals.html" class="quarto-xref"><span>Chapter 10</span></a> — is ultimately just a different door into that same container of agents (<a href="#fig-interfaces" class="quarto-xref">Figure&nbsp;<span>9.1</span></a>):</p>
+<div id="fig-interfaces" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-interfaces-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="media/interfaces.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-interfaces-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.1: Every interface is a door into the same fjåge container of agents: external programs enter through a <a href="../api/org/arl/unet/api/UnetSocket.html" target="_api"><code>UnetSocket</code></a> on a fjåge Gateway speaking the JSON protocol, while shells and portals are agents inside the container serving connections from outside.
+</figcaption>
+</figure>
+</div>
+<ul>
+<li><strong>UnetSocket API</strong> — an external program opens a <a href="../api/org/arl/unet/api/UnetSocket.html" target="_api"><code>UnetSocket</code></a>, which rides on a fjåge <strong><code>Gateway</code></strong>. The gateway speaks fjåge’s JSON protocol to the container over TCP (the API port, 1100 by default), a websocket, or a serial port, and makes the application look like just another agent to those inside: it can exchange messages, look up services, and get or set parameters. The API is implemented in many languages (Java/Groovy, Python, Julia, JavaScript, C), all speaking the same JSON protocol underneath.</li>
+<li><strong>Shells</strong> — a <em>shell agent</em> runs inside the container and executes commands on behalf of whoever is connected to it — over the console, TCP, a websocket or a serial port. The language depends on the shell’s script engine: Groovy for the interactive shells used throughout this handbook (<a href="318_shell.html" class="quarto-xref"><span>Chapter 30</span></a>), or AT commands for legacy integrations (<a href="209_atc.html" class="quarto-xref"><span>Chapter 12</span></a>). The browser-based web interface is a shell served over a websocket (<code>websh</code>).</li>
+<li><strong>Portals</strong> — <em>portal agents</em> (<a href="207_portals.html" class="quarto-xref"><span>Chapter 10</span></a>) pipe raw data between a UDP/TCP port or serial device and Unet datagrams, so an unmodified application can communicate over a Unet without knowing UnetStack exists.</li>
+</ul>
+<p>The <a href="../api/org/arl/unet/api/UnetSocket.html" target="_api"><code>UnetSocket</code></a> API is one of several ways to interface an application with UnetStack, and usually the best one: it gives full programmatic access to datagrams, parameters, messages and agents. When you cannot (or would rather not) modify the application, <em>portals</em> pipe data between the network and a UDP port, TCP port or serial device with no coding at all; and for legacy systems that already speak a modem command language, the <em>AT script engine</em> exposes the stack through text commands. Prefer a <a href="../api/org/arl/unet/api/UnetSocket.html" target="_api"><code>UnetSocket</code></a> for new applications, and reach for portals or AT commands when integrating existing ones.</p>
+</section>
+<section id="unetsockets" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="unetsockets"><span class="header-section-number">9.2</span> UnetSockets</h2>
+<p>The <a href="../api/org/arl/unet/api/UnetSocket.html" target="_api"><code>UnetSocket</code></a> API is modeled on datagram sockets APIs available on many platforms. The API is designed to be language agnostic, and has implementations in many languages (Java/Groovy, Python, Julia, JavaScript, C, etc). While our code examples in this chapter are in Groovy (<a href="102_quickstart.html#sec-unetsock-intro" class="quarto-xref"><span>Section 2.5.1</span></a> shows a Python example), the underlying concepts that we will illustrate apply to all languages. The API looks very similar in most languages, and the individual implementations have more documentation for that language.</p>
+<p>The basic steps to send/receive data with a <a href="../api/org/arl/unet/api/UnetSocket.html" target="_api"><code>UnetSocket</code></a> are:</p>
+<ol type="1">
+<li>Open the socket.</li>
+<li>Set socket attributes (optional).</li>
+<li>Send / receive data using the socket.</li>
+<li>Close the socket.</li>
+</ol>
+<p>If we have multiple datagrams to send / receive, we can hold the socket open until all datagrams are sent / received, and only close the socket once everything is done.</p>
+<section id="opening-a-socket" class="level3" data-number="9.2.1">
+<h3 data-number="9.2.1" class="anchored" data-anchor-id="opening-a-socket"><span class="header-section-number">9.2.1</span> Opening a socket</h3>
+<p>In order to open a socket, we usually specify the IP address of the UnetStack node and an API port number. The default port number for UnetStack-compatible modems is 1100. When setting up multiple simulated modems on a single computer, each modem requires a unique port number, and so it is common to use 1101, 1102, etc.</p>
+<p>Once we have the IP address and port, we open the socket by constructing a <a href="../api/org/arl/unet/api/UnetSocket.html" target="_api"><code>UnetSocket</code></a>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> org<span class="op">.</span>arl<span class="op">.</span>unet<span class="op">.</span>api<span class="op">.</span>UnetSocket</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dt">def</span> sock <span class="op">=</span> <span class="kw">new</span> <span class="fu">UnetSocket</span><span class="op">(</span><span class="st">'localhost'</span><span class="op">,</span> <span class="dv">1101</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>When running on the UnetStack shell itself (as in <a href="102_quickstart.html#sec-unetsock-intro" class="quarto-xref"><span>Section 2.5.1</span></a>), we instead pass the script object <code>this</code>, which connects the socket to the local container:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">def</span> sock <span class="op">=</span> <span class="kw">new</span> <span class="fu">UnetSocket</span><span class="op">(</span><span class="kw">this</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A socket can also be opened over a serial (RS232) connection by specifying the device name, baud rate and settings string (e.g.&nbsp;<code>new UnetSocket('/dev/ttyUSB0', 115200, 'N81')</code>).</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Not sure what to connect to? Type <code>iface</code> on the node’s shell — it lists the node’s live connectors, including the TCP API port (<code>tcp://...</code>), the websocket API (<code>ws://...</code>), and any shell interfaces (<a href="318_shell.html" class="quarto-xref"><span>Chapter 30</span></a>). The entry marked <code>[API]</code> is what a <a href="../api/org/arl/unet/api/UnetSocket.html" target="_api"><code>UnetSocket</code></a> connects to.</p>
+</div>
+</div>
+</section>
+<section id="socket-attributes" class="level3" data-number="9.2.2">
+<h3 data-number="9.2.2" class="anchored" data-anchor-id="socket-attributes"><span class="header-section-number">9.2.2</span> Socket attributes</h3>
+<p>A freshly opened socket can be used to send and receive datagrams straight away, but several attributes let us control how it behaves. The two most commonly used are the <em>protocol number</em> and the <em>destination address</em>.</p>
+<section id="protocol-numbers" class="level4" data-number="9.2.2.1">
+<h4 data-number="9.2.2.1" class="anchored" data-anchor-id="protocol-numbers"><span class="header-section-number">9.2.2.1</span> Protocol numbers</h4>
+<p>Every datagram carries a <em>protocol number</em> that lets applications distinguish their own traffic from other traffic flowing through the stack. Protocol number <code>Protocol.DATA</code> (0) is the default for general-purpose data. Protocol numbers <code>1</code> to <code>31</code> are reserved for internal use by the stack (ranging, link, routing, etc.) and cannot be used by applications. Application protocols use numbers from <code>Protocol.USER</code> (32) up to <code>Protocol.MAX</code> (63).</p>
+<p>To <em>receive</em> only datagrams with a particular protocol number, we bind the socket to that protocol:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sock<span class="op">.</span><span class="fu">bind</span><span class="op">(</span>Protocol<span class="op">.</span>USER<span class="op">)</span>        <span class="co">// listen only for protocol 32 datagrams</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>println sock<span class="op">.</span><span class="fu">isBound</span><span class="op">()</span>          <span class="co">// true</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>println sock<span class="op">.</span><span class="fu">getLocalProtocol</span><span class="op">()</span> <span class="co">// 32</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>sock<span class="op">.</span><span class="fu">unbind</span><span class="op">()</span>                   <span class="co">// listen for all unreserved protocols again</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>An unbound socket (the default) receives datagrams of all unreserved protocols (<code>Protocol.DATA</code> and <code>Protocol.USER</code> to <code>Protocol.MAX</code>), as well as broadcast datagrams. <code>bind()</code> returns <code>false</code> if the requested protocol number is a reserved one.</p>
+<p>To set a default destination address and protocol number for <em>sending</em>, we connect the socket:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">def</span> addr <span class="op">=</span> sock<span class="op">.</span><span class="fu">host</span><span class="op">(</span><span class="st">'B'</span><span class="op">)</span>       <span class="co">// resolve node name 'B' to its address</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>sock<span class="op">.</span><span class="fu">connect</span><span class="op">(</span>addr<span class="op">,</span> Protocol<span class="op">.</span>USER<span class="op">)</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>println sock<span class="op">.</span><span class="fu">isConnected</span><span class="op">()</span>      <span class="co">// true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>After <code>connect()</code>, a plain <code>send(data)</code> will go to this default destination using this default protocol. Calling <code>disconnect()</code> clears the default destination (and resets the protocol to <code>Protocol.DATA</code>). The <code>host()</code> method resolves a node name to its address using the address resolution service (<a href="303_addr.html" class="quarto-xref"><span>Chapter 15</span></a>), and <code>getLocalAddress()</code> returns the address of the local node.</p>
+</section>
+<section id="timeout" class="level4" data-number="9.2.2.2">
+<h4 data-number="9.2.2.2" class="anchored" data-anchor-id="timeout"><span class="header-section-number">9.2.2.2</span> Timeout</h4>
+<p>The <code>receive()</code> call blocks indefinitely by default. We can change this with <code>setTimeout()</code>, which takes a timeout in milliseconds:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sock<span class="op">.</span><span class="fu">setTimeout</span><span class="op">(</span><span class="dv">5000</span><span class="op">)</span>                 <span class="co">// receive() waits at most 5 seconds</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>sock<span class="op">.</span><span class="fu">setTimeout</span><span class="op">(</span>UnetSocket<span class="op">.</span>NON_BLOCKING<span class="op">)</span>  <span class="co">// 0: return immediately if no data</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>sock<span class="op">.</span><span class="fu">setTimeout</span><span class="op">(</span>UnetSocket<span class="op">.</span>BLOCKING<span class="op">)</span>      <span class="co">// -1: block forever (the default)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="send-mode-and-qos-attributes" class="level4" data-number="9.2.2.3">
+<h4 data-number="9.2.2.3" class="anchored" data-anchor-id="send-mode-and-qos-attributes"><span class="header-section-number">9.2.2.3</span> Send mode and QoS attributes</h4>
+<p>The <em>send mode</em> controls how long a <code>send()</code> call blocks:</p>
+<ul>
+<li><code>UnetSocket.NON_BLOCKING</code> (0) — request transmission and return immediately, without waiting for acceptance or transmission.</li>
+<li><code>UnetSocket.SEMI_BLOCKING</code> (-2, the default) — wait until the datagram is accepted for transmission, but (for unreliable datagrams) do not wait for the actual transmission.</li>
+<li><code>UnetSocket.BLOCKING</code> (-1) — wait until the datagram is transmitted; for a reliable socket, wait until delivery is acknowledged (or fails).</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sock<span class="op">.</span><span class="fu">setSendMode</span><span class="op">(</span>UnetSocket<span class="op">.</span>BLOCKING<span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Datagrams sent through the socket also carry quality-of-service attributes that mirror those on a <a href="../api/org/arl/unet/DatagramReq.html" target="_api"><code>DatagramReq</code></a> (see <a href="205_qos.html" class="quarto-xref"><span>Chapter 8</span></a>). These are set as socket attributes and apply to subsequent <code>send()</code> calls:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sock<span class="op">.</span><span class="fu">setReliability</span><span class="op">(</span><span class="kw">true</span><span class="op">)</span>             <span class="co">// request acknowledged end-to-end delivery</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>sock<span class="op">.</span><span class="fu">setPriority</span><span class="op">(</span>Priority<span class="op">.</span>HIGH<span class="op">)</span>       <span class="co">// Priority.URGENT/HIGH/NORMAL/LOW/IDLE</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>sock<span class="op">.</span><span class="fu">setRobustness</span><span class="op">(</span>Robustness<span class="op">.</span>ROBUST<span class="op">)</span> <span class="co">// more robust (slower) coding</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>sock<span class="op">.</span><span class="fu">setTtl</span><span class="op">(</span><span class="dv">60</span><span class="op">)</span>                       <span class="co">// time-to-live in seconds</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>In Groovy, the getter/setter pairs can also be used as properties, e.g.&nbsp;<code>sock.reliability = true</code> and <code>sock.priority = Priority.HIGH</code>, as illustrated in <a href="102_quickstart.html#sec-unetsock-intro" class="quarto-xref"><span>Section 2.5.1</span></a>.</p>
+</section>
+</section>
+<section id="sending-datagrams" class="level3" data-number="9.2.3">
+<h3 data-number="9.2.3" class="anchored" data-anchor-id="sending-datagrams"><span class="header-section-number">9.2.3</span> Sending datagrams</h3>
+<p>The <code>send()</code> method transmits a datagram. There are three forms:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sock<span class="op">.</span><span class="fu">send</span><span class="op">(</span>data<span class="op">)</span>                  <span class="co">// to the connected default destination/protocol</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>sock<span class="op">.</span><span class="fu">send</span><span class="op">(</span>data<span class="op">,</span> to<span class="op">)</span>              <span class="co">// to address 'to', using the default protocol</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>sock<span class="op">.</span><span class="fu">send</span><span class="op">(</span>data<span class="op">,</span> to<span class="op">,</span> protocol<span class="op">)</span>    <span class="co">// to address 'to', using the given protocol</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>where <code>data</code> is a byte array. For example, to send the bytes of a string to node <code>B</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dt">def</span> addr <span class="op">=</span> sock<span class="op">.</span><span class="fu">host</span><span class="op">(</span><span class="st">'B'</span><span class="op">)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>sock<span class="op">.</span><span class="fu">send</span><span class="op">(</span><span class="st">'hello!'</span><span class="op">.</span>bytes<span class="op">,</span> addr<span class="op">,</span> Protocol<span class="op">.</span>USER<span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>send()</code> returns <code>true</code> if the datagram was accepted (and, depending on the send mode and reliability, transmitted or delivered), or <code>false</code> on failure. The first form requires the socket to have been connected first; it returns <code>false</code> otherwise.</p>
+<p>Which agent actually carries the datagram is chosen automatically: the socket picks the highest-level <code>DATAGRAM</code> provider available (remote/transport, then routing, then link, then physical), so an application normally does not need to care whether the data goes single-hop or multi-hop.</p>
+<p>The destination, protocol, reliability, priority, robustness and TTL all map onto the underlying <a href="../api/org/arl/unet/DatagramReq.html" target="_api"><code>DatagramReq</code></a> described in <a href="304_datagram.html" class="quarto-xref"><span>Chapter 16</span></a>. When reliability is requested, the socket waits (in <code>BLOCKING</code>/<code>SEMI_BLOCKING</code> mode) for a <a href="../api/org/arl/unet/DatagramDeliveryNtf.html" target="_api"><code>DatagramDeliveryNtf</code></a> before returning <code>true</code>.</p>
+</section>
+<section id="receiving-datagrams" class="level3" data-number="9.2.4">
+<h3 data-number="9.2.4" class="anchored" data-anchor-id="receiving-datagrams"><span class="header-section-number">9.2.4</span> Receiving datagrams</h3>
+<p>The <code>receive()</code> method returns the next incoming datagram as a <a href="../api/org/arl/unet/DatagramNtf.html" target="_api"><code>DatagramNtf</code></a>, or <code>null</code> if the socket timeout is reached (or the call is cancelled) before any datagram arrives:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>sock<span class="op">.</span><span class="fu">bind</span><span class="op">(</span>Protocol<span class="op">.</span>USER<span class="op">)</span>         <span class="co">// optional: only receive protocol 32 datagrams</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>sock<span class="op">.</span><span class="fu">setTimeout</span><span class="op">(</span><span class="dv">10000</span><span class="op">)</span>           <span class="co">// wait at most 10 seconds</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="dt">def</span> rx <span class="op">=</span> sock<span class="op">.</span><span class="fu">receive</span><span class="op">()</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>rx <span class="op">!=</span> <span class="kw">null</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  println rx<span class="op">.</span>from                <span class="co">// sender's node address</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  println rx<span class="op">.</span>to                  <span class="co">// recipient address (our address, or broadcast)</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  println rx<span class="op">.</span>protocol            <span class="co">// protocol number</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  println <span class="kw">new</span> <span class="bu">String</span><span class="op">(</span>rx<span class="op">.</span>data<span class="op">)</span>    <span class="co">// convert the received bytes to a string</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This shows: <!-- sim-output --></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>232</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>31</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>32</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>hello!</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If the socket is bound to a protocol (via <code>bind()</code>), only datagrams with that protocol number are returned; otherwise all unreserved-protocol and broadcast datagrams are returned. The received data is a byte array (<code>rx.data</code>), which we convert as needed — for example with <code>new String(rx.data)</code> for text, as shown in <a href="102_quickstart.html#sec-unetsock-intro" class="quarto-xref"><span>Section 2.5.1</span></a>.</p>
+<p>A blocking <code>receive()</code> running in another thread can be interrupted by calling <code>sock.cancel()</code>, which causes the pending <code>receive()</code> to return <code>null</code>.</p>
+</section>
+<section id="closing-the-socket" class="level3" data-number="9.2.5">
+<h3 data-number="9.2.5" class="anchored" data-anchor-id="closing-the-socket"><span class="header-section-number">9.2.5</span> Closing the socket</h3>
+<p>When we are done with the socket, we close it:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sock<span class="op">.</span><span class="fu">close</span><span class="op">()</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>println sock<span class="op">.</span><span class="fu">isClosed</span><span class="op">()</span>          <span class="co">// true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Closing the socket releases the underlying network connection (the fjåge gateway and its TCP/serial connection) to the modem. This matters: a modem accepts only a limited number of simultaneous connections, so a socket left open ties up a connection until it is reclaimed. Always close sockets when finished — for example in a <code>finally</code> block, or by relying on <a href="../api/org/arl/unet/api/UnetSocket.html" target="_api"><code>UnetSocket</code></a> implementing <code>Closeable</code> (so a Java try-with-resources block closes it automatically). After <code>close()</code>, the socket can no longer be used.</p>
+</section>
+</section>
+<section id="gateways" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="gateways"><span class="header-section-number">9.3</span> Gateways</h2>
+<p>The <a href="../api/org/arl/unet/api/UnetSocket.html" target="_api"><code>UnetSocket</code></a> API is intended for sending and receiving datagrams. Under the hood, it is built on a fjåge <strong><code>Gateway</code></strong> that connects the application to the agents running on the Unet node. The gateway gives us lower-level access to the stack: we can exchange arbitrary messages with agents, look up agents by the service they provide, and get or set agent parameters. This is the same agent/service/message framework described in <a href="301_stack.html" class="quarto-xref"><span>Chapter 13</span></a> and used throughout Part III.</p>
+<p>We obtain the gateway from an open socket with <code>getGateway()</code>, and look up agents with <code>agentForService()</code>, <code>agentsForService()</code> or <code>agent()</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dt">def</span> gw <span class="op">=</span> sock<span class="op">.</span>gateway                                  <span class="co">// the underlying fjåge Gateway</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="dt">def</span> phy <span class="op">=</span> sock<span class="op">.</span><span class="fu">agentForService</span><span class="op">(</span>Services<span class="op">.</span>PHYSICAL<span class="op">)</span>      <span class="co">// find the physical-layer agent</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>With an agent reference, we can read and write its parameters (<a href="301_stack.html" class="quarto-xref"><span>Chapter 13</span></a>), and send and receive arbitrary messages. For example, to read the physical-layer MTU and change a parameter, then transmit a frame and wait for a notification:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>println phy<span class="op">.</span>MTU                       <span class="co">// get a parameter (prints: 16)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>phy<span class="op">[</span>Physical<span class="op">.</span>DATA<span class="op">].</span>frameLength <span class="op">=</span> <span class="dv">32</span>   <span class="co">// set an indexed parameter</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>gw<span class="op">.</span><span class="fu">subscribe</span><span class="op">(</span>phy<span class="op">)</span>                     <span class="co">// subscribe to the agent's notifications</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="dt">def</span> ntf <span class="op">=</span> gw<span class="op">.</span><span class="fu">receive</span><span class="op">(</span><span class="dv">10000</span><span class="op">)</span>           <span class="co">// receive any message, waiting up to 10 s</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Looking up agents and accessing their parameters and messages this way lets an application do anything the shell can do — tune the physical layer (<a href="305_phy.html" class="quarto-xref"><span>Chapter 17</span></a>), query node information (<a href="302_node.html" class="quarto-xref"><span>Chapter 14</span></a>), drive ranging (<a href="313_ranging.html" class="quarto-xref"><span>Chapter 25</span></a>), and so on. The relevant messages and parameters for each service are documented in the corresponding service chapter in Part III.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In languages other than Java/Groovy (e.g.&nbsp;Python with <code>unetpy</code>), services and parameters are referenced as strings (e.g.&nbsp;<code>'org.arl.unet.Services.PHYSICAL'</code>), and reserved-word fields such as <code>from</code> are accessed as <code>from_</code>. Messages are represented by classes generated from the same message definitions, so their names and fields match what you see in this handbook. The gateway concepts are otherwise identical. See the language-specific API documentation for details.</p>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./205_qos.html" class="pagination-link" aria-label="Data transfers &amp; QoS">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data transfers &amp; QoS</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./207_portals.html" class="pagination-link" aria-label="Portals">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Portals</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

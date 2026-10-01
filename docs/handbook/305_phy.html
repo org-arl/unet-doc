@@ -1,0 +1,2622 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>17&nbsp; Physical – UnetStack Handbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./306_link.html" rel="next">
+<link href="./304_datagram.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-4c5f10e325026434afc233e7baf6c567.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="unetsh.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./300_services.html">Part III: Agents &amp; Services</a></li><li class="breadcrumb-item"><a href="./305_phy.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Physical</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">UnetStack Handbook</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part I: Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./101_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./102_quickstart.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting started</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./103_basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">UnetStack basics</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part II: Using UnetStack</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./201_unet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Unet basics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./202_small.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Setting up small networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./203_large.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Routing in larger networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./204_wired.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Non-acoustic links</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./205_qos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data transfers &amp; QoS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./206_api.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">UnetSockets and gateways</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./207_portals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Portals</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./208_wormholes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Wormholes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./209_atc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">AT script engine</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./300_services.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part III: Agents &amp; Services</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./301_stack.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">The default stack</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./302_node.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Node information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./303_addr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Address resolution</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./304_datagram.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Datagram</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./305_phy.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Physical</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./306_link.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Link</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./307_mac.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Medium access control</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./308_tuner.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Link tuning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./309_router.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Routing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./310_rdp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Route maintenance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./311_transport.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Transport</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./312_remote.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Remote access</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./313_ranging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Ranging</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./314_doa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Direction of arrival</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./315_bb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Baseband</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./316_device.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Device information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./317_scheduler.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Scheduler</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./318_shell.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Shell</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./319_doc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Documentation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./320_utils.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Utility agents</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./400_dev.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part IV: Develop &amp; Simulate</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./401_agents.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Developing agents</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./402_sim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Simulating networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./403_vao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Virtual acoustic ocean</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A1_porting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">What’s changed since v3?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A2_handshake.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">MySimpleHandshakeMac</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">17.1</span> Overview</a></li>
+  <li><a href="#capabilities" id="toc-capabilities" class="nav-link" data-scroll-target="#capabilities"><span class="header-section-number">17.2</span> Capabilities</a></li>
+  <li><a href="#messages" id="toc-messages" class="nav-link" data-scroll-target="#messages"><span class="header-section-number">17.3</span> Messages</a></li>
+  <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters"><span class="header-section-number">17.4</span> Parameters</a></li>
+  <li><a href="#channel-parameters" id="toc-channel-parameters" class="nav-link" data-scroll-target="#channel-parameters"><span class="header-section-number">17.5</span> Channel parameters</a></li>
+  <li><a href="#commands" id="toc-commands" class="nav-link" data-scroll-target="#commands"><span class="header-section-number">17.6</span> Commands</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples"><span class="header-section-number">17.7</span> Examples</a></li>
+  <li><a href="#sec-phy-timed" id="toc-sec-phy-timed" class="nav-link" data-scroll-target="#sec-phy-timed"><span class="header-section-number">17.8</span> Timed &amp; timestamped transmissions</a></li>
+  <li><a href="#sec-phy-janus" id="toc-sec-phy-janus" class="nav-link" data-scroll-target="#sec-phy-janus"><span class="header-section-number">17.9</span> JANUS &amp; SWiG1</a>
+  <ul class="collapse">
+  <li><a href="#janus" id="toc-janus" class="nav-link" data-scroll-target="#janus"><span class="header-section-number">17.9.1</span> JANUS</a></li>
+  <li><a href="#swig1" id="toc-swig1" class="nav-link" data-scroll-target="#swig1"><span class="header-section-number">17.9.2</span> SWiG1</a></li>
+  </ul></li>
+  <li><a href="#sec-phy-signals" id="toc-sec-phy-signals" class="nav-link" data-scroll-target="#sec-phy-signals"><span class="header-section-number">17.10</span> Signal-frame conversion &amp; FEC decoding</a>
+  <ul class="collapse">
+  <li><a href="#signal-frame-conversion" id="toc-signal-frame-conversion" class="nav-link" data-scroll-target="#signal-frame-conversion"><span class="header-section-number">17.10.1</span> Signal-frame conversion</a></li>
+  <li><a href="#fec-decoding" id="toc-fec-decoding" class="nav-link" data-scroll-target="#fec-decoding"><span class="header-section-number">17.10.2</span> FEC decoding</a></li>
+  </ul></li>
+  <li><a href="#implementations" id="toc-implementations" class="nav-link" data-scroll-target="#implementations"><span class="header-section-number">17.11</span> Implementations</a>
+  <ul class="collapse">
+  <li><a href="#modem-firmware-phy" id="toc-modem-firmware-phy" class="nav-link" data-scroll-target="#modem-firmware-phy"><span class="header-section-number">17.11.1</span> Modem firmware (<code>phy</code>)</a></li>
+  <li><a href="#halfduplexmodem-phy" id="toc-halfduplexmodem-phy" class="nav-link" data-scroll-target="#halfduplexmodem-phy"><span class="header-section-number">17.11.2</span> HalfDuplexModem (<code>phy</code>)</a></li>
+  <li><a href="#popoto-modem-driver" id="toc-popoto-modem-driver" class="nav-link" data-scroll-target="#popoto-modem-driver"><span class="header-section-number">17.11.3</span> Popoto (modem driver)</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./300_services.html">Part III: Agents &amp; Services</a></li><li class="breadcrumb-item"><a href="./305_phy.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Physical</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-phy" class="quarto-section-identifier"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Physical</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><code>org.arl.unet.Services.PHYSICAL</code></p>
+<section id="overview" class="level2" data-number="17.1">
+<h2 data-number="17.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">17.1</span> Overview</h2>
+<p>The <code>PHYSICAL</code> service is responsible for the transmission and reception of frames over the communication medium. An agent providing this service also provides the <code>DATAGRAM</code> service (<a href="304_datagram.html" class="quarto-xref"><span>Chapter 16</span></a>) for single-frame datagrams.</p>
+<p>Most acoustic modems support more than one type of frame, optimized for different purposes. UnetStack models these as <em>channels</em>, accessed as indexed parameters (<a href="103_basics.html" class="quarto-xref"><span>Chapter 3</span></a>). Four standard channels are defined (<a href="../api/org/arl/unet/phy/Physical.html" target="_api"><code>org.arl.unet.phy.Physical</code></a>):</p>
+<ul>
+<li>the <code>CONTROL</code> channel (index 1), a low-rate but robust channel typically used for signaling and small control messages;</li>
+<li>the <code>DATA</code> channel (index 2), a higher-rate channel typically used for bulk data transfer;</li>
+<li>the <code>AUX</code> channel (index 3), an auxiliary channel often used for standardized communication schemes such as JANUS and SWiG; and</li>
+<li>the <code>CUSTOM</code> channel (index 4), reserved for user-defined use cases.</li>
+</ul>
+<p>Channel parameters are accessed using an index, e.g.&nbsp;<code>phy[CONTROL].dataRate</code> or <code>phy[DATA].MTU</code>. Every modem provides the <code>CONTROL</code> and <code>DATA</code> channels; the remaining channels, and any modem-specific parameters, depend on the modem.</p>
+<p>A frame is transmitted by sending a <a href="../api/org/arl/unet/phy/TxFrameReq.html" target="_api"><code>TxFrameReq</code></a> to the physical agent, specifying the channel <code>type</code> and the data. The agent transmits the frame and reports completion with a <a href="../api/org/arl/unet/phy/TxFrameNtf.html" target="_api"><code>TxFrameNtf</code></a>. On the receiving node, a successfully decoded frame is delivered as a <a href="../api/org/arl/unet/phy/RxFrameNtf.html" target="_api"><code>RxFrameNtf</code></a>, while a frame that is detected but cannot be decoded is reported as a <a href="../api/org/arl/unet/phy/BadFrameNtf.html" target="_api"><code>BadFrameNtf</code></a>. Agents that need fine timing information (e.g.&nbsp;for ranging, <a href="313_ranging.html" class="quarto-xref"><span>Chapter 25</span></a>) can also subscribe to the <a href="../api/org/arl/unet/phy/TxFrameStartNtf.html" target="_api"><code>TxFrameStartNtf</code></a> and <a href="../api/org/arl/unet/phy/RxFrameStartNtf.html" target="_api"><code>RxFrameStartNtf</code></a> notifications, which mark the exact start of transmission and reception.</p>
+<p>The <a href="../api/org/arl/unet/phy/TxFrameReq.html" target="_api"><code>TxFrameReq</code></a> is a subclass of <a href="../api/org/arl/unet/DatagramReq.html" target="_api"><code>DatagramReq</code></a>, and the physical agent treats a plain-vanilla <a href="../api/org/arl/unet/DatagramReq.html" target="_api"><code>DatagramReq</code></a> as a <a href="../api/org/arl/unet/phy/TxFrameReq.html" target="_api"><code>TxFrameReq</code></a> with <code>type=DATA</code>. The <a href="../api/org/arl/unet/phy/RxFrameNtf.html" target="_api"><code>RxFrameNtf</code></a> is a subclass of <a href="../api/org/arl/unet/DatagramNtf.html" target="_api"><code>DatagramNtf</code></a> and is usually delivered to the <code>Topics.DATAGRAM</code> topic. The only exception is for snooped frames, which are delivered to the physical agent’s topic. For more details see <a href="304_datagram.html" class="quarto-xref"><span>Chapter 16</span></a>.</p>
+<p>Beyond plain frames, the physical service also supports transmitting at a precise time and embedding a transmit timestamp in the frame (<a href="#sec-phy-timed" class="quarto-xref"><span>Section 17.8</span></a>), interoperable JANUS and SWiG1 frames (<a href="#sec-phy-janus" class="quarto-xref"><span>Section 17.9</span></a>), and offline conversion between frames and baseband signals and software FEC decoding (<a href="#sec-phy-signals" class="quarto-xref"><span>Section 17.10</span></a>). Each of these depends on a corresponding capability being advertised by the modem.</p>
+</section>
+<section id="capabilities" class="level2" data-number="17.2">
+<h2 data-number="17.2" class="anchored" data-anchor-id="capabilities"><span class="header-section-number">17.2</span> Capabilities</h2>
+<p>Optional features of a physical agent are advertised through capabilities (<a href="../api/org/arl/unet/phy/PhysicalCapability.html" target="_api"><code>org.arl.unet.phy.PhysicalCapability</code></a>), which can be queried with a <a href="../api/org/arl/unet/CapabilityReq.html" target="_api"><code>CapabilityReq</code></a>:</p>
+<ul>
+<li><code>TIMED_TX</code> – transmission of frames at a specified time (<code>txStartTime</code>)</li>
+<li><code>TIMESTAMPED_TX</code> – transmissions with a timestamp encapsulated in the frame (<code>timestamped</code>)</li>
+<li><code>JANUS</code> – support for JANUS frames (<a href="../api/org/arl/unet/phy/TxJanusFrameReq.html" target="_api"><code>TxJanusFrameReq</code></a>, delivered as <a href="../api/org/arl/unet/phy/RxJanusFrameNtf.html" target="_api"><code>RxJanusFrameNtf</code></a>)</li>
+<li><code>SWiG1</code> – support for SWiG1 frames (<a href="../api/org/arl/unet/phy/TxSWiG1FrameReq.html" target="_api"><code>TxSWiG1FrameReq</code></a>, delivered as <a href="../api/org/arl/unet/phy/RxSWiG1FrameNtf.html" target="_api"><code>RxSWiG1FrameNtf</code></a>)</li>
+<li><code>SIGNALS</code> – offline conversion between frames and baseband signals (<a href="../api/org/arl/unet/phy/FrameToSignalReq.html" target="_api"><code>FrameToSignalReq</code></a>, <a href="../api/org/arl/unet/phy/SignalToFrameReq.html" target="_api"><code>SignalToFrameReq</code></a>)</li>
+<li><code>FEC_DECODING</code> – offline forward-error-correction decoding of soft-decision data (<a href="../api/org/arl/unet/phy/FecDecodeReq.html" target="_api"><code>FecDecodeReq</code></a>)</li>
+</ul>
+</section>
+<section id="messages" class="level2" data-number="17.3">
+<h2 data-number="17.3" class="anchored" data-anchor-id="messages"><span class="header-section-number">17.3</span> Messages</h2>
+<p>Agents providing this service honor the following request:</p>
+<div id="4" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/phy/TxFrameReq.html" target="_api"><code>TxFrameReq</code></a> – transmit a frame</p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>data</code></td>
+<td style="text-align: right;"><code>byte[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>from</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;">internal use only</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>priority</code></td>
+<td style="text-align: right;"><a href="../api/org/arl/unet/Priority.html" target="_api"><code>Priority</code></a></td>
+<td style="text-align: right;"><code>NORMAL</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>progress</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"><code>false</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>protocol</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>reliability</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>robustness</code></td>
+<td style="text-align: right;"><a href="../api/org/arl/unet/Robustness.html" target="_api"><code>Robustness</code></a></td>
+<td style="text-align: right;"><code>NORMAL</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>route</code></td>
+<td style="text-align: right;"><code>string</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>shortcircuit</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"><code>true</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>timestamped</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"><code>false</code></td>
+<td style="text-align: right;">true for timestamped transmission</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>to</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>ttl</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>NaN</code></td>
+<td style="text-align: right;">time-to-live in seconds</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>txStartTime</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">transmission start time for scheduled/timestamped frames</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>type</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>1</code></td>
+<td style="text-align: right;">channel type (<code>CONTROL</code>/<code>DATA</code>/<code>AUX</code>/<code>CUSTOM</code>)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>wakeup</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"><code>false</code></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+</div>
+<p>The request is answered with an <code>AGREE</code> once the frame is accepted for transmission, or a <code>REFUSE</code> if it cannot be honored (bad channel type, data longer than the frame capacity, or an unsupported option such as <code>reliability</code>). If the request fails in processing, a <code>FAILURE</code> response may be generated. The agent then generates the following notifications:</p>
+<div id="6" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/phy/TxFrameStartNtf.html" target="_api"><code>TxFrameStartNtf</code></a> – frame transmission started</p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>to</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>-1</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>txDuration</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>txStartTime</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>type</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>-1</code></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/phy/TxFrameNtf.html" target="_api"><code>TxFrameNtf</code></a> – frame transmission completed</p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>location</code></td>
+<td style="text-align: right;"><code>double[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>to</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>-1</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>txStartTime</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>type</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>-1</code></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/phy/RxFrameStartNtf.html" target="_api"><code>RxFrameStartNtf</code></a> – frame reception started</p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>detector</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>0.0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>rxDuration</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>rxStartTime</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>type</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>-1</code></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/phy/RxFrameNtf.html" target="_api"><code>RxFrameNtf</code></a> – frame successfully received</p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>bits</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>bytes</code></td>
+<td style="text-align: right;"><code>byte[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>cfo</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>NaN</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>data</code></td>
+<td style="text-align: right;"><code>byte[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>errors</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>from</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>location</code></td>
+<td style="text-align: right;"><code>double[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>metrics</code></td>
+<td style="text-align: right;"><code>float[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>priority</code></td>
+<td style="text-align: right;"><code>enum</code></td>
+<td style="text-align: right;"><code>NORMAL</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>protocol</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>rssi</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>NaN</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>rxStartTime</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>schemeCode</code></td>
+<td style="text-align: right;"><code>string</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>to</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>ttl</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>NaN</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>txStartTime</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>type</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>1</code></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/phy/BadFrameNtf.html" target="_api"><code>BadFrameNtf</code></a> – frame received with errors</p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>bytes</code></td>
+<td style="text-align: right;"><code>byte[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>location</code></td>
+<td style="text-align: right;"><code>double[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>metrics</code></td>
+<td style="text-align: right;"><code>float[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>rssi</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>NaN</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>rxStartTime</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>schemeCode</code></td>
+<td style="text-align: right;"><code>string</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>type</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>-1</code></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+</div>
+<p>The <a href="../api/org/arl/unet/phy/TxFrameNtf.html" target="_api"><code>TxFrameNtf</code></a> is sent to the agent that requested the transmission, while the <a href="../api/org/arl/unet/phy/TxFrameStartNtf.html" target="_api"><code>TxFrameStartNtf</code></a>, <a href="../api/org/arl/unet/phy/RxFrameStartNtf.html" target="_api"><code>RxFrameStartNtf</code></a> and <a href="../api/org/arl/unet/phy/BadFrameNtf.html" target="_api"><code>BadFrameNtf</code></a> notifications are published on the physical agent’s topic. A received frame (<a href="../api/org/arl/unet/phy/RxFrameNtf.html" target="_api"><code>RxFrameNtf</code></a>, a <a href="../api/org/arl/unet/DatagramNtf.html" target="_api"><code>DatagramNtf</code></a> subtype) follows the datagram delivery convention (<a href="304_datagram.html" class="quarto-xref"><span>Chapter 16</span></a>): frames addressed to this node (or broadcast) are published on the global <code>Topics.DATAGRAM</code> topic, while frames overheard for <em>other</em> nodes are published on the agent’s own topic — so subscribing to the physical agent lets you snoop on all traffic within earshot. <a href="../api/org/arl/unet/phy/TxFrameNtf.html" target="_api"><code>TxFrameNtf</code></a> is a subclass of <a href="../api/org/arl/unet/DatagramTransmissionNtf.html" target="_api"><code>DatagramTransmissionNtf</code></a>, and is sent back only to the requester of the original transmission request.</p>
+<p>Depending on the capabilities it advertises, an agent may honor additional requests: <a href="../api/org/arl/unet/phy/TxJanusFrameReq.html" target="_api"><code>TxJanusFrameReq</code></a> and <a href="../api/org/arl/unet/phy/TxSWiG1FrameReq.html" target="_api"><code>TxSWiG1FrameReq</code></a> for standardized frames (<a href="#sec-phy-janus" class="quarto-xref"><span>Section 17.9</span></a>), and <a href="../api/org/arl/unet/phy/FrameToSignalReq.html" target="_api"><code>FrameToSignalReq</code></a>, <a href="../api/org/arl/unet/phy/SignalToFrameReq.html" target="_api"><code>SignalToFrameReq</code></a> and <a href="../api/org/arl/unet/phy/FecDecodeReq.html" target="_api"><code>FecDecodeReq</code></a> for offline signal processing (<a href="#sec-phy-signals" class="quarto-xref"><span>Section 17.10</span></a>). These messages, and the notifications they generate, are described in the corresponding sections below. Physical agents also honor <a href="../api/org/arl/unet/ClearReq.html" target="_api"><code>ClearReq</code></a> (<a href="304_datagram.html" class="quarto-xref"><span>Chapter 16</span></a>) — it aborts any ongoing or queued transmission and flushes the transmit queue, and is most conveniently sent using the <code>pclr</code> shell command.</p>
+</section>
+<section id="parameters" class="level2" data-number="17.4">
+<h2 data-number="17.4" class="anchored" data-anchor-id="parameters"><span class="header-section-number">17.4</span> Parameters</h2>
+<div id="8" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>The following parameters are available on all modems. Additional modem dependent parameters may also be available.</p>
+<ul>
+<li><code>MTU</code> – maximum transmission unit (MTU) in bytes</li>
+<li><code>RTU</code> – recommended data transfer size in bytes</li>
+<li><a href="../api/org/arl/unet/phy/PhysicalParam.html#rxEnable"><code>rxEnable</code></a> :: <code>boolean</code> – true if reception enabled</li>
+<li><a href="../api/org/arl/unet/phy/PhysicalParam.html#timestampedTxDelay"><code>timestampedTxDelay</code></a> :: <code>float</code> – delay before TX of timestamped frames</li>
+<li><a href="../api/org/arl/unet/phy/PhysicalParam.html#time"><code>time</code></a> :: <code>long</code> – physical layer time (microseconds)</li>
+<li><a href="../api/org/arl/unet/phy/PhysicalParam.html#busy"><code>busy</code></a> :: <code>boolean</code> – true if modem is TX/RX a frame, false if idle</li>
+<li><a href="../api/org/arl/unet/phy/PhysicalParam.html#maxPowerLevel"><code>maxPowerLevel</code></a> :: <code>float</code> – maximum supported power level (relative to reference)</li>
+<li><a href="../api/org/arl/unet/phy/PhysicalParam.html#minPowerLevel"><code>minPowerLevel</code></a> :: <code>float</code> – minimum supported power level (relative to reference)</li>
+<li><a href="../api/org/arl/unet/phy/PhysicalParam.html#baseband"><code>baseband</code></a> :: <code>String</code> – name of baseband service provider</li>
+</ul>
+</div>
+</div>
+<p>The <code>time</code> parameter deserves special mention: it reports the physical layer’s own clock in microseconds, which timestamps all <code>txStartTime</code>/<code>rxStartTime</code> fields in the physical-layer messages. This clock is generally <em>not</em> synchronized to the system clock, but is precise, making it the time base for ranging and scheduled transmissions.</p>
+</section>
+<section id="channel-parameters" class="level2" data-number="17.5">
+<h2 data-number="17.5" class="anchored" data-anchor-id="channel-parameters"><span class="header-section-number">17.5</span> Channel parameters</h2>
+<p>In addition to the agent parameters above, each channel exposes a set of indexed parameters, accessed as <code>phy[CONTROL]</code>, <code>phy[DATA]</code>, etc.:</p>
+<div id="10" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>The following parameters are available on all modems. Additional modem dependent parameters may also be available.</p>
+<ul>
+<li><p><code>MTU</code> – maximum transmission unit (MTU) in bytes</p></li>
+<li><p><code>RTU</code> – recommended data transfer size in bytes</p></li>
+<li><p><a href="../api/org/arl/unet/phy/PhysicalChannelParam.html#dataRate"><code>dataRate</code></a> :: <code>float</code> – effective frame data rate (bps)</p></li>
+<li><p><a href="../api/org/arl/unet/phy/PhysicalChannelParam.html#frameDuration"><code>frameDuration</code></a> :: <code>float</code> – frame duration (seconds)</p></li>
+<li><p><a href="../api/org/arl/unet/phy/PhysicalChannelParam.html#powerLevel"><code>powerLevel</code></a> :: <code>float</code> – transmission power level (dB re reference)</p></li>
+<li><p><a href="../api/org/arl/unet/phy/PhysicalChannelParam.html#frameLength"><code>frameLength</code></a> :: <code>int</code> – frame length (bytes)</p></li>
+<li><p><a href="../api/org/arl/unet/phy/PhysicalChannelParam.html#maxFrameLength"><code>maxFrameLength</code></a> :: <code>int</code> – maximum settable frame length (bytes)</p></li>
+<li><p><a href="../api/org/arl/unet/phy/PhysicalChannelParam.html#fec"><code>fec</code></a> :: <code>String</code> – forward error correction code</p>
+<p>A value of <code>none</code> indicates no error correction. Other values represent various FEC codes from the <code>phy[].fecList</code>.</p></li>
+<li><p><a href="../api/org/arl/unet/phy/PhysicalChannelParam.html#fecList"><code>fecList</code></a> :: <code>String[]</code> <em>(nullable)</em> – list of available forward error correction codes</p>
+<pre><code>ldpc-1/1 - 1-rate LDPC FEC code
+ldpc-2/3 - 2/3-rate LDPC FEC code
+ldpc-1/2 - 1/2-rate LDPC FEC code
+ldpc-1/3 - 1/3-rate LDPC FEC code
+ldpc-1/4 - 1/4-rate LDPC FEC code
+ldpc-1/5 - 1/5-rate LDPC FEC code
+ldpc-1/6 - 1/6-rate LDPC FEC code
+ldpcv3-1/1 - 1-rate LDPC FEC code (compatible with UnetStack3)
+ldpcv3-1/3 - 1/3-rate LDPC FEC code (compatible with UnetStack3)
+ldpcv3-1/4 - 1/4-rate LDPC FEC code (compatible with UnetStack3)
+ldpcv3-1/5 - 1/5-rate LDPC FEC code (compatible with UnetStack3)
+ldpcv3-1/6 - 1/6-rate LDPC FEC code (compatible with UnetStack3)
+iconv-1/2 - 1/2-rate interleaved convolution code
+janus-spec - 1/2-rate interleaved convolution code as per JANUS specifications
+janus-ref - 1/2-rate interleaved convolution code as per JANUS reference impl.
+bch-1/3 - 1/3-rate BCH code
+bch-1/4 - 1/4-rate BCH code
+bch-1/5 - 1/5-rate BCH code
+</code></pre>
+<p>The 1-rate LDPC code is only useful for OFDM, where unused bits in the last OFDM block are used to provide FEC redundancy without loss in data rate. The above list is for illustration purposes only; the actual list of available FEC codes may vary depending on the modem implementation.</p></li>
+<li><p><a href="../api/org/arl/unet/phy/PhysicalChannelParam.html#framing"><code>framing</code></a> :: <code>String</code> – framing type name (from <code>phy[].framingList</code>)</p></li>
+<li><p><a href="../api/org/arl/unet/phy/PhysicalChannelParam.html#framingList"><code>framingList</code></a> :: <code>String[]</code> <em>(nullable)</em> – list of available framing types</p></li>
+<li><p><a href="../api/org/arl/unet/phy/PhysicalChannelParam.html#modulation"><code>modulation</code></a> :: <code>String</code> <em>(nullable)</em> – modulation type name (from <code>phy[].modulationList</code>)</p>
+<p>A value of <code>none</code> indicates no modulation. Other values represent various modulation types from the <code>phy[].modulationList</code>.</p>
+<p>Additional channel parameters may be available for specific modulation types.</p></li>
+<li><p><a href="../api/org/arl/unet/phy/PhysicalChannelParam.html#modulationList"><code>modulationList</code></a> :: <code>String[]</code> <em>(nullable)</em> – list of available modulation types</p></li>
+<li><p><a href="../api/org/arl/unet/phy/PhysicalChannelParam.html#schemeCode"><code>schemeCode</code></a> :: <code>String</code> – short code encoding all modulation/fec details</p></li>
+</ul>
+</div>
+</div>
+<p>A few relationships between these parameters are worth knowing. The <code>frameLength</code> is the <em>physical</em> frame size — the MTU plus the frame header, whose size depends on the device and its configuration (for example, the address size, <code>node.addressSize</code>). To change the frame size, set <code>frameLength</code>; the channel’s <code>MTU</code> is derived from it. The advertised <code>dataRate</code> counts <em>all</em> the bits in the frame, header included, so the effective user data rate is a little lower. And <code>powerLevel</code> is constrained to lie between the modem’s minimum and maximum power levels (see the baseband parameters, <a href="315_bb.html" class="quarto-xref"><span>Chapter 27</span></a>).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Communication schemes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>What a channel actually puts in the water is defined by its <strong>scheme</strong> — the combination of <code>framing</code>, <code>modulation</code> and <code>fec</code> (forward error correction) configured on that channel. Each is a channel parameter, and the companion <code>framingList</code>, <code>modulationList</code> and <code>fecList</code> parameters advertise what the modem supports. The available choices and their detailed parameters (rates, bandwidths, code strengths) are modem-specific, so consult your modem’s documentation when tuning them; standardized framings such as JANUS and SWiG1 (<a href="#sec-phy-janus" class="quarto-xref"><span>Section 17.9</span></a>) are usually carried on the <code>AUX</code> channel. Modems may also expose a <code>schemeCode</code> parameter that captures a channel’s entire scheme (modulation, frame length and FEC) in a single value — handy for noting a working configuration and restoring it later. Whatever scheme you choose, configure it <em>identically on every node</em>: modems speaking different schemes detect each other’s frames but cannot decode them.</p>
+</div>
+</div>
+</section>
+<section id="commands" class="level2" data-number="17.6">
+<h2 data-number="17.6" class="anchored" data-anchor-id="commands"><span class="header-section-number">17.6</span> Commands</h2>
+<div id="12" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><code>pclr</code> – clear PHY queues</p></li>
+<li><p><code>plvl</code> – get/set TX power level for all PHY channel types</p>
+<p>Examples:</p>
+<pre><code>plvl                       // get all power levels
+plvl -10                   // set all power to -10 dB
+plvl(-10)                  // alternative syntax
+plvl = -10                 // alternative syntax
+</code></pre></li>
+<li><p><code>aux</code> – setup auxiliary channel</p>
+<p>Examples:</p>
+<pre><code>aux none                   // disable PHY[AUX]
+aux janus                  // set phy[AUX] to JANUS
+aux janus()                // set phy[AUX] to JANUS
+aux janus(19000, 320)      // set PHY[AUX] to JANUS fmin=19kHz, fstep=320Hz
+aux janus('E')             // set phy[AUX] to JANUS band E
+aux swig1                  // set PHY[AUX] to SWiG1
+aux swig1()                // set PHY[AUX] to SWiG1
+aux swig1(9000, 320)       // set PHY[AUX] to SWiG1 fmin=9kHz, fstep=320Hz
+aux swig1(3, 4)            // set PHY[AUX] to SWiG1 extended fc code 3 rate 4
+aux DATA, janus()          // set PHY[DATA] to JANUS
+aux DATA, swig1()          // set PHY[DATA] to SWiG1</code></pre></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="examples" class="level2" data-number="17.7">
+<h2 data-number="17.7" class="anchored" data-anchor-id="examples"><span class="header-section-number">17.7</span> Examples</h2>
+<p>Connect to a node’s shell and inspect the physical agent and its <code>CONTROL</code> channel:</p>
+<div id="14" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">phy</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>« Half-duplex modem »</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>Generic half duplex modem simulator.</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>[org.arl.unet.DatagramParam]</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  MTU ⤇ 123</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  RTU ⤇ 123</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>[org.arl.unet.UnetParam]</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  queueLength ⤇ 0</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>[org.arl.unet.bb.BasebandParam]</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  adcChannels ⤇ 1</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  adcrate ⤇ 96000.0</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  analogInterface ⤇ HalfDuplexModem</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  basebandRate = 24000.0</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  bbsblk ⤇ 0</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  bbscnt ⤇ 0</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  bbsport ⤇ 0</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  busy ⤇ false</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  carrierFrequency = 24000.0</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  clockCalib ⤇ 1.0</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  dacChannels ⤇ 1</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  dacrate ⤇ 96000.0</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  depthToConsiderInWater ⤇ 0.0</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  enable = true</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  fullduplex ⤇ false</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  gain ⤇ [0.0]</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  ip ⤇ 0.0.0.0</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>  maxInAirPowerLevel ⤇ 0.0</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  maxPowerLevel = 0.0</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>  maxPreambleID ⤇ 8</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>  maxSignalLength = 65536</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>  minPowerLevel = -96.0</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>  mute ⤇ true</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>  noise ⤇ [96.1236]</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>  pbsblk ⤇ 0</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>  pbscnt ⤇ 0</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>  pbsport ⤇ 0</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>  powerLevel = [-10.0]</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>  record ⤇ false</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>  refPowerLevel = 185.0</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>  rxSensitivity = -185.0</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>  standby ⤇ 0.0</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>  syncBasebandTime ⤇ null</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>  syncSystemTime ⤇ null</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>  time ⤇ 1882390162</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>  wakeupDelay ⤇ 0</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>[org.arl.unet.phy.PhysicalParam]</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>  baseband ⤇ phy</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>  busy ⤇ false</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>  maxPowerLevel = 0.0</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>  minPowerLevel = -96.0</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>  rxEnable = true</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>  time ⤇ 1882388162</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>  timestampedTxDelay = 1.0</span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>[org.arl.unet.sim.HalfDuplexModemParam]</span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>  clockOffset = 1880.9872</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">phy[CONTROL]</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>« PHY »</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>[org.arl.unet.DatagramParam]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  MTU ⤇ 13</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  RTU ⤇ 13</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>[org.arl.unet.bb.BasebandDetectorParam]</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  capture ⤇ 13488</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  coherence ⤇ 0</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  inhibit ⤇ 0</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  metricStatistics ⤇ 0.0</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  preamble = [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0 ... , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  stride ⤇ 1</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  threshold ⤇ 0.0</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>[org.arl.unet.phy.PhysicalChannelParam]</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  dataRate = 247.42267</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  fec ⤇ default</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  fecList ⤇ null</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  frameDuration ⤇ 0.582</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  frameLength = 18</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  framing ⤇ default</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  framingList ⤇ null</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  maxFrameLength = 128</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  modulation ⤇ default</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  modulationList ⤇ null</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  powerLevel = -10.0</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>  schemeCode ⤇ null</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>Transmit a frame on the <code>CONTROL</code> channel and watch for the completion notification:</p>
+<div id="18" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">subscribe phy</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">phy.signalPowerLevel </span><span class="op">=</span><span class="va"> -</span><span class="dv">6</span><span class="va">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">phy </span><span class="op">&lt;&lt;</span><span class="va"> </span><span class="kw">new</span><span class="va"> TxFrameReq(type</span><span class="op">:</span><span class="va"> CONTROL</span><span class="op">,</span><span class="va"> data</span><span class="op">:</span><span class="va"> [</span><span class="dv">1</span><span class="op">,</span><span class="va"> </span><span class="dv">2</span><span class="op">,</span><span class="va"> </span><span class="dv">3</span><span class="op">,</span><span class="va"> </span><span class="dv">4</span><span class="va">])</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; TxStartNtf:INFORM[preamble:1 txStartTime:1322147017 txDuration:582000]</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; TxFrameStartNtf:INFORM[type:CONTROL to:0 txStartTime:1322147017 txDuration:582000]</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; TxEndNtf:INFORM[preamble:1 txStartTime:1322147017]</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; TxFrameNtf:INFORM[type:CONTROL to:0 txStartTime:1322147017]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>On a node within range, a successfully decoded frame is delivered as an <a href="../api/org/arl/unet/phy/RxFrameNtf.html" target="_api"><code>RxFrameNtf</code></a>:</p>
+<div id="20" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; DetectionNtf:INFORM[preamble:1 rxStartTime:555826740 rxDuration:582000]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameStartNtf:INFORM[type:CONTROL rxStartTime:555826740 rxDuration:582000]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxBasebandSignalNtf:INFORM[rxStartTime:555826740 preamble:1 fc:24000.0 fs:24000.0 (13968 baseband samples)]</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:232 rxStartTime:555826740 rssi:-72.6 (4 bytes)]</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  01020304</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sending a <a href="../api/org/arl/unet/phy/TxFrameReq.html" target="_api"><code>TxFrameReq</code></a> directly to <code>phy</code> bypasses medium access control — the frame goes out without consulting the MAC agent, and may collide with other traffic the MAC is coordinating. That is fine for a quick test on a quiet channel, but an agent or application transmitting regularly should reserve the channel through the <code>MAC</code> service first (<a href="307_mac.html" class="quarto-xref"><span>Chapter 19</span></a>), or hand its data to a higher-layer agent (<code>uwlink</code> and above) that does so on its behalf. Undisciplined direct transmissions can degrade the performance of the whole network.</p>
+</div>
+</div>
+</section>
+<section id="sec-phy-timed" class="level2" data-number="17.8">
+<h2 data-number="17.8" class="anchored" data-anchor-id="sec-phy-timed"><span class="header-section-number">17.8</span> Timed &amp; timestamped transmissions</h2>
+<p>The physical service offers two independent timing features that are the foundation of coordinated channel access and one-way ranging: transmitting a frame at a precisely chosen instant, and embedding the transmit time within the frame itself.</p>
+<p><strong>Timed transmission</strong> (<code>TIMED_TX</code> capability). By default, a <a href="../api/org/arl/unet/phy/TxFrameReq.html" target="_api"><code>TxFrameReq</code></a> is transmitted as soon as the channel is free. Setting <code>txStartTime</code> to a value on the physical-layer clock (<code>phy.time</code>, in microseconds) instead defers the transmission until exactly that instant. This lets several nodes agree in advance on <em>when</em> each will transmit — the basis for TDMA-style slotting (<a href="307_mac.html" class="quarto-xref"><span>Chapter 19</span></a>), for synchronized array transmissions, and for replying a fixed, known delay after a received frame (as in two-way ranging).</p>
+<p>Here we schedule a <code>CONTROL</code> frame to be transmitted one second (10<sup>6</sup> µs) in the future; the resulting <a href="../api/org/arl/unet/phy/TxFrameNtf.html" target="_api"><code>TxFrameNtf</code></a> reports a <code>txStartTime</code> matching the requested instant:</p>
+<div id="26" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">phy </span><span class="op">&lt;&lt;</span><span class="va"> </span><span class="kw">new</span><span class="va"> TxFrameReq(type</span><span class="op">:</span><span class="va"> CONTROL</span><span class="op">,</span><span class="va"> data</span><span class="op">:</span><span class="va"> [</span><span class="dv">1</span><span class="op">,</span><span class="va"> </span><span class="dv">2</span><span class="op">,</span><span class="va"> </span><span class="dv">3</span><span class="va">]</span><span class="op">,</span><span class="va"> txStartTime</span><span class="op">:</span><span class="va"> phy.time</span><span class="op">+</span><span class="dv">1000000</span><span class="va">)</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; TxFrameNtf:INFORM[type:CONTROL to:0 txStartTime:1449814333]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p><strong>Timestamped transmission</strong> (<code>TIMESTAMPED_TX</code> capability). Setting <code>timestamped = true</code> asks the modem to encode the actual moment of transmission into the frame. The receiver recovers this instant and reports it as a <code>txStartTime</code> field on the <a href="../api/org/arl/unet/phy/RxFrameNtf.html" target="_api"><code>RxFrameNtf</code></a>, alongside its own local <code>rxStartTime</code>. Having both timestamps — the departure time on the sender’s clock and the arrival time on the receiver’s clock — is what one-way ranging and clock synchronization build on (<a href="313_ranging.html" class="quarto-xref"><span>Chapter 25</span></a>). The two features are independent and may be combined: <code>txStartTime</code> on the request controls <em>when</em> the frame leaves, while <code>timestamped</code> controls whether the frame <em>carries</em> its own departure time.</p>
+<p>Two caveats. The embedded timestamp is not free: it takes 6 bytes out of the frame, so a timestamped frame carries 6 bytes less payload than the channel’s advertised MTU. And the two timestamps on a received frame are on <em>different clocks</em> — the <code>txStartTime</code> is on the sender’s physical-layer clock, the <code>rxStartTime</code> on the receiver’s — so they cannot be compared directly; relating them requires an estimate of the clock offset between the nodes, which is exactly what the <code>RANGING</code> service’s synchronization machinery provides (<a href="313_ranging.html#sec-ranging-sync" class="quarto-xref"><span>Section 25.6.2</span></a>).</p>
+<p>We transmit a timestamped <code>CONTROL</code> frame from node A; its <a href="../api/org/arl/unet/phy/TxFrameNtf.html" target="_api"><code>TxFrameNtf</code></a> reports the transmit time:</p>
+<div id="32" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">phy </span><span class="op">&lt;&lt;</span><span class="va"> </span><span class="kw">new</span><span class="va"> TxFrameReq(type</span><span class="op">:</span><span class="va"> CONTROL</span><span class="op">,</span><span class="va"> data</span><span class="op">:</span><span class="va"> [</span><span class="dv">1</span><span class="op">,</span><span class="va"> </span><span class="dv">2</span><span class="op">,</span><span class="va"> </span><span class="dv">3</span><span class="va">]</span><span class="op">,</span><span class="va"> timestamped</span><span class="op">:</span><span class="va"> </span><span class="kw">true</span><span class="va">)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; TxFrameNtf:INFORM[type:CONTROL to:0 txStartTime:1646040041]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>At node B, the received frame’s <a href="../api/org/arl/unet/phy/RxFrameNtf.html" target="_api"><code>RxFrameNtf</code></a> now carries a <code>txStartTime</code> — the transmit instant recovered from the frame, matching the value the sender reported — in addition to the local <code>rxStartTime</code> (an ordinary, non-timestamped frame’s <a href="../api/org/arl/unet/phy/RxFrameNtf.html" target="_api"><code>RxFrameNtf</code></a> has no <code>txStartTime</code>):</p>
+<div id="34" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameNtf:INFORM[type:CONTROL from:232 rxStartTime:2938870500 txStartTime:1646040041 rssi:-72.6 (3 bytes)]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  010203</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="sec-phy-janus" class="level2" data-number="17.9">
+<h2 data-number="17.9" class="anchored" data-anchor-id="sec-phy-janus"><span class="header-section-number">17.9</span> JANUS &amp; SWiG1</h2>
+<p>Alongside its native waveforms, a modem may support standardized frame formats that allow interoperability with equipment from other vendors. UnetStack supports two, each gated by its own capability and carried on the <code>AUX</code> channel:</p>
+<ul>
+<li><strong>JANUS</strong> — the international standard (NATO STANAG 4748 / ANEP-87) for interoperable underwater acoustic signaling. Any two modems that implement JANUS can exchange a well-defined baseline packet even without sharing a proprietary waveform. Requires the <code>JANUS</code> capability.</li>
+<li><strong>SWiG1</strong> — a frame format defined by the Subsea Wireless Group (SWiG) for use in the offshore energy industry. Requires the <code>SWiG1</code> capability.</li>
+</ul>
+<section id="janus" class="level3" data-number="17.9.1">
+<h3 data-number="17.9.1" class="anchored" data-anchor-id="janus"><span class="header-section-number">17.9.1</span> JANUS</h3>
+<p>A JANUS packet carries a compact <strong>application data block (ADB)</strong> together with standardized header fields: a <code>classUserID</code> and <code>appType</code> that identify the meaning of the payload, <code>mobility</code> and forwarding (<code>canForward</code>) flags, and optional channel-reservation (<code>reservationDuration</code>) or <code>repeatInterval</code> scheduling. It may optionally carry a cargo of user <code>data</code>. A JANUS frame is transmitted with a <a href="../api/org/arl/unet/phy/TxJanusFrameReq.html" target="_api"><code>TxJanusFrameReq</code></a>:</p>
+<div id="38" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/phy/TxJanusFrameReq.html" target="_api"><code>TxJanusFrameReq</code></a> – transmit a JANUS frame</p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 63%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>appData</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;">application data block (ADB)</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>appType</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;">application type, as defined by class user</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>canForward</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">forwarding-capability flag, <code>null</code> to derive from routing availability</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>classUserID</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>42</code></td>
+<td style="text-align: right;">class user ID (ANEP-87 Annex A)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>data</code></td>
+<td style="text-align: right;"><code>byte[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>from</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>mobility</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">mobility flag, <code>null</code> to derive from node mobility</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>priority</code></td>
+<td style="text-align: right;"><code>enum</code></td>
+<td style="text-align: right;"><code>NORMAL</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>progress</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"><code>false</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>protocol</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>reliability</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>repeatInterval</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>0.0</code></td>
+<td style="text-align: right;">repeat interval in seconds, 0 for non-periodic (only if no cargo)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>reservationDuration</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>0.0</code></td>
+<td style="text-align: right;">channel reservation in seconds (only if no cargo)</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>robustness</code></td>
+<td style="text-align: right;"><code>enum</code></td>
+<td style="text-align: right;"><code>NORMAL</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>route</code></td>
+<td style="text-align: right;"><code>string</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>shortcircuit</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"><code>true</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>timestamped</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"><code>false</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>to</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>ttl</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>NaN</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>txRxFlag</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"><code>true</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>txStartTime</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>type</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>3</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>wakeup</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"><code>false</code></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+</div>
+<p>A received JANUS frame is delivered as a <a href="../api/org/arl/unet/phy/RxJanusFrameNtf.html" target="_api"><code>RxJanusFrameNtf</code></a> (a <a href="../api/org/arl/unet/phy/RxFrameNtf.html" target="_api"><code>RxFrameNtf</code></a> subtype), which decodes the standardized fields:</p>
+<div id="40" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/phy/RxJanusFrameNtf.html" target="_api"><code>RxJanusFrameNtf</code></a> – received JANUS frame</p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>appData</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>appType</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>bits</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>bytes</code></td>
+<td style="text-align: right;"><code>byte[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>canForward</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"><code>false</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>cfo</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>NaN</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>classUserID</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>data</code></td>
+<td style="text-align: right;"><code>byte[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>errors</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>from</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>location</code></td>
+<td style="text-align: right;"><code>double[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>metrics</code></td>
+<td style="text-align: right;"><code>float[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>mobility</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"><code>false</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>priority</code></td>
+<td style="text-align: right;"><code>enum</code></td>
+<td style="text-align: right;"><code>NORMAL</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>protocol</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>repeatInterval</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>0.0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>reservationDuration</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>0.0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>rssi</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>NaN</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>rxStartTime</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>schemeCode</code></td>
+<td style="text-align: right;"><code>string</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>to</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>ttl</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>NaN</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>txRxFlag</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"><code>false</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>txStartTime</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>type</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>3</code></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+</div>
+<p>To see this in action, we transmit a minimal JANUS frame — its baseline packet, carrying no cargo — from node A:</p>
+<div id="44" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">&gt; </span><span class="va">phy </span><span class="op">&lt;&lt;</span><span class="va"> </span><span class="kw">new</span><span class="va"> TxJanusFrameReq()</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>AGREE</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; TxFrameNtf:INFORM[type:AUX to:0 txStartTime:326461655]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>On node B, it is decoded and delivered as a <a href="../api/org/arl/unet/phy/RxJanusFrameNtf.html" target="_api"><code>RxJanusFrameNtf</code></a>, complete with the standardized header fields:</p>
+<div id="46" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode unetsh code-with-copy"><code class="sourceCode unetsh"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; DetectionNtf:INFORM[preamble:3 rxStartTime:3066706193 rxDuration:820000]</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxFrameStartNtf:INFORM[type:AUX rxStartTime:3066706193 rxDuration:820000]</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxBasebandSignalNtf:INFORM[rxStartTime:3066706193 preamble:3 fc:24000.0 fs:24000.0 (19680 baseband samples)]</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>phy &gt;&gt; RxJanusFrameNtf:INFORM[type:AUX classUserID:42 appType:0 appData:0 mobility:false canForward:true txRxFlag:true rxStartTime:3066706193 rssi:-72.6]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="swig1" class="level3" data-number="17.9.2">
+<h3 data-number="17.9.2" class="anchored" data-anchor-id="swig1"><span class="header-section-number">17.9.2</span> SWiG1</h3>
+<p>A SWiG1 frame carries an ADB of up to 49 bits. It is transmitted with a <a href="../api/org/arl/unet/phy/TxSWiG1FrameReq.html" target="_api"><code>TxSWiG1FrameReq</code></a> and received as a <a href="../api/org/arl/unet/phy/RxSWiG1FrameNtf.html" target="_api"><code>RxSWiG1FrameNtf</code></a>:</p>
+<div id="50" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/phy/TxSWiG1FrameReq.html" target="_api"><code>TxSWiG1FrameReq</code></a> – transmit a SWiG1 frame</p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>appData</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>data</code></td>
+<td style="text-align: right;"><code>byte[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>from</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>priority</code></td>
+<td style="text-align: right;"><code>enum</code></td>
+<td style="text-align: right;"><code>NORMAL</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>progress</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"><code>false</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>protocol</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>reliability</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>robustness</code></td>
+<td style="text-align: right;"><code>enum</code></td>
+<td style="text-align: right;"><code>NORMAL</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>route</code></td>
+<td style="text-align: right;"><code>string</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>shortcircuit</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"><code>true</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>timestamped</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"><code>false</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>to</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>ttl</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>NaN</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>txStartTime</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>type</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>3</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>wakeup</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"><code>false</code></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/phy/RxSWiG1FrameNtf.html" target="_api"><code>RxSWiG1FrameNtf</code></a> – received SWiG1 frame</p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>appData</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>bits</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>bytes</code></td>
+<td style="text-align: right;"><code>byte[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>cfo</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>NaN</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>data</code></td>
+<td style="text-align: right;"><code>byte[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>errors</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>from</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>location</code></td>
+<td style="text-align: right;"><code>double[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>metrics</code></td>
+<td style="text-align: right;"><code>float[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>priority</code></td>
+<td style="text-align: right;"><code>enum</code></td>
+<td style="text-align: right;"><code>NORMAL</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>protocol</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>rssi</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>NaN</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>rxStartTime</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>schemeCode</code></td>
+<td style="text-align: right;"><code>string</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>to</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>ttl</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>NaN</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>txStartTime</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>type</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>3</code></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+</div>
+<p>Usage mirrors JANUS — <code>phy &lt;&lt; new TxSWiG1FrameReq(data: adb)</code> on the sender, with the receiver seeing a <a href="../api/org/arl/unet/phy/RxSWiG1FrameNtf.html" target="_api"><code>RxSWiG1FrameNtf</code></a>. SWiG1 support is modem-specific and is not provided by the simulator, so no runnable example is shown here.</p>
+</section>
+</section>
+<section id="sec-phy-signals" class="level2" data-number="17.10">
+<h2 data-number="17.10" class="anchored" data-anchor-id="sec-phy-signals"><span class="header-section-number">17.10</span> Signal-frame conversion &amp; FEC decoding</h2>
+<p>These are <em>offline</em> operations: they process signals and frames within the modem without transmitting or receiving anything over the channel. They require the <code>SIGNALS</code> and <code>FEC_DECODING</code> capabilities, which are available on modem hardware but not in the simulator.</p>
+<section id="signal-frame-conversion" class="level3" data-number="17.10.1">
+<h3 data-number="17.10.1" class="anchored" data-anchor-id="signal-frame-conversion"><span class="header-section-number">17.10.1</span> Signal-frame conversion</h3>
+<p>With the <code>SIGNALS</code> capability, a modem can convert between the byte content of a frame and the baseband signal that represents it on the wire:</p>
+<ul>
+<li><strong><a href="../api/org/arl/unet/phy/FrameToSignalReq.html" target="_api"><code>FrameToSignalReq</code></a></strong> asks the modem to synthesize the baseband signal it <em>would</em> transmit for a given frame, returning it as a <a href="../api/org/arl/unet/bb/RxBasebandSignalNtf.html" target="_api"><code>RxBasebandSignalNtf</code></a> (<a href="315_bb.html" class="quarto-xref"><span>Chapter 27</span></a>). This is useful for capturing a reference waveform, or for feeding the signal to an external transmitter.</li>
+<li><strong><a href="../api/org/arl/unet/phy/SignalToFrameReq.html" target="_api"><code>SignalToFrameReq</code></a></strong> does the reverse: it decodes a supplied baseband signal into a frame, replying with a <a href="../api/org/arl/unet/phy/RxFrameNtf.html" target="_api"><code>RxFrameNtf</code></a> (or a <a href="../api/org/arl/unet/phy/BadFrameNtf.html" target="_api"><code>BadFrameNtf</code></a> if the signal cannot be decoded). The <code>preamble</code> field selects which frame type to decode against, and must be set even if the signal was not originally detected via a preamble. This lets a previously recorded signal (<a href="315_bb.html" class="quarto-xref"><span>Chapter 27</span></a>) be re-decoded in software.</li>
+</ul>
+<div id="52" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/phy/FrameToSignalReq.html" target="_api"><code>FrameToSignalReq</code></a> – convert a frame to a baseband signal</p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>bytes</code></td>
+<td style="text-align: right;"><code>byte[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>data</code></td>
+<td style="text-align: right;"><code>byte[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>from</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>protocol</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>to</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>type</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>1</code></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/phy/SignalToFrameReq.html" target="_api"><code>SignalToFrameReq</code></a> – decode a baseband signal into a frame</p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>channels</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>1</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>fc</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>-1.0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>fs</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>-1.0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>location</code></td>
+<td style="text-align: right;"><code>double[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>preamble</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>preambleLength</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>rssi</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>NaN</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>rxStartTime</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>signal</code></td>
+<td style="text-align: right;"><code>float[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>signal__isComplex</code></td>
+<td style="text-align: right;"><code>boolean</code></td>
+<td style="text-align: right;"><code>false</code></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="fec-decoding" class="level3" data-number="17.10.2">
+<h3 data-number="17.10.2" class="anchored" data-anchor-id="fec-decoding"><span class="header-section-number">17.10.2</span> FEC decoding</h3>
+<p>When a frame arrives too corrupted for the modem to decode in hardware, the soft-decision (log-likelihood) data from the failed decode can be handed back to the physical agent as a <a href="../api/org/arl/unet/phy/FecDecodeReq.html" target="_api"><code>FecDecodeReq</code></a> for a second attempt at forward-error-correction decoding in software. On success the agent replies with a <a href="../api/org/arl/unet/phy/RxFrameNtf.html" target="_api"><code>RxFrameNtf</code></a>; on failure, with a <a href="../api/org/arl/unet/phy/BadFrameNtf.html" target="_api"><code>BadFrameNtf</code></a>. In both cases the notification’s <code>inReplyTo</code> field is set to the request’s message ID. The <code>type</code> field selects the channel whose FEC code should be used.</p>
+<div id="54" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><a href="../api/org/arl/unet/phy/FecDecodeReq.html" target="_api"><code>FecDecodeReq</code></a> – software FEC decoding of soft-decision data</p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 13%">
+<col style="width: 9%">
+<col style="width: 60%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Field</th>
+<th style="text-align: right;">Type</th>
+<th style="text-align: right;">Default</th>
+<th style="text-align: right;">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>location</code></td>
+<td style="text-align: right;"><code>double[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>metrics</code></td>
+<td style="text-align: right;"><code>float[]</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">soft-decision (log-likelihood) data to decode</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>rssi</code></td>
+<td style="text-align: right;"><code>float</code></td>
+<td style="text-align: right;"><code>NaN</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>rxStartTime</code></td>
+<td style="text-align: right;"><code>long</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>type</code></td>
+<td style="text-align: right;"><code>int</code></td>
+<td style="text-align: right;"><code>2</code></td>
+<td style="text-align: right;">channel for FEC code selection (<code>CONTROL</code>/<code>DATA</code>)</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="implementations" class="level2" data-number="17.11">
+<h2 data-number="17.11" class="anchored" data-anchor-id="implementations"><span class="header-section-number">17.11</span> Implementations</h2>
+<p>Unlike most services, the <code>PHYSICAL</code> service is not loaded by <code>setup.groovy</code>; it is provided by the modem itself. Either way, the higher layers see the same <code>PHYSICAL</code> service contract described above.</p>
+<section id="modem-firmware-phy" class="level3" data-number="17.11.1">
+<h3 data-number="17.11.1" class="anchored" data-anchor-id="modem-firmware-phy"><span class="header-section-number">17.11.1</span> Modem firmware (<code>phy</code>)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Class</th>
+<th style="text-align: left;">Services</th>
+<th style="text-align: left;">Capabilities</th>
+<th style="text-align: left;">Availability</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">modem firmware</td>
+<td style="text-align: left;"><code>PHYSICAL</code>, <code>DATAGRAM</code></td>
+<td style="text-align: left;">modem-dependent</td>
+<td style="text-align: left;"><a href="./301_stack.html#sec-premium">commercial modems</a></td>
+</tr>
+</tbody>
+</table>
+<p>On a commercial modem, the physical layer is provided by the modem firmware, which runs its own agents on the modem’s signal-processing hardware. From the rest of the stack’s point of view, there is simply a <code>phy</code> agent providing <code>PHYSICAL</code>. The available channels, modulation and FEC schemes, and the advertised capabilities depend on the modem model and configuration; query them through the channel parameters (<code>framingList</code>, <code>modulationList</code>, <code>fecList</code>) and a <a href="../api/org/arl/unet/CapabilityReq.html" target="_api"><code>CapabilityReq</code></a>.</p>
+<p>Real modems may provide additional parameters that are useful in testing and field operations; ask for <code>help phy</code> on the modem for the full list. On Unet modems, the firmware’s physical layer provides the following agent-specific parameters.</p>
+<section id="parameters-1" class="level4" data-number="17.11.1.1">
+<h4 data-number="17.11.1.1" class="anchored" data-anchor-id="parameters-1"><span class="header-section-number">17.11.1.1</span> Parameters</h4>
+<p>In addition to the service-level parameters documented earlier in this chapter, each channel supports:</p>
+<div id="56" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<ul>
+<li><p><code>detector</code> – baseband detector number</p></li>
+<li><p><code>test</code> – enable test mode</p></li>
+<li><p><code>valid</code> – true if the channel parameters are valid, false otherwise</p></li>
+<li><p><code>preambleGap</code> – preamble gap in baseband samples</p></li>
+<li><p><code>scrambler</code> – scrambler seed (0 to disable)</p></li>
+<li><p><code>combining</code> – spatial diversity combining mode (channel #, auto, best, all)</p>
+<p>If combining is set to a channel number, only that channel will be used for reception. If it is set to ‘best’, a single channel with the best SNR will be used for reception. When set to ‘all’, all channels are combined for reception. When set to ‘auto’, a performant subset of the channels will be automatically selected for combining.</p>
+<p>Example:</p>
+<pre><code>phy[2].combining = 2       // use only channel 2
+phy[2].combining = 'auto'  // auto select channels for combining</code></pre></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="modulation-parameters" class="level4" data-number="17.11.1.2">
+<h4 data-number="17.11.1.2" class="anchored" data-anchor-id="modulation-parameters"><span class="header-section-number">17.11.1.2</span> Modulation parameters</h4>
+<p>Each channel’s modulation scheme is selected through its <code>modulation</code> parameter (from among <code>modulationList</code>). Scheme-specific parameters then become available on that channel.</p>
+<section id="ofdm-ofdm" class="level5" data-number="17.11.1.2.1">
+<h5 data-number="17.11.1.2.1" class="anchored" data-anchor-id="ofdm-ofdm"><span class="header-section-number">17.11.1.2.1</span> OFDM (<code>ofdm</code>)</h5>
+<div id="58" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Orthogonal Frequency Division Multiplexing (OFDM) is a modulation technique that is widely used in many wireless communication systems including underwater acoustic communication. OFDM is especially well-suited to deal with multi-path propagation and frequency selective fading.</p>
+<p>When phy[].modulation is set to ‘ofdm’, the following modulation parameters are available:</p>
+<ul>
+<li><code>nc</code> – number of carriers (power of 2)</li>
+<li><code>np</code> – cyclic prefix length</li>
+<li><code>ns</code> – cyclic suffix length</li>
+<li><code>bw</code> – bandwidth fraction (0-1)</li>
+<li><code>bitsperblk</code> – bits per block (readonly)</li>
+<li><code>dc0</code> – placement of DC carrier</li>
+<li><code>psk</code> – 2 for BPSK, 4 for QPSK</li>
+<li><code>backoff</code> – backoff in dB</li>
+<li><code>sync</code> – length of sync signal for Doppler estimation</li>
+<li><code>syncsps</code> – baseband samples per sync symbol</li>
+<li><code>windowed</code> – true for windowed OFDM, false otherwise</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="fhbfsk-fhbfsk" class="level5" data-number="17.11.1.2.2">
+<h5 data-number="17.11.1.2.2" class="anchored" data-anchor-id="fhbfsk-fhbfsk"><span class="header-section-number">17.11.1.2.2</span> FHBFSK (<code>fhbfsk</code>)</h5>
+<div id="60" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>FHBFSK (Frequency Hopping Binary Frequency Shift Keying) modulation is commonly used to achieve reliable communication underwater. The default parameters provide robust low-rate communication in most environments. Some of the parameters can be adjusted to optimize performance for specific conditions.</p>
+<p>When phy[].modulation is set to ‘fhbfsk’, the following modulation parameters are available:</p>
+<ul>
+<li><p><code>fmin</code> – minimum frequency (Hz)</p></li>
+<li><p><code>fstep</code> – frequency step (Hz)</p>
+<p><code>fstep</code> controls the frequency spacing between hops. Each hop uses 2 frequencies for bit 0 and bit 1. Therefore each hop is <code>2*fstep</code> wide. The total bandwidth used by the signal is <code>2 * fstep * hops</code>.</p></li>
+<li><p><code>hops</code> – hopping sequence</p>
+<p>The hopping sequence determines the frequency hopping pattern. The sequence can be specified as a list of integers or a symbol that represents a predefined hopping sequence. If only the number of hops is specified, a random sequence is generated using the specified seed.</p>
+<p>Example:</p>
+<pre><code>phy[2].hops = 7                 // generate a random 7-hop sequence
+phy[2].hops = 'janus'           // use the JANUS hopping sequence
+phy[2].hops = [3,1,2,4,0]       // use a custom 5-hop hopping sequence
+</code></pre></li>
+<li><p><code>offset</code> – hop offset (hop number for the first symbol)</p>
+<p>FHBFSK based schemes such as JANUS use the hopping sequence to generate a preamble and then continue the hopping for the data symbols. An offset is required in such cases to account for the number of hops in the preamble.</p></li>
+<li><p><code>chiplen</code> – chip length (symbols, default: 1)</p>
+<p>Longer chip lengths can improve the robustness of the signal against multipath and noise, but reduce the data rate.</p></li>
+<li><p><code>sync</code> – true to enable Doppler compensation, false to disable</p></li>
+<li><p><code>guard</code> – true to insert a guard interval after the preamble</p>
+<p>The guard interval prevents inter-symbol interference from the preamble. However, if the preamble also uses the same hopping sequence, a guard interval may not be necessary.</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="probe-probe" class="level5" data-number="17.11.1.2.3">
+<h5 data-number="17.11.1.2.3" class="anchored" data-anchor-id="probe-probe"><span class="header-section-number">17.11.1.2.3</span> Probe (<code>probe</code>)</h5>
+<div id="62" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>The probe modulation is a generalized m-sequence modulated BPSK signal used for channel probing.</p>
+<p>When phy[].modulation is set to ‘probe’, the following modulation parameters are available:</p>
+<ul>
+<li><code>fc</code> – center frequency (Hz)</li>
+<li><code>repeats</code> – number of m-sequence repeats (1 to 16)</li>
+<li><code>spec</code> – m-sequence specifier (2 to 30, length is 2^spec - 1)</li>
+<li><code>sps</code> – baseband samples per symbol (1 to 16)</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="halfduplexmodem-phy" class="level3" data-number="17.11.2">
+<h3 data-number="17.11.2" class="anchored" data-anchor-id="halfduplexmodem-phy"><span class="header-section-number">17.11.2</span> HalfDuplexModem (<code>phy</code>)</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 35%">
+<col style="width: 29%">
+<col style="width: 18%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Class</th>
+<th style="text-align: left;">Services</th>
+<th style="text-align: left;">Capabilities</th>
+<th style="text-align: left;">Availability</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>HalfDuplexModem</code></td>
+<td style="text-align: left;"><code>PHYSICAL</code>, <code>DATAGRAM</code>, <code>BASEBAND</code>, <code>DOA</code></td>
+<td style="text-align: left;"><code>TIMESTAMPED_TX</code>, <code>TIMED_TX</code>, <code>JANUS</code></td>
+<td style="text-align: left;">simulator</td>
+</tr>
+</tbody>
+</table>
+<p>In simulation, the <code>HalfDuplexModem</code> agent stands in for the modem. It models transmission/reception timing, half-duplex operation, path loss, interference and SNR-based frame errors using a pluggable channel model, so that the same higher-layer agents run unchanged against a simulated channel. All four standard channels are provided, with per-channel data rate, frame length and power level configurable through the simulation’s <code>modem</code> settings — the simulation-specific parameters and channel models are documented in <a href="402_sim.html" class="quarto-xref"><span>Chapter 34</span></a>.</p>
+</section>
+<section id="popoto-modem-driver" class="level3" data-number="17.11.3">
+<h3 data-number="17.11.3" class="anchored" data-anchor-id="popoto-modem-driver"><span class="header-section-number">17.11.3</span> Popoto (modem driver)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Class</th>
+<th style="text-align: left;">Services</th>
+<th style="text-align: left;">Capabilities</th>
+<th style="text-align: left;">Availability</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>Popoto</code></td>
+<td style="text-align: left;"><code>PHYSICAL</code>, <code>DATAGRAM</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;"><a href="./301_stack.html#sec-premium">commercial license</a></td>
+</tr>
+</tbody>
+</table>
+<p>A physical-layer driver for Popoto acoustic modems, allowing a Popoto modem to be used as the physical layer beneath the rest of the stack.</p>
+<section id="how-it-works" class="level4" data-number="17.11.3.1">
+<h4 data-number="17.11.3.1" class="anchored" data-anchor-id="how-it-works"><span class="header-section-number">17.11.3.1</span> How it works</h4>
+<p>The agent connects to the modem over TCP and exchanges JSON commands and responses. It supports two channels — control and data — each with selectable modulation (FSK at 80 bps, or PSK at 640–10240 bps) and configurable transmit power, and manages transmission and reception state machines with timeout monitoring and automatic reconnection.</p>
+</section>
+<section id="parameters-2" class="level4" data-number="17.11.3.2">
+<h4 data-number="17.11.3.2" class="anchored" data-anchor-id="parameters-2"><span class="header-section-number">17.11.3.2</span> Parameters</h4>
+<ul>
+<li>Per-channel <code>[1, 2]</code>: <code>Modulation</code> (<code>fsk</code>, <code>psk1</code>–<code>psk5</code>), <code>PowerLevel</code> (−80 to 0 dBm), and read-only <code>DataRate</code>, <code>FrameDuration</code>, <code>Fec</code>.</li>
+<li>Global: read-only <code>MTU</code>/<code>RTU</code> (255 bytes), <code>RxEnable</code>, <code>Busy</code>, <code>Time</code>, and power-level limits.</li>
+</ul>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./304_datagram.html" class="pagination-link" aria-label="Datagram">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Datagram</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./306_link.html" class="pagination-link" aria-label="Link">
+        <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Link</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
